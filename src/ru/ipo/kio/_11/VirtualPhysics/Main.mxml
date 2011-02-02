@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:Application
+   
+xmlns:mx="http://www.adobe.com/2006/mxml"
+    
+	 
+     
+
+    
+
+	xmlns:virtual_physics="ru.ipo.kio._11.VirtualPhysics.virtual_physics.*"
+	
+    applicationComplete="doInit()"  frameRate="60">
+	<mx:Style>
+		.testeGradiente{
+			fillColors: #444444, #ffffff;
+			fillAlphas: 0.1,1;
+		
+		}
+</mx:Style>
+
+
+    <mx:Script><![CDATA[
+		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldConstants;
+		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldDrawer;
+		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldModel;
+		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.FileManager;
+		import flash.events.Event;
+		import mx.controls.TextInput;
+        import mx.core.mx_internal;
+		import mx.controls.Label;
+        import mx.controls.Alert;
+        import flash.utils.Timer;
+        import flash.events.TimerEvent;
+        import flash.events.KeyboardEvent;
+        import flash.events.Event;
+		import org.flashdevelop.utils.FlashConnect;
+		import mx.events.MenuEvent;
+		//Модель мира
+        internal var model:WorldModel = new WorldModel();
+		//Таймер для непрерыной симуляции
+		internal var myTimer:Timer = new Timer(35, 0);
+		//Активирован автоматический режим
+		internal var automaticMode:Boolean = true;
+		//Добавленные шарики не сконвертированы
+		internal var spriteConverted:Boolean = false;
+		//Начальное значение рекордов
+		internal var RecordF1:String="0.0";
+		internal var RecordF2:String="0.0";
+		internal var RecordF3:String="0.0";
+		
+        public  function doInit() : void {
+			FlashConnect.trace('asdasdf');
+			
+			//Задаем границы мира
+			WorldConstants.LeftLine = 0;
+			WorldConstants.TopLine = 0;
+			WorldConstants.RightLine = drawer.width;
+			WorldConstants.BottomLine = drawer.height;
+			//Задаем радиус объектов
+			WorldConstants.ObjectRadius = 10;
+			WorldConstants.a = debugLabel1;
+			WorldConstants.result1 = ResultLabel1;
+			WorldConstants.result2 = ResultLabel2;
+			WorldConstants.result3 = ResultLabel3;
+            myTimer.addEventListener("timer", timerHandler);
+			model.painter = drawer;
+			//Обновление координат перемещаемого шара при отпускании кнопки мыши
+			stage.addEventListener(MouseEvent.MOUSE_UP, dragPositionOut);
+			//Сбрасываем модель
+			if (automaticMode) {
+				model.reset();
+				AddButton.visible = false;
+			}else {
+				model.painter.drawGrid();
+				AddButton.visible = true;
+				StartStopButton.enabled = false;
+				GotoRecordButton.enabled = false;
+			}
+			dragPositionHeader.visible = !automaticMode;
+			dragPositionHeaderX.visible = !automaticMode;
+			dragPositionX.visible = !automaticMode;
+			dragPositionHeaderY.visible = !automaticMode;
+			dragPositionY.visible = !automaticMode;
+			debudLablel1Header.visible = true;
+			debugLabel1.text = "0";
+			WorldConstants.dragPosX = 0;
+			WorldConstants.dragPosY = 0;
+        }
+		//Вывод координат перемещенного шара
+		public function dragPositionOut(event:MouseEvent):void {
+			dragPositionX.text = String(WorldConstants.dragPosX);
+			dragPositionY.text = String(WorldConstants.dragPosY);
+		}
+		 //Обработка события таймера
+		 public function timerHandler(event:TimerEvent):void {
+			model.simulationStep();
+			if (WorldConstants.a.text == "zero"&&WorldConstants.KoeffOne>0.01) {
+				myTimer.stop();
+				WorldConstants.a.text = "simulation complete";
+				debudLablel1Header.visible = false;
+				if (Number(ResultLabel1.text) < Number(RecordLabel1.text) ||
+					(RecordLabel2.text == ResultLabel1.text &&
+					(Number(ResultLabel2.text) > Number(RecordLabel2.text))) ||
+					(RecordLabel2.text == ResultLabel1.text &&
+					(Number(ResultLabel2.text) > Number(RecordLabel2.text)) &&
+					(Number(ResultLabel3.text) < Number(RecordLabel3.text))))
+				{
+					Alert.show("Новый рекорд!","Поздравляем!");
+					RecordLabel2.text = ResultLabel2.text;
+					RecordLabel1.text = ResultLabel1.text;
+					RecordLabel3.text = ResultLabel3.text;
+					RecordF1 = OnetoOneForceTextInput.text;
+					RecordF2 = OnetoTwoForceTextInput.text;
+					RecordF3 = TwotoTwoForceTextInput.text;
+				}
+				
+			}
+		}
+		//Действие при нажатии на кнопку "В начало"
+		public function ResetClick():void {
+					if (automaticMode) {
+						model.reset();
+					}else {						
+						WorldConstants.dragPosX = 0;
+						WorldConstants.dragPosY = 0;
+						model.painter.removeSprites();
+						model.restart();
+						AddButton.visible = true;
+						spriteConverted = false;
+						StartStopButton.enabled = false;
+						GotoRecordButton.enabled = false;
+						dragPositionX.text = "0";
+						dragPositionY.text = "0";
+				    }
+					ForceBox.enabled = true;
+					myTimer.stop();
+					StartStopButton.label = "Запустить";
+					debugLabel1.text = "0";
+					debudLablel1Header.visible = true;
+		}
+		//Действие при нажатии на кнопку ускоренного режима
+		public function SpeedUpButtonClick():void {
+			if (myTimer.delay >= 35){
+				myTimer.delay = 1;
+				SpeedUpButton.label = "Ускоренно";
+			}else if (myTimer.delay <= 10){
+				myTimer.delay = 35;
+				SpeedUpButton.label = "Нормально";
+			}
+		}
+		//Действие при нажатии на кнопку добавления шарика
+		public function addClick():void {
+			model.painter.dynamicFunc();
+			//для активации кнопок "Запустить" и "Перейти" необходимо добавить 2 и более шариков
+			if (model.painter.arr.length > 1) {
+				StartStopButton.enabled = true;
+				//GotoRecordButton.enabled = true;
+			}
+		}
+		//Действие при нажатии на кнопку запуска
+		public function StartStopButtonClick():void {
+			ForceOneButtonClick();
+			ForceTwoButtonClick();	
+			ForceThreeButtonClick();
+			if (OnetoOneForceTextInput.errorString == "" &&
+			    OnetoTwoForceTextInput.errorString == "" &&
+				TwotoTwoForceTextInput.errorString == "") {
+				ForceBox.enabled = false;
+				AddButton.visible = false;
+				if (myTimer.running) {
+					myTimer.stop();
+					StartStopButton.label = "Запустить";
+				} else {
+					myTimer.start();
+					StartStopButton.label = "Пауза";
+					if (!automaticMode && !spriteConverted){
+						model.convertSprite();
+						spriteConverted = true;
+						GotoRecordButton.enabled = true;
+					}	
+				}
+			}			
+		}
+		//Задание 1 силы
+		public function ForceOneButtonClick():void {				
+				WorldConstants.ForceOneToOne.setExpressionString(OnetoOneForceTextInput.text);
+			    var eq:Number;
+				if(WorldConstants.ForceOneToOne.isExpressionCorrect()){			
+					OnetoOneForceTextInput.errorString = "";
+					var i:Number;				
+				} else {
+					OnetoOneForceTextInput.errorString ="Ошибка";//WorldConstants.ForceOneToOne.getError();
+				}
+		}
+		//Задание 2 силы
+		public function ForceTwoButtonClick():void {		
+				WorldConstants.ForceOneToTwo.setExpressionString(OnetoTwoForceTextInput.text);
+			    var eq:Number;
+				if(WorldConstants.ForceOneToTwo.isExpressionCorrect()){					
+					OnetoTwoForceTextInput.errorString = "";
+				} else {						
+					OnetoTwoForceTextInput.errorString ="Ошибка";// WorldConstants.ForceOneToTwo.getError();
+				}			
+        }
+		//Задание 3 силы
+		public function ForceThreeButtonClick():void {		
+				WorldConstants.ForceTwoToTwo.setExpressionString(TwotoTwoForceTextInput.text);
+			    var eq:Number;
+				if(WorldConstants.ForceTwoToTwo.isExpressionCorrect()){					
+					TwotoTwoForceTextInput.errorString = "";
+				} else {
+					TwotoTwoForceTextInput.errorString = "Ошибка";//WorldConstants.ForceTwoToTwo.getError();
+				}			
+        }
+		//Удаление символа из активного текстового поля
+		public function removeFromActiveTextField():void {
+			var selectedetextinput:TextInput;
+			if (focusManager.getFocus() is mx.controls.TextInput) {
+				selectedetextinput = ( focusManager.getFocus() as mx.controls.TextInput );				
+				WorldConstants.a.text =selectedetextinput.text;				
+				var textBeforeSelection:String = selectedetextinput.text.substring(0, selectedetextinput.selectionBeginIndex-1);
+			    var textAfterSelection:String = selectedetextinput.text.substring(selectedetextinput.selectionBeginIndex,selectedetextinput.text.length);			
+			    selectedetextinput.text = textBeforeSelection + textAfterSelection;
+				if (selectedetextinput.selectionBeginIndex > 0)
+					selectedetextinput.setSelection(selectedetextinput.selectionBeginIndex - 1, selectedetextinput.selectionBeginIndex-1);
+			} else
+				WorldConstants.a.text = "fail";
+		}
+		//Добавление символа в активное текстовое поле
+		public function InsertIntoActiveTextField(instr:String):void {
+			var selectedetextinput:TextInput;
+			if (focusManager.getFocus() is mx.controls.TextInput) {
+				selectedetextinput = ( focusManager.getFocus() as mx.controls.TextInput );				
+				WorldConstants.a.text =selectedetextinput.selectionBeginIndex.toString();				
+				var textBeforeSelection:String = selectedetextinput.text.substring(0, selectedetextinput.selectionBeginIndex);
+				var textAfterSelection:String = selectedetextinput.text.substring(selectedetextinput.selectionBeginIndex,selectedetextinput.text.length);			
+				selectedetextinput.text = textBeforeSelection +instr + textAfterSelection;
+				selectedetextinput.setSelection(selectedetextinput.selectionBeginIndex + instr.length, selectedetextinput.selectionBeginIndex + instr.length);			
+			} else
+				WorldConstants.a.text = "fail";
+		}
+		//Действия элементов меню		
+		private function menuClickHandler(event:MenuEvent):void {
+			switch (event.label) {
+				case "Ручной":
+					automaticMode = false;
+					StartStopButton.label = "Запустить";
+					model.painter.removeSprites();
+					model.removeObj();
+					doInit();
+				break;
+				case "Автоматический":
+					automaticMode = true;
+					spriteConverted = false;
+					StartStopButton.enabled = true;
+					GotoRecordButton.enabled = true;
+					StartStopButton.label = "Запустить";
+					model.painter.removeSprites();
+					model.removeObj();
+					doInit();
+				break;
+				case "В начало":
+					ResetClick();
+				break;
+				case "Сохранить":
+					var fmS:FileManager = new FileManager();
+					fmS.saveToFile(OnetoOneForceTextInput.text,
+									OnetoTwoForceTextInput.text,
+									TwotoTwoForceTextInput.text,
+									ResultLabel1.text,
+									ResultLabel2.text,
+									ResultLabel3.text);
+				break;
+				case "Загрузить":
+					var fmO:FileManager = new FileManager();
+					var con:Array = ["0", "0", "0", "0", "0"];
+					fmO.loadFromFile(OnetoOneForceTextInput,
+									OnetoTwoForceTextInput,
+									TwotoTwoForceTextInput,
+									ResultLabel1,
+									ResultLabel2,
+									ResultLabel3);
+				break;
+				default:
+					WorldConstants.a.text=event.label;
+			}
+		}
+		//Переход к рекордам 
+		public function GoToRecordButtonClick():void {
+			ResultLabel2.text = RecordLabel2.text;
+			ResultLabel1.text = RecordLabel1.text;
+			ResultLabel3.text = RecordLabel3.text;
+			OnetoOneForceTextInput.text=RecordF1;
+			OnetoTwoForceTextInput.text=RecordF2;
+			TwotoTwoForceTextInput.text=RecordF3;
+		}
+		//добавить в меню элементы: <menuitem label="Условие"/><menuitem label="Помощь"/>  
+		public function handleMenuClick(event:int) : void {
+		/*	switch(event){
+					case 2:
+						Alert.show("Здесь должны быть описаны условия","Условие задачи",0x8000);
+					break;
+					case 3:
+						Alert.show("Тут должна содержаться помощь","Работа с программой",0x8000);
+					break;
+			}*/
+		}
+
+	
+
+    ]]></mx:Script>
+
+<mx:Panel horizontalAlign="center" title="Моделирование физических законов" backgroundAlpha="0" width="800" height="600" >
+	<mx:VBox horizontalAlign="center" borderColor="black" x="0" y="0" width="100%">		
+	<mx:MenuBar id="myMenuBar" width="100%" labelField="@label" click="handleMenuClick(myMenuBar.selectedIndex)" itemClick="menuClickHandler(event)" >
+        <mx:XMLList>
+            <menuitem label="Файл">
+				<menuitem label="В начало" />
+                <menuitem label="Сохранить" />
+                <menuitem label="Загрузить" />
+            </menuitem>
+			<menuitem label="Режим">
+				<menuitem label="Ручной" />
+                <menuitem label="Автоматический" />
+            </menuitem>         
+        </mx:XMLList>
+    </mx:MenuBar>
+		<mx:HBox>
+			<mx:Label id="dragPositionHeader" text="Координаты шарика:"/>
+			<mx:Label id="dragPositionHeaderX" text="X"/>
+			<mx:Label id="dragPositionX" text=""/>
+			<mx:Label id="dragPositionHeaderY" text="Y"/>
+			<mx:Label id="dragPositionY" text=""/>
+			<mx:Label id="debudLablel1Header" text="Кинетическая энергия шариков:"/>
+			<mx:Label id="debugLabel1" text="0"/>
+		</mx:HBox>
+      <mx:HBox 	borderColor="black">
+		  <mx:VBox>  
+		  <virtual_physics:WorldDrawer    id="drawer" y="120" x="0" width="480" height="280"/>
+				  <mx:VBox id="ForceBox" 	borderColor="black" height="213" width="480" horizontalAlign="center" borderStyle="solid" paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10">
+			      <mx:Label   text="Задание сил взаимодействия:"/>
+				  <mx:HBox>
+				  <mx:VBox 	width="200" verticalGap="20">				 
+				  <mx:HBox>
+					   <mx:Label    text="F(К:К) ="/>
+					   <mx:TextInput width="130"  id="OnetoOneForceTextInput"  text="1100/r^2-0.01*r^(1/2)"/>					   
+				  </mx:HBox>
+				  <mx:HBox>
+					   <mx:Label    text="F(К:З) ="/>
+					   <mx:TextInput width="130"  id="OnetoTwoForceTextInput" text="500/r^2"/>					   
+				  </mx:HBox>
+				  <mx:HBox>
+					   <mx:Label    text="F(З:З) ="/>
+					   <mx:TextInput width="130" id="TwotoTwoForceTextInput" text="190/r^2-0.001*r^(1/2)"/>				  
+				  </mx:HBox>  
+				  </mx:VBox>
+				   <mx:VBox>
+						<mx:HBox>
+					   <mx:Button width="33" focusEnabled="false" label="7"  click="{InsertIntoActiveTextField('7');}"/> 
+					   <mx:Button width="33" focusEnabled="false" label="8" click="{InsertIntoActiveTextField('8');}"/>
+					   <mx:Button width="33" focusEnabled="false" label="9" click="{InsertIntoActiveTextField('9');}"/>
+					   <mx:Button width="33" focusEnabled="false" label="/" click="{InsertIntoActiveTextField('/');}"/>
+					   <mx:Button width="33" focusEnabled="false" label="r" click="{InsertIntoActiveTextField('r');}"/>
+					   <mx:Button width="45" focusEnabled="false" label="←" click="{removeFromActiveTextField();}"/>
+						</mx:HBox>
+						<mx:HBox>
+					   <mx:Button width="33" focusEnabled="false" label="4" click="{InsertIntoActiveTextField('4');}"/>
+					   <mx:Button width="33" focusEnabled="false" label="5" click="{InsertIntoActiveTextField('5');}"/> 
+					   <mx:Button width="33" focusEnabled="false" label="6" click="{InsertIntoActiveTextField('6');}"/>
+					   <mx:Button width="33" focusEnabled="false" label="*" click="{InsertIntoActiveTextField('*');}"/> 
+					   <mx:Button width="33" focusEnabled="false" label="^" click="{InsertIntoActiveTextField('^');}"/>					  
+						</mx:HBox>
+						<mx:HBox>
+					   <mx:Button width="33" focusEnabled="false" label="1" click="{InsertIntoActiveTextField('1');}"/>
+					   <mx:Button width="33" focusEnabled="false" label="2" click="{InsertIntoActiveTextField('2');}"/> 
+					   <mx:Button width="33" focusEnabled="false" label="3" click="{InsertIntoActiveTextField('3');}"/> 
+					   <mx:Button width="33" focusEnabled="false" label="+" click="{InsertIntoActiveTextField('+');}"/> 
+					   <mx:Button width="33" focusEnabled="false" label="(" click="{InsertIntoActiveTextField('(');}"/> 
+					   <mx:Button width="45" focusEnabled="false" label="cos" click="{InsertIntoActiveTextField('cos( )');}"/>
+						</mx:HBox>
+						<mx:HBox>
+					   <mx:Button width="74" focusEnabled="false" label="0" click="{InsertIntoActiveTextField('0');}"/> 
+					   <mx:Button width="33" focusEnabled="false" label="," click="{InsertIntoActiveTextField('.');}"/> 
+					   <mx:Button width="33" focusEnabled="false" label="-" click="{InsertIntoActiveTextField('-');}"/>
+					   <mx:Button width="33" focusEnabled="false" label=")" click="{InsertIntoActiveTextField(')');}"/>
+					   <mx:Button width="45" focusEnabled="false" label="sin" click="{InsertIntoActiveTextField('sin( )');}"/>
+						</mx:HBox>
+				   </mx:VBox>		   
+				  </mx:HBox>
+				  </mx:VBox>  
+		  </mx:VBox>  		  
+		  <mx:VBox>
+		  <mx:VBox  verticalGap="3" height="130"	borderColor="black" width="175" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="10" paddingRight="10">
+		  <mx:Label   text="Проверка:"/>
+		  <mx:Button  width="100" label="Запустить" id="StartStopButton" click="{
+		                                                                             StartStopButtonClick();
+																				   }"/>
+          <mx:Button  width="100" label="В начало"  click="{
+		                                                                             ResetClick();
+																				   }"/>
+		  <mx:Button  width="100" id="SpeedUpButton"  label="Нормально"  click="{
+		                                                                             SpeedUpButtonClick();
+																				   }"/>
+		  <mx:Button  width="100" id="AddButton"  label="Добавить"  click="{
+		                                                                             addClick();
+																				   }"/>       																				   
+		  </mx:VBox>
+		  <mx:VBox verticalGap="3" height="165"	borderColor="black" width="175" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2">
+		  <mx:Label    text="Результат:"/>
+		  <mx:Label text="Не в той половинке:"/>
+		  <mx:Label id="ResultLabel1" text="12"/>
+		  <mx:Label text="Клеток с одним шаром:"/>
+		  <mx:Label id="ResultLabel2" text="0"/>
+		  <mx:Label text="Расстояние до центра:"/>
+		  <mx:Label id="ResultLabel3" text="0"/>
+		  </mx:VBox>
+		 <mx:VBox verticalGap="3"	borderColor="black" width="175" height="193" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2">
+		  <mx:Label    text="Рекорд:"/>
+		  <mx:Label text="Не в той половинке:"/>
+		  <mx:Label id="RecordLabel1" text="12"/>
+		  <mx:Label text="Клеток с одним шаром:"/>
+		  <mx:Label id="RecordLabel2" text= "24"/>
+		  <mx:Label text="Расстояние до центра:"/>
+		  <mx:Label id="RecordLabel3" text="0"/>
+		  <mx:Button  width="100" id="GotoRecordButton"  label="Перейти"  click="{
+																					ForceOneButtonClick();
+																					ForceTwoButtonClick();	
+																					ForceThreeButtonClick();
+																					model.simulationStep();
+																				   }"/>
+		  </mx:VBox>
+		  </mx:VBox>
+      </mx:HBox>	
+    </mx:VBox>
+	</mx:Panel>
+</mx:Application>
