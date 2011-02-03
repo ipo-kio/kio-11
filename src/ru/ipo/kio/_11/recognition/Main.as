@@ -163,7 +163,7 @@ public function test_continius(e:Event):void
 			var i:int;	
 			// блокировка скобок
 			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
-			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);			
+			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);				
 	for (i = 0; i < 10 ; i++)
 	{
 				// цифра 0 на табло
@@ -471,7 +471,7 @@ public function test_continius(e:Event):void
 			 //get_result(NUM);
 		}
 			 // цифра 9 на табло
-		if (i ==9)
+		if (i==9)
 		{	    
 				rect_lamp_Green[7].visible = true;
 				circle_lamp_Green[7].visible = true;
@@ -484,15 +484,17 @@ public function test_continius(e:Event):void
 			    circle_lamp_Green[4].visible = false;
 			    rect_lamp_Green[7].visible = false;
 				circle_lamp_Green[7].visible = false;
-				rect_lamp_Green[8].visible = false;
-				circle_lamp_Green[8].visible = false;
+				rect_lamp_Green[5].visible = false;
+			    circle_lamp_Green[5].visible = false;
+				rect_lamp_Green[6].visible = false;
+			    circle_lamp_Green[6].visible = false;
 			}
 			else
 			{
 			 rect_lamp_Green[4].visible = false;
 			 circle_lamp_Green[4].visible = false;				 
 			}
-		}	
+		}		
 		get_result(NUM);
 	}		  	
 }
@@ -820,8 +822,10 @@ public function test_continius(e:Event):void
 			    circle_lamp_Green[4].visible = false;
 			    rect_lamp_Green[7].visible = false;
 				circle_lamp_Green[7].visible = false;
-				rect_lamp_Green[8].visible = false;
-				circle_lamp_Green[8].visible = false;
+				rect_lamp_Green[5].visible = false;
+			    circle_lamp_Green[5].visible = false;
+				rect_lamp_Green[6].visible = false;
+			    circle_lamp_Green[6].visible = false;
 			}
 			else
 			{
@@ -841,6 +845,7 @@ public function test_continius(e:Event):void
 			
 			timer.addEventListener(TimerEvent.TIMER, test_time);
 			timer.start();
+			
 		}
 		public function test_time(e:Event):void
 		{		
@@ -1149,7 +1154,7 @@ public function test_continius(e:Event):void
 			 //get_result(NUM);
 		}
 			 // цифра 9 на табло
-		if (NUM_1==9)
+		if (NUM_1 ==9)
 		{	    
 				rect_lamp_Green[7].visible = true;
 				circle_lamp_Green[7].visible = true;
@@ -1162,15 +1167,17 @@ public function test_continius(e:Event):void
 			    circle_lamp_Green[4].visible = false;
 			    rect_lamp_Green[7].visible = false;
 				circle_lamp_Green[7].visible = false;
-				rect_lamp_Green[8].visible = false;
-				circle_lamp_Green[8].visible = false;
+				rect_lamp_Green[5].visible = false;
+			    circle_lamp_Green[5].visible = false;
+				rect_lamp_Green[6].visible = false;
+			    circle_lamp_Green[6].visible = false;
 			}
 			else
 			{
 			 rect_lamp_Green[4].visible = false;
 			 circle_lamp_Green[4].visible = false;				 
 			}
-		}
+		}	
 			 get_result(NUM_1);
 			 NUM_1++;			
 		}		
