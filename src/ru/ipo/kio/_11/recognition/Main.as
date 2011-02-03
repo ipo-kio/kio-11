@@ -1785,7 +1785,7 @@ public function test_continius(e:Event):void
 		public function createBezie(x1:int, y1:int, x2:int, y2:int, arr:Array, stepX:int, stepY:int,stepYAnchor:int,n:int):void
 		{
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(1);
+			line.graphics.lineStyle(1,0x0000CC);
 			line.graphics.moveTo(x1+stepX, y1+stepY);
 			line.graphics.curveTo(x1+20+(x2-x1)/2,y2-stepYAnchor,x2,y2);
 			addChild(line);
@@ -1794,9 +1794,17 @@ public function test_continius(e:Event):void
 		//===================================================
 		public function wireL(e:Event):void
 		{   
+			
 			removeChild(andLineL[myVar]);
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(1);
+			if (andLeftResult[myVar] == true)
+				{
+					line.graphics.lineStyle(1, 0xFF0000);
+				}
+			else
+				{
+					line.graphics.lineStyle(1, 0x0000CC);
+				}
 			line.graphics.moveTo(andTull[myVar].x, andTull[myVar].y+5);
 			line.graphics.curveTo(andTull[myVar].x+20+(andLeft[myVar].x + 7-andTull[myVar].x)/2,andLeft[myVar].y - 23,andLeft[myVar].x + 7,andLeft[myVar].y - 3);
 			addChild(line);
@@ -1807,11 +1815,59 @@ public function test_continius(e:Event):void
 		{   
 			removeChild(andLineR[myVar]);
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(1);
+			if (andRightResult[myVar] == true)
+				{
+					line.graphics.lineStyle(1, 0xFF0000);
+				}
+			else
+				{
+					line.graphics.lineStyle(1, 0x0000CC);
+				}
 			line.graphics.moveTo(andTull[myVar].x, andTull[myVar].y+25);
 			line.graphics.curveTo(andTull[myVar].x+20+(andRight[myVar].x + 7-andTull[myVar].x)/2,andRight[myVar].y + 17,andRight[myVar].x + 7,andRight[myVar].y - 3);
 			addChild(line);
 			andLineR[myVar] = line;
+		}
+		//====================================================
+		public function distanceAnd(e:MouseEvent):void
+		{
+			controlDistance(e, andTull, andRight, andLeft, myVar, dragCircle, dragContactsAnd);
+		}
+		//=======================================================
+		public function distanceOr(e:MouseEvent):void
+		{
+			controlDistance(e, orTull, orRight, orLeft, myVar2, dragCircleor, dragContactsOr);
+		}
+		//+======================================================
+		public function distanceNot(e:MouseEvent):void
+		{
+			controlDistance(e, notTull, notRight, null, myVar3, dragCirclenot, dragContactsNot);
+		}
+		//====================================================
+		public function controlDistance(e:MouseEvent,body:Array, right:Array, left:Array, k:int,func1:Function,func2:Function):void
+		{
+			if(left)
+			{	
+				if((Math.sqrt(Math.pow((body[k].x - right[k].x),2)+Math.pow((body[k].y - right[k].y),2)) < 200)||(Math.sqrt(Math.pow((body[k].x - left[k].x),2)+Math.pow((body[k].y - left[k].y),2)) < 200))
+				{
+					func1(e);
+				}
+				else
+				{
+					func2(e);
+				}
+			}
+			else
+			{
+				if((Math.sqrt(Math.pow((body[k].x - right[k].x),2)+Math.pow((body[k].y - right[k].y),2)) < 200))
+				{
+					func1(e);
+				}
+				else
+				{
+					func2(e);
+				}
+			}
 		}
 		//====================================================
 		public function down(e:Event):void
@@ -1826,9 +1882,9 @@ public function test_continius(e:Event):void
 				{
 					setChildIndex(andTull[k], numChildren - 1);
 					flag = 1;
-					andTull[k].startDrag();
-					stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
 					myVar = k;// глобальный подсчёт блоков И
+					andTull[k].startDrag();
+					stage.addEventListener(MouseEvent.MOUSE_MOVE, distanceAnd);
 				}
 				if (andRight[k]==e.target )
 				{
@@ -1973,10 +2029,7 @@ public function test_continius(e:Event):void
 				if(e.target==andTull[myVar])
 				{
 					andTull[myVar].stopDrag();
-					if(ButtonDown)
-						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsAnd);
-					else
-						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
+					stage.removeEventListener(MouseEvent.MOUSE_MOVE, distanceAnd);
 				}
 			
 			if (myVar >= 0)// дополнительная проверка, так как при добавлении кнопки срабатывает функция up,
@@ -2120,8 +2173,6 @@ public function test_continius(e:Event):void
 			addEventListener(MouseEvent.MOUSE_UP,  upor);
 			addEventListener(Event.ENTER_FRAME, controllaContattoor);
 			
-			addEventListener(MouseEvent.MOUSE_WHEEL, dragContactsOr);
-			
 			NumberBlokcs++;
 			numOr++;
 		}
@@ -2130,7 +2181,14 @@ public function test_continius(e:Event):void
 		{   
 			removeChild(orLineR[myVar2]);
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(1);
+			if (orRightResult[myVar2] == true)
+				{
+					line.graphics.lineStyle(1, 0xFF0000);
+				}
+			else
+				{
+					line.graphics.lineStyle(1, 0x0000CC);
+				}
 			line.graphics.moveTo(orTull[myVar2].x, orTull[myVar2].y+25);
 			line.graphics.curveTo(orTull[myVar2].x+20+(orRight[myVar2].x + 7-orTull[myVar2].x)/2,orRight[myVar2].y + 17,orRight[myVar2].x + 7,orRight[myVar2].y - 3);
 			addChild(line);
@@ -2141,7 +2199,14 @@ public function test_continius(e:Event):void
 		{   
 			removeChild(orLineL[myVar2]);
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(1);
+			if (orLeftResult[myVar2] == true)
+				{
+					line.graphics.lineStyle(1, 0xFF0000);
+				}
+			else
+				{
+					line.graphics.lineStyle(1, 0x0000CC);
+				}
 			line.graphics.moveTo(orTull[myVar2].x, orTull[myVar2].y+5);
 			line.graphics.curveTo(orTull[myVar2].x+20+(orLeft[myVar2].x + 7-orTull[myVar2].x)/2,orLeft[myVar2].y - 23,orLeft[myVar2].x + 7,orLeft[myVar2].y - 3);
 			addChild(line);
@@ -2160,7 +2225,7 @@ public function test_continius(e:Event):void
 					flag = 1;
 					setChildIndex(orTull[k], numChildren - 1);
 					orTull[k].startDrag();
-					stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCircleor); 
+					stage.addEventListener(MouseEvent.MOUSE_MOVE, distanceOr); 
 				}
 				if (orRight[k]==e.target )
 				{
@@ -2304,7 +2369,7 @@ public function test_continius(e:Event):void
 				{
 					orTull[myVar2].stopDrag();
 				}
-			stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircleor); 
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, distanceOr); 
 			if (myVar2 >= 0)
 			{
 				if(orTull[myVar2].hitTestObject(bin))//Удаление
@@ -2442,9 +2507,7 @@ public function test_continius(e:Event):void
 			addEventListener(MouseEvent.MOUSE_DOWN, downnot);
 			addEventListener(MouseEvent.MOUSE_UP,  upnot);
 			addEventListener(Event.ENTER_FRAME, controllaContattonot);
-			
-			addEventListener(MouseEvent.MOUSE_WHEEL, dragContactsNot);
-			
+						
 			NumberBlokcs++;
 			numNot++;
 		}
@@ -2453,7 +2516,14 @@ public function test_continius(e:Event):void
 		{
 			removeChild(notLineR[myVar3]);
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(1);
+			if (notRightResult[myVar3] == true)
+				{
+					line.graphics.lineStyle(1, 0xFF0000);
+				}
+			else
+				{
+					line.graphics.lineStyle(1, 0x0000CC);
+				}
 			line.graphics.moveTo(notTull[myVar3].x, notTull[myVar3].y+15);
 			line.graphics.curveTo(notTull[myVar3].x+20+(notRight[myVar3].x -notTull[myVar3].x)/2,notRight[myVar3].y - 35,notRight[myVar3].x + 7,notRight[myVar3].y - 3);
 			addChild(line);
@@ -2472,7 +2542,7 @@ public function test_continius(e:Event):void
 					flag = 1;
 					setChildIndex(notTull[k], numChildren - 1);
 					notTull[k].startDrag();
-					stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCirclenot); 
+					stage.addEventListener(MouseEvent.MOUSE_MOVE,distanceNot); 	
 				}
 				if (notRight[k]==e.target )
 				{
@@ -2561,7 +2631,7 @@ public function test_continius(e:Event):void
 			{
 				notTull[myVar3].stopDrag();
 			}
-			stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCirclenot); 
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, distanceNot); 
 			if (myVar3 >= 0)
 			{
 				if(notTull[myVar3].hitTestObject(bin))//Удаление
