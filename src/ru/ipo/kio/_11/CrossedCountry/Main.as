@@ -20,7 +20,7 @@ package
 		private var loader:Loader;
 		private var circle:Sprite;
 		public var pointArray:Array = new Array();
-		public var EndP:pointer = new pointer(510, 30, 0xff0000, 5, 1.0);
+		public var EndP:pointer = new pointer(510, 30, 0xff0000, 5, 1.0); 
 		public var line:Sprite;
 		public var LinesAndPointers:Sprite = new Sprite();
 		public var txt:description = new description();
@@ -71,11 +71,12 @@ package
 			pointArray.push(StartP);
 			pointArray.push(30,510);
 			
-			land.addEventListener(MouseEvent.CLICK, landPt);
-			land.addEventListener(MouseEvent.MOUSE_MOVE, landCap);
-			txt.b.addEventListener(MouseEvent.CLICK, del);
-			txt.b2.addEventListener(MouseEvent.CLICK, delselectedPoint);
-			this.addEventListener(MouseEvent.MOUSE_DOWN, DragPoint);
+			land.addEventListener(MouseEvent.CLICK, landPt); // добавление точки
+			land.addEventListener(MouseEvent.MOUSE_MOVE, landCap); // добавление подсказки
+			this.addEventListener(MouseEvent.MOUSE_MOVE, landLines); // перерисовка линий
+			txt.b.addEventListener(MouseEvent.CLICK, del); // удаление последнего шага
+			txt.b2.addEventListener(MouseEvent.CLICK, delselectedPoint); // удаление выбранной точки
+			this.addEventListener(MouseEvent.MOUSE_DOWN, DragPoint); 
 			this.addEventListener(MouseEvent.MOUSE_UP, DropPoint);
 			
 			
@@ -85,6 +86,27 @@ package
 				txt.deleteLastPoint = false;
 			}
 			
+		}
+		
+		private function landLines(e:MouseEvent):void
+		{
+			if (land.hitTestPoint(e.stageX, e.stageY, true))
+			{
+					if (pointArray[pointNumber].startdr)
+					{
+					trace("need to drag lines");
+					trace("length array " + pointArray.length);	
+					pi = pointNumber;
+					
+					ptX = e.stageX;
+					ptY = e.stageY;
+			
+					pointArray[pi + 1] = ptX;
+					pointArray[pi + 2] = ptY;
+					
+					DragLines();
+					}
+			}
 		}
 		
 		private function landCap(e:MouseEvent):void
@@ -114,7 +136,9 @@ package
 				trace("deleted point");
 			}
 			}
-			if (pointArray[pointNumber].startdr)
+			
+			
+			/*if (pointArray[pointNumber].startdr)
 					{
 					trace("need to drag lines");
 					trace("length array " + pointArray.length);	
@@ -127,7 +151,7 @@ package
 					pointArray[pi + 2] = ptY;
 					
 					DragLines();
-					}
+					}*/
 		}
 		
 		
