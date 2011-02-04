@@ -1,4 +1,4 @@
-package ru.ipo.kio.api_example {
+package ru.ipo.kio._11.CrossedCountry {
 	
 	import flash.display.DisplayObject;
 	import ru.ipo.kio.api.KioApi;
@@ -63,7 +63,7 @@ package ru.ipo.kio.api_example {
 		public function get solution():Object {
 			//в качестве решения возвращаем текст внутри текстового поля задачи
 			return {
-				txt : sp.text
+				//txt : sp.text
 			};
 			
 			//Другой способ сделать тоже самое:
@@ -83,7 +83,7 @@ package ru.ipo.kio.api_example {
 		public function loadSolution(solution:Object):Boolean {
 			//для загрузки решения нужно взять поле txt и записать его в текстовое поле
 			if (solution.txt) {
-				sp.text = solution.txt;
+				//sp.text = solution.txt;
 				return true;
 			} else
 				return false;

@@ -1,4 +1,4 @@
-package ru.ipo.kio.api_example 
+package ru.ipo.kio._11.CrossedCountry 
 {
 	import flash.display.Sprite;
 	import flash.events.Event;

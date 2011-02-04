@@ -1,4 +1,4 @@
-package 
+package ru.ipo.kio._11.CrossedCountry 
 {
 	import flash.events.*;
 	import flash.text.TextField;
