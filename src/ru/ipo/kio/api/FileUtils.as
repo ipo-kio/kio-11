@@ -1,4 +1,4 @@
-package ru.ipo.kio.api.impl 
+package ru.ipo.kio.api
 {
 	import com.adobe.serialization.json.JSON;
 	import flash.events.Event;

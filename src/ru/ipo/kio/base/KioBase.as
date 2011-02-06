@@ -8,7 +8,7 @@ package ru.ipo.kio.base{
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.net.FileReference;
-	import ru.ipo.kio.api.impl.FileUtils;
+	import ru.ipo.kio.api.FileUtils;
 	import ru.ipo.kio.base.loc.BaseLocalization_RU;
 	
 	import ru.ipo.kio.api.*;
@@ -62,11 +62,18 @@ package ru.ipo.kio.base{
             if (workspace)
                 stage.removeChild(workspace);
 
+            //place problem view on the screen
             workspace = problem.display;
             workspace.x = GlobalMetrics.WORKSPACE_X;
             workspace.y = GlobalMetrics.WORKSPACE_Y;
             stage.addChild(workspace);
+
+            //load autosave solution
+            var lso:LsoProxy = LsoProxy.getInstance(problem.level, problem.year);
+            var problemData:Object = lso.getProblemData(problem.id);
+            var autoSave:Object = problemData.autoSave;
+            if (autoSave)
+                problem.loadSolution(autoSave);
         }
 	}
-	
 }
