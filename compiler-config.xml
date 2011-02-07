@@ -1,0 +1,15 @@
+<flex-config xmlns="http://www.adobe.com/2006/flex-config">
+    <compiler>
+        <debug>true</debug>
+        <source-path>
+            <path-element>/home/ilya/programming/kio-11/src</path-element>
+        </source-path>
+    </compiler>
+    <file-specs>
+    </file-specs>
+    <output>/home/ilya/programming/kio-11/out/production/kio-11/KIO-11.swf</output>
+    <default-size>
+        <width>900</width>
+        <height>600</height>
+    </default-size>
+</flex-config>

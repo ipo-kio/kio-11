@@ -6,7 +6,7 @@ package ru.ipo.kio.base {
 	import ru.ipo.kio.api.controls.TextButton;
 
 	import ru.ipo.kio.api.KioApi;
-	import ru.ipo.kio.api.impl.FileUtils;
+	import ru.ipo.kio.api.FileUtils;
 
 	/**
 	 * ...
