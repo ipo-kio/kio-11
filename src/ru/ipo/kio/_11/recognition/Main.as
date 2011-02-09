@@ -46,6 +46,7 @@ package ru.ipo.kio._11.recognition
 		public var notLineAim:Array = new Array(); //массив линий соединяющих блок "не"и цель
 		public var notLineR:Array = new Array(); //массив линий соединяющих блок "не" и правый контакт
 		
+		public var controlAnswer:Array = new Array();
 		
 		public const offsetX:Number = 20; // отступ для общего движения блока
 		public const offsetY:Number = 0;// 
@@ -1656,29 +1657,39 @@ public function test_continius(e:Event):void
 	    //===================================================
 		public function get_result (n:int) :void //функция получения результата
 		{
-			//trace(n);
 			var i:int = 0;
 			var flag:int = 1;
 			var a:int = 0;
+			if (n == 0)
+				for (i = 0; i < 10; i++)
+					controlAnswer[i] = -1;		
 			for ( i = 0 ; i < 10 ; i++)
 			{
 				if (i != n  && circle_lamp_Green_prov[i].visible == true)
 				{
 					flag = 0;
+					controlAnswer[i] = 0;
 				}
 				if (circle_lamp_Green_prov[i].visible == true && i == n  && flag != 0)
 				{
 					a = 1;
+					if(controlAnswer[i]!=0)
+						controlAnswer[i] = 1;
 				}
 			}
-			if (a && flag)
-				Result++;
-			t_result.text =  '  ' + Result;
-			t_nB.text =  '  ' + NumberBlokcs;
-			
+			if (n == 9)
+			{
+				for (i = 0; i < 10; i++)
+				{
+					if(controlAnswer[i] == 1)
+						Result++;
+				}
+				t_result.text =  '  ' + Result;
+				t_nB.text =  '  ' + NumberBlokcs;
+			}
 			
 		}		
-	    //===================================================
+		//====================================================
 		public function one_Break_lamp ( e:Event):void // функция удаления одной лампы
 		{
 			del_result(e);
