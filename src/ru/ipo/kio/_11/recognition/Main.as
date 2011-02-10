@@ -124,7 +124,7 @@ package ru.ipo.kio._11.recognition
 			// текстовые поля вывода результата
 			var text_result:TextField = new TextField();
 			text_result.autoSize = TextFieldAutoSize.LEFT;
-			text_result.text = "Результат:";
+			text_result.text = "Число верно распознанных цифр:";
 			text_result.x = 500;
 			text_result.y = 450;			
 			addChild(text_result);
@@ -132,7 +132,7 @@ package ru.ipo.kio._11.recognition
 			
 			t_result.autoSize = TextFieldAutoSize.LEFT;
 			t_result.text =  '  '+Result;
-			t_result.x = 550;
+			t_result.x = 670;
 			t_result.y = 450;			
 			addChild(t_result);				
 			//-----------------------------------------------------------------
@@ -498,7 +498,10 @@ public function test_continius(e:Event):void
 			 circle_lamp_Green[4].visible = false;				 
 			}
 		}	
-		controllaContattonot(e);//аналогично пошаговой
+		controllaContattonot(e);
+		controllaContattoor(e);
+		controllaContatto(e);
+		controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 		get_result(i);
 	}		  	
 }
@@ -839,7 +842,11 @@ public function test_continius(e:Event):void
 			 circle_lamp_Green[4].visible = false;				 
 			}
 		}	
-		controllaContattonot(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
+		
+		controllaContattonot(e);
+		controllaContattoor(e);
+		controllaContatto(e);
+		controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 		get_result(NUM);
 		NUM++;
 		}
@@ -1185,7 +1192,10 @@ public function test_continius(e:Event):void
 			 circle_lamp_Green[4].visible = false;				 
 			}
 		}	
-			controllaContattonot(e);//аналогично пошаговой 
+			controllaContattonot(e);
+			controllaContattoor(e);
+			controllaContatto(e);
+			controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 			get_result(NUM_1);
 			 NUM_1++;			
 		}		
