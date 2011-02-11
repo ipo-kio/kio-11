@@ -209,6 +209,11 @@ package ru.ipo.kio._11.CrossedCountry
 			
 			pointArray[pi].pt.addEventListener(MouseEvent.CLICK, PickDel);
 			
+			if (pointArray[pi].selPt == 0 )
+				selectPoint = true;
+			else
+				pointArray[pi].Dr(land);
+			
 			}
 			else
 				{	trace(pointArray);
@@ -232,6 +237,10 @@ package ru.ipo.kio._11.CrossedCountry
 					k = pointArray.length -5;
 					pointArray[pi].pt.addEventListener(MouseEvent.CLICK, PickDel);
 					
+					if (pointArray[pi].selPt == 0 )
+						selectPoint = true;
+					else
+						pointArray[pi].Dr(land);
 					
 					path = land.collisionTest(pointArray);
 					txt.t1.text = "Длина = " + Math.round(path) + " м";
@@ -247,7 +256,30 @@ package ru.ipo.kio._11.CrossedCountry
 					selectline = -1;
 				}	
 				}
+			// проверка на выбранную точку
+			if (selectPoint)
+				{
+					for (var i:int = 3; i < pointArray.length - 3;i=i+3 )
+					if ((pointArray[i].selPt&1) !=0)
+					{
+						trace("i ="+i);
+						pointArray[i].pt.graphics.clear();
+					pointArray[i].pt.graphics.beginFill(0x00ff00, 1.0);
+					pointArray[i].pt.graphics.drawCircle(pointArray[i+1], pointArray[i+2], 3);
+					pointArray[i].pt.graphics.endFill();
+					pointArray[i].selPt++;
+					pointArray[i].Dr(land);
+					}
+				}
+				
+			// выделение новой точки
 			
+			if (pointArray[pi].selPt == 0)
+				selectPoint = true;
+			pointArray[pi].SelectedPt(e);
+			trace("selected point " + pointArray[pi].selPt);
+			
+			pointNumber = pi;
 		}
 		
 		public function PickDel(e:MouseEvent):void
@@ -567,7 +599,7 @@ package ru.ipo.kio._11.CrossedCountry
 			{
 		
 			prevPoint = pointNumber;
-			pointNumber = 0;
+			//pointNumber = 0;
 			
 			trace("drag on field");
 			// цикл: чтоб найти точку 
@@ -722,6 +754,8 @@ package ru.ipo.kio._11.CrossedCountry
 				trace("selected point " + pointArray[pointNumber].selPt);
 				if (pointArray[pointNumber].selPt & 1 != 0 )
 					selectPoint = true;
+				else
+					selectPoint = false;
 				trace("selected");
 
 				
