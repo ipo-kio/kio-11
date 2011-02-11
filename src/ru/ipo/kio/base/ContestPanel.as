@@ -31,15 +31,15 @@ package ru.ipo.kio.base {
 			loadButton.y = 20;
 			
 			saveButton.x = 10;
-			saveButton.y = 100;
+			saveButton.y = 50;
 
             addChild(loadButton);
 			addChild(saveButton);
 
 			loadButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
-				//FileUtils.loadSolution(KioBase.instance.currentProblem);
-                KioBase.instance.lsoProxy.getGlobalData().push = 239;
-                KioBase.instance.lsoProxy.flush();
+				FileUtils.loadSolution(KioBase.instance.currentProblem);
+//                KioBase.instance.lsoProxy.getGlobalData().push = 239;
+//                KioBase.instance.lsoProxy.flush();             0
 			});
 
 			saveButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
