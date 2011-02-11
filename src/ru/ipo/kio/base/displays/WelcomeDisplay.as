@@ -8,6 +8,8 @@
 package ru.ipo.kio.base.displays {
 import flash.display.Sprite;
 
+import flash.events.Event;
+import flash.events.MouseEvent;
 import flash.text.StyleSheet;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
@@ -15,6 +17,7 @@ import flash.text.TextFieldAutoSize;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.LsoProxy;
 import ru.ipo.kio.api.TextUtils;
+import ru.ipo.kio.api.controls.TextButton;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
 import ru.ipo.kio.base.resources.Resources;
@@ -24,27 +27,51 @@ public class WelcomeDisplay extends Sprite {
     private static const SECURITY_PANEL_WIDTH:int = 213;
     private static const SECURITY_PANEL_HEIGHT:int = 136;
 
-    private static const V_PADDING:int = 20;
-    private static const H_PADDING:int = 20;
     private static const TEXT_COLOR:uint = 0xDDDDDD;
 
     public function WelcomeDisplay() {
         addChild(new Resources.BG_IMAGE);
 
-        var mainMessage:TextField = new TextField();
-        //mainMessage.embedFonts = true;
-        mainMessage.multiline = true;
-        mainMessage.wordWrap = true;
-        mainMessage.width = GlobalMetrics.STAGE_WIDTH - 2 * H_PADDING;
-        mainMessage.embedFonts = true;
-        mainMessage.autoSize = TextFieldAutoSize.LEFT;
-        mainMessage.styleSheet = new StyleSheet();
-        mainMessage.styleSheet.parseCSS(TextUtils.CSS);
-        mainMessage.htmlText = '<html>' + KioApi.getLocalization(KioBase.BASE_API_ID).screen.welcome.mainMessage + '</html>';
-        mainMessage.x = H_PADDING;
-        mainMessage.y = V_PADDING;
+        var loc:* = KioApi.getLocalization(KioBase.BASE_API_ID).screen;
+
+        var mainMessage:TextField = TextUtils.createCustomTextField();
+        mainMessage.htmlText = '<html>' + loc.welcome.mainMessage + '</html>';
+        mainMessage.width = GlobalMetrics.STAGE_WIDTH - 2 * GlobalMetrics.H_PADDING;
+        mainMessage.x = GlobalMetrics.H_PADDING;
+        mainMessage.y = GlobalMetrics.V_PADDING;
 
         addChild(mainMessage);
+
+        var loadWorkspaceButton:TextButton = new TextButton(loc.buttons.loadWorkspace);
+        loadWorkspaceButton.x = GlobalMetrics.H_PADDING;
+        loadWorkspaceButton.y = GlobalMetrics.STAGE_HEIGHT - loadWorkspaceButton.height - GlobalMetrics.V_PADDING;
+
+        addChild(loadWorkspaceButton);
+
+        var continueButton:TextButton = new TextButton(loc.buttons.continue_, 200, 100);
+        continueButton.x = GlobalMetrics.STAGE_WIDTH - continueButton.width - GlobalMetrics.H_PADDING;
+        continueButton.y = GlobalMetrics.STAGE_HEIGHT - continueButton.height - GlobalMetrics.V_PADDING;
+
+        addChild(continueButton);
+
+        var loadWorkspaceMessage:TextField = TextUtils.createCustomTextField();
+        loadWorkspaceMessage.htmlText = "<p class='footnote'><i>" + loc.welcome.loadWorkspace + "</i></p";
+        loadWorkspaceMessage.width = 3 * loadWorkspaceButton.width;
+        loadWorkspaceMessage.x = GlobalMetrics.H_PADDING;
+        loadWorkspaceMessage.y = loadWorkspaceButton.y - loadWorkspaceMessage.height - 6;
+
+        addChild(loadWorkspaceMessage);
+
+        loadWorkspaceButton.addEventListener(MouseEvent.CLICK, loadWorkspaceButtonClicked);
+        continueButton..addEventListener(MouseEvent.CLICK, continueButtonClicked);
+    }
+
+    private function continueButtonClicked(event:Event):void {
+        KioBase.instance.currentDisplay = new SettingsDisplay;
+    }
+
+    private function loadWorkspaceButtonClicked(event:Event):void {
+        //TODO implement
     }
 
 }
