@@ -18,11 +18,16 @@ ru.ipo.kio.api.controls{
 		private static const UP_TEXT_COLOR:uint = 0x000000;
 		private static const OVER_TEXT_COLOR:uint = 0x00FF00;
 		
-		public function TextButton(caption:String) 
+		public function TextButton(caption:String, width:int = -1, height:int = -1)
 		{
-			this.upState = new TextSprite(caption, WIDTH, HEIGHT, BORDER_COLOR, UP_COLOR, UP_TEXT_COLOR, 0, 0);
-			this.overState = new TextSprite(caption, WIDTH, HEIGHT, BORDER_COLOR, OVER_COLOR, OVER_TEXT_COLOR, 0, 0);
-			this.downState = new TextSprite(caption, WIDTH, HEIGHT, BORDER_COLOR, DOWN_COLOR, OVER_TEXT_COLOR, 2, 1);
+            if (width < 1)
+                width = WIDTH;
+            if (height < 1)
+                height = HEIGHT;
+
+			this.upState = new TextSprite(caption, width, height, BORDER_COLOR, UP_COLOR, UP_TEXT_COLOR, 0, 0);
+			this.overState = new TextSprite(caption, width, height, BORDER_COLOR, OVER_COLOR, OVER_TEXT_COLOR, 0, 0);
+			this.downState = new TextSprite(caption, width, height, BORDER_COLOR, DOWN_COLOR, OVER_TEXT_COLOR, 2, 1);
 			
 			this.hitTestState = this.overState;
 		}

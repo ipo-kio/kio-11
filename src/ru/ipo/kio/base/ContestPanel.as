@@ -22,22 +22,24 @@ package ru.ipo.kio.base {
 			graphics.drawRect(0, 0, GlobalMetrics.CONTEST_PANEL_WIDTH - 1, GlobalMetrics.CONTEST_PANEL_HEIGHT - 1);
 			graphics.endFill();
 
-            var loc:Object = KioApi.instance(KioBase.BASE_API_ID).localization;
+            var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
 			
 			var loadButton : TextButton = new TextButton(loc.buttons.load);
 			var saveButton : TextButton = new TextButton(loc.buttons.save);
 			
-			loadButton.x = 100;
+			loadButton.x = 10;
 			loadButton.y = 20;
 			
-			saveButton.x = 300;
-			saveButton.y = 20;
+			saveButton.x = 10;
+			saveButton.y = 100;
 
             addChild(loadButton);
 			addChild(saveButton);
 
 			loadButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
-				FileUtils.loadSolution(KioBase.instance.currentProblem);
+				//FileUtils.loadSolution(KioBase.instance.currentProblem);
+                KioBase.instance.lsoProxy.getGlobalData().push = 239;
+                KioBase.instance.lsoProxy.flush();
 			});
 
 			saveButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {

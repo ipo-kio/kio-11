@@ -12,4 +12,5 @@
         <width>900</width>
         <height>600</height>
     </default-size>
+    <static-link-runtime-shared-libraries>true</static-link-runtime-shared-libraries>
 </flex-config>
