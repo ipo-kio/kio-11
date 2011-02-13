@@ -104,7 +104,7 @@ package ru.ipo.kio._11.recognition
 			var line:Shape = new Shape();
 			line.graphics.lineStyle(1);
 			line.graphics.moveTo(120, 0);
-			line.graphics.lineTo(120, 500);
+			line.graphics.lineTo(120, 900);
 			addChild(line);
 			//-----------------------------------------------------
 			// текстовые поля вывода уровня
@@ -1242,12 +1242,12 @@ public function test_continius(e:Event):void
 			text_test.autoSize = TextFieldAutoSize.LEFT;
 			text_test.text = "Проверки:";
 			text_test.x = 150;
-			text_test.y = 370;			
+			text_test.y = 450;			
 			addChild(text_test);
 			//кнопка пошаговая проверка
 			var But_test_step:SimpleButton = createButtons("Пошаговая");
 			But_test_step.x = 150;
-			But_test_step.y = 400;
+			But_test_step.y = 480;
 			addChild(But_test_step);
 			But_test_step.addEventListener(MouseEvent.CLICK,test_step);
 			myVar = 0;
@@ -1255,20 +1255,20 @@ public function test_continius(e:Event):void
 			//кнопка проверка
 			var But_test_continius:SimpleButton = createButtons("Мгновенная");
 			But_test_continius.x = 250;
-			But_test_continius.y = 400;
+			But_test_continius.y = 480;
 			addChild(But_test_continius);
 			But_test_continius.addEventListener(MouseEvent.CLICK, test_continius);
 						
 			//кнопка Прверка с задержкой
 			var But_test:SimpleButton = createButtons("С задержкой");
 			But_test.x = 350;
-			But_test.y = 400;
+			But_test.y = 480;
 			addChild(But_test);
 			But_test.addEventListener(MouseEvent.CLICK, test);
 			//-------------------------------------------------------------------------------
 			// кнопка сброса решения
 			var Del_result:SimpleButton = createButtons("Сбросить");
-			Del_result.x = 800;
+			Del_result.x = 780;
 			Del_result.y = 450;
 			addChild(Del_result);
 			Del_result.addEventListener(MouseEvent.CLICK, del_result);
@@ -1276,7 +1276,7 @@ public function test_continius(e:Event):void
 			//-----------------------------------------------------------------------------------
 		    //кнопка для убирания одной лапочки			
 			Del_1_lamp.x = 150;
-			Del_1_lamp.y = 450;
+			Del_1_lamp.y = 520;
 			addChild(Del_1_lamp);
 			Del_1_lamp.addEventListener(MouseEvent.CLICK, one_Break_lamp);
 						
@@ -1422,7 +1422,7 @@ public function test_continius(e:Event):void
 		public function createCont():void //функция создающая контакты
 		{
 			var i:int = 0;
-			var a:int = 30;
+			var a:int = 100;
 			// красные лампочки			
 			for (i = 0; i < 9; i++) 
 			{
@@ -1435,7 +1435,7 @@ public function test_continius(e:Event):void
 			}			
 		//-------------------------------------------------------------------------------------------
 		// зеленые лампочки
-		a = 30;
+		a = 100;
 		for (i = 0; i < 9; i++) 
 			{
 				var c_lamp_Green:Sprite = createCircle( 0x00ff00, 7);
@@ -1469,7 +1469,7 @@ public function test_continius(e:Event):void
 		    var i:int;	
 			var rect:Sprite = createRect( 0x808080, 150, 280); // основа табло 
 			rect.x = 140;
-			rect.y = 10;
+			rect.y = 80;
 			addChild(rect);			
 			
 			for (i = 0; i < 9; i++) 
@@ -1480,48 +1480,48 @@ public function test_continius(e:Event):void
 			// местоположение зеленых горизонтальных ламп
 			//верхний
 			rect_lamp_Green[1].x = 170; 
-			rect_lamp_Green[1].y = 20;			
+			rect_lamp_Green[1].y = 90;			
 			addChild(rect_lamp_Green[1]);
 			//средний
 			rect_lamp_Green[3].x = 170; 
-			rect_lamp_Green[3].y = 100;
+			rect_lamp_Green[3].y = 170;
 			addChild(rect_lamp_Green[3]);
 			//нижний
 			rect_lamp_Green[5].x = 170; 
-			rect_lamp_Green[5].y = 175;
+			rect_lamp_Green[5].y = 245;
 			addChild(rect_lamp_Green[5]);
 			
 			// местоположение зеленых вертикальных ламп
 			//правый верхний
 			rect_lamp_Green[0].x = 160; 
-			rect_lamp_Green[0].y = 35;
+			rect_lamp_Green[0].y = 105;
 			rect_lamp_Green[0].rotation = 90;
 		    addChild(rect_lamp_Green[0]);
 			//правый нижний
 			rect_lamp_Green[4].x = 160; 
-			rect_lamp_Green[4].y = 115;
+			rect_lamp_Green[4].y = 185;
 			rect_lamp_Green[4].rotation = 90;
 			addChild(rect_lamp_Green[4]);
 			//левый верхний
 			rect_lamp_Green[2].x = 255; 
-			rect_lamp_Green[2].y = 35;
+			rect_lamp_Green[2].y = 105;
 			rect_lamp_Green[2].rotation = 90;
 			addChild(rect_lamp_Green[2]);
 			//левый нижний
 			rect_lamp_Green[6].x = 255; 
-			rect_lamp_Green[6].y = 115;
+			rect_lamp_Green[6].y = 185;
 			rect_lamp_Green[6].rotation = 90;
 			addChild(rect_lamp_Green[6]);
 			if ( level == 2)
 			{
 		    //диагональный верхний
 			rect_lamp_Green[7].x = 172; 
-			rect_lamp_Green[7].y = 82;
+			rect_lamp_Green[7].y = 152;
 			rect_lamp_Green[7].rotation = -45;
 			addChild(rect_lamp_Green[7]);
 			//диагональный нижний
 			rect_lamp_Green[8].x = 172; 
-			rect_lamp_Green[8].y = 162;
+			rect_lamp_Green[8].y = 232;
 			rect_lamp_Green[8].rotation =-45;
 			addChild(rect_lamp_Green[8]);
 			// текстовые поля вывода подписей на лампах
@@ -1529,14 +1529,14 @@ public function test_continius(e:Event):void
 			num8.autoSize = TextFieldAutoSize.LEFT;
 			num8.text = "8";
 			num8.x = 192;
-			num8.y = 57;			
+			num8.y = 127;			
 			addChild(num8);
 			
 			var num9:TextField = new TextField();
 			num9.autoSize = TextFieldAutoSize.LEFT;
 			num9.text = "9";
 			num9.x = 192;
-			num9.y = 137;			
+			num9.y = 207;			
 			addChild(num9);			
 			}			
 			// текстовые поля вывода подписей на лампах
@@ -1544,49 +1544,49 @@ public function test_continius(e:Event):void
 			num1.autoSize = TextFieldAutoSize.LEFT;
 			num1.text = "1";
 			num1.x = 148;
-			num1.y = 58;			
+			num1.y = 128;			
 			addChild(num1);
 			
 			var num2:TextField = new TextField();
 			num2.autoSize = TextFieldAutoSize.LEFT;
 			num2.text = "2";
 			num2.x = 195;
-			num2.y = 19;			
+			num2.y = 89;			
 			addChild(num2);
 			
 			var num3:TextField = new TextField();
 			num3.autoSize = TextFieldAutoSize.LEFT;
 			num3.text = "3";
 			num3.x = 243;
-			num3.y = 58;			
+			num3.y = 128;			
 			addChild(num3);
 			
 			var num4:TextField = new TextField();
 			num4.autoSize = TextFieldAutoSize.LEFT;
 			num4.text = "4";
 			num4.x = 195;
-			num4.y = 99;			
+			num4.y = 169;			
 			addChild(num4);			
 			
 			var num5:TextField = new TextField();
 			num5.autoSize = TextFieldAutoSize.LEFT;
 			num5.text = "5";
 			num5.x = 148;
-			num5.y = 138;			
+			num5.y = 208;			
 			addChild(num5);
 			
 			var num6:TextField = new TextField();
 			num6.autoSize = TextFieldAutoSize.LEFT;
 			num6.text = "6";
 			num6.x = 195;
-			num6.y = 174;			
+			num6.y = 244;			
 			addChild(num6);
 			
 			var num7:TextField = new TextField();
 			num7.autoSize = TextFieldAutoSize.LEFT;
 			num7.text = "7";
 			num7.x = 243;
-			num7.y = 138;			
+			num7.y = 208;			
 			addChild(num7);	
 		}
 		
