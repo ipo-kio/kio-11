@@ -22,5 +22,8 @@ public class Resources {
 
     [Embed(source="../../../../../../resources/imgs/pr3.png")]
     public static const PR3_IMAGE:Class;
+
+    [Embed(source="../../../../../../resources/imgs/input_bg.jpg")]
+    public static const INPUT_BG:Class;
 }
 }

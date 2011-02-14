@@ -13,10 +13,7 @@ import flash.text.StyleSheet;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
-import flash.text.TextFormatAlign;
 import flash.utils.Dictionary;
-
-import mx.core.TextFieldAsset;
 
 public class TextUtils {
 
@@ -30,23 +27,29 @@ public class TextUtils {
     [Embed(source='../../../../../resources/fonts/PRESENT.TTF', embedAsCFF = "false", fontName="Presentum", mimeType="application/x-font-truetype")]
     private static var PRESENTUM_FONT:Class;
 
+    [Embed(source='../../../../../resources/fonts/IRISN4.TTF', embedAsCFF = "false", fontName="Iris", mimeType="application/x-font-truetype")]
+    private static var IRIS_FONT:Class;
+
+    [Embed(systemFont="Arial", fontName="InputArial", embedAsCFF = "false", mimeType="application/x-font")]
+    private static var ARIAL_FONT:Class;
+
     public static const SMALL_TEXT_SIZE:int = 14;
     public static const NORMAL_TEXT_SIZE:int = 18;
     public static const LARGE_TEXT_SIZE:int = 24;
     public static const X_LARGE_TEXT_SIZE:int = 32;
 
+    public static const FONT_MESSAGES:String = "Academy";
+    public static const FONT_INPUT:String = "InputArial";
+
     public static const CSS:String =
-            " p , li {font-family: Academy; font-size: 20; color:#ffffff;} " +
+            " p , li {font-family: " + FONT_MESSAGES + "; font-size: 20; color:#ffffff;} " +
                     ".h1 { color:#ee82ee; font-size: 32; } " +
+                    ".h2 { color:#0082ee; font-size: 20; } " +
                     ".footnote {font-size: 14} " +
                     ".warning {color:#ffaa44; font-size: smaller} " +
                     ".c {textAlign: center;}";
 
     private static function prepareTextField(text:String, x0:int, y0:int, size:int, align:String, color:uint, alpha:Number):TextField {
-
-        var enumerateFonts:Array = Font.enumerateFonts(false);
-        enumerateFonts.sortOn("fontName", Array.CASEINSENSITIVE);
-
         var tf:TextField = new TextField;
         tf.text = text;
         tf.setTextFormat(new TextFormat('Academy', size));
@@ -99,7 +102,6 @@ public class TextUtils {
 
     public static function createCustomTextField():TextField {
         var tf:TextField = new TextField();
-        //mainMessage.embedFonts = true;
         tf.multiline = true;
         tf.wordWrap = true;
         tf.embedFonts = true;
