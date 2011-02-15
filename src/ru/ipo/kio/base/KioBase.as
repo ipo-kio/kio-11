@@ -31,7 +31,7 @@ import ru.ipo.kio.base.loc.BaseLocalization_RU;
         private var _lsoProxy : LsoProxy;
 
         public function KioBase() {
-            KioApi.registerLocalization(KioBase.BASE_API_ID, BaseLocalization_RU());
+            KioApi.registerLocalization(KioBase.BASE_API_ID, BaseLocalization_RU.mapping);
         }
 
         public function init(stage : DisplayObjectContainer, problems:Array, year:int, level:int):void {
@@ -115,6 +115,10 @@ import ru.ipo.kio.base.loc.BaseLocalization_RU;
 
         public function complainLSO():void {
             stage.addChild(new SpaceSettingsDialog);
+        }
+
+        public function setProblem(pind:int):void {
+            currentProblem = problems[pind];
         }
     }
 }

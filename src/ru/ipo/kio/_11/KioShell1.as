@@ -6,6 +6,10 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio._11 {
+import ru.ipo.kio._11.CrossedCountry.Pr1;
+import ru.ipo.kio._11.recognition.Pr1;
+import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.api_example.Pr1;
 import ru.ipo.kio.base.*;
 
 import flash.display.Sprite;
@@ -25,7 +29,53 @@ public class KioShell1 extends Sprite {
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-        KioBase.instance.init(this, [], 2011, 2);
+        KioApi.registerLocalization(
+				ru.ipo.kio.api_example.Pr1.ID, //идентификатор
+				{                              //объект локализации
+					text1 : "Hello World",
+					text2 : "text 2",
+					menu : {
+						file : "Файл",
+						exit : "Выйти"
+					}
+				}
+			);
+
+        KioApi.registerLocalization(
+				ru.ipo.kio._11.recognition.Pr1.ID, //идентификатор
+				{                              //объект локализации
+					text1 : "Hello World",
+					text2 : "text 2",
+					menu : {
+						file : "Файл",
+						exit : "Выйти"
+					}
+				}
+			);
+
+        KioApi.registerLocalization(
+				ru.ipo.kio._11.CrossedCountry.Pr1.ID, //идентификатор
+				{                              //объект локализации
+					text1 : "Hello World",
+					text2 : "text 2",
+					menu : {
+						file : "Файл",
+						exit : "Выйти"
+					}
+				}
+			);
+
+        KioBase.instance.init(this,
+                [
+                    //new ru.ipo.kio._11.CrossedCountry.Pr1()
+                    new ru.ipo.kio.api_example.Pr1(),
+                    new ru.ipo.kio._11.recognition.Pr1(),
+//                    new ru.ipo.kio.api_example.Pr1(),
+                    new ru.ipo.kio.api_example.Pr1()
+                ],
+                2011,
+                1
+        );
 
         /*var spaceSettingsDialog:SpaceSettingsDialog = new SpaceSettingsDialog;
         addChild(spaceSettingsDialog);*/

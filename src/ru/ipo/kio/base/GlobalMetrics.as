@@ -20,8 +20,11 @@ ru.ipo.kio.base{
 		public static const WORKSPACE_Y : int = 0;
 
 		public static const CONTEST_PANEL_X : int = WORKSPACE_WIDTH;
-		public static const CONTEST_PANEL_Y : int = 500;
-		
+		public static const CONTEST_PANEL_Y : int = 480;
+
+        public static const V_PADDING:int = 20;
+        public static const H_PADDING:int = 20;
+
 	}
 
 }

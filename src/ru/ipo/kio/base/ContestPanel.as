@@ -7,8 +7,9 @@ package ru.ipo.kio.base {
 
 	import ru.ipo.kio.api.KioApi;
 	import ru.ipo.kio.api.FileUtils;
+import ru.ipo.kio.base.displays.ProblemsDisplay;
 
-	/**
+/**
 	 * ...
 	 * @author Ilya
 	 */
@@ -24,8 +25,9 @@ package ru.ipo.kio.base {
 
             var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
 			
-			var loadButton : TextButton = new TextButton(loc.buttons.load);
-			var saveButton : TextButton = new TextButton(loc.buttons.save);
+			var loadButton : TextButton = new TextButton(loc.contest_panel.buttons.load);
+			var saveButton : TextButton = new TextButton(loc.contest_panel.buttons.save);
+            var backButton : TextButton = new TextButton(loc.contest_panel.buttons.back);
 			
 			loadButton.x = 10;
 			loadButton.y = 20;
@@ -33,8 +35,12 @@ package ru.ipo.kio.base {
 			saveButton.x = 10;
 			saveButton.y = 50;
 
+            backButton.x = 10;
+            backButton.y = 80;
+
             addChild(loadButton);
 			addChild(saveButton);
+            addChild(backButton);
 
 			loadButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
 				FileUtils.loadSolution(KioBase.instance.currentProblem);
@@ -44,6 +50,10 @@ package ru.ipo.kio.base {
 
 			saveButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
 				FileUtils.saveSolution(KioBase.instance.currentProblem);
+			});
+
+            backButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
+				KioBase.instance.currentDisplay = new ProblemsDisplay;
 			});
 		}
 		

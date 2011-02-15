@@ -14,5 +14,16 @@ public class Resources {
     [Embed(source="../../../../../../resources/imgs/up_arrow.png")]
     public static const UP_ARROW_IMAGE:Class;
 
+    [Embed(source="../../../../../../resources/imgs/pr1.png")]
+    public static const PR1_IMAGE:Class;
+
+    [Embed(source="../../../../../../resources/imgs/pr2.png")]
+    public static const PR2_IMAGE:Class;
+
+    [Embed(source="../../../../../../resources/imgs/pr3.png")]
+    public static const PR3_IMAGE:Class;
+
+    [Embed(source="../../../../../../resources/imgs/input_bg.jpg")]
+    public static const INPUT_BG:Class;
 }
 }

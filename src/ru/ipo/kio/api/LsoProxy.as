@@ -6,11 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio.api {
+import flash.events.Event;
+import flash.events.NetStatusEvent;
 import flash.net.SharedObject;
 import flash.net.SharedObjectFlushStatus;
 import flash.utils.Dictionary;
 
-import ru.ipo.kio.api.controls.SpaceSettingsDialog;
 import ru.ipo.kio.base.KioBase;
 
 public class LsoProxy {
@@ -29,7 +30,6 @@ public class LsoProxy {
         return _instance[id];
     }
 
-    private var _state : String;
     private var _local : SharedObject;
     private var _data : Object;
 
@@ -50,7 +50,12 @@ public class LsoProxy {
     }
 
     private function getLocal():SharedObject {
-        return SharedObject.getLocal("ru/ipo/kio/" + year + "/" + level, "/");
+        var local:SharedObject = SharedObject.getLocal("ru/ipo/kio/" + year + "/" + level, "/");
+        local.addEventListener(NetStatusEvent.NET_STATUS, function (event:Event):void{
+            trace('net status handled');
+            //TODO find out WHY this event was not triggered before. (google suggests it is just not handled at all in linux)
+        });
+        return local;
     }
 
     public function flush():void {
@@ -61,7 +66,7 @@ public class LsoProxy {
                 return;
             }
             //copy data
-            for (var key:* in _data)
+            for (var key:String in _data)
                 _local.data[key] = _data[key];
             _data = _local.data;
         }
@@ -89,10 +94,5 @@ public class LsoProxy {
 
         return _data.kio_base;
     }
-
-    public function get isConnecedToLSO():Boolean {
-        return _local != null;
-    }
-
 }
 }

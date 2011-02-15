@@ -8,7 +8,7 @@ package ru.ipo.kio._11.CrossedCountry
 	import flash.ui.Mouse;
 	import flash.utils.*;
 	 import flash.filters.*;
-	 import org.flashdevelop.utils.FlashConnect;
+	 //import org.flashdevelop.utils.FlashConnect;
 	
 	
 	/**
