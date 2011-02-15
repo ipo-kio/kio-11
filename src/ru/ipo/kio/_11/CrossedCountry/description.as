@@ -18,6 +18,8 @@ package ru.ipo.kio._11.CrossedCountry
 		public var format:TextFormat = new TextFormat();
 		public var t1:TextField = new TextField();
 		public var t2:TextField = new TextField();
+		public var tEr:TextField = new TextField();
+		public var tErTrue:Boolean = false;
 		
 		public function description () 
 		{
@@ -41,6 +43,10 @@ package ru.ipo.kio._11.CrossedCountry
 			t1.y = 20;
 			t2.x = 600;
 			t2.y = 40;
+			tEr.x = 600;
+			tEr.y = 330;
+			tEr.wordWrap = true;
+			
 			addChild(t1);
 			addChild(t2);
 		}
@@ -85,6 +91,23 @@ package ru.ipo.kio._11.CrossedCountry
 			b2.addChild(label2);
 		}
 		
+		public function RemError():void
+		{
+			if (tErTrue)
+				{
+					removeChild(tEr);
+					tErTrue = false;
+				}
+		}
+		
+		public function AdError():void
+		{
+			if (!tErTrue)
+				{
+				addChild(tEr);
+				tErTrue = true;
+				}
+		}
 		
 		
 	}
