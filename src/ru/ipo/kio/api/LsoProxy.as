@@ -7,11 +7,20 @@
  */
 package ru.ipo.kio.api {
 import flash.net.SharedObject;
+import flash.net.SharedObjectFlushStatus;
 import flash.utils.Dictionary;
+
+import ru.ipo.kio.api.controls.SpaceSettingsDialog;
+import ru.ipo.kio.base.KioBase;
 
 public class LsoProxy {
 
     private static var _instance:Dictionary = new Dictionary(); // year + '-' + level -> LsoProxy
+
+    private static const LSO_SIZE:int = 1000000;
+
+    private var level:int;
+    private var year:int;
 
     public static function getInstance(level : int, year : int):LsoProxy {
         var id : String = year + '-' + level;
@@ -20,39 +29,69 @@ public class LsoProxy {
         return _instance[id];
     }
 
-    public static var STATE_SYNCHRONIZED:String = "synchronized";
-    //public static var STATE_MODIFIED:String = "modified";
-    public static var STATE_SYNC_FAILED:String = "failed";
-
     private var _state : String;
     private var _local : SharedObject;
     private var _data : Object;
 
     public function LsoProxy(level : int, year : int) {
-        //TODO handle errors
+        this.level = level;
+        this.year = year;
+        _data = {};
+        createLSO();
+    }
+
+    private function createLSO():void {
         try {
-            _local = SharedObject.getLocal("ru/ipo/kio/" + year + "/" + level, "/");
+            _local = getLocal();
             _data = _local.data;
-            _state = STATE_SYNCHRONIZED;
         } catch (e:Error) {
             _local = null;
-            _data = {};
-            _state = STATE_SYNC_FAILED;
         }
     }
 
+    private function getLocal():SharedObject {
+        return SharedObject.getLocal("ru/ipo/kio/" + year + "/" + level, "/");
+    }
+
     public function flush():void {
-        //TODO handle errors
-        _local.flush();
+        if (_local == null) {
+            createLSO();
+            if (_local == null) {
+                KioBase.instance.complainLSO();
+                return;
+            }
+            //copy data
+            for (var key:* in _data)
+                _local.data[key] = _data[key];
+            _data = _local.data;
+        }
+
+        try {
+            if (_local.flush(LSO_SIZE) != SharedObjectFlushStatus.FLUSHED)
+                KioBase.instance.complainLSO();
+        } catch (e:Error) {
+            KioBase.instance.complainLSO();
+        }
     }
 
     public function getProblemData(id:String):Object {
         if (!_data[id]) {
             _data[id] = {};
-            flush();
         }
 
         return _data[id];
+    }
+
+    public function getGlobalData():Object {
+        if (!_data.kio_base) {
+            _data.kio_base = {};
+        }
+
+        return _data.kio_base;
+    }
+
+    public function get isConnecedToLSO():Boolean {
+        return _local != null;
     }
 
 }

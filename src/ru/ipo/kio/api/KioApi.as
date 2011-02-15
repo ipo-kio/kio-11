@@ -7,8 +7,6 @@
 package ru.ipo.kio.api {
 import flash.utils.Dictionary;
 
-import ru.ipo.kio.api.LsoProxy;
-
 public class KioApi {
 
     private var problem:KioProblem;
@@ -56,6 +54,10 @@ public class KioApi {
         locs[id] = localization_object;
     }
 
+    public static function getLocalization(id:String):Object {
+        return locs[id];
+    }
+
     /**
      * Получить объект, содержащий специфичный для локали набор данных
      */
@@ -95,6 +97,14 @@ public class KioApi {
     public function saveBestSolution():void {
         problemData.best = problem.solution;
         lso.flush();
+    }
+
+    /**
+     * Получить решение с рекордом. Следует вызвать в начале программы, чтобы указать пользователю
+     * текущий рекорд.
+     */
+    public function get bestSolution():Object {
+        return null;
     }
 
 }

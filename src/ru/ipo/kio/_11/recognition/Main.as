@@ -46,6 +46,7 @@ package ru.ipo.kio._11.recognition
 		public var notLineAim:Array = new Array(); //массив линий соединяющих блок "не"и цель
 		public var notLineR:Array = new Array(); //массив линий соединяющих блок "не" и правый контакт
 		
+		public var controlAnswer:Array = new Array();
 		
 		public const offsetX:Number = 20; // отступ для общего движения блока
 		public const offsetY:Number = 0;// 
@@ -123,7 +124,7 @@ package ru.ipo.kio._11.recognition
 			// текстовые поля вывода результата
 			var text_result:TextField = new TextField();
 			text_result.autoSize = TextFieldAutoSize.LEFT;
-			text_result.text = "Результат:";
+			text_result.text = "Число верно распознанных цифр:";
 			text_result.x = 500;
 			text_result.y = 450;			
 			addChild(text_result);
@@ -131,7 +132,7 @@ package ru.ipo.kio._11.recognition
 			
 			t_result.autoSize = TextFieldAutoSize.LEFT;
 			t_result.text =  '  '+Result;
-			t_result.x = 550;
+			t_result.x = 670;
 			t_result.y = 450;			
 			addChild(t_result);				
 			//-----------------------------------------------------------------
@@ -497,7 +498,10 @@ public function test_continius(e:Event):void
 			 circle_lamp_Green[4].visible = false;				 
 			}
 		}	
-		controllaContattonot(e);//аналогично пошаговой
+		controllaContattonot(e);
+		controllaContattoor(e);
+		controllaContatto(e);
+		controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 		get_result(i);
 	}		  	
 }
@@ -838,7 +842,11 @@ public function test_continius(e:Event):void
 			 circle_lamp_Green[4].visible = false;				 
 			}
 		}	
-		controllaContattonot(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
+		
+		controllaContattonot(e);
+		controllaContattoor(e);
+		controllaContatto(e);
+		controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 		get_result(NUM);
 		NUM++;
 		}
@@ -1184,7 +1192,10 @@ public function test_continius(e:Event):void
 			 circle_lamp_Green[4].visible = false;				 
 			}
 		}	
-			controllaContattonot(e);//аналогично пошаговой 
+			controllaContattonot(e);
+			controllaContattoor(e);
+			controllaContatto(e);
+			controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 			get_result(NUM_1);
 			 NUM_1++;			
 		}		
@@ -1656,29 +1667,39 @@ public function test_continius(e:Event):void
 	    //===================================================
 		public function get_result (n:int) :void //функция получения результата
 		{
-			//trace(n);
 			var i:int = 0;
 			var flag:int = 1;
 			var a:int = 0;
+			if (n == 0)
+				for (i = 0; i < 10; i++)
+					controlAnswer[i] = -1;		
 			for ( i = 0 ; i < 10 ; i++)
 			{
 				if (i != n  && circle_lamp_Green_prov[i].visible == true)
 				{
 					flag = 0;
+					controlAnswer[i] = 0;
 				}
 				if (circle_lamp_Green_prov[i].visible == true && i == n  && flag != 0)
 				{
 					a = 1;
+					if(controlAnswer[i]!=0)
+						controlAnswer[i] = 1;
 				}
 			}
-			if (a && flag)
-				Result++;
-			t_result.text =  '  ' + Result;
-			t_nB.text =  '  ' + NumberBlokcs;
-			
+			if (n == 9)
+			{
+				for (i = 0; i < 10; i++)
+				{
+					if(controlAnswer[i] == 1)
+						Result++;
+				}
+				t_result.text =  '  ' + Result;
+				t_nB.text =  '  ' + NumberBlokcs;
+			}
 			
 		}		
-	    //===================================================
+		//====================================================
 		public function one_Break_lamp ( e:Event):void // функция удаления одной лампы
 		{
 			del_result(e);
