@@ -9,7 +9,8 @@ package ru.ipo.kio._11.CrossedCountry
 	import flash.events.*;
 	import flash.display.*;
 	import flash.filters.DropShadowFilter;
-	import flash.net.URLRequest;
+import flash.geom.Matrix;
+import flash.net.URLRequest;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.utils.*;
@@ -69,7 +70,11 @@ package ru.ipo.kio._11.CrossedCountry
 			bmpImage = new BitmapData(loader.width, loader.height);
 			bmpImage.draw(loader);
 			mShape.graphics.lineStyle(2);
-			mShape.graphics.beginBitmapFill(bmpImage);
+
+            var matrix:Matrix = new Matrix();
+            matrix.translate(-239, 42);
+
+			mShape.graphics.beginBitmapFill(bmpImage, matrix);
 			for (var i:Number = 0; i < ((ObjN*2)-2); i=i+2 )
 			{
 			mShape.graphics.lineTo(ObjA[i], ObjA[i+1]);
