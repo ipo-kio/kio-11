@@ -17,35 +17,55 @@ package ru.ipo.kio._11.CrossedCountry
 	
 	public class landObj extends Sprite
 	{
-		private var shape:Sprite;
-		private var loader:Loader;
 		private var bmpImage:BitmapData;
 		public var mShape:Sprite;
-		public var ObjN:Number;
+
 		public var ObjA:Array;
 		public var delay:Number;
 		
+		public var pic:Bitmap;
+		
+		[Embed(source="Background.jpg")]
+		public static const INPUT_BG:Class;
+		
 		public var checkCapy:Boolean = true;
 		private var interval:uint;
-		private var label_txt:String = "болото";
+		
 		public var alt:MovieClip = new MovieClip();
 		public var eventX:Number;
 		public var eventY:Number;
 		private var drawB:Boolean = false;
 		
-		public function landObj(picObj:String,ObjX:Number,ObjY:Number,ObjNum:Number,ObjArray:Array) 
+		public function landObj(picObj:String,ObjX:Number,ObjY:Number,ObjNum:Number,ObjArray:Array,tx:Number,ty:Number) 
 		{
 			
 			delay = 10000;
-			loader = new Loader;
 			mShape = new Sprite();
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE,picLoaded);
-			loader.load(new URLRequest(picObj));
+			
+			pic = new INPUT_BG();
+			bmpImage = pic.bitmapData;
+			bmpImage.draw(bmpImage);
+			
+			var matrix:Matrix = new Matrix();
+			matrix.translate( tx, ty);
+			bmpImage.draw(bmpImage, matrix);
+			
+			//mShape.addChild(pic);
 			
 			mShape.x = ObjX;
 			mShape.y = ObjY;
-			ObjN = ObjNum;
+		
 			ObjA = ObjArray;
+			
+			mShape.graphics.lineStyle();
+			mShape.graphics.beginBitmapFill(bmpImage,matrix);
+			for (var i:Number = 0; i < ((ObjNum*2)-2); i=i+2 )
+			{
+			mShape.graphics.lineTo(ObjA[i], ObjA[i+1]);
+			}
+			mShape.graphics.endFill();
+			
+			addChild(mShape);
 			
 		}
 		
@@ -62,21 +82,6 @@ package ru.ipo.kio._11.CrossedCountry
 					Arr.push(ObjA[i+1] + mShape.y);
 				}
 			return Arr;	
-		}
-		
-		private function picLoaded(event:Event):void
-		{
-			bmpImage = new BitmapData(loader.width, loader.height);
-			bmpImage.draw(loader);
-			mShape.graphics.lineStyle(2);
-			mShape.graphics.beginBitmapFill(bmpImage);
-			for (var i:Number = 0; i < ((ObjN*2)-2); i=i+2 )
-			{
-			mShape.graphics.lineTo(ObjA[i], ObjA[i+1]);
-			}
-			mShape.graphics.endFill();
-			addChild(mShape);
-			
 		}
 		
 		

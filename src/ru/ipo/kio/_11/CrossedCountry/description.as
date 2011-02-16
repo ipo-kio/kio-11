@@ -39,11 +39,11 @@ package ru.ipo.kio._11.CrossedCountry
 			format.size = 15;
 			t1.setTextFormat(format);
 			t2.setTextFormat(format);
-			t1.x = 600;
+			t1.x = 700;
 			t1.y = 20;
-			t2.x = 600;
+			t2.x = 700;
 			t2.y = 40;
-			tEr.x = 600;
+			tEr.x = 700;
 			tEr.y = 330;
 			tEr.wordWrap = true;
 			
@@ -53,11 +53,11 @@ package ru.ipo.kio._11.CrossedCountry
 		private function uint2 (e:Event = null):void
 		{
 			
-			b.x = 600;
+			b.x = 700;
 			b.y = 200;
 			addChild(b);
 			
-			b2.x = 600;
+			b2.x = 700;
 			b2.y = 270;
 			
 			addChild(b2);
