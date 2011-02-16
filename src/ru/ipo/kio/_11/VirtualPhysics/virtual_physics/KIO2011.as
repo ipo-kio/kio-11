@@ -1,5 +1,7 @@
 package ru.ipo.kio._11.VirtualPhysics.virtual_physics 
 {
+	import flash.display.Sprite;
+	import flash.events.Event;
 	import ru.ipo.kio.api.KioApi;
 	import ru.ipo.kio.base.KioBase;
 	/**
