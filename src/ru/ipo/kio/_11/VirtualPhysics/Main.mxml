@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<mx:Application
+<mx:Canvas
    
 xmlns:mx="http://www.adobe.com/2006/mxml"
-    
+    height="500" width="900"
+      borderStyle="solid" 
+      backgroundColor="white"
+
 	 
      
 
@@ -11,7 +14,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 
 	xmlns:virtual_physics="ru.ipo.kio._11.VirtualPhysics.virtual_physics.*"
 	
-    applicationComplete="doInit()"  frameRate="60">
+    creationComplete="doInit()"  frameRate="60">
 	<mx:Style>
 		.testeGradiente{
 			fillColors: #444444, #ffffff;
@@ -22,10 +25,12 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 
 
     <mx:Script><![CDATA[
-		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldConstants;
+	    import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldConstants;
 		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldDrawer;
 		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldModel;
 		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.FileManager;
+		import ru.ipo.kio.api.*;
+		import mx.controls.Text;
 		import flash.events.Event;
 		import mx.controls.TextInput;
         import mx.core.mx_internal;
@@ -46,13 +51,15 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 		//Добавленные шарики не сконвертированы
 		internal var spriteConverted:Boolean = false;
 		//Начальное значение рекордов
-		internal var RecordF1:String="0.0";
+		public  var RecordF1:String="0.0";
 		internal var RecordF2:String="0.0";
 		internal var RecordF3:String="0.0";
 		
         public  function doInit() : void {
-			FlashConnect.trace('asdasdf');
-			
+		
+			//получаем доступ к API, для этого передаем в качестве параметра id нашей задачи
+			var api:KioApi = KioApi.instance(Pr1.ID);
+		    FlashConnect.trace("api say:"+api.localization.text1);
 			//Задаем границы мира
 			WorldConstants.LeftLine = 0;
 			WorldConstants.TopLine = 0;
@@ -78,6 +85,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 				StartStopButton.enabled = false;
 				GotoRecordButton.enabled = false;
 			}
+			
 			dragPositionHeader.visible = !automaticMode;
 			dragPositionHeaderX.visible = !automaticMode;
 			dragPositionX.visible = !automaticMode;
@@ -144,10 +152,10 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 		public function SpeedUpButtonClick():void {
 			if (myTimer.delay >= 35){
 				myTimer.delay = 1;
-				SpeedUpButton.label = "Ускоренно";
+				SpeedUpButton.label = "Замедлить";
 			}else if (myTimer.delay <= 10){
 				myTimer.delay = 35;
-				SpeedUpButton.label = "Нормально";
+				SpeedUpButton.label = "Ускорить";
 			}
 		}
 		//Действие при нажатии на кнопку добавления шарика
@@ -309,6 +317,8 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 		}
 
 	
+	
+	
 
     ]]></mx:Script>
 
@@ -400,7 +410,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
           <mx:Button  width="100" label="В начало"  click="{
 		                                                                             ResetClick();
 																				   }"/>
-		  <mx:Button  width="100" id="SpeedUpButton"  label="Нормально"  click="{
+		  <mx:Button  width="100" id="SpeedUpButton"  label="Ускорить"  click="{
 		                                                                             SpeedUpButtonClick();
 																				   }"/>
 		  <mx:Button  width="100" id="AddButton"  label="Добавить"  click="{
@@ -435,4 +445,4 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
       </mx:HBox>	
     </mx:VBox>
 	</mx:Panel>
-</mx:Application>
+</mx:Canvas>

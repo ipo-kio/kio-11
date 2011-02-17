@@ -447,13 +447,9 @@ package ru.ipo.kio._11.CrossedCountry
 		private function delselectedPoint(e:MouseEvent):void
 		{
 			
-			trace("deleting Point");
-			trace(pointNumber);
-			trace(pointArray[pointNumber].selPt);
-			trace(pointArray.length);
-			
 			if ((pointArray[pointNumber].selPt&1)!=0)
 			{
+			txt.RemError();
 			if (pointArray.length > 9)	
 			{
 				if(selectline != -1)
@@ -518,11 +514,18 @@ package ru.ipo.kio._11.CrossedCountry
 					
 					trace("delete selected point");
 				}
+				
+				path = land.collisionTest(pointArray);
+				txt.t1.text = "Длина = " + Math.round(path) + " м";
+				txt.t2.text = "Время = " + Math.round(land.PathTime) + " сек";
+				
+			}
+			else
+			{
+				txt.AdError();
 			}
 			
-			path = land.collisionTest(pointArray);
-				txt.t1.text = "Длина = " + Math.round(path) + " м";
-				txt.t2.text = "Время = " + Math.round(land.PathTime)+ " сек";
+			
 		}
 		
 		private function deletePoint():void

@@ -16,7 +16,7 @@ package ru.ipo.kio._11.CrossedCountry
 		public function gridObj() 
 		{
 			
-			for (j = 0; j < 50; j++ )
+			for (j = 0; j < 54; j++ )
 			{
 				gridShape = new Sprite();
 				gridShape.x = 20;
@@ -25,11 +25,11 @@ package ru.ipo.kio._11.CrossedCountry
 				gridShape.graphics.lineStyle(1);
 				for (i= 0; i < 40; i++) 
 				{
-				gridShape.graphics.lineTo(500, 0);
+				gridShape.graphics.lineTo(600, 0);
 				}
 				addChild(gridShape);
 			}
-			for (j = 0; j < 50; j++ )
+			for (j = 0; j < 60; j++ )
 			{
 				gridShape = new Sprite();
 				gridShape.x = 25+j*10;
@@ -38,7 +38,7 @@ package ru.ipo.kio._11.CrossedCountry
 				gridShape.graphics.lineStyle(1);
 				for (i = 0; i < 40; i++) 
 				{
-				gridShape.graphics.lineTo(0, 500);
+				gridShape.graphics.lineTo(0, 540);
 				}
 				addChild(gridShape);
 			}
