@@ -9,7 +9,7 @@ import flash.utils.Dictionary;
 
 public class KioApi {
 
-    private var problem:KioProblem;
+    private var _problem:KioProblem;
 
     private static var apis:Dictionary = new Dictionary();
     private static var locs:Dictionary = new Dictionary();
@@ -22,7 +22,7 @@ public class KioApi {
      * @param problem
      */
     public function KioApi(problem:KioProblem) {
-        this.problem = problem;
+        this._problem = problem;
         lso = LsoProxy.getInstance(problem.level, problem.year);
         problemData = lso.getProblemData(problem.id);
     }
@@ -62,7 +62,7 @@ public class KioApi {
      * Получить объект, содержащий специфичный для локали набор данных
      */
     public function get localization():Object {
-        return locs[problem.id];
+        return locs[_problem.id];
     }
 
     /**
@@ -86,7 +86,7 @@ public class KioApi {
      * этот метод. Он сохранит текущее решение. При загрузке оно насильно будет загружено в программу.
      */
     public function autoSaveSolution():void {
-        problemData.autoSave = problem.solution;
+        problemData.autoSave = _problem.solution;
         lso.flush();
     }
 
@@ -95,7 +95,7 @@ public class KioApi {
      * этот метод, чтобы это решение сохранилось как наилучшее.
      */
     public function saveBestSolution():void {
-        problemData.best = problem.solution;
+        problemData.best = _problem.solution;
         lso.flush();
     }
 
@@ -107,5 +107,11 @@ public class KioApi {
         return null;
     }
 
+    /**
+     * Возвращает задачу, соответствующую этому api
+     */
+    public function get problem():KioProblem {
+        return _problem;
+    }
 }
 }

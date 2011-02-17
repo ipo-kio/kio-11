@@ -6,6 +6,7 @@
  */
 package ru.ipo.kio._11.semiramida {
 import flash.display.GradientType;
+import flash.display.Shape;
 import flash.display.SpreadMethod;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
@@ -18,7 +19,7 @@ public class Pipe extends Sprite {
 
     private var _house:House;
     private var _n:Number;
-    private var _floors:int;
+    private var _floors:Number;
     private var _selected:Boolean = false;
     private var _gradient_translate:Number = 100;
 
@@ -30,7 +31,7 @@ public class Pipe extends Sprite {
     //TODO try to replace with flash.display.Shape
     private var _body:Sprite = new Sprite;
     private var _top:Sprite = new Sprite;
-    private var _bottom:Sprite = new Sprite;
+    private var _bottom:Shape = new Shape;
     private var _highlight_all:Sprite = new Sprite;
     private var _highlight_top:Sprite = new Sprite;
 
@@ -38,37 +39,41 @@ public class Pipe extends Sprite {
      * Creates a pipe for the specific house
      * @param house the house to hold a pipe, this house must be a parent to the pipe
      */
-    public function Pipe(house:House, floors:int) {
+    public function Pipe(house:House, floors:int, n:Number = -1) {
         _house = house;
         _floors = floors;
 
-        var pipes:Array = _house.pipes;
+        if (n < 0 || n > 1) {
+            var pipes:Array = _house.pipes;
 
-        var points:Array = [0];
-        for each (var pipe:Pipe in pipes) {
-            points.push(pipe.n);
-        }
-        points.push(1);
-
-        var right_point_for_max_segment:int = -1;
-        var max_len:Number = 0;
-        points.sort();
-        for (var i:int = 1; i < points.length; ++i) {
-            var len:Number = points[i] - points[i - 1];
-            if (len > max_len) {
-                right_point_for_max_segment = i;
-                max_len = len;
+            var points:Array = [0];
+            for each (var pipe:Pipe in pipes) {
+                points.push(pipe.n);
             }
+            points.push(1);
+
+            var right_point_for_max_segment:int = -1;
+            var max_len:Number = 0;
+            points.sort();
+            for (var i:int = 1; i < points.length; ++i) {
+                var len:Number = points[i] - points[i - 1];
+                if (len > max_len) {
+                    right_point_for_max_segment = i;
+                    max_len = len;
+                }
+            }
+
+            drawPipe();
+            redraw();
+            setupHandlers();
+
+            this.n = (points[right_point_for_max_segment - 1] + points[right_point_for_max_segment]) / 2;
+        } else {
+            this.n = n;
         }
-
-        drawPipe();
-        redraw();
-        setupHandlers();
-
-        n = (points[right_point_for_max_segment - 1] + points[right_point_for_max_segment]) / 2;
 
         var shiftTimer:Timer = new Timer(1000 / 24);
-//        shiftTimer.start();
+        shiftTimer.start();
         shiftTimer.addEventListener(TimerEvent.TIMER, shiftTimerHandler);
     }
 
@@ -77,26 +82,38 @@ public class Pipe extends Sprite {
         _body.addEventListener(MouseEvent.ROLL_OUT, handleBodyRollOut);
         _top.addEventListener(MouseEvent.ROLL_OVER, handleTopRollOver);
         _top.addEventListener(MouseEvent.ROLL_OUT, handleTopRollOut);
+
         _body.addEventListener(MouseEvent.MOUSE_DOWN, handleBodyMouseDown);
         _top.addEventListener(MouseEvent.MOUSE_DOWN, handleTopMouseDown);
-        _body.addEventListener(MouseEvent.MOUSE_UP, handleMouseUp);
-        _top.addEventListener(MouseEvent.MOUSE_UP, handleMouseUp);
     }
 
-    private function handleMouseUp(event:MouseEvent):void {
+    public function initializeDragging(horizontal:Boolean):void {
+        _house.selected_pipe = this;
+
+        if (horizontal) {
+            startDrag(false, new Rectangle(0, baseLine(), _house.house_width, 0));
+            _house.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMoveWhileHorizontalDragging);
+        } else {
+            _house.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMoveWhileVerticalDragging);
+        }
+
+        stage.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
+    }
+
+    public function stopDragging(event:MouseEvent = null):void {
         stopDrag();
-        _top.stopDrag();
-        _house.removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+        _house.removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMoveWhileHorizontalDragging);
+        _house.removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMoveWhileVerticalDragging);
+        stage.removeEventListener(MouseEvent.MOUSE_UP, stopDragging);
+        floors = Math.round(floors);
     }
 
     private function handleBodyMouseDown(event:MouseEvent):void {
-        _house.selected_pipe = this;
-        startDrag(false, new Rectangle(0, baseLine(), _house.house_width, 0));
-        _house.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+        initializeDragging(true);
     }
 
     private function handleTopMouseDown(event:MouseEvent):void {
-        _house.selected_pipe = this;
+        initializeDragging(false);
     }
 
     private function handleBodyRollOut(event:MouseEvent):void {
@@ -105,6 +122,7 @@ public class Pipe extends Sprite {
 
     private function handleBodyRollOver(event:MouseEvent):void {
         _highlight_all.visible = true;
+        trace('highlight ' + Math.random());
     }
 
     private function handleTopRollOut(event:MouseEvent):void {
@@ -115,9 +133,19 @@ public class Pipe extends Sprite {
         _highlight_top.visible = true;
     }
 
-    private function handleMouseMove(event:MouseEvent):void {
-        _n = x / _house.width;
-        trace(_n);
+    private function handleMouseMoveWhileHorizontalDragging(event:MouseEvent):void {
+        n = _house.mouseX / _house.width;
+    }
+
+    private function handleMouseMoveWhileVerticalDragging(event:MouseEvent):void {
+        /*trace('localY = ' + event.localY);
+        trace('mouseY in house = ' + _house.mouseY);
+        trace('height = ' + (baseLine() - event.localY));
+        trace('floor no = ' + (baseLine() - event.localY) / _house.floorHeight);*/
+        var new_floors:Number = /*Math.round*/((baseLine() - _house.mouseY) / _house.floorHeight);
+        if (new_floors != floors && new_floors >= 1 && new_floors <= _house.FLOORS)
+            floors = new_floors;
+        //event.updateAfterEvent();
     }
 
     private function shiftTimerHandler(event:TimerEvent):void {
@@ -132,15 +160,21 @@ public class Pipe extends Sprite {
     public function set n(value:Number):void {
         _n = value;
         replace();
+        _house.refreshRooms();
     }
 
-    public function get floors():int {
+    public function get floors():Number {
         return _floors;
     }
 
-    public function set floors(value:int):void {
+    public function get floorsInt():int {
+        return Math.round(_floors);
+    }
+
+    public function set floors(value:Number):void {
         _floors = value;
         redraw();
+        _house.refreshRooms();
     }
 
     private function drawPipe():void {
@@ -172,7 +206,7 @@ public class Pipe extends Sprite {
 
         _highlight_top.x = 0;
         //_highlight_top.y is set up in resize()
-        _highlight_top.visible = 0;
+        _highlight_top.visible = false;
         _highlight_top.mouseEnabled = false;
         addChild(_highlight_top);
 
@@ -192,7 +226,6 @@ public class Pipe extends Sprite {
     }
 
     private function redraw():void {
-        trace("redraw");
         const line_width:int = 1;
         const h:Number = _house.floorHeight * floors;
 
@@ -220,7 +253,7 @@ public class Pipe extends Sprite {
         //highlight objects
         _highlight_all.graphics.clear();
         _highlight_all.graphics.lineStyle(10, 0xFFFF00, 0.5);
-        _highlight_all.graphics.moveTo(0, 0);
+        _highlight_all.graphics.moveTo(0, 10);
         _highlight_all.graphics.lineTo(0, -h);
 
         _highlight_top.y = -h;
@@ -244,5 +277,6 @@ public class Pipe extends Sprite {
         _selected = value;
         redraw();
     }
+
 }
 }

@@ -44,6 +44,7 @@ public class TextUtils {
     public static const CSS:String =
             " p , li {font-family: " + FONT_MESSAGES + "; font-size: 20; color:#ffffff;} " +
                     ".h1 { color:#ee82ee; font-size: 32; } " +
+                    ".h15 { color:#ee82ee; font-size: 24; } " +
                     ".h2 { color:#0082ee; font-size: 20; } " +
                     ".footnote {font-size: 14} " +
                     ".warning {color:#ffaa44; font-size: smaller} " +
@@ -100,10 +101,10 @@ public class TextUtils {
         info.y += message.height + info.lineSkip;
     }
 
-    public static function createCustomTextField():TextField {
+    public static function createCustomTextField(multiline:Boolean = true):TextField {
         var tf:TextField = new TextField();
-        tf.multiline = true;
-        tf.wordWrap = true;
+        tf.multiline = multiline;
+        tf.wordWrap = multiline;
         tf.embedFonts = true;
         tf.autoSize = TextFieldAutoSize.LEFT;
         tf.styleSheet = new StyleSheet();
