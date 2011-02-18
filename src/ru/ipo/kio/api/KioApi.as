@@ -104,7 +104,7 @@ public class KioApi {
      * текущий рекорд.
      */
     public function get bestSolution():Object {
-        return null;
+        return problemData.best;
     }
 
     /**

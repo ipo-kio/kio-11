@@ -26,9 +26,12 @@ import ru.ipo.kio.base.loc.BaseLocalization_RU;
         private var workspace:DisplayObject = null;
         private var contestPanel:DisplayObject = null;
 		private var stage:DisplayObjectContainer;
-		private var problems:Array /*KioProblem*/ = new Array;
+        //noinspection JSMismatchedCollectionQueryUpdateInspection
+        private var problems:Array /*KioProblem*/ = new Array;
 
         private var _lsoProxy : LsoProxy;
+
+        private var spaceSettings:SpaceSettingsDialog = new SpaceSettingsDialog;
 
         public function KioBase() {
             KioApi.registerLocalization(KioBase.BASE_API_ID, BaseLocalization_RU.mapping);
@@ -56,7 +59,7 @@ import ru.ipo.kio.base.loc.BaseLocalization_RU;
 
 			currentProblem = problem;
 		}
-		
+
 		public static function get instance():KioBase {
             if (!_instance)
                 _instance = new KioBase;
@@ -88,6 +91,7 @@ import ru.ipo.kio.base.loc.BaseLocalization_RU;
 
             //load autosave solution
             var problemData:Object = _lsoProxy.getProblemData(problem.id);
+
             var autoSave:Object = problemData.autoSave;
             if (autoSave)
                 problem.loadSolution(autoSave);
@@ -114,7 +118,7 @@ import ru.ipo.kio.base.loc.BaseLocalization_RU;
         }
 
         public function complainLSO():void {
-            stage.addChild(new SpaceSettingsDialog);
+            stage.addChild(spaceSettings);
         }
 
         public function setProblem(pind:int):void {

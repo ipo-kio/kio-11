@@ -10,30 +10,34 @@ import flash.text.TextField;
 
 import flash.text.TextFieldAutoSize;
 
+import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 
 public class ResultsPanel extends Sprite {
 
     private var _rooms:int;
-    private var _length:int;
+    private var _pipesLength:int;
 
     private var ftRooms:TextField;
     private var ftLength:TextField;
 
     public function ResultsPanel(caption:String, width:int) {
+        var api:KioApi = KioApi.instance(SemiramidaProblem.ID);
+
         var ftCaption:TextField = TextUtils.createCustomTextField(false);
+        ftCaption.width = width;
         ftCaption.htmlText = "<p class='h15'>" + caption + "</p>";
         addChild(ftCaption);
 
         var ftRoomsLabel:TextField = TextUtils.createCustomTextField(false);
         ftRoomsLabel.y = ftCaption.y + ftCaption.textHeight + 6;
-        ftRoomsLabel.htmlText = "<p class='h2'>" + "Орошено комнат:" + "</p>";
+        ftRoomsLabel.htmlText = "<p class='h2'>" + api.localization.results.rooms + ":" + "</p>";
         ftRoomsLabel.width = width / 2;
         addChild(ftRoomsLabel);
 
         var ftLengthLabel:TextField = TextUtils.createCustomTextField(false);
         ftLengthLabel.y = ftRoomsLabel.y + ftRoomsLabel.textHeight + 6;
-        ftLengthLabel.htmlText = "<p class='h2'>" + "Длина труб в этажах:" + "</p>";
+        ftLengthLabel.htmlText = "<p class='h2'>" + api.localization.results.length + ":" + "</p>";
         ftLengthLabel.width = width / 2;
         addChild(ftLengthLabel);
 
@@ -47,7 +51,7 @@ public class ResultsPanel extends Sprite {
         ftLength = TextUtils.createCustomTextField(false);
 //        ftLength.autoSize = TextFieldAutoSize.RIGHT;
         ftLength.width = width / 2;
-        ftLength.y = ftLength.y;
+        ftLength.y = ftLengthLabel.y;
         ftLength.x = width / 2;
         addChild(ftLength);
     }
@@ -61,12 +65,12 @@ public class ResultsPanel extends Sprite {
         ftRooms.htmlText = "<p>" + value + "</p>";
     }
 
-    public function get length():int {
-        return _length;
+    public function get pipesLength():int {
+        return _pipesLength;
     }
 
-    public function set length(value:int):void {
-        _length = value;
+    public function set pipesLength(value:int):void {
+        _pipesLength = value;
         ftLength.htmlText = "<p>" + value + "</p>";
     }
 }
