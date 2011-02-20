@@ -1,31 +1,31 @@
 package ru.ipo.kio._11.CrossedCountry {
-	
+
 	import flash.display.DisplayObject;
 	import ru.ipo.kio.api.KioApi;
 	import ru.ipo.kio.api.KioProblem;
-	
+
 	/**
 	 * Пример задачи
 	 * @author Ilya
 	 */
 	public class Pr1 implements KioProblem
 	{
-		
+
 		public static const ID:String = "test";
-	
+
 		//Это спрайт, на котором рисуется задача
 		private var sp:Main;
-		
+
 		//конструктор задачи
 		public function Pr1() {
 			//в первой строке конструктора задачи требуется вызвать инициализацию api:
 			KioApi.initialize(this);
-			
+
 			//теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
 			//В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
 			sp = new Main;
 		}
-		
+
 		/**
 		 * Произвольный идентификатор задачи, который необходимо выбрать и далее использовать при обращении к api:
 		 * KioApi.instance(ID). Хорошей практикой является создание статической константы с этим id
@@ -65,7 +65,7 @@ package ru.ipo.kio._11.CrossedCountry {
 			return {
 				//txt : sp.text
 			};
-			
+
 			//Другой способ сделать тоже самое:
 			// var o:Object = new Object();
 			// o.txt = sp.text;
@@ -107,7 +107,7 @@ package ru.ipo.kio._11.CrossedCountry {
 		public function compare(solution1:Object, solution2:Object):int {
 			return 1;
 		}
-		
+
 	}
 
 }
