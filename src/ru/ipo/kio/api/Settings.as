@@ -8,6 +8,8 @@
 package ru.ipo.kio.api {
 import com.adobe.serialization.json.JSON;
 
+import com.adobe.serialization.json.JSONParseError;
+
 import mx.core.ByteArrayAsset;
 
 public class Settings {
@@ -34,8 +36,15 @@ public class Settings {
             return '"' + gr.replace(/(\r\n|\n\r)/g, " ").replace(/(\r|\n|\t)/g, " ") + '"';
         });
 
-        trace(text);
-        _data = JSON.decode(text);
+        try {
+            _data = JSON.decode(text);
+        } catch (e:JSONParseError) {
+            var ind:int = e.location - 10;
+            if (ind < 0)
+                ind = 0;
+            trace(e.text.slice(ind));
+            throw e;
+        }
     }
 
     public function get data():Object {

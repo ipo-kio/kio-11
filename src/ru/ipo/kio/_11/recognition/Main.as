@@ -64,8 +64,12 @@ package ru.ipo.kio._11.recognition
 				
 		public var NumberBlokcs:int = 0;//количество используемых блоков
 		public var Result:int = 0; // Переменная содержащая результат 
+		public var Record_NumberBlokcs:int = 0;// Переменная содержащая рекорд количества блоков
+		public var Record_Result:int = 0;// Переменная содержащая рекорд количества правильно рапознаных цифр
 		public var t_result:TextField = new TextField();// Текстовое поле для результата
 		public var t_nB:TextField = new TextField();//Текстовое поле для количествва блоков
+		public var t_record_result:TextField = new TextField();// Текстовое поле для результата
+		public var t_record_numberBlokcs:TextField = new TextField();//Текстовое поле для количествва блоков
 		public var text_lvl_1:TextField = new TextField();//Текстовое поле для уровня
 		
 		public var NUM_first_Break_lamp:int = 11; 
@@ -99,6 +103,7 @@ package ru.ipo.kio._11.recognition
 			createCont_Prov();
 			Buttons();
 			createBin();
+			text_fields();
 			//--------------------------------------------------------
 			//линия разграничения
 			var line:Shape = new Shape();
@@ -106,7 +111,13 @@ package ru.ipo.kio._11.recognition
 			line.graphics.moveTo(120, 0);
 			line.graphics.lineTo(120, 900);
 			addChild(line);
-			//-----------------------------------------------------
+			//-----------------------------------------------------			
+			addEventListener(Event.ENTER_FRAME, controlLamp);
+		}
+		//===================================================
+		public function text_fields():void
+		{
+		
 			// текстовые поля вывода уровня
 			var text_lvl:TextField = new TextField();
 			text_lvl.autoSize = TextFieldAutoSize.LEFT;
@@ -149,16 +160,44 @@ package ru.ipo.kio._11.recognition
 			t_nB.text =  '  '+NumberBlokcs;
 			t_nB.x = 600;
 			t_nB.y = 480;			
-			addChild(t_nB);		
+			addChild(t_nB);	
+			//-------------------------------------------------------------
+			// текстовые поля вывода рекорда
+			var text_record_result:TextField = new TextField();
+			text_record_result.autoSize = TextFieldAutoSize.LEFT;
+			text_record_result.text = "Число верно распознанных цифр Рекорд:";
+			text_record_result.x = 500;
+			text_record_result.y = 520;			
+			addChild(text_record_result);
+			
+			
+			t_record_result.autoSize = TextFieldAutoSize.LEFT;
+			t_record_result.text =  '  '+Record_Result;
+			t_record_result.x = 710;
+			t_record_result.y = 520;			
+			addChild(t_record_result);				
+			//-----------------------------------------------------------------
+			// текстовые поля вывода рекорда
+			var text_record_numberBlokcs:TextField = new TextField();
+			text_record_numberBlokcs.autoSize = TextFieldAutoSize.LEFT;
+			text_record_numberBlokcs.text = "Количество блоков Рекорд:";
+			text_record_numberBlokcs.x = 500;
+			text_record_numberBlokcs.y = 560;			
+			addChild(text_record_numberBlokcs);
+			
+			
+			t_record_numberBlokcs.autoSize = TextFieldAutoSize.LEFT;
+			t_record_numberBlokcs.text =  '  '+Record_NumberBlokcs;
+			t_record_numberBlokcs.x = 640;
+			t_record_numberBlokcs.y = 560;			
+			addChild(t_record_numberBlokcs);			
 			//-------------------------------------------------------------			
 			var text_bin:TextField = new TextField();
 			text_bin.autoSize = TextFieldAutoSize.LEFT;
 			text_bin.text = "Корзина";
 			text_bin.x = 25;
 			text_bin.y = 380;			
-			addChild(text_bin);	
-			
-			addEventListener(Event.ENTER_FRAME, controlLamp);
+			addChild(text_bin);			
 		}
 		//===================================================
 public function test_continius(e:Event):void
@@ -503,6 +542,7 @@ public function test_continius(e:Event):void
 		controllaContatto(e);
 		controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 		get_result(i);
+		Record();
 	}		  	
 }
 		//===================================================
@@ -848,6 +888,7 @@ public function test_continius(e:Event):void
 		controllaContatto(e);
 		controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 		get_result(NUM);
+		Record();
 		NUM++;
 		}
 		//===============================================================================================
@@ -1197,6 +1238,7 @@ public function test_continius(e:Event):void
 			controllaContatto(e);
 			controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 			get_result(NUM_1);
+			Record();
 			 NUM_1++;			
 		}		
 		//===================================================
@@ -1699,6 +1741,24 @@ public function test_continius(e:Event):void
 			}
 			
 		}		
+		//====================================================
+		public function Record ():void
+		{
+			if (Result > Record_Result)
+			{
+			          Record_Result = Result;
+					  Record_NumberBlokcs = NumberBlokcs;
+			}
+			else
+			  if (Result == Record_Result)
+			  {
+				  if (NumberBlokcs > Record_NumberBlokcs)
+				  {
+					Record_Result = Result;
+					 Record_NumberBlokcs = NumberBlokcs;  
+				  }				  
+			  }		
+		}
 		//====================================================
 		public function one_Break_lamp ( e:Event):void // функция удаления одной лампы
 		{

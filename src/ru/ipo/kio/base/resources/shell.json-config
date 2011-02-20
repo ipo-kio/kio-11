@@ -26,8 +26,7 @@
     },
     "screen":{
 		"buttons":{
-			"cont
-			inue_": "Продолжить",
+			"continue_": "Продолжить",
             "loadWorkspace" : "Загрузить"
         },
         "welcome":{
