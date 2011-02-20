@@ -47,16 +47,33 @@ package ru.ipo.kio._11.recognition
 		public var notLineR:Array = new Array(); //массив линий соединяющих блок "не" и правый контакт
 		
 		public var controlAnswer:Array = new Array();
+			
+		public var leftAndHit:Array = new Array();//показатель присоединения левого контакта блока И
+		public var rightAndHit:Array = new Array();//показатель присоединения правого контакта блока И
 		
-		public const offsetX:Number = 20; // отступ для общего движения блока
-		public const offsetY:Number = 0;// 
-		public const offsetX2:Number = 20;// 
-		public const offsetY2:Number = -50;//
-		public const offsetX3:Number = -70;// 
-		public const offsetY3:Number = -25;//
-		public const offsetY4:Number = -25;// 
-		public const stepAimX:Number = 50;//
-		public const stepAimY:Number = 25;//
+		public var leftOrHit:Array = new Array();//показатель присоединения левого контакта блока ИЛИ
+		public var rightOrHit:Array = new Array();//показатель присоединения правого контакта блока ИЛИ
+		
+		public var rightNotHit:Array = new Array();//показатель присоединения контакта блока НЕ
+		
+		public var additLineLAnd:Array = new Array();//линия выделения левого провода блока И 
+		public var lineLAddAnd:Array = new Array;// показатель выделенности левой линии блока И
+		
+		public var lineLAddOr:Array = new Array;// показатель выделенности левой линии блока Или
+		public var additLineLOr:Array = new Array();//линия выделения левого провода блока Или
+		
+		public var additLineRNot:Array = new Array();//линия выделения левого провода блока НЕ
+		public var lineRAddNot:Array = new Array;// показатель выделенности левой линии блока Не
+		
+		public var complite:int = 0;
+		public var complite2:int = 0;
+		public var complite3:int = 0;
+		
+		public var additLineRAnd:Array = new Array();//линия выделения правого провода блока И
+		public var lineRAddAnd:Array = new Array;// показатель выделенности правой линии блока И
+		
+		public var lineRAddOr:Array = new Array;// показатель выделенности правой линии блока Или
+		public var additLineROr:Array = new Array();//линия выделения правого провода блока Или
 		
 		public var myVar:int = 0;// xитрая глобальная переменная(костыль для программы) 
 		public var myVar2:int = 0;// xитрая глобальная переменная(костыль для программы)
@@ -1278,6 +1295,12 @@ public function test_continius(e:Event):void
 			addChild(But_create_not);
 			But_create_not.addEventListener(MouseEvent.CLICK, Createnot);
 			
+			var But_create_Disconnect:SimpleButton = createButtons("Отсоединить");
+			But_create_Disconnect.x = 20;
+			But_create_Disconnect.y = 280;
+			addChild(But_create_Disconnect);
+			But_create_Disconnect.addEventListener(MouseEvent.CLICK, disconnect);
+			
 			//---------------------------------------------------------------------------
 			
 			var text_test:TextField = new TextField();
@@ -1818,6 +1841,53 @@ public function test_continius(e:Event):void
 		* 
 		*/
 		//=====================================================
+		public function disconnect(e:Event):void
+		{
+			var flag:int = 1;
+			var flag2:int = 1;
+			var flag3:int = 1;
+			for (var i:int=0; i < andTull.length && flag; i++)
+			{
+				if (lineLAddAnd[i]&&leftAndHit[i])
+				{
+					andLeft[i].x = andTull[i].x - 20; 
+					andLeft[i].y = andTull[i].y -5;
+					flag = 0;
+				}
+				if (lineRAddAnd[i] && rightAndHit[i])
+				{
+					andRight[i].x = andTull[i].x - 20; 
+					andRight[i].y = andTull[i].y + 30;
+					flag = 0;
+				}
+			}
+			for (i=0; i < orTull.length && flag2; i++)
+			{
+				if (lineLAddOr[i]&&leftOrHit[i])
+				{
+					orLeft[i].x = orTull[i].x - 20; 
+					orLeft[i].y = orTull[i].y -5;
+					flag2 = 0;
+				}
+				if (lineRAddOr[i] && rightOrHit[i])
+				{
+					orRight[i].x = orTull[i].x - 20; 
+					orRight[i].y = orTull[i].y + 30;
+					flag2 = 0;
+				}
+			}
+			for (i=0; i < notTull.length && flag3; i++)
+			{
+				if (lineRAddNot[i] && rightNotHit[i])
+				{
+					notRight[i].x = notTull[i].x - 20; 
+					notRight[i].y = notTull[i].y + 15;
+					flag3 = 0;
+				}
+			}			
+			
+		}
+		//====================================================
 		public function CreateAnd(e:Event):void 
 		{
 			del_result(e);
@@ -1906,7 +1976,7 @@ public function test_continius(e:Event):void
 		public function createLine(x1:int, y1:int, x2:int, y2:int,arr:Array, stepX:int, stepY:int,n:int):void
 		{
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(1);
+			line.graphics.lineStyle(3);
 			line.graphics.moveTo(x1+stepX, y1+stepY);
 			line.graphics.lineTo(x2,y2);
 			addChild(line);
@@ -1916,7 +1986,7 @@ public function test_continius(e:Event):void
 		public function createBezie(x1:int, y1:int, x2:int, y2:int, arr:Array, stepX:int, stepY:int,stepYAnchor:int,n:int):void
 		{
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(1,0x0000CC);
+			line.graphics.lineStyle(3,0x0000CC);
 			line.graphics.moveTo(x1+stepX, y1+stepY);
 			line.graphics.curveTo(x1+20+(x2-x1)/2,y2-stepYAnchor,x2,y2);
 			addChild(line);
@@ -1925,17 +1995,28 @@ public function test_continius(e:Event):void
 		//===================================================
 		public function wireL(e:Event,n:int):void
 		{   
-			
 			removeChild(andLineL[n]);
+			var additLine:Sprite = new Sprite();
 			var line:Sprite = new Sprite();
 			if (andLeftResult[n] == true)
 				{
-					line.graphics.lineStyle(1, 0xFF0000);
+					line.graphics.lineStyle(3, 0xFF0000);
 				}
 			else
 				{
-					line.graphics.lineStyle(1, 0x0000CC);
+					line.graphics.lineStyle(3, 0x0000CC);
 				}
+				
+			if (lineLAddAnd[n])
+				{
+					removeChild(additLineLAnd[n]);
+					additLine.graphics.lineStyle(6, 0x00CCFF);
+					additLine.graphics.moveTo(andTull[n].x, andTull[n].y+5);
+					additLine.graphics.curveTo(andTull[n].x+20+(andLeft[n].x + 7-andTull[n].x)/2,andLeft[n].y - 23,andLeft[n].x + 7,andLeft[n].y - 3);
+					additLineLAnd[n] = additLine;
+					addChild(additLineLAnd[n]);
+				}
+				
 			line.graphics.moveTo(andTull[n].x, andTull[n].y+5);
 			line.graphics.curveTo(andTull[n].x+20+(andLeft[n].x + 7-andTull[n].x)/2,andLeft[n].y - 23,andLeft[n].x + 7,andLeft[n].y - 3);
 			addChild(line);
@@ -1946,13 +2027,23 @@ public function test_continius(e:Event):void
 		{   
 			removeChild(andLineR[n]);
 			var line:Sprite = new Sprite();
+			var additLine:Sprite = new Sprite();
 			if (andRightResult[n] == true)
 				{
-					line.graphics.lineStyle(1, 0xFF0000);
+					line.graphics.lineStyle(3, 0xFF0000);
 				}
 			else
 				{
-					line.graphics.lineStyle(1, 0x0000CC);
+					line.graphics.lineStyle(3, 0x0000CC);
+				}
+			if (lineRAddAnd[n])
+				{
+					removeChild(additLineRAnd[n]);
+					additLine.graphics.lineStyle(6, 0x00CCFF);
+					additLine.graphics.moveTo(andTull[n].x, andTull[n].y+25);
+					additLine.graphics.curveTo(andTull[n].x+20+(andRight[n].x + 7-andTull[n].x)/2,andRight[n].y + 17,andRight[n].x + 7,andRight[n].y - 3);
+					additLineRAnd[n] = additLine;
+					addChild(additLineRAnd[n]);
 				}
 			line.graphics.moveTo(andTull[n].x, andTull[n].y+25);
 			line.graphics.curveTo(andTull[n].x+20+(andRight[n].x + 7-andTull[n].x)/2,andRight[n].y + 17,andRight[n].x + 7,andRight[n].y - 3);
@@ -2001,12 +2092,14 @@ public function test_continius(e:Event):void
 			}
 		}*/
 		//====================================================
+		
 		public function down(e:Event):void
 		{
 			var vs:Sprite = new Sprite();
 			var flag : int = 0 ;
 			var k: int = 0;
 			
+			var additLine:Sprite = new Sprite();
 			for (k = 0;k < 30 && flag==0; k++)
 			{
 				if(andTull[k]==e.target)
@@ -2015,7 +2108,13 @@ public function test_continius(e:Event):void
 					flag = 1;
 					myVar = k;// глобальный подсчёт блоков И
 					andTull[k].startDrag();
-					stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
+					addEventListener(MouseEvent.MOUSE_MOVE, dragConnect);
+					if(leftAndHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragContactsAnd);
+					if (rightAndHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragContactsAnd);
+					if(!leftAndHit[k]&&!rightAndHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
 				}
 				if (andRight[k]==e.target )
 				{
@@ -2030,7 +2129,140 @@ public function test_continius(e:Event):void
 					myVar = k;
 					andLeft[k].startDrag();
 					setChildIndex(andLeft[k], numChildren - 1);
-				}				
+				}	
+				if (e.target == andLineL[k])
+				{
+					flag = 1;
+					myVar = k;
+					for (var i:int = 0; i < andTull.length;i++)
+					{
+						if (lineLAddAnd[i])
+							{
+								lineLAddAnd[i] = false;
+								removeChild(additLineLAnd[i]);
+								if (i == myVar)
+								{
+									complite = 1;
+								}
+								else
+								{
+									complite = 0;
+								}
+							}
+						if (lineRAddAnd[i])
+							{
+								lineRAddAnd[i] = false;
+								removeChild(additLineRAnd[i]);
+								complite = 0;
+							}
+					}
+					for (i = 0; i < notTull.length; i++)
+					{
+						if (lineRAddNot[i])
+							{
+								lineRAddNot[i] = false;
+								removeChild(additLineRNot[i]);
+								complite3 = 0;
+							}
+					}
+					for (i = 0; i < orTull.length; i++)
+					{
+						if (lineLAddOr[i])
+							{
+								lineLAddOr[i] = false;
+								removeChild(additLineLOr[i]);
+								complite2 = 0;
+							}
+						if (lineRAddOr[i])
+							{
+								lineRAddOr[i] = false;
+								removeChild(additLineROr[i]);
+								complite2 = 0;
+							}
+					}
+					
+					if(!complite)
+					{
+						flag = 1;
+						myVar = k;
+						lineLAddAnd[k] = true;
+						setChildIndex(andLeft[k], numChildren - 1);
+						additLine.graphics.lineStyle(6, 0x00CCFF);
+						additLine.graphics.moveTo(andTull[k].x, andTull[k].y+5);
+						additLine.graphics.curveTo(andTull[k].x+20+(andLeft[k].x + 7-andTull[k].x)/2,andLeft[k].y - 23,andLeft[k].x + 7,andLeft[k].y - 3);
+						additLineLAnd[k] = additLine;
+						addChild(additLineLAnd[k]);
+						complite = 1;
+					}
+					else
+						complite = 0;
+				}
+				if (e.target == andLineR[k])
+				{
+					flag = 1;
+					myVar = k;
+					for (i = 0; i < andTull.length;i++)
+					{
+						if (lineRAddAnd[i])
+							{
+							lineRAddAnd[i] = false;
+							removeChild(additLineRAnd[i]);
+							if (i == myVar)
+							{
+								complite = 1;
+							}
+							else
+							{
+								complite = 0;
+							}
+						}
+						if (lineLAddAnd[i])
+							{
+								lineLAddAnd[i] = false;
+								removeChild(additLineLAnd[i]);
+								complite = 0;
+							}
+					}
+					for (i = 0; i < notTull.length; i++)
+					{
+						if (lineRAddNot[i])
+							{
+								lineRAddNot[i] = false;
+								removeChild(additLineRNot[i]);
+								complite3 = 0;
+							}
+					}
+					for (i = 0; i < orTull.length; i++)
+					{
+						if (lineLAddOr[i])
+							{
+								lineLAddOr[i] = false;
+								removeChild(additLineLOr[i]);
+								complite2 = 0;
+							}
+						if (lineRAddOr[i])
+							{
+								lineRAddOr[i] = false;
+								removeChild(additLineROr[i]);
+								complite2 = 0;
+							}
+					}
+					if(!complite)
+					{
+						flag = 1;
+						myVar = k;
+						lineRAddAnd[k] = true;
+						setChildIndex(andRight[k], numChildren - 1);
+						additLine.graphics.lineStyle(6, 0x00CCFF);
+						additLine.graphics.moveTo(andTull[k].x, andTull[k].y+25);
+						additLine.graphics.curveTo(andTull[k].x+20+(andRight[k].x + 7-andTull[k].x)/2,andRight[k].y + 17,andRight[k].x + 7,andRight[k].y - 3);
+						additLineRAnd[k] = additLine;
+						addChild(additLineRAnd[k]);
+						complite = 1;
+					}
+					else
+						complite = 0;
+				}
 			}			
 			
 		}
@@ -2046,40 +2278,123 @@ public function test_continius(e:Event):void
 		//===================================================
 		public function dragCircle(event:MouseEvent):void 
 		{ 
-			andAim[myVar].x = andTull[myVar].x + 50; 
-			andAim[myVar].y = andTull[myVar].y + 15;
-			andLineAim[myVar].x = andTull[myVar].x - 350;
-			andLineAim[myVar].y = andTull[myVar].y - 10;
-			wireL(event,myVar);
-			wireR(event,myVar);
-			event.updateAfterEvent(); 
+			var x1:int = andLeft[myVar].x;
+			var y1:int=andLeft[myVar].y;
+			var x2:int=andRight[myVar].x;
+			var y2:int = andRight[myVar].y;
+			if (myVar >= 0)
+			{
+				andAim[myVar].x = andTull[myVar].x + 50; 
+				andAim[myVar].y = andTull[myVar].y + 15;
+				andLineAim[myVar].x = andTull[myVar].x - 350;
+				andLineAim[myVar].y = andTull[myVar].y - 10;
+				andLeft[myVar].x = andTull[myVar].x - 20; 
+				andLeft[myVar].y = andTull[myVar].y -5;
+				andRight[myVar].x = andTull[myVar].x - 20; 
+				andRight[myVar].y = andTull[myVar].y + 30;
+				wireL(event,myVar);
+				wireR(event,myVar);
+				event.updateAfterEvent(); 
+			}
 
 		} 	
 		//====================================================
-		/*public function dragContactsAnd(event:MouseEvent):void 
+		public function dragContactsAnd(event:MouseEvent):void 
 		{
+			if (myVar >= 0)
+			{
 			andAim[myVar].x = andTull[myVar].x + 50; 
 			andAim[myVar].y = andTull[myVar].y + 15;
 			andLineAim[myVar].x = andTull[myVar].x - 350;
 			andLineAim[myVar].y = andTull[myVar].y - 10;
-			andLeft[myVar].x = andTull[myVar].x - 20; 
-			andLeft[myVar].y = andTull[myVar].y - 5;
-			andRight[myVar].x = andTull[myVar].x - 20; 
-			andRight[myVar].y = andTull[myVar].y + 30;
+			if (!leftAndHit[myVar])
+			{
+				andLeft[myVar].x = andTull[myVar].x - 20; 
+				andLeft[myVar].y = andTull[myVar].y - 5;
+			}
+			
+			if (!rightAndHit[myVar])
+			{
+				andRight[myVar].x = andTull[myVar].x - 20; 
+				andRight[myVar].y = andTull[myVar].y + 30;
+			}
+			//if (leftAndHit[myVar] && rightAndHit[myVar])
+			
 			wireL(event,myVar);
 			wireR(event,myVar);
-			event.updateAfterEvent(); 		
-		}*/
+			event.updateAfterEvent(); 
+			}
+		}
+		//===================================================
+		public function dragConnect(event:MouseEvent):void
+		{
+			moveconnect(event, myVar, andAim);
+		}
+		//=====================================================
+		public function dragConnectOr(event:MouseEvent):void
+		{
+			moveconnect(event, myVar2, orAim);
+		}
+		//======================================================
+		public function dragConnectNot(event:MouseEvent):void
+		{
+			moveconnect(event, myVar3, notAim);
+		}
+		//===================================================
+		public function moveconnect(e:MouseEvent,n:int, aim:Array):void
+		{
+			var flag:int = 1;
+			for (var i:int = 0; i < andTull.length&&flag; i++)
+			{
+				if (andLeft[i].hitTestObject(aim[n]))
+				{
+					andLeft[i].x = aim[n].x;
+					andLeft[i].y = aim[n].y;
+					flag = 0;
+				}
+				if (andRight[i].hitTestObject(aim[n]))
+				{
+					andRight[i].x = aim[n].x;
+					andRight[i].y = aim[n].y;
+					flag = 0;
+				}
+			}
+			for (i = 0; i < orTull.length&&flag; i++)
+			{
+				if (orLeft[i].hitTestObject(aim[n]))
+				{
+					orLeft[i].x = aim[n].x;
+					orLeft[i].y = aim[n].y;
+					flag = 0;
+				}
+				if (orRight[i].hitTestObject(aim[n]))
+				{
+					orRight[i].x = aim[n].x;
+					orRight[i].y = aim[n].y;
+					flag = 0;
+				}
+			}
+			for (i = 0; i < notTull.length&&flag; i++)
+			{
+				if (notRight[i].hitTestObject(aim[n]))
+				{
+					notRight[i].x = aim[n].x;
+					notRight[i].y = aim[n].y;
+					flag = 0;
+				}
+			}
+			e.updateAfterEvent(); 
+		}
 		//===================================================
 		public function up(e:Event):void
 		{
 			var flag:int = 0;
 			var k:int = 0;
 			var vs:Sprite = new Sprite();//вспомогательная переменная
+			var vs2:Boolean;
 			if (e.target == andLeft[myVar])
 				{
 					andLeft[myVar].stopDrag();
-					stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
 					for (k = 0; k < 9; k++)
 					{
 						if (andLeft[myVar].hitTestObject(circle_lamp_Green[k]))
@@ -2154,6 +2469,13 @@ public function test_continius(e:Event):void
 				{
 					andTull[myVar].stopDrag();
 					stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
+					removeEventListener(MouseEvent.MOUSE_MOVE, dragConnect);
+					if(leftAndHit[k])
+						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsAnd);
+					if (rightAndHit[k])
+						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsAnd);
+					if(!leftAndHit[k]&&!rightAndHit[k])
+						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
 				}
 			
 			if (myVar >= 0)// дополнительная проверка, так как при добавлении кнопки срабатывает функция up,
@@ -2168,6 +2490,10 @@ public function test_continius(e:Event):void
 						removeChild(andLineAim[myVar]);
 						removeChild(andLineL[myVar]);
 						removeChild(andLineR[myVar]);
+						if (lineLAddAnd[myVar])
+							removeChild(additLineLAnd[myVar]);
+						if (lineRAddAnd[myVar])
+							removeChild(additLineRAnd[myVar]);
 						flag = 1;
 					}
 				if (flag)
@@ -2201,6 +2527,55 @@ public function test_continius(e:Event):void
 					andLineR[myVar] = andLineR[andLineR.length - 1];
 					andLineR[andLineR.length - 1] = vs;
 					
+					vs2 = andLeftResult[myVar];
+					andLeftResult[myVar] = andLeftResult[andLeftResult.length - 1];
+					andLeftResult[andLeftResult.length - 1] = vs2;
+					
+					vs2 = andRightResult[myVar];
+					andRightResult[myVar] = andRightResult[andRightResult.length - 1];
+					andRightResult[andRightResult.length - 1] = vs2;
+					
+					vs2 = leftAndHit[myVar];
+					leftAndHit[myVar] = leftAndHit[leftAndHit.length - 1];
+					leftAndHit[leftAndHit.length - 1] = vs2;
+					
+					vs2 = rightAndHit[myVar];
+					rightAndHit[myVar] = rightAndHit[rightAndHit.length - 1];
+					rightAndHit[rightAndHit.length - 1] = vs2;
+					
+					//if ( lineLAddAnd[myVar])
+					//{
+						vs = additLineLAnd[myVar];
+						additLineLAnd[myVar] = additLineLAnd[additLineLAnd.length - 1];
+						additLineLAnd[additLineLAnd.length - 1] = vs;
+						additLineLAnd.pop();
+					//	trace(1);
+					//}
+					//if ( lineLAddAnd[myVar])
+					//{
+						vs2 = lineLAddAnd[myVar];
+						lineLAddAnd[myVar] = lineLAddAnd[lineLAddAnd.length - 1];
+						lineLAddAnd[lineLAddAnd.length - 1] = vs2;
+						lineLAddAnd.pop();
+					//	trace(2);
+					//}
+					
+					//if ( lineRAddAnd[myVar])
+					//{
+						vs = additLineRAnd[myVar];
+						additLineRAnd[myVar] = additLineRAnd[additLineRAnd.length - 1];
+						additLineRAnd[additLineRAnd.length - 1] = vs;
+						additLineRAnd.pop();
+					//}
+					//if ( lineRAddAnd[myVar])
+					//{
+						vs2 = lineRAddAnd[myVar];
+						lineRAddAnd[myVar] = lineRAddAnd[lineRAddAnd.length - 1];
+						lineRAddAnd[lineRAddAnd.length - 1] = vs2;
+						lineRAddAnd.pop();
+					//}
+					
+					
 					andTull.pop();
 					andAim.pop();
 					andLeft.pop();
@@ -2208,6 +2583,11 @@ public function test_continius(e:Event):void
 					andLineAim.pop();
 					andLineL.pop();
 					andLineR.pop();
+					andLeftResult.pop();
+					andRightResult.pop();
+					rightAndHit.pop();
+					leftAndHit.pop();
+					
 					myVar--;
 					NumberBlokcs--;
 					numAnd--;
@@ -2218,37 +2598,81 @@ public function test_continius(e:Event):void
 		public function controllaContatto(e:Event):void
 		{
 			var flag:int = 1;
+			var unit1:int = 1; var unit1b:int = 1;
+			var unit2:int = 1; var unit2b:int = 1;
+			var unit3:int = 1; var unit3b:int = 1;
+			var unit4:int = 1; var unit4b:int = 1;
 			for (var i:int = 0; i < andRight.length; i++)
 			{
 				for (var k:int = 0; k < 9;k++)
 					{
 						if(andRight[i].hitTestObject(circle_lamp_Green[k]))
-							andRightResult[i] = circle_lamp_Green[k].visible;
+							{
+								unit1 = 0;
+								rightAndHit[i] = true;
+								andRightResult[i] = circle_lamp_Green[k].visible;
+							}
 						if(andLeft[i].hitTestObject(circle_lamp_Green[k]))
-							andLeftResult[i] = circle_lamp_Green[k].visible;
+							{
+								unit1b = 0;
+								leftAndHit[i] = true;
+								andLeftResult[i] = circle_lamp_Green[k].visible;
+							}
 					}
 				for (k = 0; k < andTull.length; k++)
 					{
 						if (andRight[i].hitTestObject(andAim[k]))
-							andRightResult[i] = andAimResult[k];
+							{
+								unit2 = 0;
+								rightAndHit[i] = true;
+								andRightResult[i] = andAimResult[k];
+							}
 						if (andLeft[i].hitTestObject(andAim[k]))
-							andLeftResult[i] = andAimResult[k];
+							{
+								unit2b = 0;
+								leftAndHit[i] = true;
+								andLeftResult[i] = andAimResult[k];
+							}
 					}
 				for (k = 0; k < orTull.length;k++)
 					{
 						if (andRight[i].hitTestObject(orAim[k]))
-							andRightResult[i] = orAimResult[k];
+							{
+								unit3 = 0;
+								rightAndHit[i] = true;
+								andRightResult[i] = orAimResult[k];
+							}
 						if (andLeft[i].hitTestObject(orAim[k]))
-							andLeftResult[i] = orAimResult[k];
+							{
+								unit3b = 0;
+								leftAndHit[i] = true;
+								andLeftResult[i] = orAimResult[k];
+							}
 					}
 				for (k = 0; k < notTull.length; k++)
 				{
 					if (andRight[i].hitTestObject(notAim[k]))
-							andRightResult[i] = notAimResult[k];
+							{
+								unit4 = 0;
+								rightAndHit[myVar] = true;
+								andRightResult[i] = notAimResult[k];
+							}
 					if (andLeft[i].hitTestObject(notAim[k]))
-							andLeftResult[i] = notAimResult[k];
+							{
+								unit4b = 0;
+								leftAndHit[myVar] = true;
+								andLeftResult[i] = notAimResult[k];
+							}
 				}						
 				andAimResult[i] = andLeftResult[i] && andRightResult[i];
+				if (unit1 && unit2 && unit3 && unit4)
+					{
+						rightAndHit[i] = false;
+					}
+				if (unit1b && unit2b && unit3b && unit4b)
+					{
+						leftAndHit[i] = false;
+					}
 			}
 			/*for (i = 0; i < 10; i++)
 			{
@@ -2312,13 +2736,23 @@ public function test_continius(e:Event):void
 		{   
 			removeChild(orLineR[n]);
 			var line:Sprite = new Sprite();
+			var additLine:Sprite = new Sprite();
 			if (orRightResult[n] == true)
 				{
-					line.graphics.lineStyle(1, 0xFF0000);
+					line.graphics.lineStyle(3, 0xFF0000);
 				}
 			else
 				{
-					line.graphics.lineStyle(1, 0x0000CC);
+					line.graphics.lineStyle(3, 0x0000CC);
+				}
+			if (lineRAddOr[n])
+				{
+					removeChild(additLineROr[n]);
+					additLine.graphics.lineStyle(6, 0x00CCFF);
+					additLine.graphics.moveTo(orTull[n].x, orTull[n].y+25);
+					additLine.graphics.curveTo(orTull[n].x+20+(orRight[n].x + 7-orTull[n].x)/2,orRight[n].y + 17,orRight[n].x + 7,orRight[n].y - 3);
+					additLineROr[n] = additLine;
+					addChild(additLineROr[n]);
 				}
 			line.graphics.moveTo(orTull[n].x, orTull[n].y+25);
 			line.graphics.curveTo(orTull[n].x+20+(orRight[n].x + 7-orTull[n].x)/2,orRight[n].y + 17,orRight[n].x + 7,orRight[n].y - 3);
@@ -2330,13 +2764,23 @@ public function test_continius(e:Event):void
 		{   
 			removeChild(orLineL[n]);
 			var line:Sprite = new Sprite();
+			var additLine:Sprite = new Sprite();
 			if (orLeftResult[n] == true)
 				{
-					line.graphics.lineStyle(1, 0xFF0000);
+					line.graphics.lineStyle(3, 0xFF0000);
 				}
 			else
 				{
-					line.graphics.lineStyle(1, 0x0000CC);
+					line.graphics.lineStyle(3, 0x0000CC);
+				}
+			if (lineLAddOr[n])
+				{
+					removeChild(additLineLOr[n]);
+					additLine.graphics.lineStyle(6, 0x00CCFF);
+					additLine.graphics.moveTo(orTull[n].x, orTull[n].y+5);
+					additLine.graphics.curveTo(orTull[n].x+20+(orLeft[n].x + 7-orTull[n].x)/2,orLeft[n].y - 23,orLeft[n].x + 7,orLeft[n].y - 3);
+					additLineLOr[n] = additLine;
+					addChild(additLineLOr[n]);
 				}
 			line.graphics.moveTo(orTull[n].x, orTull[n].y+5);
 			line.graphics.curveTo(orTull[n].x+20+(orLeft[n].x + 7-orTull[n].x)/2,orLeft[n].y - 23,orLeft[n].x + 7,orLeft[n].y - 3);
@@ -2357,6 +2801,7 @@ public function test_continius(e:Event):void
 		{
 			var flag : int = 0 ;
 			var k: int = 0;
+			var additLine:Sprite = new Sprite();
 			for (k = 0;k < 30 && flag==0; k++)
 			{
 				if(orTull[k]==e.target)
@@ -2365,7 +2810,13 @@ public function test_continius(e:Event):void
 					flag = 1;
 					setChildIndex(orTull[k], numChildren - 1);
 					orTull[k].startDrag();
-					stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCircleor); 
+					addEventListener(MouseEvent.MOUSE_MOVE, dragConnectOr);
+					if(leftOrHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragContactsOr);
+					if (rightOrHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragContactsOr);
+					if(!leftOrHit[k]&&!rightOrHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCircleor);
 				}
 				if (orRight[k]==e.target )
 				{
@@ -2380,7 +2831,141 @@ public function test_continius(e:Event):void
 					myVar2 = k;
 					setChildIndex(orLeft[k], numChildren - 1);
 					orLeft[k].startDrag();
-				}				
+				}	
+				if (e.target == orLineL[k])
+				{
+					flag = 1;
+					myVar2 = k;
+					for (var i:int = 0; i < orTull.length;i++)
+					{
+						if (lineLAddOr[i])
+							{
+								lineLAddOr[i] = false;
+								removeChild(additLineLOr[i]);
+								if (i == myVar2)
+								{
+									complite2 = 1;
+								}
+								else
+								{
+									complite2 = 0;
+								}
+							}
+						if (lineRAddOr[i])
+							{
+								lineRAddOr[i] = false;
+								removeChild(additLineROr[i]);
+								complite2 = 0;
+							}
+					}
+					for (i = 0; i < notTull.length; i++)
+					{
+						if (lineRAddNot[i])
+							{
+								lineRAddNot[i] = false;
+								removeChild(additLineRNot[i]);
+								complite3 = 0;
+							}
+					}
+					for (i = 0; i < andTull.length; i++)
+					{
+						if (lineLAddAnd[i])
+							{
+								lineLAddAnd[i] = false;
+								removeChild(additLineLAnd[i]);
+								complite = 0;
+							}
+						if (lineRAddAnd[i])
+							{
+								lineRAddAnd[i] = false;
+								removeChild(additLineRAnd[i]);
+								complite = 0;
+							}
+					}
+					
+					if(!complite2)
+					{
+						flag = 1;
+						myVar2 = k;
+						lineLAddOr[k] = true;
+						setChildIndex(orLeft[k], numChildren - 1);
+						additLine.graphics.lineStyle(6, 0x00CCFF);
+						additLine.graphics.moveTo(orTull[k].x, orTull[k].y+25);
+						additLine.graphics.curveTo(orTull[k].x+20+(orLeft[k].x + 7-orTull[k].x)/2,orLeft[k].y + 17,orLeft[k].x + 7,orLeft[k].y - 3);
+						additLineLOr[k] = additLine;
+						addChild(additLineLOr[k]);
+						complite2 = 1;
+					}
+					else
+						complite2 = 0;
+				}
+				if (e.target == orLineR[k])
+				{
+					flag = 1;
+					myVar2 = k;
+					for (i = 0; i < orTull.length;i++)
+					{
+						if (lineRAddOr[i])
+							{
+								lineRAddOr[i] = false;
+								removeChild(additLineROr[i]);
+								if (i == myVar2)
+								{
+									complite2 = 1;
+								}
+								else
+								{
+									complite2 = 0;
+								}
+							}
+						if (lineLAddOr[i])
+							{
+								lineLAddOr[i] = false;
+								removeChild(additLineLOr[i]);
+								complite2 = 0;
+							}
+					}
+					for (i = 0; i < notTull.length; i++)
+					{
+						if (lineRAddNot[i])
+							{
+								lineRAddNot[i] = false;
+								removeChild(additLineRNot[i]);
+								complite3 = 0;
+							}
+					}
+					for (i = 0; i < andTull.length; i++)
+					{
+						if (lineLAddAnd[i])
+							{
+								lineLAddAnd[i] = false;
+								removeChild(additLineLAnd[i]);
+								complite = 0;
+							}
+						if (lineRAddAnd[i])
+							{
+								lineRAddAnd[i] = false;
+								removeChild(additLineRAnd[i]);
+								complite = 0;
+							}
+					}
+					
+					if(!complite2)
+					{
+						flag = 1;
+						myVar2 = k;
+						lineRAddOr[k] = true;
+						setChildIndex(orRight[k], numChildren - 1);
+						additLine.graphics.lineStyle(6, 0x00CCFF);
+						additLine.graphics.moveTo(orTull[k].x, orTull[k].y+25);
+						additLine.graphics.curveTo(orTull[k].x+20+(orRight[k].x + 7-orTull[k].x)/2,orRight[k].y + 17,orRight[k].x + 7,orRight[k].y - 3);
+						additLineROr[k] = additLine;
+						addChild(additLineROr[k]);
+						complite2 = 1;
+					}
+					else
+						complite2 = 0;
+				}
 
 			}			
 			
@@ -2388,7 +2973,35 @@ public function test_continius(e:Event):void
 		//===================================================
 		public function dragCircleor(event:MouseEvent):void 
 		{ 
+			if (myVar2 >= 0)
+			{
+				orLeft[myVar2].x = orTull[myVar2].x -20; 
+				orLeft[myVar2].y = orTull[myVar2].y -5;
+				orRight[myVar2].x = orTull[myVar2].x - 20; 
+				orRight[myVar2].y = orTull[myVar2].y +30;
+				orAim[myVar2].x = orTull[myVar2].x + 50; 
+				orAim[myVar2].y = orTull[myVar2].y +15;
+				orLineAim[myVar2].x = orTull[myVar2].x - 350;
+				orLineAim[myVar2].y = orTull[myVar2].y - 10;
+				wireLor(event,myVar2);
+				wireRor(event,myVar2);
+				event.updateAfterEvent(); 
+			}
+		} 
+		//====================================================
+		public function dragContactsOr(event:MouseEvent):void 
+		{ 
 
+			if (!leftOrHit[myVar2])
+			{
+				orLeft[myVar2].x = orTull[myVar2].x -20; 
+				orLeft[myVar2].y = orTull[myVar2].y -5;
+			}
+			if (!rightOrHit[myVar2])
+			{
+				orRight[myVar2].x = orTull[myVar2].x - 20; 
+				orRight[myVar2].y = orTull[myVar2].y +30;
+			}
 			orAim[myVar2].x = orTull[myVar2].x + 50; 
 			orAim[myVar2].y = orTull[myVar2].y +15;
 			orLineAim[myVar2].x = orTull[myVar2].x - 350;
@@ -2397,28 +3010,13 @@ public function test_continius(e:Event):void
 			wireRor(event,myVar2);
 			event.updateAfterEvent(); 
 		} 
-		//====================================================
-		/*public function dragContactsOr(event:MouseEvent):void 
-		{ 
-
-			orLeft[myVar2].x = orTull[myVar2].x -20; 
-			orLeft[myVar2].y = orTull[myVar2].y -5;
-			orRight[myVar2].x = orTull[myVar2].x - 20; 
-			orRight[myVar2].y = orTull[myVar2].y +30;
-			orAim[myVar2].x = orTull[myVar2].x + 50; 
-			orAim[myVar2].y = orTull[myVar2].y +15;
-			orLineAim[myVar2].x = orTull[myVar2].x - 350;
-			orLineAim[myVar2].y = orTull[myVar2].y - 10;
-			wireLor(event,myVar2);
-			wireRor(event,myVar2);
-			event.updateAfterEvent(); 
-		} */
 		//===================================================
 		public function upor(e:Event):void
 		{
 			var flag:int = 0;
 			var k:int = 0;
 			var vs2:Sprite = new Sprite();
+			var vs:Boolean;
 			if (e.target == orLeft[myVar2])
 				{
 					orLeft[myVar2].stopDrag();
@@ -2494,7 +3092,14 @@ public function test_continius(e:Event):void
 				if(e.target==orTull[myVar2])
 				{
 					orTull[myVar2].stopDrag();
-					stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircleor);
+					removeEventListener(MouseEvent.MOUSE_MOVE, dragConnectOr);
+					if(leftOrHit[k])
+						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsOr);
+					if (rightOrHit[k])
+						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsOr);
+					if(!leftOrHit[k]&&!rightOrHit[k])
+						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircleor);
+					
 				}
 			//stage.removeEventListener(MouseEvent.MOUSE_MOVE, distanceOr); 
 			if (myVar2 >= 0)
@@ -2509,6 +3114,10 @@ public function test_continius(e:Event):void
 						removeChild(orLineAim[myVar2]);
 						removeChild(orLineR[myVar2]);
 						removeChild(orLineL[myVar2]);
+						if (lineLAddOr[myVar2])
+							removeChild(additLineLOr[myVar2]);
+						if (lineRAddOr[myVar2])
+							removeChild(additLineROr[myVar2]);
 						flag = 1;
 						
 					}
@@ -2542,7 +3151,36 @@ public function test_continius(e:Event):void
 					vs2 = orLineL[myVar2];
 					orLineL[myVar2] = orLineL[orLineL.length - 1];
 					orLineL[orLineL.length - 1] = vs2;
-								
+					
+					vs = orLeftResult[myVar2];
+					orLeftResult[myVar2] = orLeftResult[orLeftResult.length - 1];
+					orLeftResult[orLeftResult.length - 1] = vs;
+					
+					vs = orRightResult[myVar2];
+					orRightResult[myVar2] = orRightResult[orRightResult.length - 1];
+					orRightResult[orRightResult.length - 1] = vs;
+					
+					vs2 = additLineROr[myVar2];
+					additLineROr[myVar2] = additLineROr[additLineROr.length - 1];
+					additLineROr[additLineROr.length - 1] = vs2;
+					additLineROr.pop();
+					
+					vs = lineRAddOr[myVar2];
+					lineRAddOr[myVar2] = lineRAddOr[lineRAddOr.length - 1];
+					lineRAddOr[lineRAddOr.length - 1] = vs;
+					lineRAddOr.pop();
+					
+					vs2 = additLineLOr[myVar2];
+					additLineLOr[myVar2] = additLineLOr[additLineLOr.length - 1];
+					additLineLOr[additLineLOr.length - 1] = vs2;
+					additLineLOr.pop();
+					
+					vs = lineLAddOr[myVar2];
+					lineLAddOr[myVar2] = lineLAddOr[lineLAddOr.length - 1];
+					lineLAddOr[lineLAddOr.length - 1] = vs;
+					lineLAddOr.pop();
+					
+					
 					orTull.pop();
 					orAim.pop();
 					orLeft.pop();
@@ -2550,6 +3188,8 @@ public function test_continius(e:Event):void
 					orLineAim.pop()
 					orLineL.pop();
 					orLineR.pop();
+					orLeftResult.pop();
+					orRightResult.pop();
 					myVar2--;
 					NumberBlokcs--;
 					numOr--;
@@ -2560,38 +3200,82 @@ public function test_continius(e:Event):void
 		public function controllaContattoor(e:Event):void
 		{
 			var flag:int = 1;
+			var unit1:int = 1; var unit1b:int = 1;
+			var unit2:int = 1; var unit2b:int = 1;
+			var unit3:int = 1; var unit3b:int = 1;
+			var unit4:int = 1; var unit4b:int = 1;
 			for (var i:int = 0; i < orRight.length; i++)
 			{
 				for (var k:int = 0; k < 9;k++)
 					{
-						if(orRight[i].hitTestObject(circle_lamp_Green[k]))
+						if (orRight[i].hitTestObject(circle_lamp_Green[k]))
+						{
 							orRightResult[i] = circle_lamp_Green[k].visible;
+							unit1 = 0;
+							rightOrHit[i] = true;
+						}
 						if(orLeft[i].hitTestObject(circle_lamp_Green[k]))
-							orLeftResult[i] = circle_lamp_Green[k].visible;
+							{
+								unit1b = 0;
+								leftOrHit[i] = true;
+								orLeftResult[i] = circle_lamp_Green[k].visible;
+							}
 					}
 				for (k = 0; k < orTull.length; k++)
 					{
 						if (orRight[i].hitTestObject(orAim[k]))
-							orRightResult[i] = orAimResult[k];
+							{
+								unit2 = 0;
+								rightOrHit[i] = true;
+								orRightResult[i] = orAimResult[k];
+							}
 						if (orLeft[i].hitTestObject(orAim[k]))
-							orLeftResult[i] = orAimResult[k];
+							{
+								unit2b = 0;
+								leftOrHit[i] = true;
+								orLeftResult[i] = orAimResult[k];
+							}
 					}
 				for (k = 0; k < andTull.length;k++)
 					{
 						if (orRight[i].hitTestObject(andAim[k]))
-							orRightResult[i] = andAimResult[k];
+							{
+								unit3 = 0;
+								rightOrHit[i] = true;
+								orRightResult[i] = andAimResult[k];
+							}
 						if (orLeft[i].hitTestObject(andAim[k]))
-							orLeftResult[i] = andAimResult[k];
+							{
+								unit3b = 0;
+								leftOrHit[i] = true;
+								orLeftResult[i] = andAimResult[k];
+							}
 					}
 				for (k = 0; k < notTull.length; k++)
-				{
-					if (orRight[i].hitTestObject(notAim[k]))
-							orRightResult[i] = notAimResult[k];
-					if (orLeft[i].hitTestObject(notAim[k]))
-							orLeftResult[i] = notAimResult[k];
-				}
-					
+					{
+						if (orRight[i].hitTestObject(notAim[k]))
+							{
+								unit4 = 0;
+								rightOrHit[i] = true;
+								orRightResult[i] = notAimResult[k];
+							}
+						if (orLeft[i].hitTestObject(notAim[k]))
+							{
+								unit4b = 0;
+								leftOrHit[i] = true;
+								orLeftResult[i] = notAimResult[k];
+							}
+					}
+				
 				orAimResult[i] = orLeftResult[i] || orRightResult[i];
+				if (unit1 && unit2 && unit3 && unit4)
+					{
+						rightOrHit[i] = false;
+					}
+				if (unit1b && unit2b && unit3b && unit4b)
+					{
+						leftOrHit[i] = false;
+					}
 			}
 			/*for (i = 0; i < 10; i++)
 				{
@@ -2649,13 +3333,23 @@ public function test_continius(e:Event):void
 		{
 			removeChild(notLineR[n]);
 			var line:Sprite = new Sprite();
+			var additLine:Sprite = new Sprite();
 			if (notRightResult[n] == true)
 				{
-					line.graphics.lineStyle(1, 0xFF0000);
+					line.graphics.lineStyle(3, 0xFF0000);
 				}
 			else
 				{
-					line.graphics.lineStyle(1, 0x0000CC);
+					line.graphics.lineStyle(3, 0x0000CC);
+				}
+			if (lineRAddNot[n])
+				{
+					removeChild(additLineRNot[n]);
+					additLine.graphics.lineStyle(6, 0x00CCFF);
+					additLine.graphics.moveTo(notTull[n].x, notTull[n].y+15);
+					additLine.graphics.curveTo(notTull[n].x+20+(notRight[n].x -notTull[n].x)/2,notRight[n].y - 35,notRight[n].x + 7,notRight[n].y - 3);
+					additLineRNot[n] = additLine;
+					addChild(additLineRNot[n]);
 				}
 			line.graphics.moveTo(notTull[n].x, notTull[n].y+15);
 			line.graphics.curveTo(notTull[n].x+20+(notRight[n].x -notTull[n].x)/2,notRight[n].y - 35,notRight[n].x + 7,notRight[n].y - 3);
@@ -2667,6 +3361,7 @@ public function test_continius(e:Event):void
 		{
 			var flag : int = 0 ;
 			var k: int = 0;
+			var additLine:Sprite = new Sprite();
 			for (k = 0;k < 30 && flag==0; k++)
 			{
 				if(notTull[k]==e.target)
@@ -2675,7 +3370,11 @@ public function test_continius(e:Event):void
 					flag = 1;
 					setChildIndex(notTull[k], numChildren - 1);
 					notTull[k].startDrag();
-					stage.addEventListener(MouseEvent.MOUSE_MOVE,dragCirclenot); 	
+					addEventListener(MouseEvent.MOUSE_MOVE, dragConnectNot);
+					if (rightNotHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragContactsNot);
+					if(!rightNotHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCirclenot);	
 				}
 				if (notRight[k]==e.target )
 				{
@@ -2683,23 +3382,89 @@ public function test_continius(e:Event):void
 					myVar3 = k;
 					setChildIndex(notRight[k], numChildren - 1);
 					notRight[k].startDrag();
-				}		
-				
-			}			
-			
+				}	
+				if (e.target == notLineR[k])
+				{
+					flag = 1;
+					myVar3 = k;
+					for (var i:int = 0; i < notTull.length;i++)
+					{
+						if (lineRAddNot[i])
+						{
+							lineRAddNot[i] = false;
+							removeChild(additLineRNot[i]);
+							if (i == myVar3)
+							{
+								complite3 = 1;
+							}
+							else
+							{
+								complite3 = 0;
+							}
+						}
+					}
+					for (i = 0; i < orTull.length; i++)
+					{
+						if (lineLAddOr[i])
+							{
+								lineLAddOr[i] = false;
+								removeChild(additLineLOr[i]);
+								complite2 = 0;
+							}
+						if (lineRAddOr[i])
+							{
+								lineRAddOr[i] = false;
+								removeChild(additLineROr[i]);
+								complite2 = 0;
+							}
+					}
+					for (i = 0; i < andTull.length; i++)
+					{
+						if (lineLAddAnd[i])
+							{
+								lineLAddAnd[i] = false;
+								removeChild(additLineLAnd[i]);
+								complite = 0;
+							}
+						if (lineRAddAnd[i])
+							{
+								lineRAddAnd[i] = false;
+								removeChild(additLineRAnd[i]);
+								complite = 0;
+							}
+					}
+					if(!complite3)
+					{
+						flag = 1;
+						myVar3 = k;
+						lineRAddNot[k] = true;
+						setChildIndex(notRight[k], numChildren - 1);
+						additLine.graphics.lineStyle(6, 0x00CCFF);
+						additLine.graphics.moveTo(notTull[k].x, notTull[k].y+15);
+						additLine.graphics.curveTo(notTull[k].x+20+(notRight[k].x -notTull[k].x)/2,notRight[k].y - 35,notRight[k].x + 7,notRight[k].y - 3);
+						additLineRNot[k] = additLine;
+						addChild(additLineRNot[k]);
+						complite3 = 1;
+					}
+					else
+						complite3 = 0;
+				}
+			}
 		}
 		//===================================================
 		public function dragCirclenot(event:MouseEvent):void 
 		{ 
-			//notRight[myVar3].x = notTull[myVar3].x - 20; 
-			//notRight[myVar3].y = notTull[myVar3].y + 15;
-			notAim[myVar3].x = notTull[myVar3].x +50; 
-			notAim[myVar3].y = notTull[myVar3].y + 15;
-			notLineAim[myVar3].x = notTull[myVar3].x - 350;
-			notLineAim[myVar3].y = notTull[myVar3].y - 10;
-			wireNot(event,myVar3);
-			event.updateAfterEvent(); 
-
+			if (myVar3 >= 0)
+			{
+				notAim[myVar3].x = notTull[myVar3].x +50; 
+				notAim[myVar3].y = notTull[myVar3].y + 15;
+				notLineAim[myVar3].x = notTull[myVar3].x - 350;
+				notLineAim[myVar3].y = notTull[myVar3].y - 10;
+				notRight[myVar3].x = notTull[myVar3].x - 20; 
+				notRight[myVar3].y = notTull[myVar3].y + 15;
+				wireNot(event,myVar3);
+				event.updateAfterEvent(); 
+			}
 		} 
 		//===================================================
 		public function controlWireNot(e:Event):void
@@ -2712,8 +3477,11 @@ public function test_continius(e:Event):void
 		//=====================================================
 		public function dragContactsNot(event:MouseEvent):void 
 		{ 
-			notRight[myVar3].x = notTull[myVar3].x - 20; 
-			notRight[myVar3].y = notTull[myVar3].y + 15;
+			if (!rightNotHit[myVar3])
+			{
+				notRight[myVar3].x = notTull[myVar3].x - 20; 
+				notRight[myVar3].y = notTull[myVar3].y + 15;
+			}
 			notAim[myVar3].x = notTull[myVar3].x +50; 
 			notAim[myVar3].y = notTull[myVar3].y + 15;
 			notLineAim[myVar3].x = notTull[myVar3].x - 350;
@@ -2727,11 +3495,10 @@ public function test_continius(e:Event):void
 			var flag:int = 0;
 			var k:int = 0;
 			var vs2:Sprite = new Sprite();
+			var vs:Boolean;
 			if (e.target == notRight[myVar3])
 			{
 				notRight[myVar3].stopDrag();
-				//removeEventListener(Event.ENTER_FRAME, wireNot);
-				//wireNot(e);
 				for (k = 0; k < 9; k++)
 					{
 						if (notRight[myVar3].hitTestObject(circle_lamp_Green[k]))
@@ -2772,7 +3539,11 @@ public function test_continius(e:Event):void
 			if(e.target==notTull[myVar3])
 			{
 				notTull[myVar3].stopDrag();
-				stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCirclenot); 
+				removeEventListener(MouseEvent.MOUSE_MOVE, dragConnectNot);
+				if (rightNotHit[k])
+						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsNot);
+					if(!rightNotHit[k])
+						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCirclenot);	
 			}
 			//stage.removeEventListener(MouseEvent.MOUSE_MOVE, distanceNot); 
 			if (myVar3 >= 0)
@@ -2785,6 +3556,8 @@ public function test_continius(e:Event):void
 						removeChild(notAim[myVar3]);
 						removeChild(notTull[myVar3]);
 						removeChild(notLineR[myVar3]);
+						if (lineRAddNot[myVar3])
+							removeChild(additLineRNot[myVar3]);
 						flag = 1;
 						
 					}
@@ -2811,11 +3584,27 @@ public function test_continius(e:Event):void
 					notLineR[myVar3] = notLineR[notLineR.length - 1];
 					notLineR[notLineR.length - 1] = vs2;
 					
+					vs = notRightResult[myVar3];
+					notRightResult[myVar3] = notRightResult[notRightResult.length - 1];
+					notRightResult[notRightResult.length - 1] = vs;
+					
+					vs2 = additLineRNot[myVar3];
+					additLineRNot[myVar3] = additLineRNot[additLineRNot.length - 1];
+					additLineRNot[additLineRNot.length - 1] = vs2;
+					additLineRNot.pop();
+					
+					vs = lineRAddNot[myVar3];
+					lineRAddNot[myVar3] = lineRAddNot[lineRAddNot.length - 1];
+					lineRAddNot[lineRAddNot.length - 1] = vs;
+					lineRAddNot.pop();
+					
+					
 					notTull.pop();
 					notAim.pop();
 					notRight.pop();
 					notLineR.pop();
 					notLineAim.pop();
+					notRightResult.pop();
 					myVar3--;
 					NumberBlokcs--;
 					numNot--;
@@ -2826,30 +3615,55 @@ public function test_continius(e:Event):void
 		public function controllaContattonot(e:Event):void
 		{
 			var flag:int = 1;
+			var unit1:int = 1;
+			var unit2:int = 1;
+			var unit3:int = 1;
+			var unit4:int = 1;
+
 			for (var i:int = 0; i < notRight.length; i++)
 			{
 				for (var k:int = 0; k < 9;k++)
 					{
 						if(notRight[i].hitTestObject(circle_lamp_Green[k]))
-							notRightResult[i] = circle_lamp_Green[k].visible;
+							{
+								unit1 = 0;
+								rightNotHit[i] = true;
+								notRightResult[i] = circle_lamp_Green[k].visible;
+							}
 					}
 				for (k = 0; k < andTull.length; k++)
 					{
 						if (notRight[i].hitTestObject(andAim[k]))
-							notRightResult[i] = andAimResult[k];
+							{
+								unit2 = 0;
+								rightNotHit[i] = true;
+								notRightResult[i] = andAimResult[k];
+							}
 					}
 				for (k = 0; k < orTull.length;k++)
 					{
 						if (notRight[i].hitTestObject(orAim[k]))
-							notRightResult[i] = orAimResult[k];
+							{
+								unit3 = 0;
+								rightNotHit[i] = true;
+								notRightResult[i] = orAimResult[k];
+							}
 					}
 				for (k = 0; k < notTull.length; k++)
 				{
 					if (notRight[i].hitTestObject(notAim[k]))
-							notRightResult[i] = notAimResult[k];
+							{
+								unit4 = 0;
+								rightNotHit[i] = true;
+								notRightResult[i] = notAimResult[k];
+							}
 				}
+				
 				notAimResult[i] = !notRightResult[i];
+				if (unit1 && unit2 && unit3 && unit4)
+					rightNotHit[i] = false;
 			}
+			
 			/*for (i = 0; i < 10; i++)
 				{
 					for (k = 0; k < notTull.length&&flag; k++)
