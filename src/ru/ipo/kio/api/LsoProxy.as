@@ -100,5 +100,16 @@ public class LsoProxy {
 
         return gd.anketa;
     }
+
+    public function get data():Object {
+        return _data;
+    }
+
+    public function set data(data:Object):void {
+        //TODO select better record. Should store record together with the checker results
+        for (var key:String in data)
+            _data[key] = data[key];
+        flush();
+    }
 }
 }

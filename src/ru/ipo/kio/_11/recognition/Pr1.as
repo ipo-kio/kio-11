@@ -107,7 +107,10 @@ package ru.ipo.kio._11.recognition {
 		public function compare(solution1:Object, solution2:Object):int {
 			return 1;
 		}
-		
-	}
+
+        public function get icon():Class {
+            return null;
+        }
+    }
 
 }

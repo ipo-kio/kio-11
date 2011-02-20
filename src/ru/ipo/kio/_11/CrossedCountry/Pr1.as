@@ -108,6 +108,9 @@ package ru.ipo.kio._11.CrossedCountry {
 			return 1;
 		}
 
-	}
+        public function get icon():Class {
+            return null;
+        }
+    }
 
 }

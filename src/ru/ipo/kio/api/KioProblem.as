@@ -25,5 +25,7 @@ public interface KioProblem {
     function check(solution:Object):Object;
 
     function compare(solution1:Object, solution2:Object):int;
+
+    function get icon():Class;
 }
 }

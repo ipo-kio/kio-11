@@ -6,16 +6,15 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio._11 {
-import ru.ipo.kio._11.CrossedCountry.Pr1;
-import ru.ipo.kio._11.recognition.Pr1;
-import ru.ipo.kio.api.KioApi;
-import ru.ipo.kio.api_example.Pr1;
-import ru.ipo.kio.base.*;
-
 import flash.display.Sprite;
 import flash.events.Event;
 
-import ru.ipo.kio.api.controls.SpaceSettingsDialog;
+import ru.ipo.kio._11.CrossedCountry.Pr1;
+import ru.ipo.kio._11.recognition.Pr1;
+import ru.ipo.kio._11.semiramida.SemiramidaProblem;
+import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.api_example.Pr1;
+import ru.ipo.kio.base.*;
 
 public class KioShell1 extends Sprite {
 
@@ -71,7 +70,7 @@ public class KioShell1 extends Sprite {
                     new ru.ipo.kio.api_example.Pr1(),
                     new ru.ipo.kio._11.recognition.Pr1(),
 //                    new ru.ipo.kio.api_example.Pr1(),
-                    new ru.ipo.kio.api_example.Pr1()
+                    new SemiramidaProblem()
                 ],
                 2011,
                 1
