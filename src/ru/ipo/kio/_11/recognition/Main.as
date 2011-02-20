@@ -1757,7 +1757,9 @@ public function test_continius(e:Event):void
 					Record_Result = Result;
 					 Record_NumberBlokcs = NumberBlokcs;  
 				  }				  
-			  }		
+			  }	
+			  t_record_result.text =  '  ' + Record_Result;
+			  t_record_numberBlokcs.text =  '  ' + Record_NumberBlokcs
 		}
 		//====================================================
 		public function one_Break_lamp ( e:Event):void // функция удаления одной лампы
