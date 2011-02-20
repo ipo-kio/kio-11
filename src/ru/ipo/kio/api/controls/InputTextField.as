@@ -142,5 +142,13 @@ public class InputTextField extends Sprite {
         //Yoda condition in action
         return null == errorLabel;
     }
+
+    public function set restrict(value:String):void {
+        tf.restrict = value;
+    }
+
+    public function get restrict():String {
+        return tf.restrict;
+    }
 }
 }

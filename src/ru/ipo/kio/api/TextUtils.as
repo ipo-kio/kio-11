@@ -21,13 +21,13 @@ public class TextUtils {
      [Embed(source='../../../../../resources/fonts/ds_crystal.ttf', embedAsCFF = "false", fontName="DS Crystal", mimeType="application/x-font-truetype")]
      private static var DC_CRYSTAL_FONT:Class;
      */
-    [Embed(source='../../../../../resources/fonts/ACADEMY.TTF', embedAsCFF = "false", fontName="Academy", mimeType="application/x-font-truetype")]
+    [Embed(source='../base/resources/fonts/ACADEMY.TTF', embedAsCFF = "false", fontName="Academy", mimeType="application/x-font-truetype")]
     private static var ACADEMY_FONT:Class;
 
-    [Embed(source='../../../../../resources/fonts/PRESENT.TTF', embedAsCFF = "false", fontName="Presentum", mimeType="application/x-font-truetype")]
+    [Embed(source='../base/resources/fonts/PRESENT.TTF', embedAsCFF = "false", fontName="Presentum", mimeType="application/x-font-truetype")]
     private static var PRESENTUM_FONT:Class;
 
-    [Embed(source='../../../../../resources/fonts/IRISN4.TTF', embedAsCFF = "false", fontName="Iris", mimeType="application/x-font-truetype")]
+    [Embed(source='../base/resources/fonts/IRISN4.TTF', embedAsCFF = "false", fontName="Iris", mimeType="application/x-font-truetype")]
     private static var IRIS_FONT:Class;
 
     [Embed(systemFont="Arial", fontName="InputArial", embedAsCFF = "false", mimeType="application/x-font")]

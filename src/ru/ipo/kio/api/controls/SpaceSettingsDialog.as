@@ -31,7 +31,7 @@ public class SpaceSettingsDialog extends Sprite {
 
     private static const BORDER_SIZE:int = 10;
 
-    [Embed(source="../../../../../../resources/imgs/settings_ru.png")]
+    [Embed(source="../../base/resources/imgs/settings_ru.png")]
     public var SettingsImage:Class;
 
     public function SpaceSettingsDialog() {

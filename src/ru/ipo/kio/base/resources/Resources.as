@@ -8,22 +8,16 @@
 package ru.ipo.kio.base.resources {
 public class Resources {
 
-    [Embed(source="../../../../../../resources/imgs/bg.jpg")]
+    [Embed(source="imgs/bg.jpg")]
     public static const BG_IMAGE:Class;
 
-    [Embed(source="../../../../../../resources/imgs/up_arrow.png")]
+    [Embed(source="imgs/up_arrow.png")]
     public static const UP_ARROW_IMAGE:Class;
 
-    [Embed(source="../../../../../../resources/imgs/pr1.png")]
-    public static const PR1_IMAGE:Class;
+    [Embed(source='imgs/no_img.png')]
+    public static var NO_PROBLEM_IMG:Class;
 
-    [Embed(source="../../../../../../resources/imgs/pr2.png")]
-    public static const PR2_IMAGE:Class;
-
-    [Embed(source="../../../../../../resources/imgs/pr3.png")]
-    public static const PR3_IMAGE:Class;
-
-    [Embed(source="../../../../../../resources/imgs/input_bg.jpg")]
+    [Embed(source="imgs/input_bg.jpg")]
     public static const INPUT_BG:Class;
 }
 }

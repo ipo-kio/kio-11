@@ -12,12 +12,13 @@ import flash.display.Sprite;
 
 import flash.events.Event;
 import flash.events.MouseEvent;
-import flash.filters.BlurFilter;
 
+import flash.filters.ColorMatrixFilter;
+import flash.net.sendToURL;
 import flash.text.TextField;
 
-import flash.text.TextFieldAutoSize;
-
+import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.TextButton;
 import ru.ipo.kio.base.GlobalMetrics;
@@ -25,31 +26,44 @@ import ru.ipo.kio.base.KioBase;
 import ru.ipo.kio.base.resources.Resources;
 
 public class ProblemsDisplay extends Sprite {
+
     public function ProblemsDisplay() {
         addChild(new Resources.BG_IMAGE);
 
-        var prs:Array = [
-            Resources.PR1_IMAGE,
-            Resources.PR2_IMAGE,
-            Resources.PR3_IMAGE
-        ];
-
-        var prname:Array = [
-            "Пересеченная местность",
-            "Глаз робота",
-            "Сады Семирамиды"
-        ];
-
         for (var i:int = 0; i < 3; i++) {
-            var up:DisplayObject = new prs[i];
+            var problem:KioProblem = KioBase.instance.problem(i);
+            var title:String;
+            if (KioApi.getLocalization(problem.id).title)
+                title = KioApi.getLocalization(problem.id).title;
+            else
+                title = 'No title';
 
-            var over:DisplayObject = new prs[i];
-            over.filters = [new BlurFilter(2, 2)];
+            var imageClass:Class;
+            if (KioApi.getLocalization(problem.id).image)
+                imageClass = KioApi.getLocalization(problem.id).image;
+            else
+                imageClass = Resources.NO_PROBLEM_IMG;
 
-            var down:DisplayObject = new prs[i];
-            down.filters = [new BlurFilter(4, 4)];
+            var upDownImage:* = new imageClass;
 
-            var prb:SimpleButton = new SimpleButton(up, over, down, up);
+            var over:DisplayObject = new imageClass;
+            var brightness:ColorMatrixFilter = new ColorMatrixFilter();
+            /*brightness.matrix = [
+             1.14948, 0.293459, 0.0569921, 0, 0,
+             0.149511, 1.29352, 0.057004, 0, 0,
+             0.1495, 0.2935, 1.057, 0, 0,
+             0, 0, 0, 1, 0
+             ];*/
+            brightness.matrix = [
+                1.07474, 0.14673, 0.028496, 0, 0,
+                0.0747553, 1.14767, 0.028502, 0, 0,
+                0.07475, 0.14675, 1.0285, 0, 0,
+                0, 0, 0, 1, 0
+            ];
+
+            over.filters = [brightness];
+
+            var prb:SimpleButton = new SimpleButton(upDownImage, over, upDownImage, upDownImage);
 
             prb.y = 100;
             var skip:int = 20;
@@ -62,7 +76,7 @@ public class ProblemsDisplay extends Sprite {
             var caption:TextField = TextUtils.createCustomTextField();
             caption.width = prb.width;
             //caption.autoSize = TextFieldAutoSize.CENTER;
-            caption.htmlText = "<p class='c'>" + prname[i] + "</p>";
+            caption.htmlText = "<p class='c'>" + title + "</p>";
             caption.x = prb.x;// + (prb.width - caption.textWidth) / 2;
             caption.y = prb.y + prb.height + 10;
 
@@ -72,7 +86,7 @@ public class ProblemsDisplay extends Sprite {
                 return function(event:Event):void {
                     KioBase.instance.setProblem(pind);
                 }
-            } (i));
+            }(i));
         }
 
         var formButton:TextButton = new TextButton("Заполнить анкету", 200);

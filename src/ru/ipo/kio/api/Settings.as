@@ -38,7 +38,6 @@ public class Settings {
         _data = JSON.decode(text);
     }
 
-
     public function get data():Object {
         return _data;
     }

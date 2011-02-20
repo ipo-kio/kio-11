@@ -52,7 +52,7 @@ public class SettingsDisplay extends Sprite {
 
         addChild(messageContinuation);
 
-        var setupButton:TextButton = new TextButton("Настроить", 100);
+        var setupButton:TextButton = new TextButton(loc.settings.configure_button, 100);
         setupButton.x = img.x + img.width + 32;
         setupButton.y = img.y + (img.height - setupButton.height) / 2;
         setupButton.addEventListener(MouseEvent.CLICK, setupClicked);

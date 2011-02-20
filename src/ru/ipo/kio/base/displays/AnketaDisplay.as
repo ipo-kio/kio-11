@@ -16,7 +16,6 @@ import flash.text.TextField;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.InputBlock;
-import ru.ipo.kio.api.controls.InputTextField;
 import ru.ipo.kio.api.controls.TextButton;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
@@ -27,6 +26,12 @@ public class AnketaDisplay extends Sprite {
         addChild(new Resources.BG_IMAGE);
 
         var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID).screen;
+
+        var must_be_filled:Function = function(text:String):String {
+            if (trim(text).length == 0)
+                return loc.form.field_must_be_filled;
+            return null;
+        };
 
         var header:TextField = TextUtils.createCustomTextField();
         header.htmlText = '<p class="h1">' + loc.form.header + '</p>';
@@ -52,59 +57,39 @@ public class AnketaDisplay extends Sprite {
          addChild(placeHolder);*/
 
         var fio:InputBlock = new InputBlock(
-                "ФИО Участника",
+                loc.form.participant_name,
                 [
-                    "Фамилия",
-                    "Имя",
-                    "Отчество"
+                    loc.form.surname,
+                    loc.form.name,
+                    loc.form.second_name
                 ],
                 [
-                        function(text:String):String {
-                            if (trim(text).length == 0)
-                                return "Поле должно быть заполнена";
-                            if (text.toUpperCase() != text)
-                                return "Поле необходимо набрать заглавными буквами";
-                            return null;
-                        },
-                        function(text:String):String {
-                            if (trim(text).length == 0)
-                                return "Поле должно быть заполнено";
-                            if (text.toUpperCase() != text)
-                                return "Поле необходимо набрать заглавными буквами";
-                            return null;
-                        },
-                        function(text:String):String {
-                            if (trim(text).length == 0)
-                                return "Поле должно быть заполнено";
-                            if (text.toUpperCase() != text)
-                                return "Поле необходимо набрать заглавными буквами";
-                            return null;
-                        }
+                    must_be_filled,
+                    must_be_filled,
+                    must_be_filled
                 ],
                 100,
-                200
+                300
                 );
 
         fio.x = GlobalMetrics.H_PADDING;
         fio.y = 80;
         addChild(fio);
 
+        for (var bi:int = 0; bi < 3; bi++)
+            fio.restrict(bi, loc.form.name_restriction);
+
         var connection:InputBlock = new InputBlock(
-                "Связь",
+                loc.form.connection,
                 [
-                    "Телефон",
-                    "e-mail"
-                ],
+//                    "Телефон",
+            loc.form.e_mail
+        ],
                 [
-                        null,
-                        function(text:String):String {
-                            if (trim(text).length == 0)
-                                return "Поле должно быть заполнено";
-                            return null;
-                        }
+                    must_be_filled
                 ],
                 100,
-                200
+                300
                 );
 
         connection.x = GlobalMetrics.H_PADDING;
@@ -112,41 +97,23 @@ public class AnketaDisplay extends Sprite {
         addChild(connection);
 
         var school:InputBlock = new InputBlock(
-                "Образовательное учеререждение",
+                loc.form.institution,
                 [
-                    "Название",
-                    "Индекс",
-                    "Город",
-                    "Улица",
-                    "Дом",
-                    "Корпус"
+                    loc.form.institution_name,
+                    loc.form.zip,
+                    loc.form.address
+                    /*"Город",
+                     "Улица",
+                     "Дом",
+                     "Корпус"*/
                 ],
                 [
-                        null,
-                        function(text:String):String {
-                            if (trim(text).length == 0)
-                                return "Поле должно быть заполнено";
-                            return null;
-                        },
-                        function(text:String):String {
-                            if (trim(text).length == 0)
-                                return "Поле должно быть заполнено";
-                            return null;
-                        },
-                        function(text:String):String {
-                            if (trim(text).length == 0)
-                                return "Поле должно быть заполнено";
-                            return null;
-                        },
-                        function(text:String):String {
-                            if (trim(text).length == 0)
-                                return "Поле должно быть заполнено";
-                            return null;
-                        },
-                        null
+                    must_be_filled,
+                    must_be_filled,
+                    must_be_filled
                 ],
                 100,
-                200
+                300
                 );
 
         school.x = GlobalMetrics.H_PADDING;

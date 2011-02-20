@@ -55,7 +55,7 @@ public class WelcomeDisplay extends Sprite {
         addChild(continueButton);
 
         var loadWorkspaceMessage:TextField = TextUtils.createCustomTextField();
-        loadWorkspaceMessage.htmlText = "<p class='footnote'><i>" + loc.welcome.loadWorkspace + "</i></p";
+        loadWorkspaceMessage.htmlText = '<p class="footnote"><i>' + loc.welcome.loadWorkspace + '</i></p';
         loadWorkspaceMessage.width = 3 * loadWorkspaceButton.width;
         loadWorkspaceMessage.x = GlobalMetrics.H_PADDING;
         loadWorkspaceMessage.y = loadWorkspaceButton.y - loadWorkspaceMessage.height - 6;

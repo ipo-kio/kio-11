@@ -51,5 +51,9 @@ public class InputBlock extends Sprite {
             y0 += inp.height;
         }
     }
+
+    public function restrict(ind:int, value:String):void {
+        inputs[ind].restrict = value;
+    }
 }
 }
