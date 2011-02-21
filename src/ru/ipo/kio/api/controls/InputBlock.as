@@ -13,21 +13,25 @@ import ru.ipo.kio.api.TextUtils;
 
 public class InputBlock extends Sprite {
 
-    private var inputs:Array;
+    private var _inputs:Array;
 
-    public function InputBlock(caption:String, labels:Array, filters:Array, labelWidth:int, inputWidth:int) {
+    public function InputBlock(caption:String, labels:Array, filters:Array, ids:Array, labelWidth:int, inputWidth:int, inputLinesHeight:Array = null) {
         var captionTF:TextField = TextUtils.createCustomTextField();
         captionTF.wordWrap = false;
         captionTF.multiline = false;
         addChild(captionTF);
         captionTF.htmlText = "<p class='h2'>" + caption + "</p>";
 
-        inputs = [];
+        _inputs = [];
 
         var y0:int = captionTF.textHeight + 4;
 
         for (var i:int = 0; i < labels.length; i++) {
-            var inp:InputTextField = new InputTextField(inputWidth, TextUtils.NORMAL_TEXT_SIZE);
+            var lines:int = 1;
+            if (inputLinesHeight)
+                lines = inputLinesHeight[i];
+
+            var inp:InputTextField = new InputTextField(ids[i], inputWidth, TextUtils.NORMAL_TEXT_SIZE, true, lines);
 
             var label:TextField = TextUtils.createCustomTextField();
             label.wordWrap = false;
@@ -35,7 +39,7 @@ public class InputBlock extends Sprite {
             label.width = labelWidth;
             label.htmlText = "<p>" + labels[i] + "</p>";
 
-            inputs.push(inp);
+            _inputs.push(inp);
 
             label.x = 0;
             label.y = y0;
@@ -48,12 +52,16 @@ public class InputBlock extends Sprite {
             addChild(inp);
             addChild(label);
 
-            y0 += inp.height;
+            y0 += inp.height + 2;
         }
     }
 
     public function restrict(ind:int, value:String):void {
-        inputs[ind].restrict = value;
+        _inputs[ind].restrict = value;
+    }
+
+    public function get inputs():Array {
+        return _inputs;
     }
 }
 }

@@ -3,7 +3,6 @@
  * User: ilya
  * Date: 05.02.11
  * Time: 22:08
- * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio.api {
 import flash.events.Event;
@@ -88,11 +87,29 @@ public class LsoProxy {
     }
 
     public function getGlobalData():Object {
-        if (!_data.kio_base) {
+        if (!_data.kio_base)
             _data.kio_base = {};
-        }
 
         return _data.kio_base;
+    }
+
+    public function getAnketa():Object {
+        var gd:Object = getGlobalData();
+        if (!gd.anketa)
+            gd.anketa = {};
+
+        return gd.anketa;
+    }
+
+    public function get data():Object {
+        return _data;
+    }
+
+    public function set data(data:Object):void {
+        //TODO select better record. Should store record together with the checker results
+        for (var key:String in data)
+            _data[key] = data[key];
+        flush();
     }
 }
 }

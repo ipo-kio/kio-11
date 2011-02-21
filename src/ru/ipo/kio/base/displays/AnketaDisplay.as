@@ -16,12 +16,17 @@ import flash.text.TextField;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.InputBlock;
+import ru.ipo.kio.api.controls.InputTextField;
 import ru.ipo.kio.api.controls.TextButton;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
 import ru.ipo.kio.base.resources.Resources;
 
 public class AnketaDisplay extends Sprite {
+
+    private var inputTextFields:Array;
+    private var continueButton:TextButton;
+
     public function AnketaDisplay() {
         addChild(new Resources.BG_IMAGE);
 
@@ -41,7 +46,7 @@ public class AnketaDisplay extends Sprite {
 
         addChild(header);
 
-        var continueButton:TextButton = new TextButton(loc.buttons.continue_, 200, 100);
+        continueButton = new TextButton(loc.buttons.continue_, 200, 100);
         continueButton.x = GlobalMetrics.STAGE_WIDTH - continueButton.width - GlobalMetrics.H_PADDING;
         continueButton.y = GlobalMetrics.STAGE_HEIGHT - continueButton.height - GlobalMetrics.V_PADDING;
         continueButton.addEventListener(MouseEvent.CLICK, continueButtonClicked);
@@ -68,6 +73,7 @@ public class AnketaDisplay extends Sprite {
                     must_be_filled,
                     must_be_filled
                 ],
+                ['surname', 'name', 'second_name'],
                 100,
                 300
                 );
@@ -88,6 +94,7 @@ public class AnketaDisplay extends Sprite {
                 [
                     must_be_filled
                 ],
+                ['email'],
                 100,
                 300
                 );
@@ -112,13 +119,49 @@ public class AnketaDisplay extends Sprite {
                     must_be_filled,
                     must_be_filled
                 ],
+                ['inst_name', 'zip', 'address'],
                 100,
-                300
+                300,
+                [1, 1, 3]
                 );
 
         school.x = GlobalMetrics.H_PADDING;
         school.y = connection.y + connection.height;
         addChild(school);
+
+        inputTextFields = [];
+        inputTextFields = inputTextFields.concat(fio.inputs);
+        inputTextFields = inputTextFields.concat(connection.inputs);
+        inputTextFields = inputTextFields.concat(school.inputs);
+
+        //load values, add listeners
+        var anketa:Object = KioBase.instance.lsoProxy.getAnketa();
+        for each (var inp:InputTextField in inputTextFields) {
+            inp.text = anketa[inp.id];
+            inp.addEventListener(Event.CHANGE, valueChanged);
+        }
+
+        setEnabledForContinueButton();
+    }
+
+    private function valueChanged(event:Event):void {
+        var i:InputTextField = InputTextField(event.currentTarget);
+        var anketa:Object = KioBase.instance.lsoProxy.getAnketa();
+        if (!i.error)
+            anketa[i.id] = i.text;
+        setEnabledForContinueButton();
+    }
+
+    private function setEnabledForContinueButton():void {
+        var hasError:Boolean = false;
+        for each (var inp:InputTextField in inputTextFields)
+            if (inp.error) {
+                hasError = true;
+                break;
+            }
+
+        //TODO make sure enabled means not clickable
+        continueButton.enabled = ! hasError;
     }
 
     private function continueButtonClicked(event:Event):void {

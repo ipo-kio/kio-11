@@ -102,5 +102,12 @@ public class SemiramidaProblem implements KioProblem {
     public function get recordCheck():Object {
         return _recordCheck;
     }
+
+    [Embed(source='resouces/icon.png')]
+    private const ICON:Class;
+
+    public function get icon():Class {
+        return ICON;
+    }
 }
 }

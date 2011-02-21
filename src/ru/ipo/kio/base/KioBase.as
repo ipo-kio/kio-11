@@ -128,5 +128,13 @@ public class KioBase {
     public function problem(ind:int):KioProblem {
         return problems[ind];
     }
+
+    public function loadAllData(data:*):void {
+        KioBase.instance.lsoProxy.data = data;
+        if (_currentProblem)
+            currentProblem = _currentProblem;
+        else
+            currentDisplay = new ProblemsDisplay;
+    }
 }
 }
