@@ -3,20 +3,23 @@
  * User: ilya
  * Date: 21.02.11
  * Time: 1:42
- * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
+import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.geom.Point;
+import flash.geom.Rectangle;
 
 public class Gate extends Sprite implements Out {
 
     private var _wires:Array; //Wire
-    private var _connectors:Array; //Connector
+    private var _connectors:Array = []; //Connector
     private var _in_connectors:Array; //Connector
     private var _arity:int;
+    private var _type:int;
 
     private var _mouse_over:Boolean;
     private var _on_bmp:BitmapData;
@@ -33,30 +36,58 @@ public class Gate extends Sprite implements Out {
 
     private var _value:int = VAL_UNKNOWN;
 
-    public function Gate(arity:int, f:Function, on:BitmapData, off:BitmapData) {
+    //noinspection JSMismatchedCollectionQueryUpdateInspection
+    private var _yOffset:Array;
+    private static const X_INPUT_OFFSET:int = 5;
+    private static const X_OUTPUT_OFFSET:int = 2;
+
+    private var _is_new:Boolean = false;
+    private var _new_x0:Number;
+    private var _new_y0:Number;
+
+    public function Gate(type:int, arity:int, f:Function, off:BitmapData, on:BitmapData, yOffsets:Array) {
+        _type = type;
         _on_bmp = on;
         _off_bmp = off;
         _function = f;
         _arity = arity;
+        _yOffset = yOffsets;
 
         addEventListener(MouseEvent.ROLL_OVER, mouseRollOver);
         addEventListener(MouseEvent.ROLL_OUT, mouseRollOut);
+        addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 
         _wires = new Array(arity);
         _in_connectors = new Array(arity);
 
-        for (var i:int; i = 0; i < arity) {
+        for (var i:int = 0; i < arity; i++) {
             _wires[i] = new Wire();
             _in_connectors[i] = new Connector(_wires[i]);
         }
+
+        redraw();
     }
 
     private function mouseRollOver(event:Event):void {
-        _mouse_over = true;
+        mouse_over = true;
     }
 
     private function mouseRollOut(event:Event):void {
-        _mouse_over = false;
+        mouse_over = false;
+    }
+
+    private function mouseDown(event:Event):void {
+        Globals.instance.drag_object = this;
+
+        if (_is_new) {
+            _new_x0 = x;
+            _new_y0 = y;
+            Globals.instance.drag_type = Globals.DRAG_TYPE_NEW_GATE;
+            startDrag();
+        } else {
+            Globals.instance.drag_type = Globals.DRAG_TYPE_GATE;
+            startDrag(false, new Rectangle(0, 0, Field.WIDTH - width, Field.HEIGHT - height));
+        }
     }
 
     public function get mouse_over():Boolean {
@@ -74,7 +105,7 @@ public class Gate extends Sprite implements Out {
         graphics.clear();
         var bitmap:BitmapData = _mouse_over ? _on_bmp : _off_bmp;
         graphics.beginBitmapFill(bitmap);
-        graphics.lineStyle(0, 0, 0);
+//        graphics.lineStyle(0, 0, 0);
         graphics.drawRect(0, 0, bitmap.width, bitmap.height);
         graphics.endFill();
     }
@@ -118,5 +149,83 @@ public class Gate extends Sprite implements Out {
         _value = VAL_UNKNOWN;
     }
 
+    public function addTo(stage:DisplayObjectContainer):void {
+        for each (var wire:Wire in _wires)
+            wire.addTo(stage);
+
+        for each (var con:Connector in _in_connectors)
+            stage.addChild(con);
+
+        stage.addChild(this);
+
+        positionSubElements();
+        for each (con in _in_connectors)
+            con.moveToBasePosition();
+    }
+
+    public function removeFromDisplay():void {
+        for each (var wire:Wire in _wires)
+            wire.removeFromDisplay();
+
+        for each (var con:Connector in _in_connectors)
+            parent.removeChild(con);
+
+        parent.removeChild(this);
+    }
+
+    public function positionSubElements():void {
+
+        for (var i:int = 0; i < _arity; i++) {
+            var old_finish:Point = _wires[i].finish;
+            var new_finish:Point = new Point(x + X_INPUT_OFFSET, y + _yOffset[i]);
+            _wires[i].finish = new_finish;
+
+            if (! _in_connectors[i].dest) {
+                var nx:Number = _in_connectors[i].x + new_finish.x - old_finish.x;
+                var ny:Number = _in_connectors[i].y + new_finish.y - old_finish.y;
+
+                if (!_is_new) {
+                    if (nx < 0)
+                        nx = 0;
+                    if (ny < 0)
+                        ny = 0;
+                    if (nx >= Field.WIDTH)
+                        nx = Field.WIDTH - 1;
+                    if (ny >= Field.HEIGHT)
+                        ny = Field.HEIGHT - 1;
+                }
+
+                _in_connectors[i].x = nx;
+                _in_connectors[i].y = ny;
+                _in_connectors[i].positionSubElements();
+            }
+        }
+
+        for each (var con:Connector in _connectors) {
+            con.x = _on_bmp.width + X_OUTPUT_OFFSET;
+            con.y = Math.floor(_on_bmp.height / 2);
+            con.positionSubElements();
+        }
+
+    }
+
+    public function get is_new():Boolean {
+        return _is_new;
+    }
+
+    public function set is_new(value:Boolean):void {
+        _is_new = value;
+    }
+
+    public function moveBackThisNewGate():void {
+        x = _new_x0;
+        y = _new_y0;
+        positionSubElements();
+    }
+
+
+    public function get type():int {
+        return _type;
+    }
 }
 }

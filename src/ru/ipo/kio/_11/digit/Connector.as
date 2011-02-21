@@ -9,10 +9,18 @@ package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
 import flash.display.Sprite;
 
+import flash.display.Stage;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
+import flash.geom.Matrix;
+import flash.geom.Point;
+
+import flash.geom.Rectangle;
+
 import mx.core.BitmapAsset;
+
+import ru.ipo.kio._11.VirtualPhysics.Main;
 
 public class Connector extends Sprite {
 
@@ -27,6 +35,13 @@ public class Connector extends Sprite {
     private var _on:Boolean;
     private var _dest:Out;
     private var _wire:Wire;
+    private var w:int;
+    private var w2:int;
+    private var h:int;
+    private var h2:int;
+    private var translateMatrix:Matrix;
+
+    public static const BASE_LENGTH:int = 26;
 
     public function get on():Boolean {
         return _on;
@@ -41,26 +56,43 @@ public class Connector extends Sprite {
 
     public function Connector(wire:Wire) {
         _wire = wire;
+        wire.connector = this;
 
         addEventListener(MouseEvent.ROLL_OVER, mouseRollOver);
         addEventListener(MouseEvent.ROLL_OUT, mouseRollOut);
+        addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+
+        w = OnImage.width;
+        h = OnImage.height;
+        w2 = - Math.floor(w / 2);
+        h2 = - Math.floor(h / 2);
+        translateMatrix = new Matrix();
+        translateMatrix.translate(w2, h2);
+
+        redraw();
     }
 
     private function redraw():void {
         graphics.clear();
         var bitmap:BitmapData = _on ? OnImage : OffImage;
-        graphics.beginBitmapFill(bitmap);
-        graphics.lineStyle(0, 0, 0);
-        graphics.drawRect(0, 0, bitmap.width, bitmap.height);
+        graphics.beginBitmapFill(bitmap, translateMatrix);
+        //graphics.lineStyle(0, 0, 0);
+        graphics.drawRect(w2, h2, w, h);
         graphics.endFill();
     }
 
     private function mouseRollOver(event:Event):void {
-        _on = true;
+        on = true;
     }
 
     private function mouseRollOut(event:Event):void {
-        _on = false;
+        on = false;
+    }
+
+    private function mouseDown(event:Event):void {
+        Globals.instance.drag_type = Globals.DRAG_TYPE_CONNECTOR;
+        Globals.instance.drag_object = this;
+        startDrag(false, new Rectangle(0, 0, Field.WIDTH, Field.HEIGHT));
     }
 
     public function get dest():Out {
@@ -69,6 +101,26 @@ public class Connector extends Sprite {
 
     public function set dest(value:Out):void {
         _dest = value;
+    }
+
+    public function moveToBasePosition():void {
+        dest = null;
+
+        var p:Point = _wire.finish.clone();
+        p.offset( - BASE_LENGTH, 0);
+
+        _wire.start = p;
+
+        x = p.x;
+        y = p.y;
+    }
+
+    public function positionSubElements():void {
+        _wire.start = new Point(x, y);
+    }
+
+    public function get wire():Wire {
+        return _wire;
     }
 }
 }

@@ -20,12 +20,13 @@ public class Wire {
     private var _mouse_over:Boolean;
     private var _selected:Boolean;
     private var _type:int = NO_CONNECTION;
-    private var _start:Point;
-    private var _finish:Point;
+    private var _start:Point = new Point(0, 0);
+    private var _finish:Point = new Point(0, 0);
 
     private var _hit_area:Sprite;
     private var _body:Sprite;
 
+    private var _connector:Connector;
 
     public function Wire() {
         _hit_area = new Sprite;
@@ -38,6 +39,9 @@ public class Wire {
 
         _body.addEventListener(MouseEvent.ROLL_OVER, mouseRollOver);
         _body.addEventListener(MouseEvent.ROLL_OUT, mouseRollOut);
+        _body.addEventListener(MouseEvent.CLICK, mouseClick);
+
+        redraw();
     }
 
     public function get mouse_over():Boolean {
@@ -137,10 +141,11 @@ public class Wire {
         _body.graphics.lineTo(_finish.x, _finish.y);
 
         _hit_area.graphics.clear();
-        _hit_area.graphics.lineStyle(_selected ? 9 : 6, cl);
+        _hit_area.graphics.lineStyle(_selected ? 9 : 6, cl_hl, 0.5);
         _hit_area.graphics.moveTo(_start.x, _start.y);
         _hit_area.graphics.lineTo(_finish.x, _finish.y);
 
+        _hit_area.visible = mouse_over;
     }
 
     public function addTo(stage:DisplayObjectContainer):void {
@@ -150,11 +155,29 @@ public class Wire {
 
     private function mouseRollOver(event:Event):void {
         if (!_selected)
-            _mouse_over = true;
+            mouse_over = true;
     }
 
     private function mouseRollOut(event:Event):void {
-        _mouse_over = false;
+        mouse_over = false;
+    }
+
+    private function mouseClick(event:Event):void {
+        Globals.instance.selected_wire = this;
+    }
+
+    public function get connector():Connector {
+        return _connector;
+    }
+
+    //may be set only by connector in its constructor, don't use it in other ways
+    public function set connector(value:Connector):void {
+        _connector = value;
+    }
+
+    public function removeFromDisplay():void {
+        _body.parent.removeChild(_body);
+        _hit_area.parent.removeChild(_hit_area);
     }
 }
 }
