@@ -17,10 +17,9 @@ package ru.ipo.kio._11.CrossedCountry
 	 */
 	public class Main extends Sprite 
 	{
-		private var loader:Loader;
-		private var circle:Sprite;
+		
 		public var pointArray:Array = new Array();
-		public var EndP:pointer = new pointer(510, 30, 0xff0000, 5, 1.0); 
+		public var EndP:pointer = new pointer(610, 40, 0xff0000, 5, 1.0); 
 		public var line:Sprite;
 		public var LinesAndPointers:Sprite = new Sprite();
 		public var txt:description = new description();
@@ -65,11 +64,11 @@ package ru.ipo.kio._11.CrossedCountry
 			addChild(txt);
 			addChild(land);
 			addChild(LinesAndPointers);
-			var StartP:pointer = new pointer(30,510,0xff0000,5,1.0);
+			var StartP:pointer = new pointer(30,540,0xff0000,5,1.0);
 			LinesAndPointers.addChild(StartP);
 			LinesAndPointers.addChild(EndP);
 			pointArray.push(StartP);
-			pointArray.push(30,510);
+			pointArray.push(30,540);
 			
 			land.addEventListener(MouseEvent.CLICK, landPt); // добавление точки
 			land.addEventListener(MouseEvent.MOUSE_MOVE, landCap); // добавление подсказки
@@ -553,7 +552,7 @@ package ru.ipo.kio._11.CrossedCountry
 				
 				selLine.pop();
 				selLine.pop();
-				pointArray.push(EndP, 510, 30);
+				pointArray.push(EndP, 610, 40);
 				
 				landLine();
 				k = k - 3;
@@ -774,7 +773,7 @@ package ru.ipo.kio._11.CrossedCountry
 			pointArray.push(landpoint);
 			pointArray.push(ptX, ptY);
 			
-			pointArray.push(EndP, 510, 30);
+			pointArray.push(EndP, 610, 40);
 			
 			
 			landLine();
@@ -785,7 +784,7 @@ package ru.ipo.kio._11.CrossedCountry
 				pointArray.splice(pointArray.length - 3, 3, landpoint, ptX, ptY);
 				LinesAndPointers.removeChild(lines.pop());
 				selLine.pop();
-				pointArray.push(EndP, 510, 30);
+				pointArray.push(EndP, 610, 40);
 				
 				k = pointArray.length -5;
 				landLine();

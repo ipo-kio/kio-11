@@ -15,31 +15,42 @@ package ru.ipo.kio._11.CrossedCountry
 	 */
 	public class landscape extends Sprite
 	{
-		public var picObj1:String = "mountain1.jpg";
-		public var picObj2:String = "swamp1.jpg";
-		public var picObj3:String = "swamp2.jpg";
-		public var picObj4:String = "Water.jpg";
-		public var picObj5:String = "sand2.jpg";
-		public var picObj6:String = "Forest1.jpg";
-		public var picObj7:String = "wall.JPG";
+		
 		
 		public var mShape:landObj;
 		
 		// объекты ландшафта
-		public var ObjArray1:Array = new Array(600, 0,600,11,11,11, 11, 507,0, 507,0, 0, "стена");
-		public var ObjArray2:Array = new Array(206, 0, 206, 60, 266, 60, 266, 230,96,230,96,195,228,195,228,88,168,88,168,36,0,36,0,0, "песок");
-	//	public var ObjArray3:Array = new Array(300, 0, 300, 60, 60,60,60,200,0,200, 0, 0, "болото"); // координаты объекта относительно заданных для этого объекта начал координат
-	//	public var ObjArray4:Array = new Array(100, 0, 100, 300, 120, 300, 120, 340,0,340,0,0, "озеро");
-	//	public var ObjArray5:Array = new Array(80, 0, 80, -140, 180, -140,180,-80,200,-80,200,-40,180,-40, 180, 180,140,180,140,-80,120,-80,120,40,40,40,40,60,120,60,120,180,0,180,0,0, "песок");
-	//	public var ObjArray6:Array = new Array(100, 0, 100, 360, 0, 360, 0,240,-20,240,-20,200,0,200,0, 0, "лес");
-		// стены 
-	//	public var ObjArray7:Array = new Array(100, 0, 100, 20, 0, 20, 0, 0, "стена");
-	//	public var ObjArray8:Array = new Array(80,0,80,-40,100,-40,100,0,180, 0, 180, 420, 160, 420,160,20,0,20, 0, 0, "стена");
-	//	public var ObjArray9:Array = new Array(60, 0, 60, -140, 200, -140, 200,-60,180,-60,180,-120,80,-120,80,20,0,20, 0, 0, "стена");
-	//	public var ObjArray10:Array = new Array(80, 0, 80, -120, 100,-120,100,140,80,140,80,20,0, 20, 0, 0, "стена");
-	//	public var ObjArray11:Array = new Array(20, 0, 20, 200, 0, 200, 0, 0, "стена");
-	//	public var ObjArray12:Array = new Array(20, 0, 20, 220, 0, 220, 0, 0, "стена");
-	//	public var ObjArray13:Array = new Array(20, 0, 20, 120,120,120,120,140, 0, 140, 0, 0, "стена");
+		public var ObjArray1:Array = new Array(600, 0,600,11,11,11, 11, 507,0, 507,0, 0, "горы");
+		public var ObjArray2:Array = new Array(206, 0, 206, 60, 266, 60, 266, 230, 99, 230, 99, 192, 228, 192, 228, 98, 168, 98, 168, 36, 38,36,38,300,99,300,99,432,36,432,36,519,-11,519,-11,485,0,485,0,396,62,396,62,336,0,336,0,0, "песок");
+		public var ObjArray3:Array = new Array(62, 0, 62, 60, 0,60, 0, 0, "лес"); // координаты объекта относительно заданных для этого объекта начал координат
+		public var ObjArray4:Array = new Array(130, 0, 130, 62, 61, 62, 61, 107,0,107,0,0, "озеро");
+		public var ObjArray5:Array = new Array(62, 0, 62, 157, 0, 157,0,0, "стена");
+		public var ObjArray6:Array = new Array(129, 0, 129, 94,0,94,0, 0, "лес");
+		
+		public var ObjArray7:Array = new Array(60, 0, 60, 60, 0, 60, 0, 0, "стена");
+		public var ObjArray8:Array = new Array(60, 0, 60, 230, 0, 230, 0, 0, "стена");
+		public var ObjArray9:Array = new Array(50, 0, 50, 97,264,97, 264, 252,215,252,215,144,50,144, 50,203,0,203,0, 0, "горы");
+		public var ObjArray10:Array = new Array(34, 0, 34, 60, 214, 60,214,97, 0,97,0, 0, "стена");
+		public var ObjArray11:Array = new Array(137, 0, 137, 60, 0, 60, 0, 0, "озеро");
+		
+		public var ObjArray12:Array = new Array(260, 0, 260, 50, 215,50,215,38,0, 38, 0, 0, "песок");
+		public var ObjArray13:Array = new Array(37, 0, 37, 252, -7,252, -7,192,0,192, 0, 0, "песок");
+		public var ObjArray14:Array = new Array(58, 0, 58, 337, 0,337, 0, 0, "стена");
+		public var ObjArray15:Array = new Array(120, 0, 120, 48, 0,48, 0, 0, "горы");
+		public var ObjArray16:Array = new Array(45, 0, 45, -50, 48, -50, 48, 1, 36, 1, 36, 72, -120, 72, -120, 36, 0, 36, 0, 0, "песок");
+		public var ObjArray17:Array = new Array(36, 0, 36, 51, 156, 51, 156, 170, 0, 170, 0, 133, 119, 133, 119, 87, 0, 87, 0, 0, "песок");
+		
+		public var ObjArray18:Array = new Array(120, 0, 120, 48, 0, 48, 0, 0, "лес");
+		public var ObjArray19:Array = new Array(119, 0, 119, 47, 0, 47, 0, 0, "горы");
+		public var ObjArray20:Array = new Array(12, 0, 12, 480, 0, 480, 0, 0, "горы");
+		public var ObjArray21:Array = new Array(36, 0, 36, 51, 156, 51, 156, 230, -145, 230, -145, 192,36,192,36,146, 119, 146, 119, 86, 0, 86, 0, 0, "песок");
+		public var ObjArray22:Array = new Array(121, 0, 121, 51, 0, 51, 0, 0, "лес");
+		public var ObjArray23:Array = new Array(177, 0, 177, 62, 94, 62, 94, 108, 0, 108, 0, 0, "озеро");
+		
+		public var ObjArray24:Array = new Array(600, 0, 600, 11, 0, 11, 0, 0, "горы");
+		public var ObjArray25:Array = new Array(141, 0, 141, 51, 0, 51, 0, 0, "лес");
+		public var ObjArray26:Array = new Array(141, 0, 141, -51, 114, -51, 114, -110, 280, -110, 280, 0, 241, 0, 241, -72, 178, -72, 178, 36, 0, 36, 0, 0, "песок");
+		public var ObjArray27:Array = new Array(63, 0, 63, 110, 0, 110,0,0, "стена");
 		
 		public var ArrayObjs:Array = new Array();
 		
@@ -47,30 +58,45 @@ package ru.ipo.kio._11.CrossedCountry
 		public var ObjNArray:Array = new Array();
 		public var PointCrossArray:Array = new Array();
 		public var ArrayCheckObj:Array = new Array();
-		public var ArrayWeight:Array = new Array(7,9,9,10,13,20,1,1,1,1,1,1,1); // скорость в 1м/ 1мин
+		public var ArrayWeight:Array = new Array(0.1,9,5,7,1,5 ,1,1,0.1,1,7 ,9,9,1,0.1,9,9 ,5,0.1,0.1,9,5,7 ,0.1,5,9,0.1); // скорость в 1м/ 1мин
 		public var interval:uint;
 		private var delay:Number=2000;
-		private var label_txt:String = "болото";
-		public var alt:Sprite = new Sprite();
+		//private var label_txt:String = "болото";
+		//public var alt:Sprite = new Sprite();
 		public var alt1:Sprite;
 		public var ObjIndex:int;
 		public var notRemoved:int=0;
 		public var landObjN:landObj;
 		//
-		public var land1:landObj = new landObj(picObj1, 20, 20, 6, ObjArray1, 0, 0);
-		public var land2:landObj = new landObj(picObj1, 31, 31, 12, ObjArray2, 588, 528);
-	//	public var land3:landObj = new landObj(picObj3, 20, 120, 6, ObjArray3);
-	//	public var land4:landObj = new landObj(picObj4, 220, 180, 6, ObjArray4);
-	//	public var land5:landObj = new landObj(picObj5, 20, 340, 18, ObjArray5);
-	//	public var land6:landObj = new landObj(picObj6, 420, 20, 8, ObjArray6);
-		// стена
-	//	public var land7:landObj = new landObj(picObj7, 20, 100, 4, ObjArray7);
-	//	public var land8:landObj = new landObj(picObj7, 160, 100, 10, ObjArray8);
-	//	public var land9:landObj = new landObj(picObj7, 20, 320, 10, ObjArray9);
-	//	public var land10:landObj = new landObj(picObj7, 60, 380, 8, ObjArray10);
-	//	public var land11:landObj = new landObj(picObj7, 400, 20, 4, ObjArray11);
-	//	public var land12:landObj = new landObj(picObj7, 200, 300, 4, ObjArray12);
-	//	public var land13:landObj = new landObj(picObj7, 400, 260, 6, ObjArray13);
+		public var land1:landObj = new landObj( 20, 20, 6, ObjArray1, 0, 0);
+		public var land2:landObj = new landObj( 31, 31, 25, ObjArray2, 588, 529);
+	
+		public var land3:landObj = new landObj( 31, 367, 4, ObjArray3, 588,194);
+		public var land4:landObj = new landObj( 69, 67, 6, ObjArray4, 552, 493);
+		public var land5:landObj = new landObj( 68, 174, 4, ObjArray5, 552, 384);
+		public var land6:landObj = new landObj( 130, 129, 4, ObjArray6, 491, 429);
+		
+		public var land7:landObj = new landObj( 237, 31, 4, ObjArray7, 380,529);
+		public var land8:landObj = new landObj( 297, 31, 4, ObjArray8, 322,529);
+		public var land9:landObj = new landObj(130, 260, 10, ObjArray9, 491,300);
+		public var land10:landObj = new landObj( 180, 260, 6, ObjArray10,441,299);
+		public var land11:landObj = new landObj( 214, 260, 4, ObjArray11,400,299);
+		public var land12:landObj = new landObj( 357, 31, 6, ObjArray12,260,529);
+		public var land13:landObj = new landObj( 357, 69, 6, ObjArray13,263,493);
+		public var land14:landObj = new landObj( 394, 69, 4, ObjArray14, 225, 492);
+		public var land15:landObj = new landObj( 452, 69, 4, ObjArray15, 168, 492);
+		public var land16:landObj = new landObj( 572, 81, 10, ObjArray16, 48, 479);
+		public var land17:landObj = new landObj( 452, 150, 10, ObjArray17, 168, 410);
+		public var land18:landObj = new landObj( 488, 153, 4, ObjArray18, 132, 407);
+		public var land19:landObj = new landObj( 452, 237, 4, ObjArray19, 168, 322);
+		public var land20:landObj = new landObj( 608, 81, 4, ObjArray20, 11, 505);
+		public var land21:landObj = new landObj( 452, 320, 12, ObjArray21, 167, 780);
+		public var land22:landObj = new landObj( 487, 320, 10, ObjArray22, 134, 780);
+		public var land23:landObj = new landObj( 394, 404, 6, ObjArray23, 225, 697);
+		public var land24:landObj = new landObj( 20, 550, 4, ObjArray24, 0, 1627);
+		public var land25:landObj = new landObj( 66, 463, 4, ObjArray25, 548, 97);
+		public var land26:landObj = new landObj( 66, 514, 12, ObjArray26, 549, 47);
+		public var land27:landObj = new landObj( 244, 440, 4, ObjArray27, 374, 120);
 
 		
 		public var eventX:Number;
@@ -84,8 +110,9 @@ package ru.ipo.kio._11.CrossedCountry
 		
 		public function landscape() 
 		{
-		//	ArrayObjs.push(land1, land2, land3,land4,land5,land6,land7,land8,land9,land10,land11,land12,land13);
-			ArrayObjs.push(land1, land2);
+		ArrayObjs.push(land1, land2, land3,land4,land5,land6,land7,land8,land9,land10,land11,land12,land13,land14,land15,land16,land17,land18,land19,land20,land21,land22,land23,land24,land25,land26,land27);
+			
+		
 			// вывод на экран всех объектов
 			for (var l:int = 0; l < ArrayObjs.length; l++ )
 				{
@@ -93,7 +120,7 @@ package ru.ipo.kio._11.CrossedCountry
 					ObjsArrays.push(ArrayObjs[l].ObjArrXY());
 				}
 				
-			ArrayCheckObj.push(true, true, true, true, true, true, true, true, true, true, true, true, true);
+			ArrayCheckObj.push(true, true, true, true, true, true, true, true, true, true, true, true, true,true,true,true,true,true,true,true,true,true,true,true,true,true,true); 
 			
 			// вывод на экран сетки
 			var grid:gridObj = new gridObj();

@@ -37,7 +37,7 @@ import flash.net.URLRequest;
 		public var eventY:Number;
 		private var drawB:Boolean = false;
 
-		public function landObj(picObj:String,ObjX:Number,ObjY:Number,ObjNum:Number,ObjArray:Array,tx:Number,ty:Number)
+		public function landObj(ObjX:Number,ObjY:Number,ObjNum:Number,ObjArray:Array,tx:Number,ty:Number)
 		{
 
 			delay = 10000;
