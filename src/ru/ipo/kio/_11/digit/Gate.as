@@ -149,14 +149,14 @@ public class Gate extends Sprite implements Out {
         _value = VAL_UNKNOWN;
     }
 
-    public function addTo(stage:DisplayObjectContainer):void {
+    public function addTo(wires_layer:DisplayObjectContainer, gates_layer:Sprite, connections_layer:Sprite):void {
         for each (var wire:Wire in _wires)
-            wire.addTo(stage);
+            wire.addTo(wires_layer);
 
         for each (var con:Connector in _in_connectors)
-            stage.addChild(con);
+            connections_layer.addChild(con);
 
-        stage.addChild(this);
+        gates_layer.addChild(this);
 
         positionSubElements();
         for each (con in _in_connectors)
@@ -168,7 +168,7 @@ public class Gate extends Sprite implements Out {
             wire.removeFromDisplay();
 
         for each (var con:Connector in _in_connectors)
-            parent.removeChild(con);
+            con.parent.removeChild(con);
 
         parent.removeChild(this);
     }
@@ -202,8 +202,8 @@ public class Gate extends Sprite implements Out {
         }
 
         for each (var con:Connector in _connectors) {
-            con.x = _on_bmp.width + X_OUTPUT_OFFSET;
-            con.y = Math.floor(_on_bmp.height / 2);
+            con.x = x + _on_bmp.width + X_OUTPUT_OFFSET;
+            con.y = y + Math.floor(_on_bmp.height / 2);
             con.positionSubElements();
         }
 
@@ -215,6 +215,8 @@ public class Gate extends Sprite implements Out {
 
     public function set is_new(value:Boolean):void {
         _is_new = value;
+        for each (var c:Connector in _in_connectors)
+            c.movable = !is_new;
     }
 
     public function moveBackThisNewGate():void {
@@ -226,6 +228,12 @@ public class Gate extends Sprite implements Out {
 
     public function get type():int {
         return _type;
+    }
+
+    public function bindConnector(c:Connector):void {
+        c.dest = this;
+        _connectors.push(c);
+        positionSubElements();
     }
 }
 }

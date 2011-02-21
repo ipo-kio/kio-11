@@ -16,9 +16,17 @@ public class Field extends Sprite {
 
     private static var _gates:Array = [];
 
+    private var wires_layer:Sprite = new Sprite;
+    private var gates_layer:Sprite = new Sprite;
+    private var connections_layer:Sprite = new Sprite;
+
     public function Field() {
         x = X0;
         y = Y0;
+
+        addChild(wires_layer);
+        addChild(gates_layer);
+        addChild(connections_layer);
     }
 
     public function removeGate(g:Gate):void {
@@ -33,9 +41,13 @@ public class Field extends Sprite {
     public function addGate(g:Gate, x0:Number, y0:Number):void {
         g.x = x0;
         g.y = y0;
-        g.addTo(this);
+        g.addTo(wires_layer, gates_layer, connections_layer);
 
         _gates.push(g);
+    }
+
+    public function get gates():Array {
+        return _gates;
     }
 }
 }

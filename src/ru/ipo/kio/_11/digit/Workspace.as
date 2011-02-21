@@ -63,21 +63,38 @@ public class Workspace extends Sprite {
     }
 
     //when mouse is up and there was constrained moving rectangle, up coordinates are irrelevant
-    private var __last_mouse_up_x:Number;
-    private var __last_mouse_up_y:Number;
+    private var __last_mouse_move_x:Number;
+    private var __last_mouse_move_y:Number;
+    private var __gate_receiver:Gate = null;
 
     private function stageMouseMove(event:Event):void {
         switch (Globals.instance.drag_type) {
             case Globals.DRAG_TYPE_GATE:
                 var g:Gate = Gate(Globals.instance.drag_object);
                 g.positionSubElements();
-                __last_mouse_up_x = mouseX;
-                __last_mouse_up_y = mouseY;
-                updateTrashState(__last_mouse_up_x, __last_mouse_up_y);
+                __last_mouse_move_x = mouseX;
+                __last_mouse_move_y = mouseY;
+                updateTrashState(__last_mouse_move_x, __last_mouse_move_y);
                 break;
             case Globals.DRAG_TYPE_CONNECTOR:
                 var c:Connector = Connector(Globals.instance.drag_object);
                 c.positionSubElements();
+                //test c is over some gate
+                var is_over:Boolean = false;
+                var mx:Number = _field.mouseX;
+                var my:Number = _field.mouseY;
+                for each (var gt:Gate in _field.gates)
+                    if (hitTestGate(gt, mx, my)) {
+                        is_over = true;
+                        __gate_receiver = gt;
+                        break;
+                    }
+                if (is_over) {
+                    c.on = true;
+                } else {
+                    c.on = false;
+                    __gate_receiver = null;
+                }
                 break;
             case Globals.DRAG_TYPE_NEW_GATE:
                 var ng:Gate = Gate(Globals.instance.drag_object);
@@ -86,19 +103,27 @@ public class Workspace extends Sprite {
         }
     }
 
+    private function hitTestGate(gt:Gate, mx:Number, my:Number):Boolean {
+        return gt.x <= mx && mx <= gt.x + gt.width && gt.y <= my && my <= gt.y + gt.height;
+    }
+
     private function stageMouseUp(event:Event):void {
         switch (Globals.instance.drag_type) {
             case Globals.DRAG_TYPE_GATE:
                 var g:Gate = Gate(Globals.instance.drag_object);
                 g.stopDrag();
                 updateTrashImage(TRASH_NORMAL_IMG);
-                if (trashHitTest(__last_mouse_up_x, __last_mouse_up_y))
+                if (trashHitTest(__last_mouse_move_x, __last_mouse_move_y))
                     _field.removeGate(g);
                 break;
             case Globals.DRAG_TYPE_CONNECTOR:
                 var c:Connector = Connector(Globals.instance.drag_object);
                 c.stopDrag();
                 c.positionSubElements();
+                if (__gate_receiver) {
+                    __gate_receiver.bindConnector(c);
+                }
+                __gate_receiver = null;
                 break;
             case Globals.DRAG_TYPE_NEW_GATE:
                 var ng:Gate = Gate(Globals.instance.drag_object);
@@ -146,22 +171,22 @@ public class Workspace extends Sprite {
         _new_gate_and.is_new = true;
         _new_gate_and.x = 58;
         _new_gate_and.y = 326 + 10;
-        _new_gate_and.addTo(this);
+        _new_gate_and.addTo(this, this, this);
 
         _new_gate_or.is_new = true;
         _new_gate_or.x = 119;
         _new_gate_or.y = 326 + 10;
-        _new_gate_or.addTo(this);
+        _new_gate_or.addTo(this, this, this);
 
         _new_gate_not.is_new = true;
         _new_gate_not.x = 58;
         _new_gate_not.y = 367 + 10;
-        _new_gate_not.addTo(this);
+        _new_gate_not.addTo(this, this, this);
 
         _new_gate_nop.is_new = true;
         _new_gate_nop.x = 119;
         _new_gate_nop.y = 367 + 10 + 5;
-        _new_gate_nop.addTo(this);
+        _new_gate_nop.addTo(this, this, this);
     }
 }
 }

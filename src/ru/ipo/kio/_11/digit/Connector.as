@@ -9,7 +9,6 @@ package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
 import flash.display.Sprite;
 
-import flash.display.Stage;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
@@ -17,10 +16,6 @@ import flash.geom.Matrix;
 import flash.geom.Point;
 
 import flash.geom.Rectangle;
-
-import mx.core.BitmapAsset;
-
-import ru.ipo.kio._11.VirtualPhysics.Main;
 
 public class Connector extends Sprite {
 
@@ -40,6 +35,7 @@ public class Connector extends Sprite {
     private var h:int;
     private var h2:int;
     private var translateMatrix:Matrix;
+    private var _movable:Boolean = true;
 
     public static const BASE_LENGTH:int = 26;
 
@@ -90,9 +86,16 @@ public class Connector extends Sprite {
     }
 
     private function mouseDown(event:Event):void {
+        if (!movable)
+            return;
         Globals.instance.drag_type = Globals.DRAG_TYPE_CONNECTOR;
         Globals.instance.drag_object = this;
         startDrag(false, new Rectangle(0, 0, Field.WIDTH, Field.HEIGHT));
+        on = false;
+        if (dest) {
+            dest.connectors.splice(dest.connectors.indexOf(this), 1);
+            dest = null;
+        }
     }
 
     public function get dest():Out {
@@ -121,6 +124,14 @@ public class Connector extends Sprite {
 
     public function get wire():Wire {
         return _wire;
+    }
+
+    public function get movable():Boolean {
+        return _movable;
+    }
+
+    public function set movable(value:Boolean):void {
+        _movable = value;
     }
 }
 }
