@@ -50,7 +50,6 @@ public class SchemeInput extends Sprite implements Out{
     }
 
     public function bindConnector(c:Connector):void {
-        _connectors.push(c);
         c.dest = this;
         positionConnectors();
     }

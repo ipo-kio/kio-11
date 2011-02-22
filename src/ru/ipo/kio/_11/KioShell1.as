@@ -10,6 +10,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 
 import ru.ipo.kio._11.CrossedCountry.Pr1;
+import ru.ipo.kio._11.digit.DigitProblem;
 import ru.ipo.kio._11.recognition.Pr1;
 import ru.ipo.kio._11.semiramida.SemiramidaProblem;
 import ru.ipo.kio.api.KioApi;
@@ -68,7 +69,7 @@ public class KioShell1 extends Sprite {
                 [
                     //new ru.ipo.kio._11.CrossedCountry.Pr1()
                     new ru.ipo.kio.api_example.Pr1(),
-                    new ru.ipo.kio._11.recognition.Pr1(),
+                    new DigitProblem(1),
 //                    new ru.ipo.kio.api_example.Pr1(),
                     new SemiramidaProblem()
                 ],

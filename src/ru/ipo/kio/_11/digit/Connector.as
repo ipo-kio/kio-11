@@ -102,10 +102,7 @@ public class Connector extends Sprite {
         Globals.instance.drag_object = connector_to_move;
         connector_to_move.startDrag(false, new Rectangle(0, 0, Field.WIDTH, Field.HEIGHT));
         connector_to_move.on = false;
-        if (connector_to_move.dest) {
-            connector_to_move.dest.connectors.splice(dest.connectors.indexOf(this), 1);
-            connector_to_move.dest = null;
-        }
+        connector_to_move.dest = null;
     }
 
     public function get dest():Out {
@@ -113,7 +110,15 @@ public class Connector extends Sprite {
     }
 
     public function set dest(value:Out):void {
+        if (_dest)
+            {
+                var ind:int = dest.connectors.indexOf(this);
+                if (ind >= 0)
+                    _dest.connectors.splice(ind, 1);
+            }
         _dest = value;
+        if (_dest)
+            _dest.connectors.push(this);
         Field.instance.evaluate();
     }
 
@@ -121,7 +126,7 @@ public class Connector extends Sprite {
         dest = null;
 
         var p:Point = _wire.finish.clone();
-        p.offset( - BASE_LENGTH, 0);
+        p.offset(- BASE_LENGTH, 0);
 
         _wire.start = p;
 

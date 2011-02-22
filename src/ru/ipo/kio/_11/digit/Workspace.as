@@ -5,10 +5,16 @@
  * Time: 15:57
  */
 package ru.ipo.kio._11.digit {
+import flash.display.BitmapData;
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
+
+import flash.geom.Point;
+
+import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.api.controls.GraphicsButton;
 
 public class Workspace extends Sprite {
 
@@ -23,6 +29,33 @@ public class Workspace extends Sprite {
     private static const TRASH_OVER:Class;
     private static const TRASH_OVER_IMG:DisplayObject = new TRASH_OVER;
 
+    [Embed(source="resources/buttons/Big_Button_01.jpg")]
+    private static const BIG_BUTTON_NORMAL:Class;
+    private static const BIG_BUTTON_NORMAL_IMG:BitmapData = new BIG_BUTTON_NORMAL().bitmapData;
+
+    [Embed(source="resources/buttons/Big_Button_02.jpg")]
+    private static const BIG_BUTTON_OVER:Class;
+    private static const BIG_BUTTON_OVER_IMG:BitmapData = new BIG_BUTTON_OVER().bitmapData;
+
+    [Embed(source="resources/buttons/Big_Button_03.jpg")]
+    private static const BIG_BUTTON_DOWN:Class;
+    private static const BIG_BUTTON_DOWN_IMG:BitmapData = new BIG_BUTTON_DOWN().bitmapData;
+
+    [Embed(source="resources/buttons/Small_Button_01.jpg")]
+    private static const SMALL_BUTTON_NORMAL:Class;
+    private static const SMALL_BUTTON_NORMAL_IMG:BitmapData = new SMALL_BUTTON_NORMAL().bitmapData;
+
+    [Embed(source="resources/buttons/Small_Button_02.jpg")]
+    private static const SMALL_BUTTON_OVER:Class;
+    private static const SMALL_BUTTON_OVER_IMG:BitmapData = new SMALL_BUTTON_OVER().bitmapData;
+
+    [Embed(source="resources/buttons/Small_Button_03.jpg")]
+    private static const SMALL_BUTTON_DOWN:Class;
+    private static const SMALL_BUTTON_DOWN_IMG:BitmapData = new SMALL_BUTTON_DOWN().bitmapData;
+
+    [Embed(source='resources/a_LCDNova.ttf', embedAsCFF = "false", fontName="KioDigits", mimeType="application/x-font-truetype", unicodeRange = "U+0000-U+FFFF")]
+    private static var KIO_DIGITS_FONT:Class;
+
     private var _trash:DisplayObject;
 
     private static const TRASH_X:int = 671;
@@ -34,6 +67,8 @@ public class Workspace extends Sprite {
     private var _new_gate_and:Gate = GatesFactory.createGate(GatesFactory.TYPE_AND);
     private var _new_gate_not:Gate = GatesFactory.createGate(GatesFactory.TYPE_NOT);
     private var _new_gate_nop:Gate = GatesFactory.createGate(GatesFactory.TYPE_NOP);
+
+    private var loc:Object = KioApi.getLocalization(DigitProblem.ID);
 
     public function Workspace() {
         addChild(new BG);
@@ -53,6 +88,10 @@ public class Workspace extends Sprite {
         addChild(_trash);
 
         placeNewGates();
+
+        placeWiresButtons();
+
+        placeDigitButtons();
     }
 
     public function init(event:Event = null):void {
@@ -199,5 +238,100 @@ public class Workspace extends Sprite {
         _new_gate_nop.y = 367 + 10 + 5;
         _new_gate_nop.addTo(this, this, this);
     }
+
+    private function placeWiresButtons():void {
+        var resetButton:GraphicsButton = new GraphicsButton(
+                loc.buttons.reset,
+                BIG_BUTTON_NORMAL_IMG,
+                BIG_BUTTON_OVER_IMG,
+                BIG_BUTTON_DOWN_IMG,
+                "KioDigits",
+                11,
+                9
+                );
+        resetButton.x = 19;
+        resetButton.y = 419;
+        addChild(resetButton);
+
+        resetButton.addEventListener(MouseEvent.CLICK, resetButtonClick);
+
+        var splitButton:GraphicsButton = new GraphicsButton(
+                loc.buttons.split,
+                BIG_BUTTON_NORMAL_IMG,
+                BIG_BUTTON_OVER_IMG,
+                BIG_BUTTON_DOWN_IMG,
+                "KioDigits",
+                11,
+                9
+                );
+        splitButton.x = 19;
+        splitButton.y = 457;
+        addChild(splitButton);
+
+        splitButton.addEventListener(MouseEvent.CLICK, splitButtonClick);
+    }
+
+    private function resetButtonClick(event:Event):void {
+        var wire:Wire = Globals.instance.selected_wire;
+        if (wire)
+            wire.connector.moveToBasePosition();
+    }
+
+    private function splitButtonClick(event:Event):void {
+        var wire:Wire = Globals.instance.selected_wire;
+        if (!wire)
+            return;
+
+        var con:Connector = wire.connector;
+
+        //Out out -- connector con
+        //  ==>
+        //Out out -- NEW_ELEMENT -- connector con
+        var out:Out = con.dest;
+        var empty:Gate = GatesFactory.createGate(GatesFactory.TYPE_NOP);
+        var sum:Point = wire.start.add(wire.finish);
+        _field.addGate(empty, Math.floor(sum.x / 2), Math.floor(sum.y / 2));
+
+        empty.in_connectors[0].x = con.x;
+        empty.in_connectors[0].y = con.y;
+        empty.in_connectors[0].positionSubElements();
+        empty.in_connectors[0].dest = out;
+
+        con.dest = empty;
+        empty.positionSubElements();
+    }
+
+    private function placeDigitButtons():void {
+        for (var d:int = 0; d < 10; d++) {
+            var button:GraphicsButton = new GraphicsButton(
+                    '' + d,
+                    SMALL_BUTTON_NORMAL_IMG,
+                    SMALL_BUTTON_OVER_IMG,
+                    SMALL_BUTTON_DOWN_IMG,
+                    "KioDigits",
+                    14,
+                    11
+                    );
+            //i, j - row and col for a button
+            var i:int = 1;
+            var j:int = 3;
+            if (d != 0) {
+                i = (d - 1) / 3;
+                j = (d - 1) % 3;
+            }
+            button.x = 19 + 37 * j;
+            button.y = 8 + 37 * i;
+            addChild(button);
+
+            button.addEventListener(MouseEvent.CLICK, getDigitButtonClickedHandler(d));
+        }
+    }
+
+    private function getDigitButtonClickedHandler(d:int):Function {
+        return function(event:Event):void {
+            trace(d);
+        }
+    }
+
 }
 }

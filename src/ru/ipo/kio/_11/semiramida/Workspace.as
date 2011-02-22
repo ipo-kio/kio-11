@@ -105,8 +105,8 @@ public class Workspace extends Sprite {
 
         //extra
         var switchTimer:TextButton = new TextButton("Анимация");
-        switchTimer.x = 600;
-        switchTimer.y = 570;
+        switchTimer.x = 530;
+        switchTimer.y = 560;
         switchTimer.addEventListener(MouseEvent.CLICK, function(event:Event):void {
             _house.switchWaterTimer();
         });

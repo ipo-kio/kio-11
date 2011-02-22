@@ -238,7 +238,6 @@ public class Gate extends Sprite implements Out {
 
     public function bindConnector(c:Connector):void {
         c.dest = this;
-        _connectors.push(c);
         positionSubElements();
     }
 
