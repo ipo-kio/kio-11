@@ -7,6 +7,9 @@
  */
 package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
+import flash.text.TextField;
+
+import ru.ipo.kio.api.TextUtils;
 
 public class GatesFactory {
 
@@ -53,7 +56,19 @@ public class GatesFactory {
     private static const OUTPUT_NORMAL_BD:BitmapData = new OUTPUT_NORMAL().bitmapData;
     private static const OUTPUT_OFFSETS:Array = [8];
 
-    public static function createGate(type:int):Gate {
+    public static function createGate(type:int, ind:int = -1):Gate {
+        var gate:Gate = createGateWithoutIndex(type);
+        if (ind >= 0 && gate) {
+            var tf:TextField = TextUtils.createTextFieldWithFont("KioDigits", 11, false);
+            tf.text = '' + ind;
+            tf.x = (gate.width - tf.width) / 2;
+            tf.y = (gate.height - tf.height) / 2;
+            gate.addChild(tf);
+        }
+        return gate;
+    }
+
+    private static function createGateWithoutIndex(type:int):Gate {
         switch (type) {
             case TYPE_AND:
                 return new Gate(type, 2, and, AND_NORMAL_BD, AND_OVER_BD, AND_OFFSETS);

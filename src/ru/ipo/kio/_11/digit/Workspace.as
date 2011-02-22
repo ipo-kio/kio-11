@@ -13,8 +13,12 @@ import flash.events.MouseEvent;
 
 import flash.geom.Point;
 
+import flash.text.TextField;
+
 import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.GraphicsButton;
+import ru.ipo.kio.base.KioBase;
 
 public class Workspace extends Sprite {
 
@@ -53,6 +57,12 @@ public class Workspace extends Sprite {
     private static const SMALL_BUTTON_DOWN:Class;
     private static const SMALL_BUTTON_DOWN_IMG:BitmapData = new SMALL_BUTTON_DOWN().bitmapData;
 
+    [Embed(source="resources/Wires_01.png")]
+    private static const WIRES_1:Class;
+
+    [Embed(source="resources/Wires_02.png")]
+    private static const WIRES_2:Class;
+
     [Embed(source='resources/a_LCDNova.ttf', embedAsCFF = "false", fontName="KioDigits", mimeType="application/x-font-truetype", unicodeRange = "U+0000-U+FFFF")]
     private static var KIO_DIGITS_FONT:Class;
 
@@ -69,9 +79,18 @@ public class Workspace extends Sprite {
     private var _new_gate_nop:Gate = GatesFactory.createGate(GatesFactory.TYPE_NOP);
 
     private var loc:Object = KioApi.getLocalization(DigitProblem.ID);
+    private var _digit:Digit;
 
     public function Workspace() {
         addChild(new BG);
+
+        _digit = new Digit();
+        addChild(_digit);
+
+        var wires:DisplayObject = KioBase.instance.level == 1 ? new WIRES_1 : new WIRES_2;
+        wires.x = 44;
+        wires.y = 30;
+        addChild(wires);
 
         addChild(_field);
 
@@ -218,24 +237,51 @@ public class Workspace extends Sprite {
     }
 
     public function placeNewGates():void {
+        const v_shift:int = 16;
+
+        var or_tf:TextField = TextUtils.createTextFieldWithFont("KioDigits", 12, false);
+        var and_tf:TextField = TextUtils.createTextFieldWithFont("KioDigits", 12, false);
+        var not_tf:TextField = TextUtils.createTextFieldWithFont("KioDigits", 12, false);
+        var nop_tf:TextField = TextUtils.createTextFieldWithFont("KioDigits", 12, false);
+        or_tf.text = loc.gates.or;
+        and_tf.text = loc.gates.and;
+        not_tf.text = loc.gates.not;
+        nop_tf.text = loc.gates.nop;
+
+        and_tf.x = 58 - and_tf.width / 2;
+        and_tf.y = 326;
+        addChild(and_tf);
+
+        or_tf.x = 119 - or_tf.width / 2;
+        or_tf.y = 326;
+        addChild(or_tf);
+
+        not_tf.x = 58 - not_tf.width / 2;
+        not_tf.y = 367;
+        addChild(not_tf);
+
+        nop_tf.x = 119 - nop_tf.width / 2;
+        nop_tf.y = 367;
+        addChild(nop_tf);
+
         _new_gate_and.is_new = true;
         _new_gate_and.x = 58;
-        _new_gate_and.y = 326 + 10;
+        _new_gate_and.y = 327 + v_shift;
         _new_gate_and.addTo(this, this, this);
 
         _new_gate_or.is_new = true;
         _new_gate_or.x = 119;
-        _new_gate_or.y = 326 + 10;
+        _new_gate_or.y = 327 + v_shift;
         _new_gate_or.addTo(this, this, this);
 
         _new_gate_not.is_new = true;
         _new_gate_not.x = 58;
-        _new_gate_not.y = 367 + 10;
+        _new_gate_not.y = 367 + v_shift;
         _new_gate_not.addTo(this, this, this);
 
         _new_gate_nop.is_new = true;
         _new_gate_nop.x = 119;
-        _new_gate_nop.y = 367 + 10 + 5;
+        _new_gate_nop.y = 367 + v_shift + 5;
         _new_gate_nop.addTo(this, this, this);
     }
 
@@ -329,9 +375,12 @@ public class Workspace extends Sprite {
 
     private function getDigitButtonClickedHandler(d:int):Function {
         return function(event:Event):void {
-            trace(d);
+            _digit.val = d;
         }
     }
 
+    public function get digit():Digit {
+        return _digit;
+    }
 }
 }

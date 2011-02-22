@@ -42,7 +42,7 @@ public class SchemeInput extends Sprite implements Out{
     }
 
     public function get value():int {
-        return (_ind + 1) % 2;
+        return Globals.instance.workspace.digit.getValueAt(_ind);
     }
 
     public function get ind():int {

@@ -7,6 +7,7 @@
 package ru.ipo.kio._11.digit {
 import flash.display.Sprite;
 
+import ru.ipo.kio._11.digit.Digit;
 import ru.ipo.kio.base.KioBase;
 
 public class Field extends Sprite {
@@ -50,7 +51,7 @@ public class Field extends Sprite {
 
         _exits = new Array(10);
         for (var d:int = 0; d <= 9; d++) {
-            _exits[d] = GatesFactory.createGate(GatesFactory.TYPE_OUTPUT);
+            _exits[d] = GatesFactory.createGate(GatesFactory.TYPE_OUTPUT, d);
             _exits[d].movable = false;
             _exits[d].x = 751 - Field.X0;
             _exits[d].y = 16 + d * 39 - Field.Y0;
