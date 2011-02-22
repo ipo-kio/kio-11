@@ -104,7 +104,7 @@ package ru.ipo.kio._11.recognition
 		public var t_nB:TextField = new TextField();//Текстовое поле для количествва блоков
 		public var t_record_result:TextField = new TextField();// Текстовое поле для результата
 		public var t_record_numberBlokcs:TextField = new TextField();//Текстовое поле для количествва блоков
-		public var text_lvl_1:TextField = new TextField();//Текстовое поле для уровня
+		
 		
 		public var NUM_first_Break_lamp:int = 11; 
 		public var NUM_second_Break_lamp:int = 11;
@@ -126,16 +126,16 @@ package ru.ipo.kio._11.recognition
 		public var circle_lamp_Red:Array = new Array(); // массив содержащий все красные круглые лампочки контакты
 		public var rect_lamp_Green:Array = new Array(); // массив содержащий все зеленые лампочки
 		
-		// Создание кнопок
-		public var Del_1_lamp:SimpleButton = createButtons("Сломать лампу");
-		public var Del_2_lamp:SimpleButton = createButtons("");
+	
 		public var timer:Timer = new Timer(4000, 10);
 		
 		
 		[Embed(source="Background+Robot.jpg")]
 		public static const INPUT_BG:Class; //заводим поле - константа
-
-		
+        [Embed(source="Lamp_H_01.png")]
+		public static const Lamp_H_01:Class;
+		[Embed(source="Wires_02.png")]
+		public static const Wires_02:Class;
 		public function Main():void 
 		{
 			
@@ -143,7 +143,7 @@ package ru.ipo.kio._11.recognition
 			var bg:Sprite = new Sprite();
 			var bmp:* = new INPUT_BG;
 			bg.addChild(bmp); //добавляем картинку на спрайт
-			//addChild(bg);
+			addChild(bg);
 			
 			createNum();
 			createCont();
@@ -152,32 +152,14 @@ package ru.ipo.kio._11.recognition
 			createBin();
 			text_fields();
 			//--------------------------------------------------------
-			//линия разграничения
-			var line:Shape = new Shape();
-			line.graphics.lineStyle(1);
-			line.graphics.moveTo(120, 0);
-			line.graphics.lineTo(120, 900);
-			addChild(line);
-			//-----------------------------------------------------			
 			addEventListener(Event.ENTER_FRAME, controlLamp);
 		}
 		//===================================================
 		public function text_fields():void
 		{
 		
-			// текстовые поля вывода уровня
-			var text_lvl:TextField = new TextField();
-			text_lvl.autoSize = TextFieldAutoSize.LEFT;
-			text_lvl.text = "Уровень:";
-			text_lvl.x = 10;
-			text_lvl.y = 50;			
-			addChild(text_lvl);
 			
-			text_lvl_1.autoSize = TextFieldAutoSize.LEFT;
-			text_lvl_1.text = '            '+level;
-			text_lvl_1.x = 30;
-			text_lvl_1.y = 50;			
-			addChild(text_lvl_1);
+			
 			//-----------------------------------------------------------
 			// текстовые поля вывода результата
 			var text_result:TextField = new TextField();
@@ -251,8 +233,7 @@ public function test_continius(e:Event):void
 {
 			var i:int;	
 			// блокировка скобок
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
-			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);				
+						
 	for (i = 0; i < 10 ; i++)
 	{
 				// цифра 0 на табло
@@ -596,26 +577,19 @@ public function test_continius(e:Event):void
 		public function test_step(e:Event):void
 		{
 			// блокировка кнопок
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
-			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);
+			
 			// цифра 0 на табло
 			
 		if (NUM == 0)
 		{
-			     if ( level == 2)
-				{
+			     
 					rect_lamp_Green[3].visible = false;
 			        circle_lamp_Green[3].visible = false;
 					rect_lamp_Green[7].visible = false;
 			        circle_lamp_Green[7].visible = false;
 					rect_lamp_Green[8].visible = false;
 			        circle_lamp_Green[8].visible = false;
-				}
-				else
-				{
-				   rect_lamp_Green[3].visible = false;
-			       circle_lamp_Green[3].visible = false;
-				}
+				
 			 //get_result(NUM);
 		}
 		
@@ -628,9 +602,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[7].visible = true;
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;	
-					
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[0].visible = false;
 				circle_lamp_Green[0].visible = false;	
 				rect_lamp_Green[1].visible = false;
@@ -643,20 +615,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[5].visible = false;			 
 				rect_lamp_Green[8].visible = false;
 				circle_lamp_Green[8].visible = false;
-			}
-			else
-			{
-				rect_lamp_Green[0].visible = false;
-				circle_lamp_Green[0].visible = false;	
-				rect_lamp_Green[1].visible = false;
-				circle_lamp_Green[1].visible = false;	
-				rect_lamp_Green[3].visible = false;
-				circle_lamp_Green[3].visible = false;
-				rect_lamp_Green[4].visible = false;
-				circle_lamp_Green[4].visible = false;
-				rect_lamp_Green[5].visible = false;
-				circle_lamp_Green[5].visible = false;	
-			}
+			
 			// get_result(NUM);
 		}		
 			 // цифра 2 на табло
@@ -675,8 +634,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;			
 			 
-			 if (level == 2)
-			 {
+			
 			   rect_lamp_Green[0].visible = false;
 			   circle_lamp_Green[0].visible = false;			 
 			   rect_lamp_Green[6].visible = false;
@@ -687,14 +645,7 @@ public function test_continius(e:Event):void
 			   circle_lamp_Green[4].visible = false;
 			   rect_lamp_Green[7].visible = false;
 			   circle_lamp_Green[7].visible = false;
-			 }
-			 else
-			 {
-			   rect_lamp_Green[0].visible = false;
-			   circle_lamp_Green[0].visible = false;			 
-			   rect_lamp_Green[6].visible = false;
-			   circle_lamp_Green[6].visible = false;
-			 }
+			 
 			// get_result(NUM);
 		}
 			 // цифра 3 на табло
@@ -711,8 +662,7 @@ public function test_continius(e:Event):void
 			   rect_lamp_Green[7].visible = true;
 			   circle_lamp_Green[7].visible = true;	
 			   
-			 if (level == 2)
-			 {
+			 
 			   rect_lamp_Green[0].visible = false;
 			   circle_lamp_Green[0].visible = false;			 
 			   rect_lamp_Green[2].visible = false;
@@ -723,14 +673,7 @@ public function test_continius(e:Event):void
 			   circle_lamp_Green[5].visible = false;
 			   rect_lamp_Green[6].visible = false;
 			   circle_lamp_Green[6].visible = false; 				 
-			 }
-			 else 
-			 {			
-				rect_lamp_Green[0].visible = false;
-				circle_lamp_Green[0].visible = false;				
-				rect_lamp_Green[4].visible = false;
-				circle_lamp_Green[4].visible = false;
-			 }
+			 
 			// get_result(NUM);
 		} 
 			 // цифра 4 на табло
@@ -747,8 +690,7 @@ public function test_continius(e:Event):void
 			   rect_lamp_Green[6].visible = true;
 			   circle_lamp_Green[6].visible = true; 				
 			 
-			 if (level == 2)
-			 {
+			 
 				rect_lamp_Green[1].visible = false;
 				circle_lamp_Green[1].visible = false;			 	
 				rect_lamp_Green[4].visible = false;
@@ -759,16 +701,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[7].visible = false;			 
 				rect_lamp_Green[8].visible = false;
 				circle_lamp_Green[8].visible = false;
-			 }
-			 else
-			 {		   
-				rect_lamp_Green[1].visible = false;
-				circle_lamp_Green[1].visible = false;			 	
-				rect_lamp_Green[4].visible = false;
-				circle_lamp_Green[4].visible = false;			 
-				rect_lamp_Green[5].visible = false;
-				circle_lamp_Green[5].visible = false;
-			 }
+			 
 			// get_result(NUM);
 		} 
 			 // цифра 5 на табло
@@ -785,8 +718,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;			 
 			 
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[2].visible = false;
 				circle_lamp_Green[2].visible = false;	
 				rect_lamp_Green[4].visible = false;;
@@ -796,14 +728,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = false;;
 				circle_lamp_Green[8].visible = false;
 			 
-			}
-			else
-			{			 
-				rect_lamp_Green[2].visible = false;
-				circle_lamp_Green[2].visible = false;	
-				rect_lamp_Green[4].visible = false;;
-				circle_lamp_Green[4].visible = false;
-			} 
+			
 			 //get_result(NUM);
 		}
 			 // цифра 6 на табло
@@ -817,8 +742,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[7].visible = true;	
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;				
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[2].visible = false;
 			    circle_lamp_Green[2].visible = false;
 				rect_lamp_Green[0].visible = false;
@@ -827,12 +751,7 @@ public function test_continius(e:Event):void
 			    circle_lamp_Green[1].visible = false;
 				rect_lamp_Green[8].visible = false;
 			    circle_lamp_Green[8].visible = false;
-			}
-			else
-			{ 
-				rect_lamp_Green[2].visible = false;
-				circle_lamp_Green[2].visible = false;		 
-			} 
+			
 			// get_result(NUM);
 		}
 			 // цифра 7 на табло
@@ -848,8 +767,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = true;
 			    circle_lamp_Green[8].visible = true;		 
 			 	
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[0].visible = false;
 				circle_lamp_Green[0].visible = false;				 		 
 				rect_lamp_Green[2].visible = false;
@@ -862,18 +780,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[6].visible = false;
 				rect_lamp_Green[8].visible = false;
 				circle_lamp_Green[8].visible = false;
-			}
-			else
-			{
-				rect_lamp_Green[0].visible = false;
-				circle_lamp_Green[0].visible = false;				 		 
-				rect_lamp_Green[3].visible = false;
-				circle_lamp_Green[3].visible = false;
-				rect_lamp_Green[4].visible = false;
-				circle_lamp_Green[4].visible = false;
-				rect_lamp_Green[5].visible = false;
-				circle_lamp_Green[5].visible = false;			 
-			}
+			
 			 //get_result(NUM);			
 		}
 			 // цифра 8 на табло
@@ -894,13 +801,12 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[4].visible = true;
 				circle_lamp_Green[4].visible = true;
 			
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[7].visible = false;
 				circle_lamp_Green[7].visible = false;
 				rect_lamp_Green[8].visible = false;
 				circle_lamp_Green[8].visible = false;
-			}
+			
 			 
 			 //get_result(NUM);
 		}
@@ -912,8 +818,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;
 				
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[4].visible = false;
 			    circle_lamp_Green[4].visible = false;
 			    rect_lamp_Green[7].visible = false;
@@ -922,12 +827,7 @@ public function test_continius(e:Event):void
 			    circle_lamp_Green[5].visible = false;
 				rect_lamp_Green[6].visible = false;
 			    circle_lamp_Green[6].visible = false;
-			}
-			else
-			{
-			 rect_lamp_Green[4].visible = false;
-			 circle_lamp_Green[4].visible = false;				 
-			}
+			
 		}	
 		
 		controllaContattonot(e);
@@ -942,8 +842,7 @@ public function test_continius(e:Event):void
 		public function test(e:Event):void
 		{			
 			// блокировка кнопок
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
-			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);
+			
 			
 			timer.addEventListener(TimerEvent.TIMER, test_time);
 			timer.start();
@@ -1291,12 +1190,8 @@ public function test_continius(e:Event):void
 		//===================================================
 		public function Buttons():void	//функция создающая кнопки
 		{				
-			//кнопка смены уровня								
-    		var But_level:TextButton = createButtons("Уровень");	
-			But_level.x = 20;
-			But_level.y = 80;
-			addChild(But_level);
-			But_level.addEventListener(MouseEvent.CLICK, Level);			
+										
+    		/*		
 			//---------------------------------------------------
 			var text_creat:TextField = new TextField();
 			text_creat.autoSize = TextFieldAutoSize.LEFT;
@@ -1338,7 +1233,7 @@ public function test_continius(e:Event):void
 			But_create_Disconnect.addEventListener(MouseEvent.CLICK, disconnect);
 			
 			//---------------------------------------------------------------------------
-			
+			*/
 			var text_test:TextField = new TextField();
 			text_test.autoSize = TextFieldAutoSize.LEFT;
 			text_test.text = "Проверки:";
@@ -1373,18 +1268,6 @@ public function test_continius(e:Event):void
 			Del_result.y = 450;
 			addChild(Del_result);
 			Del_result.addEventListener(MouseEvent.CLICK, del_result);
-			
-			//-----------------------------------------------------------------------------------
-		    //кнопка для убирания одной лапочки			
-			Del_1_lamp.x = 150;
-			Del_1_lamp.y = 520;
-			addChild(Del_1_lamp);
-			Del_1_lamp.addEventListener(MouseEvent.CLICK, one_Break_lamp);
-						
-			//кнопка для убирания двух лапочек			
-			Del_2_lamp.x = 350;
-			Del_2_lamp.y = 500;			
-			Del_2_lamp.addEventListener(MouseEvent.CLICK, two_Breaks_lamp);
 						
 		}
 		//===================================================================================================
@@ -1523,173 +1406,139 @@ public function test_continius(e:Event):void
 		public function createCont():void //функция создающая контакты
 		{
 			var i:int = 0;
-			var a:int = 100;
+			var a:int = 35;
 			// красные лампочки			
 			for (i = 0; i < 9; i++) 
 			{
 				var c_lamp_Red:Sprite = createCircle( 0xff0000, 7,1);
 				circle_lamp_Red[i] = c_lamp_Red;
 				
-				circle_lamp_Red[i].x = 280;
-			    circle_lamp_Red[i].y =  a;			    
-				a = a + 30;
-			}			
+				
+			}	
+		circle_lamp_Red[0].x = 200;
+	    circle_lamp_Red[0].y = 75;			    
+		circle_lamp_Red[1].x = 200;
+	    circle_lamp_Red[1].y = 35;
+		circle_lamp_Red[2].x = 200;
+	    circle_lamp_Red[2].y = 155;
+		circle_lamp_Red[3].x = 200;
+	    circle_lamp_Red[3].y = 195;
+		circle_lamp_Red[4].x = 200;
+	    circle_lamp_Red[4].y = 235;
+		circle_lamp_Red[5].x = 200;
+	    circle_lamp_Red[5].y = 355;
+		circle_lamp_Red[6].x = 200;
+	    circle_lamp_Red[6].y = 315;
+		circle_lamp_Red[7].x = 200;
+	    circle_lamp_Red[7].y = 115;
+		circle_lamp_Red[8].x = 200;
+	    circle_lamp_Red[8].y = 275;
+	
 		//-------------------------------------------------------------------------------------------
 		// зеленые лампочки
-		a = 100;
+		
 		for (i = 0; i < 9; i++) 
 			{
 				var c_lamp_Green:Sprite = createCircle( 0x00ff00, 7,1);
-				circle_lamp_Green[i] = c_lamp_Green;
-				
-				circle_lamp_Green[i].x = 280;
-			    circle_lamp_Green[i].y = a;			    
-				a = a + 30;				
+				circle_lamp_Green[i] = c_lamp_Green;				
+							
 			}
+		circle_lamp_Green[0].x = 200;
+		circle_lamp_Green[0].y = 75;			    
+		circle_lamp_Green[1].x = 200;
+		circle_lamp_Green[1].y = 35;
+		circle_lamp_Green[2].x = 200;
+		circle_lamp_Green[2].y = 155;
+		circle_lamp_Green[3].x = 200;
+		circle_lamp_Green[3].y = 195;
+		circle_lamp_Green[4].x = 200;
+		circle_lamp_Green[4].y = 235;
+		circle_lamp_Green[5].x = 200;
+		circle_lamp_Green[5].y = 355;
+		circle_lamp_Green[6].x = 200;
+		circle_lamp_Green[6].y = 315;
+		circle_lamp_Green[7].x = 200;
+		circle_lamp_Green[7].y = 115;
+		circle_lamp_Green[8].x = 200;
+		circle_lamp_Green[8].y = 275;
+			
 		// вывод на сцены ламп
-		  if (level == 1)
-		  {
-			  for (i = 0; i < 7; i++)	
-			  {
-				addChild(circle_lamp_Red[i]);
-				addChild(circle_lamp_Green[i]);
-			  }
-		  }
-		  if (level == 2)
-		  {
-			  for (i = 0; i < 9; i++)	
+		  	for (i = 0; i < 9; i++)	
 			  {
 				addChild(circle_lamp_Red[i]);
 				addChild(circle_lamp_Green[i]);
 			   }
-		  }					
+		  				
 		}	
 		//===================================================================================================
 		public function createNum():void //функция создающая табло
 		{
 		    var i:int;	
-			var rect:Sprite = createRect( 0x808080, 150, 280); // основа табло 
-			rect.x = 140;
-			rect.y = 80;
-			addChild(rect);			
 			
 			for (i = 0; i < 9; i++) 
 			{
-				var lamp_Green:Sprite = createRect( 0x00ff00, 60, 15);
+				var lamp_Green:Sprite = new Sprite;
+				var bmp_lamp:* = new Lamp_H_01;
+				lamp_Green.addChild(bmp_lamp);
 				rect_lamp_Green[i] = lamp_Green;
 			}			
 			// местоположение зеленых горизонтальных ламп
-			//верхний
-			rect_lamp_Green[1].x = 170; 
-			rect_lamp_Green[1].y = 90;			
+			//верхний 1я линия
+			rect_lamp_Green[1].x = 65; 
+			rect_lamp_Green[1].y = 130;			
 			addChild(rect_lamp_Green[1]);
-			//средний
-			rect_lamp_Green[3].x = 170; 
-			rect_lamp_Green[3].y = 170;
+			//средний 5я линия
+			rect_lamp_Green[3].x = 65; 
+			rect_lamp_Green[3].y = 200;
 			addChild(rect_lamp_Green[3]);
-			//нижний
-			rect_lamp_Green[5].x = 170; 
-			rect_lamp_Green[5].y = 245;
+			//нижний 9я линия
+			rect_lamp_Green[5].x = 65; 
+			rect_lamp_Green[5].y = 270;
 			addChild(rect_lamp_Green[5]);
 			
 			// местоположение зеленых вертикальных ламп
-			//правый верхний
-			rect_lamp_Green[0].x = 160; 
-			rect_lamp_Green[0].y = 105;
+			//левый верхний 2я линия
+			rect_lamp_Green[0].x = 62; 
+			rect_lamp_Green[0].y = 145;
 			rect_lamp_Green[0].rotation = 90;
 		    addChild(rect_lamp_Green[0]);
-			//правый нижний
-			rect_lamp_Green[4].x = 160; 
-			rect_lamp_Green[4].y = 185;
+			//левый нижний 6я линия
+			rect_lamp_Green[4].x = 62; 
+			rect_lamp_Green[4].y = 215;
 			rect_lamp_Green[4].rotation = 90;
 			addChild(rect_lamp_Green[4]);
-			//левый верхний
-			rect_lamp_Green[2].x = 255; 
-			rect_lamp_Green[2].y = 105;
+			//правый верхний 4я линия
+			rect_lamp_Green[2].x = 145; 
+			rect_lamp_Green[2].y = 145;
 			rect_lamp_Green[2].rotation = 90;
 			addChild(rect_lamp_Green[2]);
-			//левый нижний
-			rect_lamp_Green[6].x = 255; 
-			rect_lamp_Green[6].y = 185;
+			//правый нижний 8я линия
+			rect_lamp_Green[6].x = 145; 
+			rect_lamp_Green[6].y = 215;
 			rect_lamp_Green[6].rotation = 90;
-			addChild(rect_lamp_Green[6]);
-			if ( level == 2)
-			{
-		    //диагональный верхний
-			rect_lamp_Green[7].x = 172; 
-			rect_lamp_Green[7].y = 152;
+			addChild(rect_lamp_Green[6]);			
+		    //диагональный верхний 3я линия
+			rect_lamp_Green[7].x = 68; 
+			rect_lamp_Green[7].y = 188;
 			rect_lamp_Green[7].rotation = -45;
 			addChild(rect_lamp_Green[7]);
-			//диагональный нижний
-			rect_lamp_Green[8].x = 172; 
-			rect_lamp_Green[8].y = 232;
+			//диагональный нижний 7я линия
+			rect_lamp_Green[8].x = 68; 
+			rect_lamp_Green[8].y = 258;
 			rect_lamp_Green[8].rotation =-45;
 			addChild(rect_lamp_Green[8]);
-			// текстовые поля вывода подписей на лампах
-			var num8:TextField = new TextField();
-			num8.autoSize = TextFieldAutoSize.LEFT;
-			num8.text = "8";
-			num8.x = 192;
-			num8.y = 127;			
-			addChild(num8);
 			
-			var num9:TextField = new TextField();
-			num9.autoSize = TextFieldAutoSize.LEFT;
-			num9.text = "9";
-			num9.x = 192;
-			num9.y = 207;			
-			addChild(num9);			
-			}			
-			// текстовые поля вывода подписей на лампах
-			var num1:TextField = new TextField();
-			num1.autoSize = TextFieldAutoSize.LEFT;
-			num1.text = "1";
-			num1.x = 148;
-			num1.y = 128;			
-			addChild(num1);
+			var Wires:Sprite = new Sprite();
+			var bmp_Wires:* = new Wires_02;
+			Wires.addChild(bmp_Wires); //добавляем картинку на спрайт
+			addChild(Wires);
+			Wires.x = 46;
+			Wires.y = 25;
 			
-			var num2:TextField = new TextField();
-			num2.autoSize = TextFieldAutoSize.LEFT;
-			num2.text = "2";
-			num2.x = 195;
-			num2.y = 89;			
-			addChild(num2);
 			
-			var num3:TextField = new TextField();
-			num3.autoSize = TextFieldAutoSize.LEFT;
-			num3.text = "3";
-			num3.x = 243;
-			num3.y = 128;			
-			addChild(num3);
 			
-			var num4:TextField = new TextField();
-			num4.autoSize = TextFieldAutoSize.LEFT;
-			num4.text = "4";
-			num4.x = 195;
-			num4.y = 169;			
-			addChild(num4);			
 			
-			var num5:TextField = new TextField();
-			num5.autoSize = TextFieldAutoSize.LEFT;
-			num5.text = "5";
-			num5.x = 148;
-			num5.y = 208;			
-			addChild(num5);
-			
-			var num6:TextField = new TextField();
-			num6.autoSize = TextFieldAutoSize.LEFT;
-			num6.text = "6";
-			num6.x = 195;
-			num6.y = 244;			
-			addChild(num6);
-			
-			var num7:TextField = new TextField();
-			num7.autoSize = TextFieldAutoSize.LEFT;
-			num7.text = "7";
-			num7.x = 243;
-			num7.y = 208;			
-			addChild(num7);	
-		}
+			}
 		
 		//==========================================================================
 		//==========================================================================
@@ -1714,8 +1563,7 @@ public function test_continius(e:Event):void
 		
 		public function del_result (e:Event) :void // функция сброса результатат
 		{
-			Del_1_lamp.addEventListener(MouseEvent.CLICK, one_Break_lamp);
-			Del_2_lamp.addEventListener(MouseEvent.CLICK, two_Breaks_lamp);	
+			
 			
 			 rect_lamp_Green[0].visible = true;
 			 circle_lamp_Green[0].visible = true;	
@@ -1825,20 +1673,20 @@ public function test_continius(e:Event):void
 		{
 			del_result(e);
 			var i:int = 0;
-			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);
+			
 			i = Math.floor(Math.random()*7);
 			removeChild(rect_lamp_Green[i]);
 			removeChild(circle_lamp_Green[i]);
 			removeChild(circle_lamp_Red[i]);
 			NUM_first_Break_lamp = i;
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
+			
 		}		
 		//===================================================
 		public function two_Breaks_lamp ( e:Event):void // функция удаления двух ламп
 		{
 			var j:int = 0;
 			var i:int = 0;
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
+		
 			i = Math.floor(Math.random() * 9);
 			j = Math.floor(Math.random() * 9);
 			if (i == j)
@@ -1858,18 +1706,6 @@ public function test_continius(e:Event):void
 			NUM_second_Break_lamp = j;
 		}		
 		//=================================================
-		public function Level(e:Event):void
-		{
-			del_result(e);
-			if (level == 1 )
-			    level = 2;
-			else
-			    level = 1 ;
-			text_lvl_1.text = '            ' + level;
-			createNum();
-			createCont();
-			createCont_Prov();
-		}
 		/**
 		* ...
 		* @author this part is Vlad
