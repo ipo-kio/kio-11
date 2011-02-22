@@ -134,8 +134,14 @@ package ru.ipo.kio._11.recognition
 		public static const INPUT_BG:Class; //заводим поле - константа
         [Embed(source="Lamp_H_01.png")]
 		public static const Lamp_H_01:Class;
+		[Embed(source="Big_Button_01.jpg")]
+		public static const Big_Button_01:Class;
 		[Embed(source="Wires_02.png")]
 		public static const Wires_02:Class;
+		[Embed(source="Big_Button_02.jpg")]
+		public static const Big_Button_02:Class;
+		[Embed(source="Big_Button_03.jpg")]
+		public static const Big_Button_03:Class;
 		public function Main():void 
 		{
 			
@@ -164,69 +170,82 @@ package ru.ipo.kio._11.recognition
 			// текстовые поля вывода результата
 			var text_result:TextField = new TextField();
 			text_result.autoSize = TextFieldAutoSize.LEFT;
-			text_result.text = "Число верно распознанных цифр:";
-			text_result.x = 500;
-			text_result.y = 450;			
+			text_result.text = "Результат:";
+			text_result.x = 440;
+			text_result.y = 415;			
 			addChild(text_result);
+			
+			var text_result_1:TextField = new TextField();
+			text_result_1.autoSize = TextFieldAutoSize.LEFT;
+			text_result_1.text = "Распознаются:";
+			text_result_1.x = 435;
+			text_result_1.y = 435;			
+			addChild(text_result_1);
 			
 			
 			t_result.autoSize = TextFieldAutoSize.LEFT;
-			t_result.text =  '  '+Result;
-			t_result.x = 670;
+			t_result.text = ''+Result+' цифр из 10';
+			t_result.x = 435;
 			t_result.y = 450;			
 			addChild(t_result);				
 			//-----------------------------------------------------------------
 			// текстовые поля вывода количества блоков
 			var text_numberBlokcs:TextField = new TextField();
 			text_numberBlokcs.autoSize = TextFieldAutoSize.LEFT;
-			text_numberBlokcs.text = "Количество блоков:";
-			text_numberBlokcs.x = 500;
-			text_numberBlokcs.y = 480;			
+			text_numberBlokcs.text = "Элементов";
+			text_numberBlokcs.x = 435;
+			text_numberBlokcs.y = 465;			
 			addChild(text_numberBlokcs);
 			
 			
 			t_nB.autoSize = TextFieldAutoSize.LEFT;
 			t_nB.text =  '  '+NumberBlokcs;
-			t_nB.x = 600;
-			t_nB.y = 480;			
+			t_nB.x = 490;
+			t_nB.y = 465;			
 			addChild(t_nB);	
 			//-------------------------------------------------------------
 			// текстовые поля вывода рекорда
 			var text_record_result:TextField = new TextField();
 			text_record_result.autoSize = TextFieldAutoSize.LEFT;
-			text_record_result.text = "Число верно распознанных цифр Рекорд:";
-			text_record_result.x = 500;
-			text_record_result.y = 520;			
+			text_record_result.text = "Рекорд:";
+			text_record_result.x = 565;
+			text_record_result.y = 415;			
 			addChild(text_record_result);
 			
+			var text_result_2:TextField = new TextField();
+			text_result_2.autoSize = TextFieldAutoSize.LEFT;
+			text_result_2.text = "Распознаются:";
+			text_result_2.x = 560;
+			text_result_2.y = 435;			
+			addChild(text_result_2);
 			
 			t_record_result.autoSize = TextFieldAutoSize.LEFT;
-			t_record_result.text =  '  '+Record_Result;
-			t_record_result.x = 710;
-			t_record_result.y = 520;			
+			t_record_result.text =  ''+Record_Result+' цифр из 10';
+			t_record_result.x = 560;
+			t_record_result.y =450;			
 			addChild(t_record_result);				
 			//-----------------------------------------------------------------
 			// текстовые поля вывода рекорда
 			var text_record_numberBlokcs:TextField = new TextField();
 			text_record_numberBlokcs.autoSize = TextFieldAutoSize.LEFT;
-			text_record_numberBlokcs.text = "Количество блоков Рекорд:";
-			text_record_numberBlokcs.x = 500;
-			text_record_numberBlokcs.y = 560;			
+			text_record_numberBlokcs.text = "Элементов";
+			text_record_numberBlokcs.x = 560;
+			text_record_numberBlokcs.y = 465;			
 			addChild(text_record_numberBlokcs);
 			
 			
 			t_record_numberBlokcs.autoSize = TextFieldAutoSize.LEFT;
 			t_record_numberBlokcs.text =  '  '+Record_NumberBlokcs;
-			t_record_numberBlokcs.x = 640;
-			t_record_numberBlokcs.y = 560;			
+			t_record_numberBlokcs.x = 610;
+			t_record_numberBlokcs.y = 465;			
 			addChild(t_record_numberBlokcs);			
 			//-------------------------------------------------------------			
-			var text_bin:TextField = new TextField();
+			/*var text_bin:TextField = new TextField();
 			text_bin.autoSize = TextFieldAutoSize.LEFT;
 			text_bin.text = "Корзина";
 			text_bin.x = 25;
 			text_bin.y = 380;			
-			addChild(text_bin);			
+			addChild(text_bin);	*/		
 		}
 		//===================================================
 public function test_continius(e:Event):void
@@ -1218,23 +1237,37 @@ public function test_continius(e:Event):void
 			But_create_not.x = 20;
 			But_create_not.y = 240;
 			addChild(But_create_not);
-			But_create_not.addEventListener(MouseEvent.CLICK, Createnot);
+			But_create_not.addEventListener(MouseEvent.CLICK, Createnot);*/
 			
+			var tf_1:TextField = new TextField();
+			tf_1.text = "Разделить";			
+			tf_1.selectable = false;
+			tf_1.autoSize = TextFieldAutoSize.CENTER;
+			tf_1.x = 58;
+            tf_1.y = 425;
 			var But_create_non:SimpleButton = createButtons("'Разделить'");
 			But_create_non.x = 20;
-			But_create_non.y = 320;
+			But_create_non.y = 420;
 			addChild(But_create_non);
+			addChild(tf_1);
 			But_create_non.addEventListener(MouseEvent.CLICK, Createnon);
 			
+			var tf_2:TextField = new TextField();
+			tf_2.text = "Отсоединить";		
+			tf_2.selectable = false;
+			tf_2.autoSize = TextFieldAutoSize.CENTER;
+			tf_2.x = 52;
+			tf_2.y = 465;			
 			var But_create_Disconnect:SimpleButton = createButtons("Отсоединить");
 			But_create_Disconnect.x = 20;
-			But_create_Disconnect.y = 280;
+			But_create_Disconnect.y = 460;
 			addChild(But_create_Disconnect);
+			addChild(tf_2);
 			But_create_Disconnect.addEventListener(MouseEvent.CLICK, disconnect);
 			
 			//---------------------------------------------------------------------------
-			*/
-			var text_test:TextField = new TextField();
+			
+			/*var text_test:TextField = new TextField();
 			text_test.autoSize = TextFieldAutoSize.LEFT;
 			text_test.text = "Проверки:";
 			text_test.x = 150;
@@ -1246,34 +1279,43 @@ public function test_continius(e:Event):void
 			But_test_step.y = 480;
 			addChild(But_test_step);
 			But_test_step.addEventListener(MouseEvent.CLICK,test_step);
-			myVar = 0;
+			myVar = 0;*/
 			
-			//кнопка проверка
-			var But_test_continius:SimpleButton = createButtons("Мгновенная");
-			But_test_continius.x = 250;
-			But_test_continius.y = 480;
-			addChild(But_test_continius);
-			But_test_continius.addEventListener(MouseEvent.CLICK, test_continius);
-						
-			//кнопка Прверка с задержкой
-			var But_test:SimpleButton = createButtons("С задержкой");
-			But_test.x = 350;
-			But_test.y = 480;
-			addChild(But_test);
-			But_test.addEventListener(MouseEvent.CLICK, test);
 			//-------------------------------------------------------------------------------
 			// кнопка сброса решения
+			var tf_3:TextField = new TextField();
+			tf_3.text = "Сбросить";		
+			tf_3.selectable = false;
+			tf_3.autoSize = TextFieldAutoSize.CENTER;
+			tf_3.x = 680;
+			tf_3.y = 370;	
 			var Del_result:SimpleButton = createButtons("Сбросить");
-			Del_result.x = 780;
-			Del_result.y = 450;
+			Del_result.x = 640;
+			Del_result.y = 365;
 			addChild(Del_result);
+			addChild(tf_3);
 			Del_result.addEventListener(MouseEvent.CLICK, del_result);
 						
 		}
 		//===================================================================================================
-		public function createButtons(a:String):TextButton  // функция создания кнопок
+		public function createButtons(a:String):SimpleButton  // функция создания кнопок
 		{
-				return new TextButton(a);
+			var button:SimpleButton = new  SimpleButton;
+			var bb1:Sprite = new Sprite();
+			var bmp_but_1:* = new Big_Button_01;
+			bb1.addChild(bmp_but_1); 
+			var bb2:Sprite = new Sprite();
+			var bmp_but_2:* = new Big_Button_02;
+			bb2.addChild(bmp_but_2); 
+			var bb3:Sprite = new Sprite();
+			var bmp_but_3:* = new Big_Button_03;
+			bb3.addChild(bmp_but_3);			
+			button.upState = 	bmp_but_1;
+			button.overState = bmp_but_2;
+			button.downState = bmp_but_3;
+			button.hitTestState = button.overState;
+			
+			return button;
 		}	
 		
 		//===================================================================================================
