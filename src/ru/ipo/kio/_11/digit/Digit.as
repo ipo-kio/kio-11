@@ -172,85 +172,18 @@ public class Digit extends Sprite {
     }
 
     public function set val(value:int):void {
+        if (val < 0 || val > 9)
+            return;
         _val = value;
 
-        if (KioBase.instance.level == 1) {
-            switch (_val) {
-                case 0:
-                    setElements(1, 1, 1, 0, 1, 1, 1);
-                    break;
-                case 1:
-                    setElements(0, 0, 1, 0, 0, 1, 0);
-                    break;
-                case 2:
-                    setElements(1, 0, 1, 1, 1, 0, 1);
-                    break;
-                case 3:
-                    setElements(1, 0, 1, 1, 0, 1, 1);
-                    break;
-                case 4:
-                    setElements(0, 1, 1, 1, 0, 1, 0);
-                    break;
-                case 5:
-                    setElements(1, 1, 0, 1, 0, 1, 1);
-                    break;
-                case 6:
-                    setElements(1, 1, 0, 1, 1, 1, 1);
-                    break;
-                case 7:
-                    setElements(1, 0, 1, 0, 0, 1, 0);
-                    break;
-                case 8:
-                    setElements(1, 1, 1, 1, 1, 1, 1);
-                    break;
-                case 9:
-                    setElements(1, 1, 1, 1, 0, 1, 1);
-                    break;
-            }
-        } else {
-            switch (_val) {
-                case 0:
-                    setElements(1, 1, 0, 1, 0, 1, 0, 1, 1);
-                    break;
-                case 1:
-                    setElements(0, 0, 1, 1, 0, 0, 0, 1, 0);
-                    break;
-                case 2:
-                    setElements(1, 0, 0, 1, 0, 0, 1, 0, 1);
-                    break;
-                case 3:
-                    setElements(1, 0, 1, 0, 1, 0, 1, 0, 0);
-                    break;
-                case 4:
-                    setElements(0, 1, 0, 1, 1, 0, 0, 1, 0);
-                    break;
-                case 5:
-                    setElements(1, 1, 0, 0, 1, 0, 0, 1, 1);
-                    break;
-                case 6:
-                    setElements(0, 0, 1, 0, 1, 1, 0, 1, 1);
-                    break;
-                case 7:
-                    setElements(1, 0, 1, 0, 0, 1, 0, 0, 0);
-                    break;
-                case 8:
-                    setElements(1, 1, 0, 1, 1, 1, 0, 1, 1);
-                    break;
-                case 9:
-                    setElements(1, 1, 0, 1, 1, 0, 1, 0, 0);
-                    break;
-            }
-        }
+        var digit_data:Array = KioBase.instance.level == 1 ? DigitData.d1 : DigitData.d2;
 
+        for (var i:int = 0; i < _elements.length; i++)
+            _elements[i].on = digit_data[_val][i] == 1;
 
         var sp:Workspace = Globals.instance.workspace;
         if (sp)
             sp.field.evaluate();
-    }
-
-    private function setElements(... args):void {
-        for (var i:int = 0; i < _elements.length; i++)
-            _elements[i].on = args[i] == 1;
     }
 
     public function getValueAt(ind:int):int {

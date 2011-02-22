@@ -22,6 +22,8 @@ public class Globals {
     private var _drag_type:int = DRAG_TYPE_NOTHING;
     private var _drag_object:* = null;
 
+    private var _forced_digit:int = -1;
+
     private var _workspace:Workspace;
 
     public function get selected_wire():Wire {
@@ -62,5 +64,12 @@ public class Globals {
         _workspace = value;
     }
 
+    public function get forced_digit():int {
+        return _forced_digit;
+    }
+
+    public function set forced_digit(value:int):void {
+        _forced_digit = value;
+    }
 }
 }

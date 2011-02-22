@@ -104,11 +104,9 @@ public class Field extends Sprite {
         if (!__initialized)
             return;
 
-        var all_gates:Array = _gates.concat(_exits);
-        for each (var g:Gate in all_gates)
-            g.resetValue();
+        var all_gates:Array = resetAllGates();
 
-        for each (g in all_gates)
+        for each (var g:Gate in all_gates)
             for each (var c:Connector in g.in_connectors)
                 if (c.dest) {
                     var v:int = c.dest.value;
@@ -121,8 +119,23 @@ public class Field extends Sprite {
                     c.wire.type = Wire.NO_CONNECTION;
     }
 
+    /**
+     * resets value in all gates and returns list of all gates (why not return??)
+     * @return array with all gates
+     */
+    public function resetAllGates():Array {
+        var all_gates:Array = _gates.concat(_exits);
+        for each (var g:Gate in all_gates)
+            g.resetValue();
+        return all_gates;
+    }
+
     public static function get instance():Field {
         return _instance;
+    }
+
+    public function get exits():Array {
+        return _exits;
     }
 }
 }

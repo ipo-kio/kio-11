@@ -74,7 +74,7 @@ public class KioShell1 extends Sprite {
                     new SemiramidaProblem()
                 ],
                 2011,
-                1
+                2
         );
 
         /*var spaceSettingsDialog:SpaceSettingsDialog = new SpaceSettingsDialog;

@@ -19,5 +19,8 @@ public class Resources {
 
     [Embed(source="imgs/input_bg.jpg")]
     public static const INPUT_BG:Class;
+
+    [Embed(source="imgs/settings_ru.png")]
+    public static const SETTINGS_HELPER_RU:Class;
 }
 }

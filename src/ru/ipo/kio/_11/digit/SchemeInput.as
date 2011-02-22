@@ -8,6 +8,7 @@ package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
 import flash.display.Sprite;
 
+import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
 
 public class SchemeInput extends Sprite implements Out{
@@ -42,7 +43,15 @@ public class SchemeInput extends Sprite implements Out{
     }
 
     public function get value():int {
-        return Globals.instance.workspace.digit.getValueAt(_ind);
+        //return Globals.instance.workspace.digit.getValueAt(_ind);
+        if (_ind == Globals.instance.workspace.digit.broken_index)
+            return 0;
+
+        var d:int = Globals.instance.forced_digit;
+        if (d < 0)
+            d = Globals.instance.workspace.digit.val;
+        var data:Array = KioBase.instance.level == 1 ? DigitData.d1 : DigitData.d2;
+        return data[d][_ind];
     }
 
     public function get ind():int {
