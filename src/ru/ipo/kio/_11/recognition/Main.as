@@ -3,6 +3,7 @@ package ru.ipo.kio._11.recognition
 	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
+	import flash.ui.Mouse;
 	import flash.utils.Timer;
 	import ru.ipo.kio.api.*;
 	import ru.ipo.kio.api.controls.TextButton;	
@@ -35,6 +36,12 @@ package ru.ipo.kio._11.recognition
 		public var notRight:Array = new Array();//массив левых контактов блока не
 		public var notAim:Array = new Array();//массив результирующих элементов блока не
 		
+		public var nonRightResult: Array = new Array(); //массив, содержащий входящие значения в контакты блока
+		public var nonAimResult: Array = new Array(); // массив , содержащий исходящие значения после блока
+        public var nonTull: Array = new Array()//массив тел пустого блока 
+		public var nonRight:Array = new Array();//массив левых контактов пустого блока 
+		public var nonAim:Array = new Array();//массив результирующих элементов пустого блока 
+		
 		public var andLineAim:Array = new Array(); //массив линий соединяющих блок "и" и цель 
 		public var andLineR:Array = new Array(); //массив линий соединяющих блок "и" и правый контакт 
 		public var andLineL:Array = new Array(); //массив линий соединяющих блок "и" и левый контакт 
@@ -46,6 +53,9 @@ package ru.ipo.kio._11.recognition
 		public var notLineAim:Array = new Array(); //массив линий соединяющих блок "не"и цель
 		public var notLineR:Array = new Array(); //массив линий соединяющих блок "не" и правый контакт
 		
+		public var nonLineAim:Array = new Array(); //массив линий соединяющих блок "не"и цель
+		public var nonLineR:Array = new Array(); //массив линий соединяющих блок "не" и правый контакт
+		
 		public var controlAnswer:Array = new Array();
 			
 		public var leftAndHit:Array = new Array();//показатель присоединения левого контакта блока И
@@ -56,6 +66,8 @@ package ru.ipo.kio._11.recognition
 		
 		public var rightNotHit:Array = new Array();//показатель присоединения контакта блока НЕ
 		
+		public var rightNonHit:Array = new Array();//показатель присоединения контакта пустого блока
+		
 		public var additLineLAnd:Array = new Array();//линия выделения левого провода блока И 
 		public var lineLAddAnd:Array = new Array;// показатель выделенности левой линии блока И
 		
@@ -65,9 +77,13 @@ package ru.ipo.kio._11.recognition
 		public var additLineRNot:Array = new Array();//линия выделения левого провода блока НЕ
 		public var lineRAddNot:Array = new Array;// показатель выделенности левой линии блока Не
 		
+		public var additLineRNon:Array = new Array();//линия выделения левого провода пустого блока 
+		public var lineRAddNon:Array = new Array;// показатель выделенности левой линии пустого блока 
+		
 		public var complite:int = 0;
 		public var complite2:int = 0;
 		public var complite3:int = 0;
+		public var complite4:int = 0;
 		
 		public var additLineRAnd:Array = new Array();//линия выделения правого провода блока И
 		public var lineRAddAnd:Array = new Array;// показатель выделенности правой линии блока И
@@ -78,6 +94,7 @@ package ru.ipo.kio._11.recognition
 		public var myVar:int = 0;// xитрая глобальная переменная(костыль для программы) 
 		public var myVar2:int = 0;// xитрая глобальная переменная(костыль для программы)
 		public var myVar3:int = 0;// xитрая глобальная переменная(костыль для программы)
+		public var myVar4:int = 0;
 				
 		public var NumberBlokcs:int = 0;//количество используемых блоков
 		public var Result:int = 0; // Переменная содержащая результат 
@@ -95,6 +112,7 @@ package ru.ipo.kio._11.recognition
 		public var numAnd:int = 0;
 		public var numOr:int = 0;
 		public var numNot:int = 0;
+		public var numNon:int = 0;
 		
 		public var ButtonDown:Boolean;
 		
@@ -112,9 +130,21 @@ package ru.ipo.kio._11.recognition
 		public var Del_1_lamp:SimpleButton = createButtons("Сломать лампу");
 		public var Del_2_lamp:SimpleButton = createButtons("");
 		public var timer:Timer = new Timer(4000, 10);
+		
+		
+		[Embed(source="Background+Robot.jpg")]
+		public static const INPUT_BG:Class; //заводим поле - константа
+
+		
 		public function Main():void 
 		{
+			
 			var i:int;	
+			var bg:Sprite = new Sprite();
+			var bmp:* = new INPUT_BG;
+			bg.addChild(bmp); //добавляем картинку на спрайт
+			//addChild(bg);
+			
 			createNum();
 			createCont();
 			createCont_Prov();
@@ -1295,6 +1325,12 @@ public function test_continius(e:Event):void
 			addChild(But_create_not);
 			But_create_not.addEventListener(MouseEvent.CLICK, Createnot);
 			
+			var But_create_non:SimpleButton = createButtons("'Разделить'");
+			But_create_non.x = 20;
+			But_create_non.y = 320;
+			addChild(But_create_non);
+			But_create_non.addEventListener(MouseEvent.CLICK, Createnon);
+			
 			var But_create_Disconnect:SimpleButton = createButtons("Отсоединить");
 			But_create_Disconnect.x = 20;
 			But_create_Disconnect.y = 280;
@@ -1369,7 +1405,7 @@ public function test_continius(e:Event):void
 			// красные лампочки
 			for (i = 0; i < 10; i++) 
 			{
-				var c_lamp_Red_prov:Sprite = createCircle( 0xff0000, 10);
+				var c_lamp_Red_prov:Sprite = createCircle( 0xff0000, 10,1);
 				circle_lamp_Red_prov[i] = c_lamp_Red_prov;
 				
 				circle_lamp_Red_prov[i].x = 860;
@@ -1382,7 +1418,7 @@ public function test_continius(e:Event):void
 			a = 40;
 			for (i = 0; i < 10; i++) 
 			{
-				var c_lamp_Green_prov:Sprite = createCircle( 0x00ff00, 10);
+				var c_lamp_Green_prov:Sprite = createCircle( 0x00ff00, 10,1);
 				circle_lamp_Green_prov[i] = c_lamp_Green_prov;
 				
 				circle_lamp_Green_prov[i].x = 860;
@@ -1491,7 +1527,7 @@ public function test_continius(e:Event):void
 			// красные лампочки			
 			for (i = 0; i < 9; i++) 
 			{
-				var c_lamp_Red:Sprite = createCircle( 0xff0000, 7);
+				var c_lamp_Red:Sprite = createCircle( 0xff0000, 7,1);
 				circle_lamp_Red[i] = c_lamp_Red;
 				
 				circle_lamp_Red[i].x = 280;
@@ -1503,7 +1539,7 @@ public function test_continius(e:Event):void
 		a = 100;
 		for (i = 0; i < 9; i++) 
 			{
-				var c_lamp_Green:Sprite = createCircle( 0x00ff00, 7);
+				var c_lamp_Green:Sprite = createCircle( 0x00ff00, 7,1);
 				circle_lamp_Green[i] = c_lamp_Green;
 				
 				circle_lamp_Green[i].x = 280;
@@ -1667,10 +1703,10 @@ public function test_continius(e:Event):void
 			return shape;
 		}
 		//===================================================
-		public function createCircle( color: int , radius:int ): Sprite
+		public function createCircle( color: int , radius:int,alp:int): Sprite
 		{
 			var shape:Sprite = new Sprite();
-			shape.graphics.beginFill(color);
+			shape.graphics.beginFill(color,alp);
 			shape.graphics.drawCircle(0, 0, radius);
 			shape.graphics.endFill();	
 			return shape;
@@ -1893,9 +1929,9 @@ public function test_continius(e:Event):void
 			del_result(e);
 			timer.stop();
             var tull:Sprite = createRect( 0x508080, 30, 30); //тело
-		    var leftc:Sprite = createCircle(0x228B22, 7);// левый контакт
-		    var rightc:Sprite = createCircle(0x228B22, 7);// правый контакт
-		    var aimc:Sprite = createCircle(0x200321, 7);	//		итоговый контакт
+		    var leftc:Sprite = createCircle(0x228B22, 7,1);// левый контакт
+		    var rightc:Sprite = createCircle(0x228B22, 7,1);// правый контакт
+		    var aimc:Sprite = createCircle(0x200321, 7,1);	//		итоговый контакт
 			
 			tull.x = 350;
 			tull.y = 10;
@@ -1986,7 +2022,7 @@ public function test_continius(e:Event):void
 		public function createBezie(x1:int, y1:int, x2:int, y2:int, arr:Array, stepX:int, stepY:int,stepYAnchor:int,n:int):void
 		{
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(3,0x0000CC);
+			line.graphics.lineStyle(2,0x0000CC);
 			line.graphics.moveTo(x1+stepX, y1+stepY);
 			line.graphics.curveTo(x1+20+(x2-x1)/2,y2-stepYAnchor,x2,y2);
 			addChild(line);
@@ -2000,11 +2036,11 @@ public function test_continius(e:Event):void
 			var line:Sprite = new Sprite();
 			if (andLeftResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 				
 			if (lineLAddAnd[n])
@@ -2030,11 +2066,11 @@ public function test_continius(e:Event):void
 			var additLine:Sprite = new Sprite();
 			if (andRightResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 			if (lineRAddAnd[n])
 				{
@@ -2180,6 +2216,15 @@ public function test_continius(e:Event):void
 								complite2 = 0;
 							}
 					}
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
+					}
 					
 					if(!complite)
 					{
@@ -2246,6 +2291,15 @@ public function test_continius(e:Event):void
 								removeChild(additLineROr[i]);
 								complite2 = 0;
 							}
+					}
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
 					}
 					if(!complite)
 					{
@@ -2328,17 +2382,26 @@ public function test_continius(e:Event):void
 		//===================================================
 		public function dragConnect(event:MouseEvent):void
 		{
-			moveconnect(event, myVar, andAim);
+			if (myVar >= 0)
+				moveconnect(event, myVar, andAim);
 		}
 		//=====================================================
 		public function dragConnectOr(event:MouseEvent):void
 		{
-			moveconnect(event, myVar2, orAim);
+			if (myVar2 >= 0)
+				moveconnect(event, myVar2, orAim);
 		}
 		//======================================================
 		public function dragConnectNot(event:MouseEvent):void
 		{
-			moveconnect(event, myVar3, notAim);
+			if (myVar3 >= 0)
+				moveconnect(event, myVar3, notAim);
+		}
+		//=======================================================
+		public function dragConnectNon(event:MouseEvent):void
+		{
+			if (myVar4 >= 0)
+				moveconnect(event, myVar4, nonAim);
 		}
 		//===================================================
 		public function moveconnect(e:MouseEvent,n:int, aim:Array):void
@@ -2380,6 +2443,15 @@ public function test_continius(e:Event):void
 				{
 					notRight[i].x = aim[n].x;
 					notRight[i].y = aim[n].y;
+					flag = 0;
+				}
+			}
+			for (i = 0; i < nonTull.length&&flag; i++)
+			{
+				if (nonRight[i].hitTestObject(aim[n]))
+				{
+					nonRight[i].x = aim[n].x;
+					nonRight[i].y = aim[n].y;
 					flag = 0;
 				}
 			}
@@ -2464,17 +2536,25 @@ public function test_continius(e:Event):void
 							andRight[myVar].y = notAim[k].y;
 						}
 					}
+					for (k = 0; k < nonTull.length; k++)
+					{
+						if (andRight[myVar].hitTestObject(nonAim[k]))
+						{
+							andRight[myVar].x = nonAim[k].x;
+							andRight[myVar].y = nonAim[k].y;
+						}
+					}
 				}
 				if(e.target==andTull[myVar])
 				{
 					andTull[myVar].stopDrag();
 					stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
 					removeEventListener(MouseEvent.MOUSE_MOVE, dragConnect);
-					if(leftAndHit[k])
+					if(leftAndHit[myVar])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsAnd);
-					if (rightAndHit[k])
+					if (rightAndHit[myVar])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsAnd);
-					if(!leftAndHit[k]&&!rightAndHit[k])
+					if(!leftAndHit[myVar]&&!rightAndHit[myVar])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
 				}
 			
@@ -2602,6 +2682,7 @@ public function test_continius(e:Event):void
 			var unit2:int = 1; var unit2b:int = 1;
 			var unit3:int = 1; var unit3b:int = 1;
 			var unit4:int = 1; var unit4b:int = 1;
+			var unit5:int = 1; var unit5b:int = 1;
 			for (var i:int = 0; i < andRight.length; i++)
 			{
 				for (var k:int = 0; k < 9;k++)
@@ -2663,16 +2744,33 @@ public function test_continius(e:Event):void
 								leftAndHit[myVar] = true;
 								andLeftResult[i] = notAimResult[k];
 							}
-				}						
+				}
+				for (k = 0; k < nonTull.length; k++)
+				{
+					if (andRight[i].hitTestObject(nonAim[k]))
+							{
+								unit5 = 0;
+								rightAndHit[myVar] = true;
+								andRightResult[i] = nonAimResult[k];
+							}
+					if (andLeft[i].hitTestObject(nonAim[k]))
+							{
+								unit5b = 0;
+								leftAndHit[myVar] = true;
+								andLeftResult[i] = nonAimResult[k];
+							}
+				}			
 				andAimResult[i] = andLeftResult[i] && andRightResult[i];
-				if (unit1 && unit2 && unit3 && unit4)
+				if (unit1 && unit2 && unit3 && unit4&& unit5)
 					{
 						rightAndHit[i] = false;
 					}
-				if (unit1b && unit2b && unit3b && unit4b)
+				if (unit1b && unit2b && unit3b && unit4b&&unit5b)
 					{
 						leftAndHit[i] = false;
 					}
+				unit1 = unit2 = unit3 = unit4 = unit5 = 1;
+				unit1b = unit2b = unit3b = unit4b = unit5b = 1;
 			}
 			/*for (i = 0; i < 10; i++)
 			{
@@ -2697,9 +2795,9 @@ public function test_continius(e:Event):void
 			del_result(e);
 			timer.stop();
             var tull:Sprite = createRect( 0x807080, 30, 30); //тело
-		    var leftc:Sprite = createCircle(0x235B30, 7);// левый контакт
-		    var rightc:Sprite = createCircle(0x235B30, 7);// правый контакт
-		    var aimc:Sprite = createCircle(0x200321, 7);	//		итоговый контакт
+		    var leftc:Sprite = createCircle(0x235B30, 7,1);// левый контакт
+		    var rightc:Sprite = createCircle(0x235B30, 7,1);// правый контакт
+		    var aimc:Sprite = createCircle(0x200321, 7,1);	//		итоговый контакт
 			tull.x = 350;
 			tull.y = 10;
 			leftc.x = 330;
@@ -2739,11 +2837,11 @@ public function test_continius(e:Event):void
 			var additLine:Sprite = new Sprite();
 			if (orRightResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 			if (lineRAddOr[n])
 				{
@@ -2767,11 +2865,11 @@ public function test_continius(e:Event):void
 			var additLine:Sprite = new Sprite();
 			if (orLeftResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 			if (lineLAddOr[n])
 				{
@@ -2882,7 +2980,15 @@ public function test_continius(e:Event):void
 								complite = 0;
 							}
 					}
-					
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
+					}
 					if(!complite2)
 					{
 						flag = 1;
@@ -2949,7 +3055,15 @@ public function test_continius(e:Event):void
 								complite = 0;
 							}
 					}
-					
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
+					}
 					if(!complite2)
 					{
 						flag = 1;
@@ -2991,24 +3105,26 @@ public function test_continius(e:Event):void
 		//====================================================
 		public function dragContactsOr(event:MouseEvent):void 
 		{ 
-
-			if (!leftOrHit[myVar2])
+			if (myVar2 >= 0)
 			{
-				orLeft[myVar2].x = orTull[myVar2].x -20; 
-				orLeft[myVar2].y = orTull[myVar2].y -5;
+				if (!leftOrHit[myVar2])
+				{
+					orLeft[myVar2].x = orTull[myVar2].x -20; 
+					orLeft[myVar2].y = orTull[myVar2].y -5;
+				}
+				if (!rightOrHit[myVar2])
+				{
+					orRight[myVar2].x = orTull[myVar2].x - 20; 
+					orRight[myVar2].y = orTull[myVar2].y +30;
+				}
+				orAim[myVar2].x = orTull[myVar2].x + 50; 
+				orAim[myVar2].y = orTull[myVar2].y +15;
+				orLineAim[myVar2].x = orTull[myVar2].x - 350;
+				orLineAim[myVar2].y = orTull[myVar2].y - 10;
+				wireLor(event,myVar2);
+				wireRor(event,myVar2);
+				event.updateAfterEvent(); 
 			}
-			if (!rightOrHit[myVar2])
-			{
-				orRight[myVar2].x = orTull[myVar2].x - 20; 
-				orRight[myVar2].y = orTull[myVar2].y +30;
-			}
-			orAim[myVar2].x = orTull[myVar2].x + 50; 
-			orAim[myVar2].y = orTull[myVar2].y +15;
-			orLineAim[myVar2].x = orTull[myVar2].x - 350;
-			orLineAim[myVar2].y = orTull[myVar2].y - 10;
-			wireLor(event,myVar2);
-			wireRor(event,myVar2);
-			event.updateAfterEvent(); 
 		} 
 		//===================================================
 		public function upor(e:Event):void
@@ -3093,11 +3209,11 @@ public function test_continius(e:Event):void
 				{
 					orTull[myVar2].stopDrag();
 					removeEventListener(MouseEvent.MOUSE_MOVE, dragConnectOr);
-					if(leftOrHit[k])
+					if(leftOrHit[myVar2])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsOr);
-					if (rightOrHit[k])
+					if (rightOrHit[myVar2])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsOr);
-					if(!leftOrHit[k]&&!rightOrHit[k])
+					if(!leftOrHit[myVar2]&&!rightOrHit[myVar2])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircleor);
 					
 				}
@@ -3204,6 +3320,7 @@ public function test_continius(e:Event):void
 			var unit2:int = 1; var unit2b:int = 1;
 			var unit3:int = 1; var unit3b:int = 1;
 			var unit4:int = 1; var unit4b:int = 1;
+			var unit5:int = 1; var unit5b:int = 1;
 			for (var i:int = 0; i < orRight.length; i++)
 			{
 				for (var k:int = 0; k < 9;k++)
@@ -3266,16 +3383,33 @@ public function test_continius(e:Event):void
 								orLeftResult[i] = notAimResult[k];
 							}
 					}
+					for (k = 0; k < nonTull.length; k++)
+					{
+						if (orRight[i].hitTestObject(nonAim[k]))
+							{
+								unit5 = 0;
+								rightOrHit[i] = true;
+								orRightResult[i] = nonAimResult[k];
+							}
+						if (orLeft[i].hitTestObject(nonAim[k]))
+							{
+								unit5b = 0;
+								leftOrHit[i] = true;
+								orLeftResult[i] = nonAimResult[k];
+							}
+					}
 				
 				orAimResult[i] = orLeftResult[i] || orRightResult[i];
-				if (unit1 && unit2 && unit3 && unit4)
+				if (unit1 && unit2 && unit3 && unit4&&unit5)
 					{
 						rightOrHit[i] = false;
 					}
-				if (unit1b && unit2b && unit3b && unit4b)
+				if (unit1b && unit2b && unit3b && unit4b&&unit5b)
 					{
 						leftOrHit[i] = false;
 					}
+				unit1 = unit2 = unit3 = unit4 = unit5 = 1;
+				unit1b = unit2b = unit3b = unit4b = unit5b = 1;
 			}
 			/*for (i = 0; i < 10; i++)
 				{
@@ -3300,8 +3434,8 @@ public function test_continius(e:Event):void
 			del_result(e);
 			timer.stop();
             var tull:Sprite = createRect( 0x808060, 30, 30); //тело
-		    var rightc:Sprite = createCircle(0x220B00, 7);//  контакт
-		    var aimc:Sprite = createCircle(0x200321, 7);	//		итоговый контакт
+		    var rightc:Sprite = createCircle(0x220B00, 7,1);//  контакт
+		    var aimc:Sprite = createCircle(0x200321, 7,1);	//		итоговый контакт
 			tull.x = 350;
 			tull.y = 10;
 			rightc.x = 330;
@@ -3336,11 +3470,11 @@ public function test_continius(e:Event):void
 			var additLine:Sprite = new Sprite();
 			if (notRightResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 			if (lineRAddNot[n])
 				{
@@ -3432,6 +3566,15 @@ public function test_continius(e:Event):void
 								removeChild(additLineRAnd[i]);
 								complite = 0;
 							}
+					}
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
 					}
 					if(!complite3)
 					{
@@ -3540,9 +3683,9 @@ public function test_continius(e:Event):void
 			{
 				notTull[myVar3].stopDrag();
 				removeEventListener(MouseEvent.MOUSE_MOVE, dragConnectNot);
-				if (rightNotHit[k])
+				if (rightNotHit[myVar3])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsNot);
-					if(!rightNotHit[k])
+					if(!rightNotHit[myVar3])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCirclenot);	
 			}
 			//stage.removeEventListener(MouseEvent.MOUSE_MOVE, distanceNot); 
@@ -3619,7 +3762,8 @@ public function test_continius(e:Event):void
 			var unit2:int = 1;
 			var unit3:int = 1;
 			var unit4:int = 1;
-
+			var unit5 :int = 1;
+			
 			for (var i:int = 0; i < notRight.length; i++)
 			{
 				for (var k:int = 0; k < 9;k++)
@@ -3658,28 +3802,20 @@ public function test_continius(e:Event):void
 								notRightResult[i] = notAimResult[k];
 							}
 				}
-				
-				notAimResult[i] = !notRightResult[i];
-				if (unit1 && unit2 && unit3 && unit4)
-					rightNotHit[i] = false;
-			}
-			
-			/*for (i = 0; i < 10; i++)
+				for (k = 0; k < nonTull.length; k++)
 				{
-					for (k = 0; k < notTull.length&&flag; k++)
-					{
-						if (circle_lamp_Green_prov[i].hitTestObject(notAim[k]))
-						{
-							circle_lamp_Green_prov[i].visible = notAimResult[k];
-							flag = 0;
-						}
-						else
-						{
-							circle_lamp_Green_prov[i].visible = false;
-						}
-					}
-					flag = 1;
-				}*/
+					if (notRight[i].hitTestObject(nonAim[k]))
+							{
+								unit5 = 0;
+								rightNotHit[i] = true;
+								notRightResult[i] = nonAimResult[k];
+							}
+				}
+				notAimResult[i] = !notRightResult[i];
+				if (unit1 && unit2 && unit3 && unit4&&unit5)
+					rightNotHit[i] = false;
+				unit1 = unit2 = unit3 = unit4 = unit5 = 1;		
+			}
 		}
 		//===================================================
 		public function createBin():void
@@ -3712,5 +3848,547 @@ public function test_continius(e:Event):void
 			addChild(line);
 		}
 		//========================================================
+		[Embed(source="Empty_01.png")]
+		public static const Non:Class;
+		[Embed(source="Connector_01.png")]
+		public static const NonConect:Class;
+		public function Createnon(e:Event):void 
+		{
+			del_result(e);
+			timer.stop();
+			
+            var flag:int = 1;
+			var tull:Sprite = new Sprite(); //тело
+			var bmp:*= new Non;
+			var con:*= new NonConect;
+			tull.addChild(bmp);
+		    var rightc:Sprite = new Sprite();//  контакт
+			rightc.addChild(con);
+		    var aimc:Sprite = createCircle(0x00ff99, 3,1);	//		итоговый контакт
+			for (var i:int = 0; i < andTull.length&&flag;i++)
+			{
+				if (lineLAddAnd[i])
+				{
+					tull.x = (andTull[i].x-(andTull[i].x-andLeft[i].x)/2);
+					tull.y = andTull[i].y-(andTull[i].y-andLeft[i].y)/2;
+					rightc.x = andLeft[i].x;
+					rightc.y = andLeft[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					andLeft[i].x = aimc.x;
+					andLeft[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+				if (lineRAddAnd[i])
+				{
+					tull.x = (andTull[i].x-(andTull[i].x-andRight[i].x)/2);
+					tull.y = andTull[i].y-(andTull[i].y-andRight[i].y)/2;
+					rightc.x = andRight[i].x;
+					rightc.y = andRight[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					andRight[i].x = aimc.x;
+					andRight[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+			}
+			for (i = 0; i < notTull.length && flag; i++)
+			{
+				if (lineRAddNot[i])
+				{
+					tull.x = (notTull[i].x-(notTull[i].x-notRight[i].x)/2);
+					tull.y = notTull[i].y-(notTull[i].y-notRight[i].y)/2;
+					rightc.x = notRight[i].x;
+					rightc.y = notRight[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					notRight[i].x = aimc.x;
+					notRight[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+			}
+			for (i = 0; i < orTull.length&&flag; i++)
+			{
+				if (lineRAddOr[i])
+				{
+					tull.x = (orTull[i].x-(orTull[i].x-orRight[i].x)/2);
+					tull.y = orTull[i].y-(orTull[i].y-orRight[i].y)/2;
+					rightc.x = orRight[i].x;
+					rightc.y = orRight[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					orRight[i].x = aimc.x;
+					orRight[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+				if (lineLAddOr[i])
+				{
+					tull.x = (orTull[i].x-(orTull[i].x-orLeft[i].x)/2);
+					tull.y = orTull[i].y-(orTull[i].y-orLeft[i].y)/2;
+					rightc.x = orLeft[i].x;
+					rightc.y = orLeft[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					orLeft[i].x = aimc.x;
+					orLeft[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+			}
+			for (i = 0; i < nonTull.length && flag; i++)
+			{
+				if (lineRAddNon[i])
+				{
+					tull.x = (nonTull[i].x-(nonTull[i].x-nonRight[i].x)/2);
+					tull.y = nonTull[i].y-(nonTull[i].y-nonRight[i].y)/2;
+					rightc.x = nonRight[i].x;
+					rightc.y = nonRight[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					nonRight[i].x = aimc.x;
+					nonRight[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+			}
+			
+		}
+		//=========================================================
+		public function controlWireNon(e:Event):void
+		{
+			for (var i:int = 0; i < numNon; i++)
+			{
+				wireNon(e,i);
+			}
+		}
+		//========================================================
+		public function controllaContattonon(e:Event):void
+		{
+			var flag:int = 1;
+			var unit1:int = 1;
+			var unit2:int = 1;
+			var unit3:int = 1;
+			var unit4:int = 1;
+			var unit5:int = 1;
+
+			for (var i:int = 0; i < nonRight.length; i++)
+			{
+				
+				for (var k:int = 0; k < 9;k++)
+					{
+						if(nonRight[i].hitTestObject(circle_lamp_Green[k]))
+							{
+								unit1 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = circle_lamp_Green[k].visible;
+							}
+					}
+				for (k = 0; k < andTull.length; k++)
+					{
+						if (nonRight[i].hitTestObject(andAim[k]))
+							{
+								unit2 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = andAimResult[k];
+							}
+					}
+				for (k = 0; k < orTull.length;k++)
+					{
+						if (nonRight[i].hitTestObject(orAim[k]))
+							{
+								unit3 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = orAimResult[k];
+							}
+					}
+				for (k = 0; k < notTull.length; k++)
+				{
+					if (nonRight[i].hitTestObject(notAim[k]))
+							{
+								unit4 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = notAimResult[k];
+							}
+				}
+				for (k = 0; k < nonTull.length; k++)
+				{
+					if (nonRight[i].hitTestObject(nonAim[k]))
+							{
+								unit5 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = nonAimResult[k];
+							}
+				}
+				
+				nonAimResult[i] = nonRightResult[i];
+				if (unit1 && unit2 && unit3 && unit4&&unit5)
+					rightNonHit[i] = false;
+				unit1 = 1; unit2 = 1; unit3 = 1; unit4 = 1; unit5 = 1;
+			}
+		}
+		//========================================================
+		public function wireNon(e:Event,n:int):void
+		{
+			removeChild(nonLineR[n]);
+			var line:Sprite = new Sprite();
+			var additLine:Sprite = new Sprite();
+			if (nonRightResult[n] == true)
+				{
+					line.graphics.lineStyle(2, 0xF7C709);
+				}
+			else
+				{
+					line.graphics.lineStyle(2, 0x000001);
+				}
+			if (lineRAddNon[n])
+				{
+					removeChild(additLineRNon[n]);
+					if (nonRightResult[n] == true)
+						additLine.graphics.lineStyle(6, 0xF7C709, 0.5);
+					else
+						additLine.graphics.lineStyle(6, 0x000001, 0.3);
+					additLine.graphics.moveTo(nonTull[n].x, nonTull[n].y+5);
+					additLine.graphics.lineTo(nonRight[n].x+12,nonRight[n].y+6);
+					additLineRNon[n] = additLine;
+					addChild(additLineRNon[n]);
+				}
+			line.graphics.moveTo(nonTull[n].x, nonTull[n].y+5);
+			line.graphics.lineTo(nonRight[n].x+12,nonRight[n].y+6);
+			addChild(line);
+			nonLineR[n] = line;
+		}
+		//=========================================================
+		public function downnon(e:Event):void
+		{
+			var flag : int = 0 ;
+			var k: int = 0;
+			var additLine:Sprite = new Sprite();
+			for (k = 0;k < 30 && flag==0; k++)
+			{
+				if(nonTull[k]==e.target)
+				{
+					myVar4 = k;
+					flag = 1;
+					setChildIndex(nonTull[k], numChildren - 1);
+					nonTull[k].startDrag();
+					addEventListener(MouseEvent.MOUSE_MOVE, dragConnectNon);
+					if (rightNonHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragContactsNon);
+					if(!rightNonHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCirclenon);	
+				}
+				if (nonRight[k]==e.target )
+				{
+					flag = 1;
+					myVar4 = k;
+					setChildIndex(nonRight[k], numChildren - 1);
+					nonRight[k].startDrag();
+				}	
+				if (e.target == nonLineR[k])
+				{
+					flag = 1;
+					myVar4 = k;
+					for (var i:int = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							if (i == myVar4)
+							{
+								complite4 = 1;
+							}
+							else
+							{
+								complite4 = 0;
+							}
+						}
+					}
+					for (i = 0; i < notTull.length;i++)
+					{
+						if (lineRAddNot[i])
+						{
+							lineRAddNot[i] = false;
+							removeChild(additLineRNot[i]);
+							complite3 = 0;
+						}
+					}
+					for (i = 0; i < orTull.length; i++)
+					{
+						if (lineLAddOr[i])
+							{
+								lineLAddOr[i] = false;
+								removeChild(additLineLOr[i]);
+								complite2 = 0;
+							}
+						if (lineRAddOr[i])
+							{
+								lineRAddOr[i] = false;
+								removeChild(additLineROr[i]);
+								complite2 = 0;
+							}
+					}
+					for (i = 0; i < andTull.length; i++)
+					{
+						if (lineLAddAnd[i])
+							{
+								lineLAddAnd[i] = false;
+								removeChild(additLineLAnd[i]);
+								complite = 0;
+							}
+						if (lineRAddAnd[i])
+							{
+								lineRAddAnd[i] = false;
+								removeChild(additLineRAnd[i]);
+								complite = 0;
+							}
+					}
+					if(!complite4)
+					{
+						flag = 1;
+						myVar4 = k;
+						lineRAddNon[k] = true;
+						setChildIndex(nonRight[k], numChildren - 1);
+						additLine.graphics.lineStyle(5, 0x00CCFF);
+						additLine.graphics.moveTo(nonTull[k].x, nonTull[k].y+15);
+						
+						additLineRNon[k] = additLine;
+						addChild(additLineRNon[k]);
+						complite4 = 1;
+					}
+					else
+						complite4 = 0;
+				}
+			}
+		}
+		//========================================================
+		//===================================================
+		public function dragCirclenon(event:MouseEvent):void 
+		{ 
+			if (myVar4 >= 0)
+			{
+				nonAim[myVar4].x = nonTull[myVar4].x +13; 
+				nonAim[myVar4].y = nonTull[myVar4].y + 5;
+				nonRight[myVar4].x = nonTull[myVar4].x - 30; 
+				nonRight[myVar4].y = nonTull[myVar4].y - 2;
+				wireNon(event,myVar4);
+				event.updateAfterEvent(); 
+			}
+		} 
+		//===================================================
+		public function dragContactsNon(event:MouseEvent):void 
+		{ 
+			if (!rightNonHit[myVar4])
+			{
+				nonRight[myVar4].x = nonTull[myVar4].x - 30; 
+				nonRight[myVar4].y = nonTull[myVar4].y - 2;
+			}
+			nonAim[myVar4].x = nonTull[myVar4].x +13; 
+			nonAim[myVar4].y = nonTull[myVar4].y + 5;
+			wireNon(event,myVar4);
+			event.updateAfterEvent();
+		} 
+		//========================================
+		public function upnon(e:Event):void
+		{
+			var flag:int = 0;
+			var k:int = 0;
+			var vs2:Sprite = new Sprite();
+			var vs:Boolean;
+			if (e.target == nonRight[myVar4])
+			{
+				nonRight[myVar4].stopDrag();
+				for (k = 0; k < 9; k++)
+					{
+						if (nonRight[myVar4].hitTestObject(circle_lamp_Green[k]))
+							{
+								nonRight[myVar4].x = circle_lamp_Green[k].x;
+								nonRight[myVar4].y = circle_lamp_Green[k].y;
+								//wireNot(e);
+							}
+					}
+					for (k = 0; k < andTull.length; k++)
+					{
+						if (nonRight[myVar3].hitTestObject(andAim[k]))
+						{
+							nonRight[myVar4].x = andAim[k].x;
+							nonRight[myVar4].y = andAim[k].y;
+							//wireNot(e);
+						}
+					}
+					for (k = 0; k < orTull.length; k++)
+					{
+						if (nonRight[myVar4].hitTestObject(orAim[k]))
+						{
+							nonRight[myVar4].x = orAim[k].x;
+							nonRight[myVar4].y = orAim[k].y;
+							//wireNot(e);
+						}
+					}
+					for (k = 0; k < notTull.length; k++)
+					{
+						if (nonRight[myVar4].hitTestObject(notAim[k]))
+						{
+							nonRight[myVar4].x = notAim[k].x;
+							nonRight[myVar4].y = notAim[k].y;
+							//wireNot(e);
+						}
+					}
+					for (k = 0; k < nonTull.length; k++)
+					{
+						if (nonRight[myVar4].hitTestObject(nonAim[k]))
+						{
+							nonRight[myVar4].x = nonAim[k].x;
+							nonRight[myVar4].y = nonAim[k].y;
+							//wireNot(e);
+						}
+					}
+			}
+			if(e.target==nonTull[myVar4])
+			{
+				nonTull[myVar4].stopDrag();
+				//trace(k);
+				removeEventListener(MouseEvent.MOUSE_MOVE, dragConnectNon);
+				if (rightNonHit[myVar4])
+					stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsNon);
+				if(!rightNonHit[myVar4])
+					stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCirclenon);	
+			}
+			//stage.removeEventListener(MouseEvent.MOUSE_MOVE, distanceNot); 
+			if (myVar4 >= 0)
+			{
+				if(nonTull[myVar4].hitTestObject(bin))//Удаление
+					{
+						
+						removeChild(nonRight[myVar4]);
+						removeChild(nonAim[myVar4]);
+						removeChild(nonTull[myVar4]);
+						removeChild(nonLineR[myVar4]);
+						if (lineRAddNon[myVar4])
+							removeChild(additLineRNon[myVar4]);
+						flag = 1;
+						
+					}
+				if (flag)
+				{
+					flag = 0;
+					vs2 = nonTull[myVar4];
+					nonTull[myVar4] = nonTull[nonTull.length - 1];
+					nonTull[nonTull.length - 1] = vs2;
+				
+					vs2 = nonAim[myVar4];
+					nonAim[myVar4] = nonAim[nonAim.length - 1];
+					nonAim[nonAim.length - 1] = vs2;
+				
+					vs2 = nonRight[myVar4];
+					nonRight[myVar4] = nonRight[nonRight.length - 1];
+					nonRight[nonRight.length - 1] = vs2;
+					
+					vs2 = nonLineR[myVar4];
+					nonLineR[myVar4] = nonLineR[nonLineR.length - 1];
+					nonLineR[nonLineR.length - 1] = vs2;
+					
+					vs = nonRightResult[myVar4];
+					nonRightResult[myVar4] = nonRightResult[nonRightResult.length - 1];
+					nonRightResult[nonRightResult.length - 1] = vs;
+					
+					vs2 = additLineRNon[myVar4];
+					additLineRNon[myVar4] = additLineRNon[additLineRNon.length - 1];
+					additLineRNon[additLineRNon.length - 1] = vs2;
+					additLineRNon.pop();
+					
+					vs = lineRAddNon[myVar4];
+					lineRAddNon[myVar4] = lineRAddNon[lineRAddNon.length - 1];
+					lineRAddNon[lineRAddNon.length - 1] = vs;
+					lineRAddNon.pop();
+					
+					
+					nonTull.pop();
+					nonAim.pop();
+					nonRight.pop();
+					nonLineR.pop();
+					nonRightResult.pop();
+					myVar4--;
+					numNon--;
+				}
+			}
+		}
+		//==========================================
 	}
 }
