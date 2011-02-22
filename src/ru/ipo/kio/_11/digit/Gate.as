@@ -253,5 +253,6 @@ public class Gate extends Sprite implements Out {
     public function set movable(value:Boolean):void {
         _movable = value;
     }
+
 }
 }

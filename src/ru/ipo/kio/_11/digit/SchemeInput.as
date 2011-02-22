@@ -42,11 +42,11 @@ public class SchemeInput extends Sprite implements Out{
     }
 
     public function get value():int {
-        return 0;
+        return (_ind + 1) % 2;
     }
 
     public function get ind():int {
-        return (_ind + 1) % 2;
+        return _ind;
     }
 
     public function bindConnector(c:Connector):void {

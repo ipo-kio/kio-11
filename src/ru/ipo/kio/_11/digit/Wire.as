@@ -132,7 +132,7 @@ public class Wire {
                 cl_hl = 0xefce57;
                 break;
             case ZERO:
-                cl = 0x111111;
+                cl = 0xeeeeee;
                 cl_hl = 0xdedede;
                 break;
         }

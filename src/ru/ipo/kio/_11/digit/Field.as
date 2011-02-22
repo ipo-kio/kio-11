@@ -16,6 +16,8 @@ public class Field extends Sprite {
     public static const X0:int = 184;
     public static const Y0:int = 4;
 
+    private static var _instance:Field;
+
     private var _gates:Array = [];
     private var _inputs:Array;
     private var _outs:Array; //always is _gates concat _outs
@@ -25,7 +27,11 @@ public class Field extends Sprite {
     private var gates_layer:Sprite = new Sprite;
     private var connections_layer:Sprite = new Sprite;
 
+    private var __initialized:Boolean = false;
+
     public function Field() {
+        _instance = this;
+
         x = X0;
         y = Y0;
 
@@ -50,6 +56,9 @@ public class Field extends Sprite {
             _exits[d].y = 16 + d * 39 - Field.Y0;
             _exits[d].addTo(wires_layer, gates_layer, connections_layer);
         }
+
+        __initialized = true;
+        evaluate();
     }
 
     public function removeGate(g:Gate):void {
@@ -61,6 +70,8 @@ public class Field extends Sprite {
         g.removeFromDisplay();
 
         _outs = _gates.concat(_inputs);
+
+        evaluate();
     }
 
     public function addGate(g:Gate, x0:Number, y0:Number):void {
@@ -71,6 +82,8 @@ public class Field extends Sprite {
         _gates.push(g);
 
         _outs = _gates.concat(_inputs);
+
+        evaluate();
     }
 
     public function get gates():Array {
@@ -81,5 +94,29 @@ public class Field extends Sprite {
         return _outs;
     }
 
+    public function evaluate():void {
+        if (!__initialized)
+            return;
+
+        var all_gates:Array = _gates.concat(_exits);
+        for each (var g:Gate in all_gates)
+            g.resetValue();
+
+        for each (g in all_gates)
+            for each (var c:Connector in g.in_connectors)
+                if (c.dest) {
+                    var v:int = c.dest.value;
+                    if (v == Wire.ONE || v == Wire.ZERO)
+                        c.wire.type = v;
+                    else
+                        c.wire.type = Wire.NO_CONNECTION;
+                }
+                else
+                    c.wire.type = Wire.NO_CONNECTION;
+    }
+
+    public static function get instance():Field {
+        return _instance;
+    }
 }
 }

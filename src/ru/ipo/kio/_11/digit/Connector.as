@@ -114,6 +114,7 @@ public class Connector extends Sprite {
 
     public function set dest(value:Out):void {
         _dest = value;
+        Field.instance.evaluate();
     }
 
     public function moveToBasePosition():void {
