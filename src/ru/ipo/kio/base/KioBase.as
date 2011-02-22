@@ -3,6 +3,8 @@ import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 
+import flash.profiler.profile;
+
 import ru.ipo.kio.api.controls.SpaceSettingsDialog;
 import ru.ipo.kio.base.displays.ProblemsDisplay;
 import ru.ipo.kio.base.displays.WelcomeDisplay;
@@ -27,6 +29,7 @@ public class KioBase {
     private var problems:Array /*KioProblem*/ = new Array;
 
     private var _lsoProxy:LsoProxy;
+    private var _level:int;
 
     private var spaceSettings:SpaceSettingsDialog = new SpaceSettingsDialog;
 
@@ -38,6 +41,7 @@ public class KioBase {
     }
 
     public function init(stage:DisplayObjectContainer, problems:Array, year:int, level:int):void {
+        _level = level;
         _lsoProxy = LsoProxy.getInstance(level, year);
 
         this.stage = stage;
@@ -135,6 +139,10 @@ public class KioBase {
             currentProblem = _currentProblem;
         else
             currentDisplay = new ProblemsDisplay;
+    }
+
+    public function get level():int {
+        return _level;
     }
 }
 }

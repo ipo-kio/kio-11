@@ -25,6 +25,7 @@ public class Wire {
 
     private var _hit_area:Sprite;
     private var _body:Sprite;
+    private var _selectable:Boolean = true;
 
     private var _connector:Connector;
 
@@ -154,15 +155,21 @@ public class Wire {
     }
 
     private function mouseRollOver(event:Event):void {
+        if (!_selectable)
+            return;
         if (!_selected)
             mouse_over = true;
     }
 
     private function mouseRollOut(event:Event):void {
+        if (!_selectable)
+            return;
         mouse_over = false;
     }
 
     private function mouseClick(event:Event):void {
+        if (!_selectable)
+            return;
         Globals.instance.selected_wire = this;
     }
 
@@ -178,6 +185,14 @@ public class Wire {
     public function removeFromDisplay():void {
         _body.parent.removeChild(_body);
         _hit_area.parent.removeChild(_hit_area);
+    }
+
+    public function get selectable():Boolean {
+        return _selectable;
+    }
+
+    public function set selectable(value:Boolean):void {
+        _selectable = value;
     }
 }
 }

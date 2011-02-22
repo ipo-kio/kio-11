@@ -65,7 +65,7 @@ public class Workspace extends Sprite {
     //when mouse is up and there was constrained moving rectangle, up coordinates are irrelevant
     private var __last_mouse_move_x:Number;
     private var __last_mouse_move_y:Number;
-    private var __gate_receiver:Gate = null;
+    private var __gate_receiver:Out = null;
 
     private function stageMouseMove(event:Event):void {
         switch (Globals.instance.drag_type) {
@@ -83,7 +83,7 @@ public class Workspace extends Sprite {
                 var is_over:Boolean = false;
                 var mx:Number = _field.mouseX;
                 var my:Number = _field.mouseY;
-                for each (var gt:Gate in _field.gates)
+                for each (var gt:Out in _field.outs)
                     if (hitTestGate(gt, mx, my)) {
                         is_over = true;
                         __gate_receiver = gt;
@@ -103,8 +103,9 @@ public class Workspace extends Sprite {
         }
     }
 
-    private function hitTestGate(gt:Gate, mx:Number, my:Number):Boolean {
-        return gt.x <= mx && mx <= gt.x + gt.width && gt.y <= my && my <= gt.y + gt.height;
+    private function hitTestGate(gt:Out, mx:Number, my:Number):Boolean {
+        var g:Sprite = Sprite(gt);
+        return g.x <= mx && mx <= g.x + g.width && g.y <= my && my <= g.y + g.height;
     }
 
     private function stageMouseUp(event:Event):void {
@@ -120,8 +121,18 @@ public class Workspace extends Sprite {
                 var c:Connector = Connector(Globals.instance.drag_object);
                 c.stopDrag();
                 c.positionSubElements();
+                //test connector is connected to its own gate
                 if (__gate_receiver) {
-                    __gate_receiver.bindConnector(c);
+                    var dont_bind:Boolean = false;
+                    if (__gate_receiver is Gate) {
+                        var gr:Gate = Gate(__gate_receiver); //may be 'as' would be better
+                        if (gr.in_connectors.indexOf(c) >= 0) {
+                            dont_bind = true;
+                            c.moveToBasePosition();
+                        }
+                    }
+                    if (!dont_bind)
+                        __gate_receiver.bindConnector(c);
                 }
                 __gate_receiver = null;
                 break;

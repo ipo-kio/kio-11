@@ -42,6 +42,7 @@ public class Gate extends Sprite implements Out {
     private static const X_OUTPUT_OFFSET:int = 2;
 
     private var _is_new:Boolean = false;
+    private var _movable:Boolean = true;
     private var _new_x0:Number;
     private var _new_y0:Number;
 
@@ -77,6 +78,9 @@ public class Gate extends Sprite implements Out {
     }
 
     private function mouseDown(event:Event):void {
+        if (!_movable)
+            return;
+
         Globals.instance.drag_object = this;
 
         if (_is_new) {
@@ -215,8 +219,10 @@ public class Gate extends Sprite implements Out {
 
     public function set is_new(value:Boolean):void {
         _is_new = value;
-        for each (var c:Connector in _in_connectors)
+        for each (var c:Connector in _in_connectors) {
             c.movable = !is_new;
+            c.wire.selectable = !is_new;
+        }
     }
 
     public function moveBackThisNewGate():void {
@@ -234,6 +240,18 @@ public class Gate extends Sprite implements Out {
         c.dest = this;
         _connectors.push(c);
         positionSubElements();
+    }
+
+    public function get in_connectors():Array {
+        return _in_connectors;
+    }
+
+    public function get movable():Boolean {
+        return _movable;
+    }
+
+    public function set movable(value:Boolean):void {
+        _movable = value;
     }
 }
 }

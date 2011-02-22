@@ -86,15 +86,25 @@ public class Connector extends Sprite {
     }
 
     private function mouseDown(event:Event):void {
-        if (!movable)
+        var connector_to_move:Connector = this;
+
+        if (dest) {
+            for each (var con:Connector in dest.connectors)
+                if (con.wire.selected) {
+                    connector_to_move = con;
+                    break;
+                }
+        }
+
+        if (!connector_to_move.movable)
             return;
         Globals.instance.drag_type = Globals.DRAG_TYPE_CONNECTOR;
-        Globals.instance.drag_object = this;
-        startDrag(false, new Rectangle(0, 0, Field.WIDTH, Field.HEIGHT));
-        on = false;
-        if (dest) {
-            dest.connectors.splice(dest.connectors.indexOf(this), 1);
-            dest = null;
+        Globals.instance.drag_object = connector_to_move;
+        connector_to_move.startDrag(false, new Rectangle(0, 0, Field.WIDTH, Field.HEIGHT));
+        connector_to_move.on = false;
+        if (connector_to_move.dest) {
+            connector_to_move.dest.connectors.splice(dest.connectors.indexOf(this), 1);
+            connector_to_move.dest = null;
         }
     }
 

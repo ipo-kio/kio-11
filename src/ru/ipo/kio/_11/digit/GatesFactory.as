@@ -14,6 +14,7 @@ public class GatesFactory {
     public static const TYPE_AND:int = 1;
     public static const TYPE_NOT:int = 2;
     public static const TYPE_NOP:int = 3;
+    public static const TYPE_OUTPUT:int = 4;
 
     [Embed(source="resources/elements/Or_01.png")]
     private static const OR_NORMAL:Class;
@@ -47,6 +48,11 @@ public class GatesFactory {
     private static const NOP_OVER_BD:BitmapData = new NOP_OVER().bitmapData;
     private static const NOP_OFFSETS:Array = [5];
 
+    [Embed(source="resources/elements/Enter.png")]
+    private static const OUTPUT_NORMAL:Class;
+    private static const OUTPUT_NORMAL_BD:BitmapData = new OUTPUT_NORMAL().bitmapData;
+    private static const OUTPUT_OFFSETS:Array = [8];
+
     public static function createGate(type:int):Gate {
         switch (type) {
             case TYPE_AND:
@@ -57,6 +63,8 @@ public class GatesFactory {
                 return new Gate(type, 1, not, NOT_NORMAL_BD, NOT_OVER_BD, NOT_OFFSETS);
             case TYPE_NOP:
                 return new Gate(type, 1, nop, NOP_NORMAL_BD, NOP_OVER_BD, NOP_OFFSETS);
+            case TYPE_OUTPUT:
+                return new Gate(type, 1, nop, OUTPUT_NORMAL_BD, OUTPUT_NORMAL_BD, OUTPUT_OFFSETS);
         }
         return null;
     }
