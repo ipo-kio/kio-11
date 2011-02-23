@@ -51,18 +51,21 @@ public class GatesFactory {
     private static const NOP_OVER_BD:BitmapData = new NOP_OVER().bitmapData;
     private static const NOP_OFFSETS:Array = [5];
 
-    [Embed(source="resources/elements/Enter.png")]
+    [Embed(source="resources/elements/Enter_01.png")]
     private static const OUTPUT_NORMAL:Class;
     private static const OUTPUT_NORMAL_BD:BitmapData = new OUTPUT_NORMAL().bitmapData;
-    private static const OUTPUT_OFFSETS:Array = [8];
+    [Embed(source="resources/elements/Enter_02.png")]
+    private static const OUTPUT_OVER:Class;
+    private static const OUTPUT_OVER_BD:BitmapData = new OUTPUT_OVER().bitmapData;
+    private static const OUTPUT_OFFSETS:Array = [9];
 
     public static function createGate(type:int, ind:int = -1):Gate {
         var gate:Gate = createGateWithoutIndex(type);
         if (ind >= 0 && gate) {
-            var tf:TextField = TextUtils.createTextFieldWithFont("KioDigits", 11, false);
+            var tf:TextField = TextUtils.createTextFieldWithFont("KioDigits", 13, false);
             tf.text = '' + ind;
             tf.x = (gate.width - tf.width) / 2;
-            tf.y = (gate.height - tf.height) / 2;
+            tf.y = (gate.height - tf.height) / 2 + 1;
             gate.addChild(tf);
         }
         return gate;
@@ -79,7 +82,7 @@ public class GatesFactory {
             case TYPE_NOP:
                 return new Gate(type, 1, nop, NOP_NORMAL_BD, NOP_OVER_BD, NOP_OFFSETS);
             case TYPE_OUTPUT:
-                return new Gate(type, 1, nop, OUTPUT_NORMAL_BD, OUTPUT_NORMAL_BD, OUTPUT_OFFSETS);
+                return new Gate(type, 1, nop, OUTPUT_NORMAL_BD, OUTPUT_OVER_BD, OUTPUT_OFFSETS);
         }
         return null;
     }

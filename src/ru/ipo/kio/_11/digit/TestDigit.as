@@ -1,6 +1,4 @@
 package ru.ipo.kio._11.digit {
-import ru.ipo.kio._11.semiramida.*;
-import ru.ipo.kio.api_example.*;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -19,7 +17,7 @@ public class TestDigit extends Sprite {
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-        KioBase.instance.initOneProblem(this, new DigitProblem(2));
+        KioBase.instance.initOneProblem(this, new DigitProblem(1));
     }
 
 }

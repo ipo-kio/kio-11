@@ -7,9 +7,6 @@
 package ru.ipo.kio._11.digit {
 import flash.display.Sprite;
 
-import ru.ipo.kio._11.digit.Digit;
-import ru.ipo.kio.base.KioBase;
-
 public class Field extends Sprite {
 
     public static const WIDTH:int = 592;
@@ -65,7 +62,7 @@ public class Field extends Sprite {
     public function removeGate(g:Gate):void {
         //unconnect all connectors
         for each (var con:Connector in g.connectors.concat())
-            con.dest = null;
+            con.moveToBasePosition();
 
         //remove gate from gates list
         var ind:int = _gates.indexOf(g);
@@ -118,6 +115,9 @@ public class Field extends Sprite {
                 else
                     c.wire.type = Wire.NO_CONNECTION;
 
+        for each (var e:Gate in exits)
+            e.turned_on = e.value == 1;
+
         Globals.instance.workspace.solutionState.updateData();
         Globals.instance.workspace.solutionState.updateView();
     }
@@ -139,6 +139,10 @@ public class Field extends Sprite {
 
     public function get exits():Array {
         return _exits;
+    }
+
+    public function get inputs():Array {
+        return _inputs;
     }
 }
 }

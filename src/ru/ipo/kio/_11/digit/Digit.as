@@ -16,9 +16,13 @@ public class Digit extends Sprite {
     private const LAMP_D_ON:Class;
     private const LAMP_D_ON_BMP:BitmapData = new LAMP_D_ON().bitmapData;
 
-    [Embed(source="resources/lamps/Lamp_D_02.png")]
+    [Embed(source="resources/lamps/Lamp_D_06.png")]
     private const LAMP_D_BR:Class;
     private const LAMP_D_BR_BMP:BitmapData = new LAMP_D_BR().bitmapData;
+
+    [Embed(source="resources/lamps/Lamp_D_07.png")]
+    private const LAMP_D_BR_OVER:Class;
+    private const LAMP_D_BR_OVER_BMP:BitmapData = new LAMP_D_BR_OVER().bitmapData;
 
     [Embed(source="resources/lamps/Lamp_D_03.png")]
     private const LAMP_D_OFF:Class;
@@ -38,9 +42,13 @@ public class Digit extends Sprite {
     private const LAMP_V_ON:Class;
     private const LAMP_V_ON_BMP:BitmapData = new LAMP_V_ON().bitmapData;
 
-    [Embed(source="resources/lamps/Lamp_V_02.png")]
+    [Embed(source="resources/lamps/Lamp_V_06.png")]
     private const LAMP_V_BR:Class;
     private const LAMP_V_BR_BMP:BitmapData = new LAMP_V_BR().bitmapData;
+
+    [Embed(source="resources/lamps/Lamp_V_07.png")]
+    private const LAMP_V_BR_OVER:Class;
+    private const LAMP_V_BR_OVER_BMP:BitmapData = new LAMP_V_BR_OVER().bitmapData;
 
     [Embed(source="resources/lamps/Lamp_V_03.png")]
     private const LAMP_V_OFF:Class;
@@ -60,9 +68,13 @@ public class Digit extends Sprite {
     private const LAMP_H_ON:Class;
     private const LAMP_H_ON_BMP:BitmapData = new LAMP_H_ON().bitmapData;
 
-    [Embed(source="resources/lamps/Lamp_H_02.png")]
+    [Embed(source="resources/lamps/Lamp_H_06.png")]
     private const LAMP_H_BR:Class;
     private const LAMP_H_BR_BMP:BitmapData = new LAMP_H_BR().bitmapData;
+
+    [Embed(source="resources/lamps/Lamp_H_07.png")]
+    private const LAMP_H_BR_OVER:Class;
+    private const LAMP_H_BR_OVER_BMP:BitmapData = new LAMP_H_BR_OVER().bitmapData;
 
     [Embed(source="resources/lamps/Lamp_H_03.png")]
     private const LAMP_H_OFF:Class;
@@ -138,15 +150,15 @@ public class Digit extends Sprite {
     }
 
     private function createHElement(ind:int):DigitElement {
-        return new DigitElement(this, ind, LAMP_H_ON_BMP, LAMP_H_OFF_BMP, LAMP_H_ON_OVER_BMP, LAMP_H_OFF_OVER_BMP, LAMP_H_BR_BMP);
+        return new DigitElement(this, ind, LAMP_H_ON_BMP, LAMP_H_OFF_BMP, LAMP_H_ON_OVER_BMP, LAMP_H_OFF_OVER_BMP, LAMP_H_BR_BMP, LAMP_H_BR_OVER_BMP);
     }
 
     private function createDElement(ind:int):DigitElement {
-        return new DigitElement(this, ind, LAMP_D_ON_BMP, LAMP_D_OFF_BMP, LAMP_D_ON_OVER_BMP, LAMP_D_OFF_OVER_BMP, LAMP_D_BR_BMP);
+        return new DigitElement(this, ind, LAMP_D_ON_BMP, LAMP_D_OFF_BMP, LAMP_D_ON_OVER_BMP, LAMP_D_OFF_OVER_BMP, LAMP_D_BR_BMP, LAMP_D_BR_OVER_BMP);
     }
 
     private function createVElement(ind:int):DigitElement {
-        return new DigitElement(this, ind, LAMP_V_ON_BMP, LAMP_V_OFF_BMP, LAMP_V_ON_OVER_BMP, LAMP_V_OFF_OVER_BMP, LAMP_V_BR_BMP);
+        return new DigitElement(this, ind, LAMP_V_ON_BMP, LAMP_V_OFF_BMP, LAMP_V_ON_OVER_BMP, LAMP_V_OFF_OVER_BMP, LAMP_V_BR_BMP, LAMP_V_BR_OVER_BMP);
     }
 
     public function get broken_index():int {
@@ -154,6 +166,9 @@ public class Digit extends Sprite {
     }
 
     public function set broken_index(value:int):void {
+        if (Globals.instance.level == 1)
+            return;
+
         if (_broken_index >= 0)
             _elements[_broken_index].broken = false;
 

@@ -21,7 +21,7 @@ public class SchemeInput extends Sprite implements Out{
 
     private var _ind:int;
 
-    private static var X_OUTPUT_OFFSET:int = 2;
+    private static var X_OUTPUT_OFFSET:int = -2;
 
     public function SchemeInput(ind:int) {
         _ind = ind;

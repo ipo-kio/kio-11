@@ -91,11 +91,16 @@ public class Workspace extends Sprite {
 
         addChild(new BG);
 
-        _solutionState = Globals.instance.level == 1 ? new SolutionState1 : new SolutionState2;
-        addChild(Sprite(_solutionState));
-
         addChild(_ipResults);
         addChild(_ipRecord);
+
+        _trash = TRASH_NORMAL_IMG;
+        _trash.x = TRASH_X;
+        _trash.y = TRASH_Y;
+        addChild(_trash);
+
+        _solutionState = Globals.instance.level == 1 ? new SolutionState1 : new SolutionState2;
+        addChild(Sprite(_solutionState));
 
         _digit = new Digit();
         addChild(_digit);
@@ -109,21 +114,16 @@ public class Workspace extends Sprite {
 
         addChild(_field);
 
-        if (stage)
-            init();
-        else
-            addEventListener(Event.ADDED_TO_STAGE, init);
-
-        _trash = TRASH_NORMAL_IMG;
-        _trash.x = TRASH_X;
-        _trash.y = TRASH_Y;
-        addChild(_trash);
-
         placeNewGates();
 
         placeWiresButtons();
 
         placeDigitButtons();
+
+        if (stage)
+            init();
+        else
+            addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
     public function init(event:Event = null):void {
@@ -222,6 +222,16 @@ public class Workspace extends Sprite {
                 break;
         }
         Globals.instance.drag_type = Globals.DRAG_TYPE_NOTHING;
+
+        submitSolution();
+    }
+
+    private function submitSolution():void {
+        DigitProblem(KioApi.instance(DigitProblem.ID).problem).submitSolution
+                (
+                        Globals.instance.workspace.solutionState.recognized,
+                        field.gates.length
+                        );
     }
 
     private function updateTrashState(x:Number, y:Number):void {
@@ -334,6 +344,7 @@ public class Workspace extends Sprite {
         var wire:Wire = Globals.instance.selected_wire;
         if (wire)
             wire.connector.moveToBasePosition();
+        submitSolution();
     }
 
     private function splitButtonClick(event:Event):void {
@@ -358,6 +369,8 @@ public class Workspace extends Sprite {
 
         con.dest = empty;
         empty.positionSubElements();
+
+        submitSolution();
     }
 
     private function placeDigitButtons():void {
@@ -400,12 +413,11 @@ public class Workspace extends Sprite {
         return _solutionState;
     }
 
-    public function get ipResults():ResultsInfoPanel {
-        return _ipResults;
-    }
 
-    public function get ipRecord():ResultsInfoPanel {
-        return _ipRecord;
+    public function updateResultsInfo(is_record:Boolean, recognized:int, elements:int):void {
+        var rip:ResultsInfoPanel = is_record ? _ipRecord : _ipResults;
+        rip.recognized = recognized;
+        rip.elements = elements;
     }
 }
 }

@@ -7,14 +7,12 @@
  */
 package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
-import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.text.TextField;
 
-import org.osmf.layout.PaddingLayoutFacet;
-
+import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 
 public class SolutionState2 extends Sprite implements SolutionState {
@@ -38,13 +36,15 @@ public class SolutionState2 extends Sprite implements SolutionState {
     [Embed(source="resources/Table_03.png")]
     private static const WRONG_EVEN:Class;
     private static const WRONG_EVEN_BMP:BitmapData = new WRONG_EVEN().bitmapData;
-    
+
     [Embed(source="resources/Table_04.png")]
     private static const WRONG_ODD:Class;
     private static const WRONG_ODD_BMP:BitmapData = new WRONG_ODD().bitmapData;
 
     private static const INFO_BRICK_WIDTH:int = CORRECT_EVEN_BMP.width;
     private static const INFO_BRICK_HEIGHT:int = CORRECT_EVEN_BMP.height;
+
+    private var loc:Object = KioApi.getLocalization(DigitProblem.ID);
 
     public function SolutionState2() {
         for (var i:int = 0; i < 10; i++)
@@ -93,7 +93,11 @@ public class SolutionState2 extends Sprite implements SolutionState {
         var i:int = r[0];
         var j:int = r[1];
 
-        showPopup(i + ',' + j, _info.mouseX, _info.mouseY);
+        var hint:String = _data[i][j] >= 0 ? loc.results.hint_wrong : loc.results.hint_correct;
+
+        hint = hint.replace(/\{line\}/, /*i == 0 ? '-' : i*/ i).replace(/\{digit\}/, j);
+
+        showPopup(hint, _info.mouseX, _info.mouseY);
     }
 
     private function mouseRollOut(event:Event):void {
@@ -104,7 +108,12 @@ public class SolutionState2 extends Sprite implements SolutionState {
         var r:* = getMouseInfoPos();
         if (!r)
             return;
-        Globals.instance.workspace.digit.val = r[1];
+        var i:int = r[0];
+        var j:int = r[1];
+        if (_data[i][j] >= 0)
+            Globals.instance.workspace.digit.val = _data[i][j];
+        else
+            Globals.instance.workspace.digit.val = r[1];
         Globals.instance.workspace.digit.broken_index = r[0] - 1;
     }
 
@@ -118,7 +127,7 @@ public class SolutionState2 extends Sprite implements SolutionState {
         for (var br:int = -1; br < 9; br++) {
             Globals.instance.forced_broken = br;
             for (var rd:int = 0; rd < 10; rd++) {
-                _data[br + 1][rd] = true;
+                _data[br + 1][rd] = -1;
                 _recognized ++;
                 for (var td:int = 0; td < 10; td++) {
                     Globals.instance.forced_digit = td;
@@ -128,7 +137,7 @@ public class SolutionState2 extends Sprite implements SolutionState {
                     var r1:Boolean = f.exits[rd].value == 1;
                     var r2:Boolean = td == rd;
                     if (r1 != r2) {
-                        _data[br+1][rd] = false;
+                        _data[br + 1][rd] = td;
                         _recognized --;
                         break;
                     }
@@ -146,9 +155,9 @@ public class SolutionState2 extends Sprite implements SolutionState {
             for (var j:int = 0; j < 10; j++) {
                 var bmp:BitmapData;
                 if ((i + j) % 2 == 0) {
-                    bmp = _data[i][j] ? CORRECT_EVEN_BMP : WRONG_EVEN_BMP;
+                    bmp = _data[i][j] < 0 ? CORRECT_EVEN_BMP : WRONG_EVEN_BMP;
                 } else {
-                    bmp = _data[i][j] ? CORRECT_ODD_BMP : WRONG_ODD_BMP;
+                    bmp = _data[i][j] < 0 ? CORRECT_ODD_BMP : WRONG_ODD_BMP;
                 }
                 _info.graphics.beginBitmapFill(bmp);
                 _info.graphics.drawRect(j * INFO_BRICK_WIDTH, i * INFO_BRICK_HEIGHT, INFO_BRICK_WIDTH, INFO_BRICK_HEIGHT);
@@ -171,6 +180,10 @@ public class SolutionState2 extends Sprite implements SolutionState {
 
     private function hidePopup():void {
         popup.visible = false;
+    }
+
+    public function get recognized():int {
+        return _recognized;
     }
 }
 }

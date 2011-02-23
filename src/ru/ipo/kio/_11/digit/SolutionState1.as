@@ -51,6 +51,8 @@ public class SolutionState1 extends Sprite implements SolutionState {
         if (!f)
             return;
 
+        _recognized = 0;
+
         //rd - real digit, td - test digit
         for (var rd:int = 0; rd < 10; rd++) {
             f.resetAllGates();
@@ -86,6 +88,11 @@ public class SolutionState1 extends Sprite implements SolutionState {
 
         cur_state_marker.graphics.lineStyle(2, 0x000000);
         cur_state_marker.graphics.drawRect(-2, -2, tf.textWidth + 8, tf.textHeight + 6);
+
+    }
+
+    public function get recognized():int {
+        return _recognized;
     }
 }
 }
