@@ -371,6 +371,19 @@ package ru.ipo.kio._11.CrossedCountry
 		
 		}
 		
+		public function HitObj(HX:Number,HY:Number):int
+		{
+			for (var k:int = 0; k < ArrayObjs.length; k++ )
+			{
+				if (ArrayObjs[k].mShape.hitTestPoint(HX, HY, true))
+			{
+				return k;
+				
+			}
+			}
+			return 0;
+		}
+		
 	}
 
 }
