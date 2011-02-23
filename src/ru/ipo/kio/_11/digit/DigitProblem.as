@@ -1,24 +1,29 @@
-package ru.ipo.kio._11.semiramida {
+package ru.ipo.kio._11.digit {
+
 import flash.display.DisplayObject;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.Settings;
 
-public class SemiramidaProblem implements KioProblem {
+public class DigitProblem implements KioProblem {
 
-    public static const ID:String = "semiramida";
+    public static const ID:String = "digit";
     private var sp:Workspace;
     private var _recordCheck:Object = null;
     private var api:KioApi;
+    private var _level:int;
 
-    [Embed(source="resouces/Semiramida.ru.json-settings",mimeType="application/octet-stream")]
-    public static var locTxt:Class;
+    [Embed(source="resources/digit.ru.json-settings",mimeType="application/octet-stream")]
+    public static var locTxt_ru:Class;
 
     //private var spitter:SpitMem = new SpitMem;
 
-    public function SemiramidaProblem() {
-        KioApi.registerLocalization(ID, new Settings(locTxt).data);
+    public function DigitProblem(level:int) {
+        _level = level;
+        Globals.instance.level = level;
+
+        KioApi.registerLocalization(ID, new Settings(locTxt_ru).data);
         KioApi.initialize(this);
 
         sp = new Workspace;
@@ -36,7 +41,7 @@ public class SemiramidaProblem implements KioProblem {
     }
 
     public function get level():int {
-        return 2;
+        return _level;
     }
 
     public function get display():DisplayObject {
@@ -45,9 +50,7 @@ public class SemiramidaProblem implements KioProblem {
 
     public function get solution():Object {
         var sol:Object = {};
-        sol.pipes = [];
-        for each (var pipe:Pipe in sp.house.pipes)
-            sol.pipes.push({pos:pipe.n, floors:pipe.floorsInt});
+        //TODO implement
         return sol;
     }
 
@@ -56,14 +59,7 @@ public class SemiramidaProblem implements KioProblem {
     }
 
     public function loadSolutionWithExplicitAutoSave(solution:Object, autoSave:Boolean):Boolean {
-        if (!solution || !solution.pipes)
-            return false;
-        sp.house.removeAllPipes();
-        for each (var pipe:* in solution.pipes)
-            sp.house.createPipe(pipe.floors, pipe.pos);
-        sp.house.refreshRooms(autoSave);
-
-        sp.updateResults(false, sp.house.roomsCount, sp.house.pipesLength);
+        //TODO load solution
 
         return true;
     }
@@ -72,8 +68,7 @@ public class SemiramidaProblem implements KioProblem {
         if (!loadSolutionWithExplicitAutoSave(solution, false))
             return null;
         return {
-            rooms:sp.house.roomsCount,
-            pipesLength:sp.house.pipesLength
+            //TODO put solution info here
         };
     }
 
@@ -82,32 +77,37 @@ public class SemiramidaProblem implements KioProblem {
             return solution2 ? 0 : -1;
         if (!solution2)
             return 1;
-        var r:int = solution1.rooms - solution2.rooms;
-        if (r == 0)
-            r = solution2.pipesLength - solution1.pipesLength;
-        return r;
+        //TODO implement compare
+        return 0;
     }
 
-    public function submitSolution(rooms:int, pipesLength:int):void {
-        var currentCheck:Object = {rooms:rooms, pipesLength:pipesLength};
+    //user has new solution, submits it
+    public function submitSolution(/*rooms:int, pipesLength:int*/):void {
+        var currentCheck:Object = {};/*{rooms:rooms, pipesLength:pipesLength};*/
         if (compare(currentCheck, _recordCheck) > 0) {
             _recordCheck = currentCheck;
-            sp.updateResults(true, rooms, pipesLength);
+            //sp.updateResults(true, rooms, pipesLength);
             api.saveBestSolution();
         }
 
-        sp.updateResults(false, rooms, pipesLength);
+        //sp.updateResults(false, rooms, pipesLength);
+        //TODO update results
+        api.autoSaveSolution();
     }
 
     public function get recordCheck():Object {
         return _recordCheck;
     }
 
+    /*
     [Embed(source='resouces/icon.png')]
     private const ICON:Class;
+    */
 
     public function get icon():Class {
-        return ICON;
+        //TODO make normal ICON
+        //return ICON;
+        return null;
     }
 }
 }

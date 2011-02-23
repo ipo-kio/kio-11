@@ -113,5 +113,24 @@ public class TextUtils {
         return tf;
     }
 
+    public static function createTextFieldWithFont(fontName:String, fontSize:int, multiline:Boolean = true):TextField {
+        var tf:TextField = new TextField();
+        tf.multiline = multiline;
+        tf.wordWrap = multiline;
+        tf.embedFonts = true;
+        tf.autoSize = TextFieldAutoSize.LEFT;
+        /*tf.styleSheet = new StyleSheet();
+        fontName = "Arial";
+        tf.styleSheet.parseCSS("p {font-family: " + fontName + "; font-size: " + fontSize +";}");*/
+        tf.defaultTextFormat = new TextFormat(fontName, fontSize);
+        tf.selectable = false;
+        return tf;
+    }
+
+    public static function setTextForTextField(tf:TextField, text:String, fontName:String, fontSize:int):void {
+        tf.text = text;
+        tf.setTextFormat(new TextFormat(fontName, fontSize));
+    }
+
 }
 }
