@@ -1,4 +1,4 @@
-package 
+package ru.ipo.kio._11.CrossedCountry 
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -24,6 +24,9 @@ package
 		public var Obj:int = 1;
 		private var lastObj:int = 0;
 		private var l:landscape;
+		
+		//[Embed(systemFont = "Arial", fontName = "asdf", embedAsCff = "false", mimeType = "application/x-font")]
+		public static const c:Class;
 		
 		public var ArrayImgInd:Array = new Array(1,0,4,2,3,4 ,3,3,1,3,2 ,0,0,3,1,0,0 ,4,1,1,0,4,2 ,1,4,0,3); // массив картинок анимации
 		

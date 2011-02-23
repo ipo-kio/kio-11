@@ -49,7 +49,11 @@ package ru.ipo.kio._11.CrossedCountry
 		public var eDragX:int;
 		public var eDragY:int;
 		public var heroExist:Boolean = false;
-	
+		
+		[Embed(source="Background_01.jpg")]
+		public static const BG:Class;
+		public var bg:* = new BG;
+		public var bgSpr:Sprite = new Sprite();
 		
 		public function Main():void 
 		{
@@ -60,7 +64,8 @@ package ru.ipo.kio._11.CrossedCountry
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			
+			bgSpr.addChild(bg);
+			addChild(bgSpr);
 			addChild(txt);
 			addChild(land);
 			addChild(LinesAndPointers);
@@ -92,9 +97,9 @@ package ru.ipo.kio._11.CrossedCountry
 		{
 			// создание героя
 			
-			var ar:Array = new Array(30,540,610,40);
+			/*var ar:Array = new Array(30,540,610,40);
 			var hero1:hero = new hero(heroExist, pointArray,land);
-			this.addChild(hero1);
+			this.addChild(hero1);*/
 		}
 		
 		private function landLines(e:MouseEvent):void
@@ -807,6 +812,11 @@ package ru.ipo.kio._11.CrossedCountry
 			txt.t1.text = "Длина = " + Math.round(path) + " м";
 			txt.t2.text = "Время = " + Math.round(land.PathTime)+ " сек";
 			
+		}
+		
+		public function getPathTime():Number
+		{
+			return Math.round(path);
 		}
 	}
 	

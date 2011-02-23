@@ -24,6 +24,7 @@ package ru.ipo.kio._11.CrossedCountry {
 			//теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
 			//В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
 			sp = new Main;
+			// получить рекорд
 		}
 
 		/**
@@ -45,7 +46,7 @@ package ru.ipo.kio._11.CrossedCountry {
 		 * Уровень, для которого предназначена задача
 		 */
 		public function get level():int {
-			return 2;
+			return 1;
 		}
 
 		/**
@@ -63,9 +64,23 @@ package ru.ipo.kio._11.CrossedCountry {
 		public function get solution():Object {
 			//в качестве решения возвращаем текст внутри текстового поля задачи
 			return {
+				points:sp.pointArray.concat(),
+				time: sp.getPathTime()
 				//txt : sp.text
 			};
+			/*
+			var o:Object = {
+				points_count:10,
+				point:[{x:1, y:2}, {x:3, y:-1}]
+			};
 
+			trace(o.points_count);
+			trace(o.point[1].x); //3
+			o.new_points = new Array();
+			o.new_points.push(10);
+			o.new_points.push( { x:10, y:5 } );
+			o.new_points.clone();*/
+			
 			//Другой способ сделать тоже самое:
 			// var o:Object = new Object();
 			// o.txt = sp.text;
@@ -82,7 +97,9 @@ package ru.ipo.kio._11.CrossedCountry {
 		 */
 		public function loadSolution(solution:Object):Boolean {
 			//для загрузки решения нужно взять поле txt и записать его в текстовое поле
-			if (solution.txt) {
+			if (solution.points) {
+				trace("добавление точек");
+				//  добавление точек
 				//sp.text = solution.txt;
 				return true;
 			} else
@@ -95,8 +112,12 @@ package ru.ipo.kio._11.CrossedCountry {
 		 * @return результат проверки
 		 */
 		public function check(solution:Object):Object {
-			return new Object();
+			return {
+				time: sp.getPathTime()
+			};
 		}
+		
+		//otkluchilos
 
 		/**
 		 * Сравнение двух решений, понадобится позже, комментарий будет позже
@@ -105,7 +126,7 @@ package ru.ipo.kio._11.CrossedCountry {
 		 * @return результат сравнения
 		 */
 		public function compare(solution1:Object, solution2:Object):int {
-			return 1;
+			return solution1.time - solution2.time; //sm. semiramidaProblem, add null check
 		}
 
         public function get icon():Class {
