@@ -23,11 +23,12 @@ public class DigitElement extends Sprite {
     private var on_over_bmp:BitmapData;
     private var off_over_bmp:BitmapData;
     private var br_bmp:BitmapData;
+    private var br_over_bmp:BitmapData;
 
     private var _digit:Digit;
     private var _ind:int;
 
-    public function DigitElement(digit:Digit, ind:int, on:BitmapData, off:BitmapData, on_over:BitmapData, off_over:BitmapData, br:BitmapData) {
+    public function DigitElement(digit:Digit, ind:int, on:BitmapData, off:BitmapData, on_over:BitmapData, off_over:BitmapData, br:BitmapData, br_over:BitmapData) {
         _ind = ind;
         _digit = digit;
 
@@ -36,6 +37,7 @@ public class DigitElement extends Sprite {
         on_over_bmp = on_over;
         off_over_bmp = off_over;
         br_bmp = br;
+        br_over_bmp = br_over;
 
         addEventListener(MouseEvent.ROLL_OVER, mouseRollOver);
         addEventListener(MouseEvent.ROLL_OUT, mouseRollOut);
@@ -105,9 +107,12 @@ public class DigitElement extends Sprite {
     public function redraw():void {
         //choose bitmap
         var bmp:BitmapData;
-        if (_broken)
-            bmp = br_bmp;
-        else {
+        if (_broken) {
+            if (_mouse_over)
+                    bmp = br_over_bmp;
+                else
+                    bmp = br_bmp;
+        } else {
             if (_on) {
                 if (_mouse_over)
                     bmp = on_over_bmp;
