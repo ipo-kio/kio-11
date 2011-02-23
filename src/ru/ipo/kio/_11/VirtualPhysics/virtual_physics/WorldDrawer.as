@@ -50,7 +50,6 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 					g.beginBitmapFill( getBitmapData_02());
 				break;
 			}
-			//g.drawRect(x, y, x+5, y+5);
 			g.drawCircle(x, y, WorldConstants.ObjectRadius);
 			g.endFill();
 		}
@@ -89,12 +88,14 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 			newSp.y = getRect(stage).y;
 			ballColor++; 
 			ballColor %= 2;
+			var m:flash.geom.Matrix = new flash.geom.Matrix();
+			m.translate(14, 14); //матрица "сдвига", на 10 и 20 пикселей
 			switch(ballColor) {
 				case 1:
-					newSp.graphics.beginBitmapFill( getBitmapData_01());
+					newSp.graphics.beginBitmapFill( getBitmapData_01(), m);
 				break;
 				case 0:
-					newSp.graphics.beginBitmapFill( getBitmapData_02());
+					newSp.graphics.beginBitmapFill( getBitmapData_02(), m);
 				break;
 			}
 			newSp.graphics.drawCircle(0,0,WorldConstants.ObjectRadius);
