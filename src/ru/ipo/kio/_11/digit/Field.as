@@ -62,7 +62,7 @@ public class Field extends Sprite {
     public function removeGate(g:Gate):void {
         //unconnect all connectors
         for each (var con:Connector in g.connectors.concat())
-            con.dest = null;
+            con.moveToBasePosition();
 
         //remove gate from gates list
         var ind:int = _gates.indexOf(g);

@@ -39,7 +39,7 @@ public class Gate extends Sprite implements Out {
     //noinspection JSMismatchedCollectionQueryUpdateInspection
     private var _yOffset:Array;
     private static const X_INPUT_OFFSET:int = 5;
-    private static const X_OUTPUT_OFFSET:int = 2;
+    private static const X_OUTPUT_OFFSET:int = 0;
 
     private var _is_new:Boolean = false;
     private var _movable:Boolean = true;
@@ -149,6 +149,7 @@ public class Gate extends Sprite implements Out {
             _value = _function(vals[0], vals[1]);
         return _value;
     }
+
 
     public function resetValue():void {
         _value = VAL_UNKNOWN;

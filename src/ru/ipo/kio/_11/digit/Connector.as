@@ -27,6 +27,14 @@ public class Connector extends Sprite {
     public static const ON_IMAGE:Class;
     public static const OnImage:BitmapData = new ON_IMAGE().bitmapData;
 
+    [Embed(source="resources/Connector_03.png")]
+    public static const OFF_CON_IMAGE:Class;
+    public static const OffConImage:BitmapData = new OFF_CON_IMAGE().bitmapData;
+
+    [Embed(source="resources/Connector_04.png")]
+    public static const ON_CON_IMAGE:Class;
+    public static const OnConImage:BitmapData = new ON_CON_IMAGE().bitmapData;
+
     private var _on:Boolean;
     private var _dest:Out;
     private var _wire:Wire;
@@ -70,7 +78,20 @@ public class Connector extends Sprite {
 
     private function redraw():void {
         graphics.clear();
-        var bitmap:BitmapData = _on ? OnImage : OffImage;
+        var bitmap:BitmapData;
+        if (_on) {
+            if (_dest) {
+                bitmap = OnConImage;
+            } else {
+                bitmap = OnImage;
+            }
+        } else {
+            if (_dest) {
+                bitmap = OffConImage;
+            } else {
+                bitmap = OffImage;
+            }
+        }
         graphics.beginBitmapFill(bitmap, translateMatrix);
         //graphics.lineStyle(0, 0, 0);
         graphics.drawRect(w2, h2, w, h);
@@ -123,6 +144,7 @@ public class Connector extends Sprite {
         if (_dest)
             _dest.connectors.push(this);
         Field.instance.evaluate();
+        redraw();
     }
 
     public function moveToBasePosition():void {
