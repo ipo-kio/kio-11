@@ -8,6 +8,8 @@
 package ru.ipo.kio._11.digit {
 public interface SolutionState {
 
+    function get recognized():int;
+
     function updateData():void;
     function updateView():void;
 

@@ -7,13 +7,10 @@
  */
 package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
-import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.text.TextField;
-
-import org.osmf.layout.PaddingLayoutFacet;
 
 import ru.ipo.kio.api.TextUtils;
 
@@ -38,7 +35,7 @@ public class SolutionState2 extends Sprite implements SolutionState {
     [Embed(source="resources/Table_03.png")]
     private static const WRONG_EVEN:Class;
     private static const WRONG_EVEN_BMP:BitmapData = new WRONG_EVEN().bitmapData;
-    
+
     [Embed(source="resources/Table_04.png")]
     private static const WRONG_ODD:Class;
     private static const WRONG_ODD_BMP:BitmapData = new WRONG_ODD().bitmapData;
@@ -128,7 +125,7 @@ public class SolutionState2 extends Sprite implements SolutionState {
                     var r1:Boolean = f.exits[rd].value == 1;
                     var r2:Boolean = td == rd;
                     if (r1 != r2) {
-                        _data[br+1][rd] = false;
+                        _data[br + 1][rd] = false;
                         _recognized --;
                         break;
                     }
@@ -171,6 +168,10 @@ public class SolutionState2 extends Sprite implements SolutionState {
 
     private function hidePopup():void {
         popup.visible = false;
+    }
+
+    public function get recognized():int {
+        return _recognized;
     }
 }
 }

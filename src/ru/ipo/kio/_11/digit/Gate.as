@@ -45,6 +45,7 @@ public class Gate extends Sprite implements Out {
     private var _movable:Boolean = true;
     private var _new_x0:Number;
     private var _new_y0:Number;
+    private var _turned_on:Boolean = false;
 
     public function Gate(type:int, arity:int, f:Function, off:BitmapData, on:BitmapData, yOffsets:Array) {
         _type = type;
@@ -107,7 +108,7 @@ public class Gate extends Sprite implements Out {
 
     private function redraw():void {
         graphics.clear();
-        var bitmap:BitmapData = _mouse_over ? _on_bmp : _off_bmp;
+        var bitmap:BitmapData = _mouse_over && _movable || _turned_on ? _on_bmp : _off_bmp;
         graphics.beginBitmapFill(bitmap);
 //        graphics.lineStyle(0, 0, 0);
         graphics.drawRect(0, 0, bitmap.width, bitmap.height);
@@ -177,7 +178,7 @@ public class Gate extends Sprite implements Out {
         parent.removeChild(this);
     }
 
-    public function positionSubElements():void {
+    public function positionSubElements(translate_wires:Boolean = true):void {
 
         for (var i:int = 0; i < _arity; i++) {
             var old_finish:Point = _wires[i].finish;
@@ -187,6 +188,11 @@ public class Gate extends Sprite implements Out {
             if (! _in_connectors[i].dest) {
                 var nx:Number = _in_connectors[i].x + new_finish.x - old_finish.x;
                 var ny:Number = _in_connectors[i].y + new_finish.y - old_finish.y;
+
+                if (!translate_wires) {
+                    nx = _in_connectors[i].x;
+                    ny = _in_connectors[i].y;
+                }
 
                 if (!_is_new) {
                     if (nx < 0)
@@ -201,8 +207,9 @@ public class Gate extends Sprite implements Out {
 
                 _in_connectors[i].x = nx;
                 _in_connectors[i].y = ny;
-                _in_connectors[i].positionSubElements();
             }
+
+            _in_connectors[i].positionSubElements();
         }
 
         for each (var con:Connector in _connectors) {
@@ -253,5 +260,54 @@ public class Gate extends Sprite implements Out {
         _movable = value;
     }
 
+    public function get serialization():Object {
+        var o:Object = {
+            x: x,
+            y: y,
+            con: new Array(_arity),
+            type:type
+        };
+
+        for (var i:int = 0; i < _arity; i++) {
+            var c:Connector = _in_connectors[i];
+            o.con[i] = {
+                x:c.x,
+                y:c.y,
+                g_dest: c.dest ? Globals.instance.workspace.field.gates.indexOf(c.dest) : -1,
+                i_dest: c.dest ? Globals.instance.workspace.field.inputs.indexOf(c.dest) : -1
+            }
+        }
+
+        return o;
+    }
+
+    public function set serialization(o:Object):void {
+        x = o.x;
+        y = o.y;
+        for (var i:int = 0; i < _arity; i++) {
+            var c:Connector = _in_connectors[i];
+            var oc:Object = o.con[i];
+            c.x = oc.x;
+            c.y = oc.y;
+
+            if (oc.g_dest >= 0)
+                c.dest = Globals.instance.workspace.field.gates[oc.g_dest];
+            if (oc.i_dest >= 0)
+                c.dest = Globals.instance.workspace.field.inputs[oc.i_dest];
+        }
+
+        positionSubElements(false);
+    }
+
+    public function get turned_on():Boolean {
+        return _turned_on;
+    }
+
+    public function set turned_on(value:Boolean):void {
+        if (value == _turned_on)
+            return;
+        _turned_on = value;
+        redraw();
+    }
 }
 }

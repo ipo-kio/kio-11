@@ -154,6 +154,9 @@ public class Digit extends Sprite {
     }
 
     public function set broken_index(value:int):void {
+        if (Globals.instance.level == 1)
+            return;
+
         if (_broken_index >= 0)
             _elements[_broken_index].broken = false;
 
