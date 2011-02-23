@@ -12,7 +12,7 @@ public class SemiramidaProblem implements KioProblem {
     private var _recordCheck:Object = null;
     private var api:KioApi;
 
-    [Embed(source="resouces/Semiramida.json-settings",mimeType="application/octet-stream")]
+    [Embed(source="resouces/Semiramida.ru.json-settings",mimeType="application/octet-stream")]
     public static var locTxt:Class;
 
     //private var spitter:SpitMem = new SpitMem;

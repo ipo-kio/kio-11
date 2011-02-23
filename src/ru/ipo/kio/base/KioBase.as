@@ -33,7 +33,7 @@ public class KioBase {
 
     private var spaceSettings:SpaceSettingsDialog = new SpaceSettingsDialog;
 
-    [Embed(source="resources/shell.json-config",mimeType="application/octet-stream")]
+    [Embed(source="resources/shell.ru.json-config",mimeType="application/octet-stream")]
     private var locTxt:Class;
 
     public function KioBase() {

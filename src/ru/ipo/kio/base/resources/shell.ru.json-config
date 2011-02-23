@@ -8,13 +8,15 @@
 			(не удалось скопировтаь текст)</p>
 		>>>
 	},
-	"buttons":{ /*все кнопки*/
+	"buttons":{
 		"load_workspace": "Загрузить лучшие результаты и анкету",
 		"save_workspace": "Сохранить лучшие результаты и анкету"
 	},
 	"contest_panel":{
-		"current_solution_caption" : "Текущее решение",
-		"help_caption" : "Помощь",
+		"current_solution_caption" : "Решение",
+		"help_header" : "Помощь",
+		"records_and_anketa_header" : "Лучшие результаты и анкета",
+		"record_header" : "Рекорд",
 		"buttons":{
 			"help" : "Управление",
 			"statement": "Условие",
@@ -71,12 +73,15 @@
 			"e_mail": "e-mail",
 			"institution": "Образовательное учеререждение",
 			"institution_name": "Название",
-			"zip": "Индекс",
+			"grade": "Класс",
 			"address": "Адрес",
-			"name_restriction": "А-Я\-"
+			"name_restriction": "А-Я\-" /*Здесь можно писать диапазоны распознаваемых символов*/
         },
         "problems": {
             "fill_form": "Заполнить анкету"
+        },
+        "problem": {
+            "screen_header":"Задача"
         }
     }
 }
