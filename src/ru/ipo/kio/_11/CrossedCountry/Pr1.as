@@ -15,11 +15,13 @@ package ru.ipo.kio._11.CrossedCountry {
 
 		//Это спрайт, на котором рисуется задача
 		private var sp:Main;
+		private var _recordCheck:Object = null;
 
 		//конструктор задачи
 		public function Pr1() {
 			//в первой строке конструктора задачи требуется вызвать инициализацию api:
 			KioApi.initialize(this);
+			 
 
 			//теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
 			//В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
@@ -100,9 +102,9 @@ package ru.ipo.kio._11.CrossedCountry {
 			if (solution.points) {
 				// удаление всех точек, обнуление результата
 				sp.deleteAll();
-				loadSol(solution.points);
-				trace("добавление точек");
-				//  добавление точек
+				// добавление точек на сцену
+				sp.loadSol(solution.points);
+				
 				//sp.text = solution.txt;
 				return true;
 			} else
@@ -129,12 +131,22 @@ package ru.ipo.kio._11.CrossedCountry {
 		 * @return результат сравнения
 		 */
 		public function compare(solution1:Object, solution2:Object):int {
+			
+			 if (!solution1)
+				return solution2 ? 0 : -1;
+			 if (!solution2)
+				return 1;
+			
 			return solution1.time - solution2.time; //sm. semiramidaProblem, add null check
 		}
 
         public function get icon():Class {
             return null;
         }
+		
+		public function get recordCheck():Object {
+        return _recordCheck;
+    }
     }
 
 }
