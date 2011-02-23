@@ -116,7 +116,7 @@ package ru.ipo.kio._11.recognition
 		
 		public var ButtonDown:Boolean;
 		
-		public var bin:Sprite = createRect(0x508080, 30, 50)//корзина
+		public var bin:Sprite = new Sprite(); //корзина		
 		public var level:int = 1;
 		public var NUM:int = 0;
 		public var NUM_1:int = 0;
@@ -125,7 +125,7 @@ package ru.ipo.kio._11.recognition
 		public var circle_lamp_Green:Array = new Array(); // массив содержащий все зеленые круглые лампочки контакты
 		public var circle_lamp_Red:Array = new Array(); // массив содержащий все красные круглые лампочки контакты
 		public var rect_lamp_Green:Array = new Array(); // массив содержащий все зеленые лампочки
-		
+		public var rect_lamp_Green_Down:Array = new Array(); 
 	
 		public var timer:Timer = new Timer(4000, 10);
 		
@@ -134,6 +134,8 @@ package ru.ipo.kio._11.recognition
 		public static const INPUT_BG:Class; //заводим поле - константа
         [Embed(source="Lamp_H_01.png")]
 		public static const Lamp_H_01:Class;
+		[Embed(source="Lamp_H_03.png")]
+		public static const Lamp_H_03:Class;
 		[Embed(source="Big_Button_01.jpg")]
 		public static const Big_Button_01:Class;
 		[Embed(source="Wires_02.png")]
@@ -142,6 +144,22 @@ package ru.ipo.kio._11.recognition
 		public static const Big_Button_02:Class;
 		[Embed(source="Big_Button_03.jpg")]
 		public static const Big_Button_03:Class;
+		[Embed(source="Small_Button_01.jpg")]
+		public static const Small_Button_01:Class;
+		[Embed(source="Small_Button_02.jpg")]
+		public static const Small_Button_02:Class;
+		[Embed(source="Small_Button_03.jpg")]
+		public static const Small_Button_03:Class;
+		
+		[Embed(source="And_01.png")]
+		public static const And_01:Class;
+		[Embed(source="Or_01.png")]
+		public static const Or_01:Class;
+		[Embed(source="Not_01.png")]
+		public static const Not_01:Class;
+		
+		[Embed(source="Basket_02.png")]
+		public static const Basket_02:Class;
 		public function Main():void 
 		{
 			
@@ -151,11 +169,16 @@ package ru.ipo.kio._11.recognition
 			bg.addChild(bmp); //добавляем картинку на спрайт
 			addChild(bg);
 			
+			var bmp_bin:* = new Basket_02;
+			bin.addChild(bmp_bin); 
+			bin.x = 670;
+			bin.y = 410 ;
+			addChild(bin);
+			
 			createNum();
 			createCont();
 			createCont_Prov();
-			Buttons();
-			createBin();
+			Buttons();			
 			text_fields();
 			//--------------------------------------------------------
 			addEventListener(Event.ENTER_FRAME, controlLamp);
@@ -240,13 +263,7 @@ package ru.ipo.kio._11.recognition
 			t_record_numberBlokcs.y = 465;			
 			addChild(t_record_numberBlokcs);			
 			//-------------------------------------------------------------			
-			/*var text_bin:TextField = new TextField();
-			text_bin.autoSize = TextFieldAutoSize.LEFT;
-			text_bin.text = "Корзина";
-			text_bin.x = 25;
-			text_bin.y = 380;			
-			addChild(text_bin);	*/		
-		}
+			}
 		//===================================================
 public function test_continius(e:Event):void
 {
@@ -601,7 +618,11 @@ public function test_continius(e:Event):void
 			
 		if (NUM == 0)
 		{
-			     
+			        for (var i:int = 0; i < 9; i++)
+				     {
+				        rect_lamp_Green[i].visible = true;
+				        circle_lamp_Green[i].visible = true;					
+				     }	
 					rect_lamp_Green[3].visible = false;
 			        circle_lamp_Green[3].visible = false;
 					rect_lamp_Green[7].visible = false;
@@ -615,12 +636,11 @@ public function test_continius(e:Event):void
 			 // цифра 1 на табло
 		if (NUM == 1)
 		{
-				rect_lamp_Green[3].visible = true;
-				circle_lamp_Green[3].visible = true;					
-				rect_lamp_Green[7].visible = true;
-				circle_lamp_Green[7].visible = true;
-				rect_lamp_Green[8].visible = true;
-				circle_lamp_Green[8].visible = true;	
+			    for (var i:int = 0; i < 9; i++)
+				{
+				   rect_lamp_Green[i].visible = true;
+				   circle_lamp_Green[i].visible = true;					
+				}	
 			
 				rect_lamp_Green[0].visible = false;
 				circle_lamp_Green[0].visible = false;	
@@ -640,18 +660,11 @@ public function test_continius(e:Event):void
 			 // цифра 2 на табло
 		if (NUM == 2)
 		{						
-				rect_lamp_Green[0].visible = true;
-				circle_lamp_Green[0].visible = true;	
-				rect_lamp_Green[1].visible = true;
-				circle_lamp_Green[1].visible = true;	
-				rect_lamp_Green[3].visible = true;
-				circle_lamp_Green[3].visible = true;
-				rect_lamp_Green[4].visible = true;
-				circle_lamp_Green[4].visible = true;
-				rect_lamp_Green[5].visible = true;
-				circle_lamp_Green[5].visible = true;			 
-				rect_lamp_Green[8].visible = true;
-				circle_lamp_Green[8].visible = true;			
+				for (var i:int = 0; i < 9; i++)
+				{
+				   rect_lamp_Green[i].visible = true;
+				   circle_lamp_Green[i].visible = true;					
+				}				
 			 
 			
 			   rect_lamp_Green[0].visible = false;
@@ -670,16 +683,11 @@ public function test_continius(e:Event):void
 			 // цифра 3 на табло
 	    if (NUM ==3)
 		{		 
-			   rect_lamp_Green[0].visible = true;
-			   circle_lamp_Green[0].visible = true;			 
-			   rect_lamp_Green[6].visible = true;
-			   circle_lamp_Green[6].visible = true;
-			   rect_lamp_Green[3].visible = true;
-			   circle_lamp_Green[3].visible = true;
-			   rect_lamp_Green[4].visible = true;
-			   circle_lamp_Green[4].visible = true;
-			   rect_lamp_Green[7].visible = true;
-			   circle_lamp_Green[7].visible = true;	
+			   for (var i:int = 0; i < 9; i++)
+				{
+				   rect_lamp_Green[i].visible = true;
+				   circle_lamp_Green[i].visible = true;					
+				}		
 			   
 			 
 			   rect_lamp_Green[0].visible = false;
@@ -698,16 +706,11 @@ public function test_continius(e:Event):void
 			 // цифра 4 на табло
 		if (NUM ==4)
 		{		 
-			   rect_lamp_Green[0].visible = true;
-			   circle_lamp_Green[0].visible = true;			 
-			   rect_lamp_Green[2].visible = true;
-			   circle_lamp_Green[2].visible = true;
-			   rect_lamp_Green[4].visible = true;
-			   circle_lamp_Green[4].visible = true;
-			   rect_lamp_Green[5].visible = true;
-			   circle_lamp_Green[5].visible = true;
-			   rect_lamp_Green[6].visible = true;
-			   circle_lamp_Green[6].visible = true; 				
+			   for (var i:int = 0; i < 9; i++)
+				{
+				   rect_lamp_Green[i].visible = true;
+				   circle_lamp_Green[i].visible = true;					
+				}					
 			 
 			 
 				rect_lamp_Green[1].visible = false;
@@ -726,16 +729,11 @@ public function test_continius(e:Event):void
 			 // цифра 5 на табло
 		if (NUM ==5)
 		{		 
-				rect_lamp_Green[1].visible = true;
-				circle_lamp_Green[1].visible = true;			 	
-				rect_lamp_Green[4].visible = true;
-				circle_lamp_Green[4].visible = true;			 
-				rect_lamp_Green[5].visible = true;
-				circle_lamp_Green[5].visible = true;
-				rect_lamp_Green[7].visible = true;
-				circle_lamp_Green[7].visible = true;			 
-				rect_lamp_Green[8].visible = true;
-				circle_lamp_Green[8].visible = true;			 
+				for (var i:int = 0; i < 9; i++)
+				{
+				   rect_lamp_Green[i].visible = true;
+				   circle_lamp_Green[i].visible = true;					
+				}				 
 			 
 			
 				rect_lamp_Green[2].visible = false;
@@ -753,14 +751,11 @@ public function test_continius(e:Event):void
 			 // цифра 6 на табло
 		if (NUM ==6)
 		{			 
-				rect_lamp_Green[2].visible = true;
-				circle_lamp_Green[2].visible = true;	
-				rect_lamp_Green[4].visible = true;
-				circle_lamp_Green[4].visible = true;
-				rect_lamp_Green[7].visible = true;
-				circle_lamp_Green[7].visible = true;	
-				rect_lamp_Green[8].visible = true;
-				circle_lamp_Green[8].visible = true;				
+				for (var i:int = 0; i < 9; i++)
+				{
+				   rect_lamp_Green[i].visible = true;
+				   circle_lamp_Green[i].visible = true;					
+				}					
 			
 				rect_lamp_Green[2].visible = false;
 			    circle_lamp_Green[2].visible = false;
@@ -777,14 +772,11 @@ public function test_continius(e:Event):void
 		if (NUM ==7)
 		{			 
 			 	
-			    rect_lamp_Green[2].visible = true;
-			    circle_lamp_Green[2].visible = true;
-				rect_lamp_Green[0].visible = true;
-			    circle_lamp_Green[0].visible = true;
-				rect_lamp_Green[1].visible = true;
-			    circle_lamp_Green[1].visible = true;
-				rect_lamp_Green[8].visible = true;
-			    circle_lamp_Green[8].visible = true;		 
+			    for (var i:int = 0; i < 9; i++)
+				{
+				   rect_lamp_Green[i].visible = true;
+				   circle_lamp_Green[i].visible = true;					
+				}		 
 			 	
 			
 				rect_lamp_Green[0].visible = false;
@@ -805,20 +797,11 @@ public function test_continius(e:Event):void
 			 // цифра 8 на табло
 		if (NUM ==8)
 		{			
-			    rect_lamp_Green[0].visible = true;
-				circle_lamp_Green[0].visible = true;				 		 
-				rect_lamp_Green[2].visible = true;
-				circle_lamp_Green[2].visible = true;
-				rect_lamp_Green[3].visible = true;
-				circle_lamp_Green[3].visible = true;
-				rect_lamp_Green[5].visible = true;
-				circle_lamp_Green[5].visible = true;
-				rect_lamp_Green[6].visible = true;
-				circle_lamp_Green[6].visible = true;
-				rect_lamp_Green[8].visible = true;
-				circle_lamp_Green[8].visible = true;
-				rect_lamp_Green[4].visible = true;
-				circle_lamp_Green[4].visible = true;
+			    for (var i:int = 0; i < 9; i++)
+				{
+				   rect_lamp_Green[i].visible = true;
+				   circle_lamp_Green[i].visible = true;					
+				}	
 			
 			
 				rect_lamp_Green[7].visible = false;
@@ -832,10 +815,11 @@ public function test_continius(e:Event):void
 			 // цифра 9 на табло
 		if (NUM ==9)
 		{	    
-				rect_lamp_Green[7].visible = true;
-				circle_lamp_Green[7].visible = true;
-				rect_lamp_Green[8].visible = true;
-				circle_lamp_Green[8].visible = true;
+				for (var i:int = 0; i < 9; i++)
+				{
+				   rect_lamp_Green[i].visible = true;
+				   circle_lamp_Green[i].visible = true;					
+				}	
 				
 			
 				rect_lamp_Green[4].visible = false;
@@ -854,8 +838,7 @@ public function test_continius(e:Event):void
 		controllaContatto(e);
 		controlLamp(e);//вставлено чтобы для блока не евент сработал до  обработки результата, иначе результат не зачтётся
 		get_result(NUM);
-		Record();
-		NUM++;
+		Record();		
 		}
 		//===============================================================================================
 		public function test(e:Event):void
@@ -1207,38 +1190,111 @@ public function test_continius(e:Event):void
 			 NUM_1++;			
 		}		
 		//===================================================
+		public function But_1(e:Event):void
+		{
+			NUM = 1;
+			test_step(e);
+		}
+		public function But_2(e:Event):void
+		{
+			NUM = 2;
+			test_step(e);
+		}
+		public function But_3(e:Event):void
+		{
+			NUM = 3;
+			test_step(e);
+		}
+		public function But_4(e:Event):void
+		{
+			NUM = 4;
+			test_step(e);
+		}
+		public function But_5(e:Event):void
+		{
+			NUM = 5;
+			test_step(e);
+		}
+		public function But_6(e:Event):void
+		{
+			NUM = 6;
+			test_step(e);
+		}
+		public function But_7(e:Event):void
+		{
+			NUM = 7;
+			test_step(e);
+		}
+		public function But_8(e:Event):void
+		{
+			NUM = 8;
+			test_step(e);
+		}
+		public function But_9(e:Event):void
+		{
+			NUM = 9;
+			test_step(e);
+		}
+		public function But_0(e:Event):void
+		{
+			NUM = 0;
+			test_step(e);
+		}
+		//===================================================
 		public function Buttons():void	//функция создающая кнопки
 		{				
 										
-    		/*		
+    				
 			//---------------------------------------------------
-			var text_creat:TextField = new TextField();
-			text_creat.autoSize = TextFieldAutoSize.LEFT;
-			text_creat.text = "Добавить блок:";
-			text_creat.x = 20;
-			text_creat.y = 120;			
-			addChild(text_creat);
-			//кнопка или			
-    		var But_create_or:TextButton = createButtons("'ИЛИ'");	
-			But_create_or.x = 20;
-			But_create_or.y = 160;
-			addChild(But_create_or);
-			But_create_or.addEventListener(MouseEvent.CLICK, Createor);
-					
 			//кнопка и		
-			var But_create_and:SimpleButton = createButtons("'И'");
-			But_create_and.x = 20;
-			But_create_and.y = 200;
-			addChild(But_create_and);
-			But_create_and.addEventListener(MouseEvent.CLICK, CreateAnd);
+			var tf_and:TextField = new TextField();
+			tf_and.text = "И";			
+			tf_and.selectable = false;
+			tf_and.autoSize = TextFieldAutoSize.CENTER;
+			tf_and.x = 58;
+            tf_and.y = 320;
+			addChild(tf_and);
+    		var And:Sprite = new Sprite();
+			var bmp_and:* = new And_01;
+			And.addChild(bmp_and);//добавляем картинку на спрайт
+			And.x = 60;
+			And.y = 340;
+			addChild(And);
+			And.addEventListener(MouseEvent.CLICK, CreateAnd);
+					
+			//кнопка или		
+			var tf_or:TextField = new TextField();
+			tf_or.text = "ИЛИ";			
+			tf_or.selectable = false;
+			tf_or.autoSize = TextFieldAutoSize.CENTER;
+			tf_or.x = 118;
+            tf_or.y = 320;
+			addChild(tf_or);
+    		var Or:Sprite = new Sprite();
+			var bmp_or:* = new Or_01;
+			 Or.addChild(bmp_or);//добавляем картинку на спрайт
+			 Or.x = 120;
+			 Or.y = 340;
+			addChild( Or);
+			 Or.addEventListener(MouseEvent.CLICK, Createor);
 						
-			//кнопка не			
-			var But_create_not:SimpleButton = createButtons("'НЕ'");
-			But_create_not.x = 20;
-			But_create_not.y = 240;
-			addChild(But_create_not);
-			But_create_not.addEventListener(MouseEvent.CLICK, Createnot);*/
+			//кнопка не
+			var tf_not:TextField = new TextField();
+			tf_not.text = "НЕ";			
+			tf_not.selectable = false;
+			tf_not.autoSize = TextFieldAutoSize.CENTER;
+			tf_not.x = 80;
+            tf_not.y = 365;
+			addChild(tf_not);
+    		var Not:Sprite = new Sprite();
+			var bmp_not:* = new Not_01;
+			 Not.addChild(bmp_not);//добавляем картинку на спрайт
+			 Not.x = 80;
+			 Not.y = 380;
+			addChild( Not);
+			Not.addEventListener(MouseEvent.CLICK, Createnot);
 			
+			//---------------------------------------------------------------------
 			var tf_1:TextField = new TextField();
 			tf_1.text = "Разделить";			
 			tf_1.selectable = false;
@@ -1266,20 +1322,146 @@ public function test_continius(e:Event):void
 			But_create_Disconnect.addEventListener(MouseEvent.CLICK, disconnect);
 			
 			//---------------------------------------------------------------------------
+			//кнопки проверки
+			//1
+			var tf_but_1:TextField = new TextField();
+			tf_but_1.text = "1";		
+			tf_but_1.selectable = false;
+			tf_but_1.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_1.x = 20;
+			tf_but_1.y = 10;			
+			var But_01:SimpleButton = createButtons_2("");
+			But_01.x = 10;
+			But_01.y = 5;
+			addChild(But_01);
+			addChild(tf_but_1);
+			But_01.addEventListener(MouseEvent.CLICK, But_1);
 			
-			/*var text_test:TextField = new TextField();
-			text_test.autoSize = TextFieldAutoSize.LEFT;
-			text_test.text = "Проверки:";
-			text_test.x = 150;
-			text_test.y = 450;			
-			addChild(text_test);
-			//кнопка пошаговая проверка
-			var But_test_step:SimpleButton = createButtons("Пошаговая");
-			But_test_step.x = 150;
-			But_test_step.y = 480;
-			addChild(But_test_step);
-			But_test_step.addEventListener(MouseEvent.CLICK,test_step);
-			myVar = 0;*/
+			//2
+			var tf_but_2:TextField = new TextField();
+			tf_but_2.text = "2";		
+			tf_but_2.selectable = false;
+			tf_but_2.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_2.x = 60;
+			tf_but_2.y = 10;			
+			var But_02:SimpleButton = createButtons_2("");
+			But_02.x = 50;
+			But_02.y = 5;
+			addChild(But_02);
+			addChild(tf_but_2);
+			But_02.addEventListener(MouseEvent.CLICK, But_2);
+			
+			//3
+			var tf_but_3:TextField = new TextField();
+			tf_but_3.text = "3";		
+			tf_but_3.selectable = false;
+			tf_but_3.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_3.x = 100;
+			tf_but_3.y = 10;			
+			var But_03:SimpleButton = createButtons_2("");
+			But_03.x = 90;
+			But_03.y = 5;
+			addChild(But_03);
+			addChild(tf_but_3);
+			But_03.addEventListener(MouseEvent.CLICK, But_3);
+			
+			//4
+			var tf_but_4:TextField = new TextField();
+			tf_but_4.text = "4";		
+			tf_but_4.selectable = false;
+			tf_but_4.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_4.x = 20;
+			tf_but_4.y = 45;			
+			var But_04:SimpleButton = createButtons_2("");
+			But_04.x = 10;
+			But_04.y = 40;
+			addChild(But_04);
+			addChild(tf_but_4);
+			But_04.addEventListener(MouseEvent.CLICK, But_4);
+			
+			//5
+			var tf_but_5:TextField = new TextField();
+			tf_but_5.text = "5";		
+			tf_but_5.selectable = false;
+			tf_but_5.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_5.x = 60;
+			tf_but_5.y = 45;			
+			var But_05:SimpleButton = createButtons_2("");
+			But_05.x = 50;
+			But_05.y = 40;
+			addChild(But_05);
+			addChild(tf_but_5);
+			But_05.addEventListener(MouseEvent.CLICK, But_5);
+			
+			//6
+			var tf_but_6:TextField = new TextField();
+			tf_but_6.text = "6";		
+			tf_but_6.selectable = false;
+			tf_but_6.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_6.x = 100;
+			tf_but_6.y = 45;			
+			var But_06:SimpleButton = createButtons_2("");
+			But_06.x = 90;
+			But_06.y = 40;
+			addChild(But_06);
+			addChild(tf_but_6);
+			But_06.addEventListener(MouseEvent.CLICK, But_6);
+			
+			//0
+			var tf_but_0:TextField = new TextField();
+			tf_but_0.text = "0";		
+			tf_but_0.selectable = false;
+			tf_but_0.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_0.x = 140;
+			tf_but_0.y = 45;			
+			var But_00:SimpleButton = createButtons_2("");
+			But_00.x = 130;
+			But_00.y = 40;
+			addChild(But_00);
+			addChild(tf_but_0);
+			But_00.addEventListener(MouseEvent.CLICK, But_0);
+			
+			//7
+			var tf_but_7:TextField = new TextField();
+			tf_but_7.text = "7";		
+			tf_but_7.selectable = false;
+			tf_but_7.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_7.x = 20;
+			tf_but_7.y = 80;			
+			var But_07:SimpleButton = createButtons_2("");
+			But_07.x = 10;
+			But_07.y = 75;
+			addChild(But_07);
+			addChild(tf_but_7);
+			But_07.addEventListener(MouseEvent.CLICK, But_7);
+			
+			//8
+			var tf_but_8:TextField = new TextField();
+			tf_but_8.text = "8";		
+			tf_but_8.selectable = false;
+			tf_but_8.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_8.x = 60;
+			tf_but_8.y = 80;			
+			var But_08:SimpleButton = createButtons_2("");
+			But_08.x = 50;
+			But_08.y = 75;
+			addChild(But_08);
+			addChild(tf_but_8);
+			But_08.addEventListener(MouseEvent.CLICK, But_8);
+			
+			//9
+			var tf_but_9:TextField = new TextField();
+			tf_but_9.text = "9";		
+			tf_but_9.selectable = false;
+			tf_but_9.autoSize = TextFieldAutoSize.CENTER;
+			tf_but_9.x = 100;
+			tf_but_9.y = 80;			
+			var But_09:SimpleButton = createButtons_2("");
+			But_09.x = 90;
+			But_09.y = 75;
+			addChild(But_09);
+			addChild(tf_but_9);
+			But_09.addEventListener(MouseEvent.CLICK, But_9);
 			
 			//-------------------------------------------------------------------------------
 			// кнопка сброса решения
@@ -1317,6 +1499,25 @@ public function test_continius(e:Event):void
 			
 			return button;
 		}	
+		public function createButtons_2(a:String):SimpleButton  // функция создания кнопок
+		{
+			var button:SimpleButton = new  SimpleButton;
+			var bb1:Sprite = new Sprite();
+			var bmp_but_1:* = new Small_Button_01;
+			bb1.addChild(bmp_but_1); 
+			var bb2:Sprite = new Sprite();
+			var bmp_but_2:* = new Small_Button_02;
+			bb2.addChild(bmp_but_2); 
+			var bb3:Sprite = new Sprite();
+			var bmp_but_3:* = new Small_Button_03;
+			bb3.addChild(bmp_but_3);			
+			button.upState = 	bmp_but_1;
+			button.overState = bmp_but_2;
+			button.downState = bmp_but_3;
+			button.hitTestState = button.overState;
+			
+			return button;
+		}
 		
 		//===================================================================================================
 		public function createCont_Prov():void // функция создающая лампочки конечной проверки
@@ -1523,7 +1724,61 @@ public function test_continius(e:Event):void
 				var bmp_lamp:* = new Lamp_H_01;
 				lamp_Green.addChild(bmp_lamp);
 				rect_lamp_Green[i] = lamp_Green;
-			}			
+			}	
+			for (i = 0; i < 9; i++) 
+			{
+				var lamp_Green_Down:Sprite = new Sprite;
+				var bmp_lamp_down:* = new Lamp_H_03;
+				lamp_Green_Down.addChild(bmp_lamp_down);
+				rect_lamp_Green_Down[i] = lamp_Green_Down;
+			}
+			//местоположение не горящих ламп
+			//верхний 1я линия
+			rect_lamp_Green_Down[1].x = 65; 
+			rect_lamp_Green_Down[1].y = 130;			
+			addChild(rect_lamp_Green_Down[1]);
+			//средний 5я линия
+			rect_lamp_Green_Down[3].x = 65; 
+			rect_lamp_Green_Down[3].y = 200;
+			addChild(rect_lamp_Green_Down[3]);
+			//нижний 9я линия
+			rect_lamp_Green_Down[5].x = 65; 
+			rect_lamp_Green_Down[5].y = 270;
+			addChild(rect_lamp_Green_Down[5]);
+			
+			// местоположение зеленых вертикальных ламп
+			//левый верхний 2я линия
+			rect_lamp_Green_Down[0].x = 62; 
+			rect_lamp_Green_Down[0].y = 145;
+			rect_lamp_Green_Down[0].rotation = 90;
+		    addChild(rect_lamp_Green_Down[0]);
+			//левый нижний 6я линия
+			rect_lamp_Green_Down[4].x = 62; 
+			rect_lamp_Green_Down[4].y = 215;
+			rect_lamp_Green_Down[4].rotation = 90;
+			addChild(rect_lamp_Green_Down[4]);
+			//правый верхний 4я линия
+			rect_lamp_Green_Down[2].x = 145; 
+			rect_lamp_Green_Down[2].y = 145;
+			rect_lamp_Green_Down[2].rotation = 90;
+			addChild(rect_lamp_Green_Down[2]);
+			//правый нижний 8я линия
+			rect_lamp_Green_Down[6].x = 145; 
+			rect_lamp_Green_Down[6].y = 215;
+			rect_lamp_Green_Down[6].rotation = 90;
+			addChild(rect_lamp_Green_Down[6]);			
+		    //диагональный верхний 3я линия
+			rect_lamp_Green_Down[7].x = 68; 
+			rect_lamp_Green_Down[7].y = 188;
+			rect_lamp_Green_Down[7].rotation = -45;
+			addChild(rect_lamp_Green_Down[7]);
+			//диагональный нижний 7я линия
+			rect_lamp_Green_Down[8].x = 68; 
+			rect_lamp_Green_Down[8].y = 258;
+			rect_lamp_Green_Down[8].rotation =-45;
+			addChild(rect_lamp_Green_Down[8]);
+			
+			
 			// местоположение зеленых горизонтальных ламп
 			//верхний 1я линия
 			rect_lamp_Green[1].x = 65; 
@@ -3694,36 +3949,6 @@ public function test_continius(e:Event):void
 					rightNotHit[i] = false;
 				unit1 = unit2 = unit3 = unit4 = unit5 = 1;		
 			}
-		}
-		//===================================================
-		public function createBin():void
-		{
-			bin.x = 30;
-			bin.y = 400;
-			addChild(bin);
-			var line:Shape = new Shape();
-			line.graphics.lineStyle(1);
-			line.graphics.moveTo(30, 400);
-			line.graphics.lineTo(35, 450);
-			addChild(line);
-			line.graphics.moveTo(35, 400);
-			line.graphics.lineTo(40, 450);
-			addChild(line);
-			line.graphics.moveTo(40, 400);
-			line.graphics.lineTo(45, 450);
-			addChild(line);
-			line.graphics.moveTo(45, 400);
-			line.graphics.lineTo(45, 450);
-			addChild(line);
-			line.graphics.moveTo(50, 400);
-			line.graphics.lineTo(43, 450);
-			addChild(line);
-			line.graphics.moveTo(55, 400);
-			line.graphics.lineTo(50, 450);
-			addChild(line);
-			line.graphics.moveTo(60, 400);
-			line.graphics.lineTo(55, 450);
-			addChild(line);
 		}
 		//========================================================
 		[Embed(source="Empty_01.png")]
