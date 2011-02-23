@@ -18,18 +18,21 @@ import ru.ipo.kio.api.KioApi;
 
 public class House extends Sprite {
 
-    public const FLOORS:int = 20;
+    public const FLOORS:int = 19;
 
     private const BORDER_WIDTH:Number = 2;
-    private const BORDER_COLOR:uint = 0x000022;
+    private const BORDER_COLOR:uint = 0x000000;
+//    private const BORDER_COLOR:uint = 0xc8c8c8;
     private const BORDER_ALPHA:Number = 0.8;
 
-    private const FLOOR_WIDTH:Number = 1.5;
-    private const FLOOR_COLOR:uint = 0x000022;
+    private const FLOOR_WIDTH:Number = 1;
+//    private const FLOOR_COLOR:uint = 0xc8c8c8;
+    private const FLOOR_COLOR:uint = 0x000000;
     private const FLOOR_ALPHA:Number = 0.8;
 
-    private const WALL_WIDTH:Number = 0.8;
-    private const WALL_COLOR:uint = 0x000022;
+    private const WALL_WIDTH:Number = 1;
+//    private const WALL_COLOR:uint = 0x0c8c8c8;
+    private const WALL_COLOR:uint = 0x000000;
     private const WALL_ALPHA:Number = 0.8;
 
     private var _house_width:int;
@@ -70,8 +73,8 @@ public class House extends Sprite {
             rooms.push(rooms_on_the_floor);
         }
 
-        grid.graphics.lineStyle(BORDER_WIDTH, BORDER_COLOR, BORDER_ALPHA);
-        grid.graphics.drawRect(0, 0, _house_width, _house_height);
+//        grid.graphics.lineStyle(BORDER_WIDTH, BORDER_COLOR, BORDER_ALPHA);
+//        grid.graphics.drawRect(0, 0, _house_width, _house_height);
 
         grid.graphics.lineStyle(FLOOR_WIDTH, FLOOR_COLOR, FLOOR_ALPHA);
         for (var i:int = 1; i < FLOORS; ++i) {
@@ -112,7 +115,7 @@ public class House extends Sprite {
         addEventListener(MouseEvent.DOUBLE_CLICK, handleHouseDoubleClick);
         addEventListener(MouseEvent.CLICK, handleHouseClick);
 
-        shiftTimer = new Timer(1000 / 12);
+        shiftTimer = new Timer(1000 / 6);
         //shiftTimer.start();
         shiftTimer.addEventListener(TimerEvent.TIMER, shiftTimerHandler);
     }

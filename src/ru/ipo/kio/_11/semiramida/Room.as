@@ -37,7 +37,8 @@ public class Room extends Shape {
          ),
          new Point(0, 0)
          );*/
-        var m:Matrix = Resources.Flowers.transform.matrix.clone();
+        //TODO why room shifts down compared to the initial image?
+        var m:Matrix = new Matrix();//Resources.Flowers.transform.matrix.clone();
         m.translate(-ind * house.house_width / rooms_on_floor, -floor_ind_from_top * house.floorHeight);
         graphics.beginBitmapFill(Resources.Flowers.bitmapData, m);
         graphics.lineStyle(0, 0, 0);
@@ -66,15 +67,15 @@ public class Room extends Shape {
 
         _highlight = value;
 
-        /*if (value)
-            transform.colorTransform = new ColorTransform(1, 1, 1, 1, 0, 96, 96);
-        else
-            transform.colorTransform = new ColorTransform();*/
-
         if (value)
-            filters = [BrightnessFilter(3/2)];
+            transform.colorTransform = new ColorTransform(1.2, 1.2, 1.2, 1, 0, 0, 0);
         else
-            filters = [];
+            transform.colorTransform = new ColorTransform();
+
+        /*if (value)
+            filters = [BrightnessFilter(5/4)];
+        else
+            filters = [];*/
     }
 
 }

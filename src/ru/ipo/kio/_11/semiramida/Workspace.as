@@ -2,11 +2,9 @@ package ru.ipo.kio._11.semiramida {
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
-import flash.geom.Matrix;
 
 import ru.ipo.kio.api.KioApi;
-import ru.ipo.kio.api.controls.TextButton;
-import ru.ipo.kio.base.GlobalMetrics;
+import ru.ipo.kio.api.controls.GraphicsButton;
 
 public class Workspace extends Sprite {
 
@@ -15,78 +13,165 @@ public class Workspace extends Sprite {
     private var currentResults:ResultsPanel;
     private var recordResults:ResultsPanel;
 
+    [Embed(source='resouces/BOSANO_7.TTF', embedAsCFF = "false", fontName="KioBosano", mimeType="application/x-font-truetype", unicodeRange = "U+0000-U+FFFF")]
+    private static const GARDEN_FONT:Class;
+
+    [Embed(source='resouces/buttons/top1.png')]
+    private static const BT_TOP_1:Class;
+    [Embed(source='resouces/buttons/top2.png')]
+    private static const BT_TOP_2:Class;
+    [Embed(source='resouces/buttons/top3.png')]
+    private static const BT_TOP_3:Class;
+
+    [Embed(source='resouces/buttons/bottom1.png')]
+    private static const BT_BOTTOM_1:Class;
+    [Embed(source='resouces/buttons/bottom2.png')]
+    private static const BT_BOTTOM_2:Class;
+    [Embed(source='resouces/buttons/bottom3.png')]
+    private static const BT_BOTTOM_3:Class;
+
+    [Embed(source='resouces/buttons/up1.png')]
+    private static const BT_UP_1:Class;
+    [Embed(source='resouces/buttons/up2.png')]
+    private static const BT_UP_2:Class;
+    [Embed(source='resouces/buttons/up3.png')]
+    private static const BT_UP_3:Class;
+
+    [Embed(source='resouces/buttons/down1.png')]
+    private static const BT_DOWN_1:Class;
+    [Embed(source='resouces/buttons/down2.png')]
+    private static const BT_DOWN_2:Class;
+    [Embed(source='resouces/buttons/down3.png')]
+    private static const BT_DOWN_3:Class;
+
+    [Embed(source='resouces/buttons/left1.png')]
+    private static const BT_LEFT_1:Class;
+    [Embed(source='resouces/buttons/left2.png')]
+    private static const BT_LEFT_2:Class;
+    [Embed(source='resouces/buttons/left3.png')]
+    private static const BT_LEFT_3:Class;
+
+    [Embed(source='resouces/buttons/right1.png')]
+    private static const BT_RIGHT_1:Class;
+    [Embed(source='resouces/buttons/right2.png')]
+    private static const BT_RIGHT_2:Class;
+    [Embed(source='resouces/buttons/right3.png')]
+    private static const BT_RIGHT_3:Class;
+
     public function Workspace() {
         var api:KioApi = KioApi.instance(SemiramidaProblem.ID);
 
         //add background
-        var m:Matrix = Resources.Bg.transform.matrix;
-        m.scale(
-                GlobalMetrics.WORKSPACE_WIDTH / Resources.Bg.bitmapData.width,
-                GlobalMetrics.WORKSPACE_HEIGHT / Resources.Bg.bitmapData.height
-                );
-        Resources.Bg.transform.matrix = m;
+        /*var m:Matrix = Resources.Bg.transform.matrix;
+         m.scale(
+         GlobalMetrics.WORKSPACE_WIDTH / Resources.Bg.bitmapData.width,
+         GlobalMetrics.WORKSPACE_HEIGHT / Resources.Bg.bitmapData.height
+         );
+         Resources.Bg.transform.matrix = m;*/
         addChild(Resources.Bg);
 
         //scale flowers
-        m = Resources.Flowers.transform.matrix;
-        m.scale(
-                700 / Resources.Flowers.bitmapData.width,
-                450 / Resources.Flowers.bitmapData.height
-                );
-        Resources.Flowers.transform.matrix = m;
+        /*m = Resources.Flowers.transform.matrix;
+         m.scale(
+         700 / Resources.Flowers.bitmapData.width,
+         450 / Resources.Flowers.bitmapData.height
+         );
+         Resources.Flowers.transform.matrix = m;*/
 
         //add _house
-        _house = new House(700, 450);
-        _house.x = 10;
+        _house = new House(677, 437);
+        _house.x = 53;
         _house.y = 10;
         addChild(_house);
 
         //add buttons
-        var createPipeButton:TextButton = new TextButton(api.localization.buttons.create_pipe);
-        createPipeButton.x = 10;
-        createPipeButton.y = 500;
+        var createPipeButton:GraphicsButton = new GraphicsButton(
+                api.localization.buttons.create_pipe,
+                new BT_TOP_1().bitmapData,
+                new BT_TOP_3().bitmapData,
+                new BT_TOP_2().bitmapData,
+                "KioBosano",
+                16, 16
+                );
+        createPipeButton.x = 77;
+        createPipeButton.y = 481;
         createPipeButton.addEventListener(MouseEvent.CLICK, function(event:Event):void {
             _house.createPipe();
             _house.refreshRooms();
         });
         addChild(createPipeButton);
 
-        var removePipeButton:TextButton = new TextButton(api.localization.buttons.remove_pipe);
-        removePipeButton.x = 10;
-        removePipeButton.y = 540;
+        var removePipeButton:GraphicsButton = new GraphicsButton(
+                api.localization.buttons.remove_pipe,
+                new BT_TOP_1().bitmapData,
+                new BT_TOP_3().bitmapData,
+                new BT_TOP_2().bitmapData,
+                "KioBosano",
+                16, 16
+                );
+        removePipeButton.x = 77;
+        removePipeButton.y = 523;
         removePipeButton.addEventListener(MouseEvent.CLICK, function(event:Event):void {
             _house.removePipe();
             _house.refreshRooms();
         });
         addChild(removePipeButton);
 
-        var movePipeLeftButton:TextButton = new TextButton(api.localization.buttons.left);
-        movePipeLeftButton.x = 140;
-        movePipeLeftButton.y = 520;
+        var movePipeLeftButton:GraphicsButton = new GraphicsButton(
+                '',
+                new BT_LEFT_1().bitmapData,
+                new BT_LEFT_3().bitmapData,
+                new BT_LEFT_2().bitmapData,
+                "KioBosano",
+                16, 16
+                );
+        movePipeLeftButton.x = 230;
+        movePipeLeftButton.y = 497;
         movePipeLeftButton.addEventListener(MouseEvent.CLICK, function(event:Event):void {
             _house.movePipe(-1);
         });
         addChild(movePipeLeftButton);
 
-        var movePipeRightButton:TextButton = new TextButton(api.localization.buttons.right);
-        movePipeRightButton.x = 240;
-        movePipeRightButton.y = 520;
+        var movePipeRightButton:GraphicsButton = new GraphicsButton(
+                '',
+                new BT_RIGHT_1().bitmapData,
+                new BT_RIGHT_3().bitmapData,
+                new BT_RIGHT_2().bitmapData,
+                "KioBosano",
+                16, 16
+                );
+        movePipeRightButton.x = 330;
+        movePipeRightButton.y = 497;
         movePipeRightButton.addEventListener(MouseEvent.CLICK, function(event:Event):void {
             _house.movePipe(1);
         });
         addChild(movePipeRightButton);
 
-        var movePipeUpButton:TextButton = new TextButton(api.localization.buttons.up);
-        movePipeUpButton.x = 180;
-        movePipeUpButton.y = 480;
+        var movePipeUpButton:GraphicsButton = new GraphicsButton(
+                '',
+                new BT_UP_1().bitmapData,
+                new BT_UP_3().bitmapData,
+                new BT_UP_2().bitmapData,
+                "KioBosano",
+                16, 16
+                );
+        movePipeUpButton.x = 280;
+        movePipeUpButton.y = 470;
         movePipeUpButton.addEventListener(MouseEvent.CLICK, function(event:Event):void {
             _house.changePipeLength(1);
         });
         addChild(movePipeUpButton);
 
-        var movePipeDownButton:TextButton = new TextButton(api.localization.buttons.down);
-        movePipeDownButton.x = 180;
-        movePipeDownButton.y = 560;
+        var movePipeDownButton:GraphicsButton = new GraphicsButton(
+                '',
+                new BT_DOWN_1().bitmapData,
+                new BT_DOWN_3().bitmapData,
+                new BT_DOWN_2().bitmapData,
+                "KioBosano",
+                16, 16
+                );
+        movePipeDownButton.x = 280;
+        movePipeDownButton.y = 520;
         movePipeDownButton.addEventListener(MouseEvent.CLICK, function(event:Event):void {
             _house.changePipeLength(-1);
         });
@@ -95,22 +180,22 @@ public class Workspace extends Sprite {
         currentResults = new ResultsPanel(api.localization.results.current, 200);
         recordResults = new ResultsPanel(api.localization.results.record, 200);
 
-        currentResults.x = 340;
-        currentResults.y = 470;
+        currentResults.x = 380;
+        currentResults.y = 472;
         addChild(currentResults);
 
         recordResults.x = 560;
-        recordResults.y = 470;
+        recordResults.y = 472;
         addChild(recordResults);
 
         //extra
-        var switchTimer:TextButton = new TextButton("Анимация");
-        switchTimer.x = 530;
-        switchTimer.y = 560;
-        switchTimer.addEventListener(MouseEvent.CLICK, function(event:Event):void {
-            _house.switchWaterTimer();
-        });
-        addChild(switchTimer);
+//        var switchTimer:TextButton = new TextButton("Анимация");
+//        switchTimer.x = 530;
+//        switchTimer.y = 560;
+//        switchTimer.addEventListener(MouseEvent.CLICK, function(event:Event):void {
+        _house.switchWaterTimer();
+//        });
+//        addChild(switchTimer);
     }
 
 

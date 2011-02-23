@@ -21,38 +21,44 @@ public class ResultsPanel extends Sprite {
     private var ftRooms:TextField;
     private var ftLength:TextField;
 
+    private var loc:Object = KioApi.getLocalization(SemiramidaProblem.ID);
+
+    public static const LINE_SKIP:int = 0;
+    public static const FONT_SIZE:int = 16;
+
+    private var field_width:int;
+
     public function ResultsPanel(caption:String, width:int) {
+        field_width = width;
+
         var api:KioApi = KioApi.instance(SemiramidaProblem.ID);
 
-        var ftCaption:TextField = TextUtils.createCustomTextField(false);
-        ftCaption.width = width;
-        ftCaption.htmlText = "<p class='h15'>" + caption + "</p>";
+        var ftCaption:TextField = TextUtils.createTextFieldWithFont("KioBosano", FONT_SIZE, false);
+        ftCaption.text = caption;
+        ftCaption.x = (width - ftCaption.textWidth) / 2;
+        ftCaption.y = 0;
         addChild(ftCaption);
 
-        var ftRoomsLabel:TextField = TextUtils.createCustomTextField(false);
-        ftRoomsLabel.y = ftCaption.y + ftCaption.textHeight + 6;
-        ftRoomsLabel.htmlText = "<p class='h2'>" + api.localization.results.rooms + ":" + "</p>";
-        ftRoomsLabel.width = width / 2;
+        var ftRoomsLabel:TextField = TextUtils.createTextFieldWithFont("KioBosano", FONT_SIZE, false);
+        ftRoomsLabel.y = ftCaption.y + ftCaption.textHeight + LINE_SKIP;
+        ftRoomsLabel.text = api.localization.results.rooms;
+        ftRoomsLabel.x = (width - ftRoomsLabel.textWidth) / 2;
         addChild(ftRoomsLabel);
 
-        var ftLengthLabel:TextField = TextUtils.createCustomTextField(false);
-        ftLengthLabel.y = ftRoomsLabel.y + ftRoomsLabel.textHeight + 6;
-        ftLengthLabel.htmlText = "<p class='h2'>" + api.localization.results.length + ":" + "</p>";
-        ftLengthLabel.width = width / 2;
-        addChild(ftLengthLabel);
-
-        ftRooms = TextUtils.createCustomTextField(false);
-//        ftRooms.autoSize = TextFieldAutoSize.RIGHT;
-        ftRooms.width = width / 2;
-        ftRooms.y = ftRoomsLabel.y;
-        ftRooms.x = width / 2;
+        ftRooms = TextUtils.createTextFieldWithFont("KioBosano", FONT_SIZE, false);
+        //ftRooms.x = (width - ftRooms.width) / 2;
+        ftRooms.y = ftRoomsLabel.y + ftRoomsLabel.textHeight + LINE_SKIP;
         addChild(ftRooms);
 
-        ftLength = TextUtils.createCustomTextField(false);
-//        ftLength.autoSize = TextFieldAutoSize.RIGHT;
-        ftLength.width = width / 2;
-        ftLength.y = ftLengthLabel.y;
-        ftLength.x = width / 2;
+        var ftLengthLabel:TextField = TextUtils.createTextFieldWithFont("KioBosano", FONT_SIZE, false);
+//        ftLengthLabel.htmlText = '<p align="center">' + api.localization.results.length + '</p>';
+        ftLengthLabel.text = api.localization.results.length;
+        ftLengthLabel.x = (width - ftLengthLabel.textWidth) / 2;
+        ftLengthLabel.y = ftRooms.y + ftRoomsLabel.textHeight + LINE_SKIP;
+        addChild(ftLengthLabel);
+
+        ftLength = TextUtils.createTextFieldWithFont("KioBosano", FONT_SIZE, false);
+        ftLength.y = ftLengthLabel.y + ftLengthLabel.textHeight + LINE_SKIP;
         addChild(ftLength);
     }
 
@@ -62,7 +68,8 @@ public class ResultsPanel extends Sprite {
 
     public function set rooms(value:int):void {
         _rooms = value;
-        ftRooms.htmlText = "<p>" + value + "</p>";
+        ftRooms.text = '' + value;
+        ftRooms.x = (field_width - ftRooms.textWidth) / 2;
     }
 
     public function get pipesLength():int {
@@ -71,7 +78,8 @@ public class ResultsPanel extends Sprite {
 
     public function set pipesLength(value:int):void {
         _pipesLength = value;
-        ftLength.htmlText = "<p>" + value + "</p>";
+        ftLength.text = '' +  value;
+        ftLength.x = (field_width - ftLength.textWidth) / 2;
     }
 }
 }

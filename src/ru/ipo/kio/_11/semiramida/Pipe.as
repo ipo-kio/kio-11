@@ -21,8 +21,9 @@ public class Pipe extends Sprite {
     private var _selected:Boolean = false;
     private var _gradient_translate:int = 100 * Math.random();
 
-    private static const WATER_COLOR_1:uint = 0x0000ff;
-    private static const WATER_COLOR_2:uint = 0x42aaff;
+    private static const WATER_COLOR_0:uint = 0x79b9ff;
+    private static const WATER_COLOR_1:uint = 0x3696ff;
+    private static const WATER_COLOR_2:uint = 0x9bcbff;
 //    private static const WATER_COLOR_1:uint = 0x000000;
 //    private static const WATER_COLOR_2:uint = 0xffffff;
 
@@ -198,7 +199,7 @@ public class Pipe extends Sprite {
 
         _bottom.x = 0;
         _bottom.y = 0;
-        _bottom.graphics.lineStyle(1, 0, 1);
+        _bottom.graphics.lineStyle(1, WATER_COLOR_0, 1);
         _bottom.graphics.moveTo(0, 0);
         _bottom.graphics.lineTo(-3, 6);
         _bottom.graphics.lineTo(3, 6);
@@ -213,16 +214,16 @@ public class Pipe extends Sprite {
         _highlight_top.mouseEnabled = false;
         addChild(_highlight_top);
 
-        _top.graphics.beginFill(0x22AA22);
-        _top.graphics.lineStyle(0.5, 0);
+        _top.graphics.beginFill(WATER_COLOR_0);
+//        _top.graphics.lineStyle(0.5, 0);
         _top.graphics.drawCircle(0, 0, 3);
         _top.graphics.endFill();
         _top.x = 0;
         _top.hitArea = _highlight_top;
         //_top.y is set up in resize()
 
-        _highlight_top.graphics.beginFill(0xFFFF00, 0.5);
-        _highlight_top.graphics.drawCircle(0, 0, 7);
+        _highlight_top.graphics.beginFill(0xFFFFFF, 0.6);
+        _highlight_top.graphics.drawCircle(0, 0, 8);
         _highlight_top.graphics.endFill();
 
         addChild(_top);
@@ -256,7 +257,7 @@ public class Pipe extends Sprite {
 
         //highlight objects
         _highlight_all.graphics.clear();
-        _highlight_all.graphics.lineStyle(10, 0xFFFF00, 0.5);
+        _highlight_all.graphics.lineStyle(6, 0xFFFFFF, 0.6);
         _highlight_all.graphics.moveTo(0, 10);
         _highlight_all.graphics.lineTo(0, -h);
 
