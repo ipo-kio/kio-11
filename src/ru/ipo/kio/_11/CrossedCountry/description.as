@@ -18,28 +18,29 @@ package ru.ipo.kio._11.CrossedCountry
 		public var b2:button = new button();
 		public var butHero:button = new button();
 		public var format:TextFormat = new TextFormat();
+		public var t0:TextField = new TextField();
 		public var t1:TextField = new TextField();
 		public var t2:TextField = new TextField();
 		public var tEr:TextField = new TextField();
 		public var tErTrue:Boolean = false;
 		
 		
-		/*[Embed(source="Button_01.png")]
+		[Embed(source="Button_01.png")]
 		public static const BIm1:Class;
-		public var im1:* = new BIm1;
+		public var im1:Bitmap = new BIm1();
 		
 		[Embed(source="Button_02.png")]
 		public static const BIm2:Class;
-		public var im2:* = new BIm2;
+		public var im2:Bitmap = new BIm2();
 		
 		[Embed(source="Button_03.png")]
 		public static const BIm3:Class;
-		public var im3:* = new BIm3;
+		public var im3:Bitmap = new BIm3();
 		
 		[Embed(source='ds_greece.ttf',embedAsCFF = "false",fontName = "Greece", mimeType = "application/x-font-truetype")]
 		private static var greece_font:Class;
 		
-		public var testbut:GraphicsButton = new GraphicsButton("Результат", im1, im2, im3, greece_font, 10, 20);*/
+		public var DelLast:GraphicsButton =new GraphicsButton("Удалить последний шаг", im1.bitmapData, im2.bitmapData, im3.bitmapData, "Greece", 5, 5);
 		
 		public function description () 
 		{
@@ -51,22 +52,32 @@ package ru.ipo.kio._11.CrossedCountry
 		private function uint1 (e:Event = null):void
 		{
 			
+			DelLast.x = 640;
+			DelLast.y = 170;
+			addChild(DelLast);
 			
+			t0.embedFonts = true;
+			t1.embedFonts = true;
+			t2.embedFonts = true;
+			t0.text = "Результат";
 			t1.text = "Длина";
 			t2.text = "Время";
 			
-			format.font = "_sans";
-			format.size = 15;
-			t1.setTextFormat(format);
-			t2.setTextFormat(format);
-			t1.x = 700;
-			t1.y = 20;
-			t2.x = 700;
-			t2.y = 40;
+			//format.font = "_sans";
+			//format.size = 15;
+			t0.setTextFormat(new TextFormat("Greece",15));
+			t2.setTextFormat(new TextFormat("Greece",15));
+			t1.setTextFormat(new TextFormat("Greece", 15));
+			t0.x = 670;
+			t0.y = 20;
+			t1.x = 650;
+			t1.y = 40;
+			t2.x = 650;
+			t2.y = 60;
 			tEr.x = 700;
 			tEr.y = 330;
 			tEr.wordWrap = true;
-			
+			addChild(t0);
 			addChild(t1);
 			addChild(t2);
 		}

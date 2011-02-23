@@ -100,8 +100,10 @@ package ru.ipo.kio._11.CrossedCountry
 		
 		private function StartHero(e:MouseEvent):void
 		{
+			// test load solution
 			deleteAll();
-			
+			var arr:Array = new Array(new pointer(30,540,0xff0000,5,1.0), 30, 540, new pointer(400,300,0xff0000,5,1.0), 400, 300, new pointer(610,40,0xff0000,5,1.0), 610, 40);
+			loadSol(arr);
 			// создание героя
 			
 			/*var ar:Array = new Array(30,540,610,40);
@@ -266,9 +268,11 @@ package ru.ipo.kio._11.CrossedCountry
 						pointArray[pi].Dr(land);
 					
 					path = land.collisionTest(pointArray);
-					txt.t1.text = "Длина = " + Math.round(path) + " м";
-					txt.t2.text = "Время = " + Math.round(land.PathTime) + " сек";
-					
+					txt.t1.text = "Длина " + Math.round(path) + " м";
+					txt.t1.setTextFormat(new TextFormat("Greece", 15));
+					txt.t2.text = "Время " + Math.round(land.PathTime) + " с";
+					txt.t2.setTextFormat(new TextFormat("Greece", 15));
+						
 					//sel
 					if(selectline != -1)
 				{
@@ -463,8 +467,10 @@ package ru.ipo.kio._11.CrossedCountry
 			deletePoint();
 			
 			path = land.collisionTest(pointArray);
-			txt.t1.text = "Длина = " + Math.round(path) + " м";
-			txt.t2.text = "Время = " + Math.round(land.PathTime) + " сек";
+			txt.t1.text = "Длина " + Math.round(path) + " м";
+				txt.t1.setTextFormat(new TextFormat("Greece", 15));
+				txt.t2.text = "Время " + Math.round(land.PathTime) + " с";
+				txt.t2.setTextFormat(new TextFormat("Greece", 15));
 		}
 		
 		private function delselectedPoint(e:MouseEvent):void
@@ -539,8 +545,10 @@ package ru.ipo.kio._11.CrossedCountry
 				}
 				
 				path = land.collisionTest(pointArray);
-				txt.t1.text = "Длина = " + Math.round(path) + " м";
-				txt.t2.text = "Время = " + Math.round(land.PathTime) + " сек";
+				txt.t1.text = "Длина " + Math.round(path) + " м";
+				txt.t1.setTextFormat(new TextFormat("Greece", 15));
+				txt.t2.text = "Время " + Math.round(land.PathTime) + " с";
+				txt.t2.setTextFormat(new TextFormat("Greece", 15));
 				
 			}
 			else
@@ -752,8 +760,10 @@ package ru.ipo.kio._11.CrossedCountry
 			
 			
 				path = land.collisionTest(pointArray);
-				txt.t1.text = "Длина = " + Math.round(path) + " м";
-				txt.t2.text = "Время = " + Math.round(land.PathTime)+ " сек";
+				txt.t1.text = "Длина " + Math.round(path) + " м";
+				txt.t1.setTextFormat(new TextFormat("Greece", 15));
+				txt.t2.text = "Время " + Math.round(land.PathTime) + " с";
+				txt.t2.setTextFormat(new TextFormat("Greece", 15));
 				trace("путь" + path);
 				trace(pointNumber);
 				
@@ -818,12 +828,19 @@ package ru.ipo.kio._11.CrossedCountry
 			
 			trace("path  = " +path);
 			path = land.collisionTest(pointArray);
-			txt.t1.text = "Длина = " + Math.round(path) + " м";
-			txt.t2.text = "Время = " + Math.round(land.PathTime)+ " сек";
+			txt.t1.text = "Длина " + Math.round(path) + " м";
+				txt.t1.setTextFormat(new TextFormat("Greece", 15));
+				txt.t2.text = "Время " + Math.round(land.PathTime) + " с";
+				txt.t2.setTextFormat(new TextFormat("Greece", 15));
 			
 		}
 		
 		public function getPathTime():Number
+		{
+			return Math.round(land.PathTime);
+		}
+		
+		public function getPath():Number
 		{
 			return Math.round(path);
 		}
@@ -836,6 +853,47 @@ package ru.ipo.kio._11.CrossedCountry
 				deletePoint();
 				trace(pointArray);
 			}
+			
+			path = 0;
+			land.PathTime = 0;
+			txt.t1.text = "Длина " + Math.round(path) + " м";
+			txt.t1.setTextFormat(new TextFormat("Greece", 15));
+			txt.t2.text = "Время " + Math.round(land.PathTime) + " с";
+			txt.t2.setTextFormat(new TextFormat("Greece", 15));
+			
+		}
+		
+		public function loadSol(solPoints:Array):void
+		{
+			trace("load solution");
+			selectPoint = false;
+			//removeChild(LinesAndPointers);
+			//LinesAndPointers = new Sprite();
+			
+			for (var i:int = 4; i < solPoints.length-3; i=i+3 )
+			{
+				ptX = solPoints[i];
+			
+				ptY = solPoints[i + 1];
+				//pointArray.push(solPoints[i-1],solPoints[i],solPoints[i+1]);
+			trace(pointArray);
+			drawPoint();
+			
+			PointDeleted = false;
+			
+			drawLines();
+			
+			pi = pointArray.length - 6;
+			pointArray[pi].Dr(land);
+			
+			pointArray[pi].pt.addEventListener(MouseEvent.CLICK, PickDel);
+			
+			if (pointArray[pi].selPt == 0 )
+				selectPoint = true;
+			else
+				pointArray[pi].Dr(land);
+			}
+			
 			
 		}
 		
