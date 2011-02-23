@@ -85,7 +85,7 @@ package ru.ipo.kio._11.CrossedCountry
 			this.addEventListener(MouseEvent.MOUSE_MOVE, landLines); // перерисовка линий
 			txt.DelLast.addEventListener(MouseEvent.CLICK, del); // удаление последнего шага
 			txt.DelSel.addEventListener(MouseEvent.CLICK, delselectedPoint); // удаление выбранной точки
-			//txt.butHero.addEventListener(MouseEvent.CLICK, StartHero);
+			txt.butHero.addEventListener(MouseEvent.CLICK, StartHero);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, DragPoint); 
 			this.addEventListener(MouseEvent.MOUSE_UP, DropPoint);
 			
@@ -113,7 +113,7 @@ package ru.ipo.kio._11.CrossedCountry
 		
 		private function landLines(e:MouseEvent):void
 		{
-			if (land.hitTestPoint(mouseX, mouseY, true))
+			if (land.hitTestPoint(mouseX+this.x, mouseY+this.y, true))
 			{
 					if (pointArray[pointNumber].startdr)
 					{
@@ -231,7 +231,7 @@ package ru.ipo.kio._11.CrossedCountry
 			
 			pi = pointArray.length - 6;
 			pointArray[pi].Dr(land);
-			trace("/////");
+			
 			pointArray[pi].pt.addEventListener(MouseEvent.CLICK, PickDel);
 			
 			if (pointArray[pi].selPt == 0 )
@@ -241,9 +241,10 @@ package ru.ipo.kio._11.CrossedCountry
 			
 			}
 			else
-				{	trace(pointArray);
+				{	
+					//trace(pointArray);
 					newPointLine = (selectline + 1) * 3 ;
-					trace("new point line"+ newPointLine);
+					//trace("new point line"+ newPointLine);
 				
 					
 					drawPoint();
@@ -253,7 +254,7 @@ package ru.ipo.kio._11.CrossedCountry
 					LinesAndPointers.removeChild(lines[selectline]);
 					lines.splice(selectline, 1);
 					selLine.splice(selectline, 1);
-					trace(pointArray);
+					//trace(pointArray);
 				
 					k = newPointLine+1;
 					landLine();
@@ -406,7 +407,7 @@ package ru.ipo.kio._11.CrossedCountry
 		{
 			for (var i:int = 0; i < lines.length; i++ )
 				{
-					if (lines[i].hitTestPoint(mouseX, mouseY, true))
+					if (lines[i].hitTestPoint(mouseX+this.x, mouseY +this.y , true))
 						{
 							trace(i);
 							return i;

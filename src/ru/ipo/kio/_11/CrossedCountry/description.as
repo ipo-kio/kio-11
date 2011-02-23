@@ -41,9 +41,9 @@ package ru.ipo.kio._11.CrossedCountry
 		[Embed(source='ds_greece.ttf',embedAsCFF = "false",fontName = "Greece", mimeType = "application/x-font-truetype")]
 		private static var greece_font:Class;
 		
-		public var DelLast:GraphicsButton =new GraphicsButton("Удалить последний шаг", im1.bitmapData, im2.bitmapData, im3.bitmapData, "Greece", 8, 8);
+		public var DelLast:GraphicsButton =new GraphicsButton("Удалить последний шаг", im1.bitmapData, im2.bitmapData, im3.bitmapData, "Greece",10, 10);
 		
-		public var DelSel:GraphicsButton =new GraphicsButton("Удалить точку", im1.bitmapData, im2.bitmapData, im3.bitmapData, "Greece", 8, 8);
+		public var DelSel:GraphicsButton =new GraphicsButton("Удалить точку", im1.bitmapData, im2.bitmapData, im3.bitmapData, "Greece", 10, 10);
 		
 		public function description () 
 		{

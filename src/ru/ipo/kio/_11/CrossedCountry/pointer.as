@@ -59,8 +59,6 @@ package ru.ipo.kio._11.CrossedCountry
 			pY = p2Y;
 			if (!mouseOver)
 				{
-				
-				
 				pt.graphics.clear();
 				pt.graphics.beginFill(0x00ff00, 1.0);
 				pt.graphics.drawCircle(pX, pY, 5);
