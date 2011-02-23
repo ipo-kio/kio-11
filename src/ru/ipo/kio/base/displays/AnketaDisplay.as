@@ -165,7 +165,8 @@ public class AnketaDisplay extends Sprite {
     }
 
     private function continueButtonClicked(event:Event):void {
-        KioBase.instance.currentDisplay = new ProblemsDisplay;
+        if (continueButton.enabled)
+            KioBase.instance.currentDisplay = new ProblemsDisplay;
     }
 
     private function trim(s:String):String {

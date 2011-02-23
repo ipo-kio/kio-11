@@ -64,7 +64,7 @@ public class WelcomeDisplay extends Sprite {
         addChild(loadWorkspaceMessage);
 
         loadWorkspaceButton.addEventListener(MouseEvent.CLICK, loadWorkspaceButtonClicked);
-        continueButton..addEventListener(MouseEvent.CLICK, continueButtonClicked);
+        continueButton.addEventListener(MouseEvent.CLICK, continueButtonClicked);
     }
 
     private function continueButtonClicked(event:Event):void {

@@ -38,7 +38,7 @@ public class SettingsDisplay extends Sprite {
 
         addChild(message);
 
-        var img:* = new loc.settings.image;
+        var img:* = new Resources.SETTINGS_HELPER_RU;
         img.x = GlobalMetrics.H_PADDING;
         img.y = message.y + message.height + 6;
 
