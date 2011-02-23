@@ -15,6 +15,7 @@ package ru.ipo.kio._11.CrossedCountry
 		public var deleteLastPoint:Boolean = false;
 		public var b:button = new button();
 		public var b2:button = new button();
+		public var butHero:button = new button();
 		public var format:TextFormat = new TextFormat();
 		public var t1:TextField = new TextField();
 		public var t2:TextField = new TextField();
@@ -62,9 +63,15 @@ package ru.ipo.kio._11.CrossedCountry
 			
 			addChild(b2);
 			
+			butHero.x = 700;
+			butHero.y = 100;
+			
+			addChild(butHero);
+			
 			
 			var label:TextField = new TextField();
 			var label2:TextField = new TextField();
+			var labelHero:TextField = new TextField();
 			
 			
 			format.font = "_sans";
@@ -89,6 +96,15 @@ package ru.ipo.kio._11.CrossedCountry
 			label2.selectable = false;
 			
 			b2.addChild(label2);
+			
+			labelHero.setTextFormat(format);
+			labelHero.wordWrap = true ;
+			labelHero.multiline;
+			labelHero.text = "Запустить героя";
+			labelHero.autoSize = "left";
+			labelHero.selectable = false;
+			
+			butHero.addChild(labelHero);
 		}
 		
 		public function RemError():void
