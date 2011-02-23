@@ -21,15 +21,27 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 		public function WorldDrawer() {
 			super();
 		}
+		[Embed(source="../images/Sphere_01.png")]
+		public var MyEmbed_01:Class;
+			private function getBitmapData_01():flash.display.BitmapData {
+				var bitmapAsset:mx.core.BitmapAsset = new MyEmbed_01();
+				return bitmapAsset.bitmapData;
+			}
+		[Embed(source="../images/Sphere_02.png")]
+		public var MyEmbed_02:Class;
+			private function getBitmapData_02():flash.display.BitmapData {
+				var bitmapAsset:mx.core.BitmapAsset = new MyEmbed_02();
+				return bitmapAsset.bitmapData;
+			}
 		//Метод отрисовки объекта
 		public function drawObject(x:Number, y:Number, type:Number):void {
 			var g:Graphics = this.graphics;
 			switch(type) {
 				case 0:
-					g.beginFill( 0xFF0000);
+					g.beginBitmapFill( getBitmapData_01());
 				break;
 				case 1:
-					g.beginFill( 0x00CC00);
+					g.beginBitmapFill( getBitmapData_02());
 				break;
 			}			
 			g.drawCircle(x, y, WorldConstants.ObjectRadius);
@@ -71,10 +83,10 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 			ballColor %= 2;
 			switch(ballColor) {
 				case 1:
-					newSp.graphics.beginFill( 0xFF0000);
+					newSp.graphics.beginBitmapFill( getBitmapData_01());
 				break;
 				case 0:
-					newSp.graphics.beginFill( 0x00CC00);
+					newSp.graphics.beginBitmapFill( getBitmapData_02());
 				break;
 			}
 			newSp.graphics.drawCircle(0,0,WorldConstants.ObjectRadius);
