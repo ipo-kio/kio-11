@@ -40,7 +40,7 @@ public class Field extends Sprite {
         addChild(gates_layer);
         addChild(connections_layer);
 
-        var inputsCount:int = KioBase.instance.level == 1 ? 7 : 9;
+        var inputsCount:int = Globals.instance.level == 1 ? 7 : 9;
         _inputs = new Array(inputsCount);
         for (var i:int = 0; i < inputsCount; i++) {
             _inputs[i] = new SchemeInput(i);
@@ -117,6 +117,9 @@ public class Field extends Sprite {
                 }
                 else
                     c.wire.type = Wire.NO_CONNECTION;
+
+        Globals.instance.workspace.solutionState.updateData();
+        Globals.instance.workspace.solutionState.updateView();
     }
 
     /**

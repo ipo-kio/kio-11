@@ -19,7 +19,7 @@ public class TestDigit extends Sprite {
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-        KioBase.instance.initOneProblem(this, new DigitProblem(1));
+        KioBase.instance.initOneProblem(this, new DigitProblem(2));
     }
 
 }

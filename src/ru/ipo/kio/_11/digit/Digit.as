@@ -8,8 +8,6 @@ package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
 import flash.display.Sprite;
 
-import ru.ipo.kio.base.KioBase;
-
 public class Digit extends Sprite {
 
     // D
@@ -78,14 +76,14 @@ public class Digit extends Sprite {
     private const LAMP_H_ON_OVER:Class;
     private const LAMP_H_ON_OVER_BMP:BitmapData = new LAMP_H_ON_OVER().bitmapData;
 
-    private var _broken_index:int;
+    private var _broken_index:int = -1;
     //noinspection JSMismatchedCollectionQueryUpdateInspection
     private var _elements:Array;
 
     private var _val:int;
 
     public function Digit() {
-        if (KioBase.instance.level == 1) {
+        if (Globals.instance.level == 1) {
             _elements = [
                 createHElement(0),
                 createVElement(1),
@@ -134,7 +132,7 @@ public class Digit extends Sprite {
     }
 
     private function positionElement(_element:DigitElement, x:int, y:int):void {
-        _element.x = 1 + x - _element.width / 2;
+        _element.x = x - _element.width / 2;
         _element.y = y - _element.height / 2;
         addChild(_element);
     }
@@ -176,13 +174,13 @@ public class Digit extends Sprite {
             return;
         _val = value;
 
-        var digit_data:Array = KioBase.instance.level == 1 ? DigitData.d1 : DigitData.d2;
+        var digit_data:Array = Globals.instance.level == 1 ? DigitData.d1 : DigitData.d2;
 
         for (var i:int = 0; i < _elements.length; i++)
             _elements[i].on = digit_data[_val][i] == 1;
 
         var sp:Workspace = Globals.instance.workspace;
-        if (sp)
+        if (sp && sp.field)
             sp.field.evaluate();
     }
 

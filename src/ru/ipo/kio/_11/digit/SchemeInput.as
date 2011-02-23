@@ -32,10 +32,10 @@ public class SchemeInput extends Sprite implements Out{
 
         //get level
         x = 195 - Field.X0;
-        if (KioBase.instance.level == 2)
-            y = 27 + 40 * (ind - 1) - Field.Y0;
-        else
+        if (Globals.instance.level == 2)
             y = 27 + 40 * ind - Field.Y0;
+        else
+            y = 27 + 40 * (ind + 1) - Field.Y0;
     }
 
     public function get connectors():Array {
@@ -43,14 +43,16 @@ public class SchemeInput extends Sprite implements Out{
     }
 
     public function get value():int {
-        //return Globals.instance.workspace.digit.getValueAt(_ind);
-        if (_ind == Globals.instance.workspace.digit.broken_index)
+        var broken_index:int = Globals.instance.forced_broken;
+        if (broken_index < -1)
+            broken_index = Globals.instance.workspace.digit.broken_index;
+        if (_ind == broken_index)
             return 0;
 
         var d:int = Globals.instance.forced_digit;
         if (d < 0)
             d = Globals.instance.workspace.digit.val;
-        var data:Array = KioBase.instance.level == 1 ? DigitData.d1 : DigitData.d2;
+        var data:Array = Globals.instance.level == 1 ? DigitData.d1 : DigitData.d2;
         return data[d][_ind];
     }
 

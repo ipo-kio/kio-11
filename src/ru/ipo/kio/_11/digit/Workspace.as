@@ -18,7 +18,6 @@ import flash.text.TextField;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.GraphicsButton;
-import ru.ipo.kio.base.KioBase;
 
 public class Workspace extends Sprite {
 
@@ -71,7 +70,7 @@ public class Workspace extends Sprite {
     private static const TRASH_X:int = 671;
     private static const TRASH_Y:int = 410;
 
-    private var _field:Field = new Field;
+    private var _field:Field;
 
     private var _new_gate_or:Gate = GatesFactory.createGate(GatesFactory.TYPE_OR);
     private var _new_gate_and:Gate = GatesFactory.createGate(GatesFactory.TYPE_AND);
@@ -81,20 +80,27 @@ public class Workspace extends Sprite {
     private var loc:Object = KioApi.getLocalization(DigitProblem.ID);
     private var _digit:Digit;
 
+    private var _solutionState:SolutionState;
+
     public function Workspace() {
+        Globals.instance.workspace = this;
+
         addChild(new BG);
+
+        _solutionState = Globals.instance.level == 1 ? new SolutionState1 : new SolutionState2;
+        addChild(Sprite(_solutionState));
 
         _digit = new Digit();
         addChild(_digit);
 
-        var wires:DisplayObject = KioBase.instance.level == 1 ? new WIRES_1 : new WIRES_2;
+        var wires:DisplayObject = Globals.instance.level == 1 ? new WIRES_1 : new WIRES_2;
         wires.x = 44;
-        wires.y = 30;
+        wires.y = Globals.instance.level == 1 ? 74 : 29;
         addChild(wires);
 
-        addChild(_field);
+        _field = new Field;
 
-        Globals.instance.workspace = this;
+        addChild(_field);
 
         if (stage)
             init();
@@ -381,6 +387,10 @@ public class Workspace extends Sprite {
 
     public function get digit():Digit {
         return _digit;
+    }
+
+    public function get solutionState():SolutionState {
+        return _solutionState;
     }
 }
 }

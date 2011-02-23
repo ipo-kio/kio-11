@@ -20,7 +20,8 @@ public class DigitProblem implements KioProblem {
     //private var spitter:SpitMem = new SpitMem;
 
     public function DigitProblem(level:int) {
-        this._level = level;
+        _level = level;
+        Globals.instance.level = level;
 
         KioApi.registerLocalization(ID, new Settings(locTxt_ru).data);
         KioApi.initialize(this);

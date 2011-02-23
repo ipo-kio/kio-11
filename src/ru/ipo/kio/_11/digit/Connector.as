@@ -110,6 +110,9 @@ public class Connector extends Sprite {
     }
 
     public function set dest(value:Out):void {
+        if (_dest == value)
+            return;
+
         if (_dest)
             {
                 var ind:int = dest.connectors.indexOf(this);

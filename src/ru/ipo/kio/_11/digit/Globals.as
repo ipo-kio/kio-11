@@ -23,8 +23,11 @@ public class Globals {
     private var _drag_object:* = null;
 
     private var _forced_digit:int = -1;
+    private var _forced_broken:int = -2;
 
     private var _workspace:Workspace;
+
+    private var _level:int;
 
     public function get selected_wire():Wire {
         return _selected_wire;
@@ -70,6 +73,22 @@ public class Globals {
 
     public function set forced_digit(value:int):void {
         _forced_digit = value;
+    }
+
+    public function get forced_broken():int {
+        return _forced_broken;
+    }
+
+    public function set forced_broken(value:int):void {
+        _forced_broken = value;
+    }
+
+    public function get level():int {
+        return _level;
+    }
+
+    public function set level(value:int):void {
+        _level = value;
     }
 }
 }
