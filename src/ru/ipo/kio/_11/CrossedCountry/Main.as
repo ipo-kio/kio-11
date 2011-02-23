@@ -48,7 +48,7 @@ package ru.ipo.kio._11.CrossedCountry
 		public var PointDeleted:Boolean = false;
 		public var eDragX:int;
 		public var eDragY:int;
-		
+		public var heroExist:Boolean = false;
 	
 		
 		public function Main():void 
@@ -75,6 +75,7 @@ package ru.ipo.kio._11.CrossedCountry
 			this.addEventListener(MouseEvent.MOUSE_MOVE, landLines); // перерисовка линий
 			txt.b.addEventListener(MouseEvent.CLICK, del); // удаление последнего шага
 			txt.b2.addEventListener(MouseEvent.CLICK, delselectedPoint); // удаление выбранной точки
+			txt.butHero.addEventListener(MouseEvent.CLICK, StartHero);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, DragPoint); 
 			this.addEventListener(MouseEvent.MOUSE_UP, DropPoint);
 			
@@ -85,6 +86,15 @@ package ru.ipo.kio._11.CrossedCountry
 				txt.deleteLastPoint = false;
 			}
 			
+		}
+		
+		private function StartHero(e:MouseEvent):void
+		{
+			// создание героя
+			
+			var ar:Array = new Array(30,540,610,40);
+			var hero1:hero = new hero(heroExist, pointArray,land);
+			this.addChild(hero1);
 		}
 		
 		private function landLines(e:MouseEvent):void
