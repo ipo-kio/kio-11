@@ -16,6 +16,19 @@ import ru.ipo.kio.api.TextUtils;
 
 public class GraphicsButton extends SimpleButton {
 
+    /**
+     * Creates a graphical button. see http://code.google.com/p/ipo-issues/wiki/ActionScriptAddImage
+     * on how to obtain BitmapData from embedded image.
+     * ru.ipo.kio._11.digit.Workspace has an example on how to embed fonts.
+     * (search ttf, change font path and name in your code)
+     * @param title button text
+     * @param up BitmapData - normal state
+     * @param over BitmapData - mouse over state
+     * @param down BitmapData - mouse down state
+     * @param fontName Font name.
+     * @param up_size font size in normal and mouse over states
+     * @param down_size font size in down state
+     */
     public function GraphicsButton(title:String, up:BitmapData, over:BitmapData, down:BitmapData, fontName:String, up_size:int, down_size:int) {
         var up_sprite:Sprite = createSprite(title, up, fontName, up_size);
         super(

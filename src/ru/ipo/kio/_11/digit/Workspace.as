@@ -82,6 +82,10 @@ public class Workspace extends Sprite {
 
     private var _solutionState:SolutionState;
 
+    private var _ipResults:ResultsInfoPanel = new ResultsInfoPanel(loc.results.result, 469, 421, 439, 453, 470);
+
+    private var _ipRecord:ResultsInfoPanel = new ResultsInfoPanel(loc.results.record, 592, 421, 439, 453, 470);
+
     public function Workspace() {
         Globals.instance.workspace = this;
 
@@ -89,6 +93,9 @@ public class Workspace extends Sprite {
 
         _solutionState = Globals.instance.level == 1 ? new SolutionState1 : new SolutionState2;
         addChild(Sprite(_solutionState));
+
+        addChild(_ipResults);
+        addChild(_ipRecord);
 
         _digit = new Digit();
         addChild(_digit);
@@ -391,6 +398,14 @@ public class Workspace extends Sprite {
 
     public function get solutionState():SolutionState {
         return _solutionState;
+    }
+
+    public function get ipResults():ResultsInfoPanel {
+        return _ipResults;
+    }
+
+    public function get ipRecord():ResultsInfoPanel {
+        return _ipRecord;
     }
 }
 }
