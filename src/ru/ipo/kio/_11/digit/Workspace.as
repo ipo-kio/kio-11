@@ -91,11 +91,16 @@ public class Workspace extends Sprite {
 
         addChild(new BG);
 
-        _solutionState = Globals.instance.level == 1 ? new SolutionState1 : new SolutionState2;
-        addChild(Sprite(_solutionState));
-
         addChild(_ipResults);
         addChild(_ipRecord);
+
+        _trash = TRASH_NORMAL_IMG;
+        _trash.x = TRASH_X;
+        _trash.y = TRASH_Y;
+        addChild(_trash);
+
+        _solutionState = Globals.instance.level == 1 ? new SolutionState1 : new SolutionState2;
+        addChild(Sprite(_solutionState));
 
         _digit = new Digit();
         addChild(_digit);
@@ -109,21 +114,16 @@ public class Workspace extends Sprite {
 
         addChild(_field);
 
-        if (stage)
-            init();
-        else
-            addEventListener(Event.ADDED_TO_STAGE, init);
-
-        _trash = TRASH_NORMAL_IMG;
-        _trash.x = TRASH_X;
-        _trash.y = TRASH_Y;
-        addChild(_trash);
-
         placeNewGates();
 
         placeWiresButtons();
 
         placeDigitButtons();
+
+        if (stage)
+            init();
+        else
+            addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
     public function init(event:Event = null):void {

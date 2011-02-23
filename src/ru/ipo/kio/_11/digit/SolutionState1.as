@@ -51,6 +51,8 @@ public class SolutionState1 extends Sprite implements SolutionState {
         if (!f)
             return;
 
+        _recognized = 0;
+
         //rd - real digit, td - test digit
         for (var rd:int = 0; rd < 10; rd++) {
             f.resetAllGates();
