@@ -9,8 +9,8 @@
 		>>>
 	},
 	"buttons":{ /*все кнопки*/
-		"load_workspace": "Загрузить все рекорды и анкету",
-		"save_workspace": "Загрузить все рекорды и анкету"
+		"load_workspace": "Загрузить лучшие результаты и анкету",
+		"save_workspace": "Сохранить лучшие результаты и анкету"
 	},
 	"contest_panel":{
 		"current_solution_caption" : "Текущее решение",
@@ -23,6 +23,11 @@
 			"clear" : "Очистить",
 			"back" : "Закрыть"
 		}
+    },
+    "files":{
+        "all_files": "Все файлы",
+        "results": "Результаты и Анкета",
+        "solutions": "Решения задачи"
     },
     "screen":{
 		"buttons":{
@@ -69,6 +74,9 @@
 			"zip": "Индекс",
 			"address": "Адрес",
 			"name_restriction": "А-Я\-"
+        },
+        "problems": {
+            "fill_form": "Заполнить анкету"
         }
     }
 }

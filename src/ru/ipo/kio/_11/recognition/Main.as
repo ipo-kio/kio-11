@@ -3,6 +3,7 @@ package ru.ipo.kio._11.recognition
 	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
+	import flash.ui.Mouse;
 	import flash.utils.Timer;
 	import ru.ipo.kio.api.*;
 	import ru.ipo.kio.api.controls.TextButton;	
@@ -35,6 +36,12 @@ package ru.ipo.kio._11.recognition
 		public var notRight:Array = new Array();//массив левых контактов блока не
 		public var notAim:Array = new Array();//массив результирующих элементов блока не
 		
+		public var nonRightResult: Array = new Array(); //массив, содержащий входящие значения в контакты блока
+		public var nonAimResult: Array = new Array(); // массив , содержащий исходящие значения после блока
+        public var nonTull: Array = new Array()//массив тел пустого блока 
+		public var nonRight:Array = new Array();//массив левых контактов пустого блока 
+		public var nonAim:Array = new Array();//массив результирующих элементов пустого блока 
+		
 		public var andLineAim:Array = new Array(); //массив линий соединяющих блок "и" и цель 
 		public var andLineR:Array = new Array(); //массив линий соединяющих блок "и" и правый контакт 
 		public var andLineL:Array = new Array(); //массив линий соединяющих блок "и" и левый контакт 
@@ -46,6 +53,9 @@ package ru.ipo.kio._11.recognition
 		public var notLineAim:Array = new Array(); //массив линий соединяющих блок "не"и цель
 		public var notLineR:Array = new Array(); //массив линий соединяющих блок "не" и правый контакт
 		
+		public var nonLineAim:Array = new Array(); //массив линий соединяющих блок "не"и цель
+		public var nonLineR:Array = new Array(); //массив линий соединяющих блок "не" и правый контакт
+		
 		public var controlAnswer:Array = new Array();
 			
 		public var leftAndHit:Array = new Array();//показатель присоединения левого контакта блока И
@@ -56,6 +66,8 @@ package ru.ipo.kio._11.recognition
 		
 		public var rightNotHit:Array = new Array();//показатель присоединения контакта блока НЕ
 		
+		public var rightNonHit:Array = new Array();//показатель присоединения контакта пустого блока
+		
 		public var additLineLAnd:Array = new Array();//линия выделения левого провода блока И 
 		public var lineLAddAnd:Array = new Array;// показатель выделенности левой линии блока И
 		
@@ -65,9 +77,13 @@ package ru.ipo.kio._11.recognition
 		public var additLineRNot:Array = new Array();//линия выделения левого провода блока НЕ
 		public var lineRAddNot:Array = new Array;// показатель выделенности левой линии блока Не
 		
+		public var additLineRNon:Array = new Array();//линия выделения левого провода пустого блока 
+		public var lineRAddNon:Array = new Array;// показатель выделенности левой линии пустого блока 
+		
 		public var complite:int = 0;
 		public var complite2:int = 0;
 		public var complite3:int = 0;
+		public var complite4:int = 0;
 		
 		public var additLineRAnd:Array = new Array();//линия выделения правого провода блока И
 		public var lineRAddAnd:Array = new Array;// показатель выделенности правой линии блока И
@@ -78,6 +94,7 @@ package ru.ipo.kio._11.recognition
 		public var myVar:int = 0;// xитрая глобальная переменная(костыль для программы) 
 		public var myVar2:int = 0;// xитрая глобальная переменная(костыль для программы)
 		public var myVar3:int = 0;// xитрая глобальная переменная(костыль для программы)
+		public var myVar4:int = 0;
 				
 		public var NumberBlokcs:int = 0;//количество используемых блоков
 		public var Result:int = 0; // Переменная содержащая результат 
@@ -87,7 +104,7 @@ package ru.ipo.kio._11.recognition
 		public var t_nB:TextField = new TextField();//Текстовое поле для количествва блоков
 		public var t_record_result:TextField = new TextField();// Текстовое поле для результата
 		public var t_record_numberBlokcs:TextField = new TextField();//Текстовое поле для количествва блоков
-		public var text_lvl_1:TextField = new TextField();//Текстовое поле для уровня
+		
 		
 		public var NUM_first_Break_lamp:int = 11; 
 		public var NUM_second_Break_lamp:int = 11;
@@ -95,6 +112,7 @@ package ru.ipo.kio._11.recognition
 		public var numAnd:int = 0;
 		public var numOr:int = 0;
 		public var numNot:int = 0;
+		public var numNon:int = 0;
 		
 		public var ButtonDown:Boolean;
 		
@@ -108,13 +126,31 @@ package ru.ipo.kio._11.recognition
 		public var circle_lamp_Red:Array = new Array(); // массив содержащий все красные круглые лампочки контакты
 		public var rect_lamp_Green:Array = new Array(); // массив содержащий все зеленые лампочки
 		
-		// Создание кнопок
-		public var Del_1_lamp:SimpleButton = createButtons("Сломать лампу");
-		public var Del_2_lamp:SimpleButton = createButtons("");
+	
 		public var timer:Timer = new Timer(4000, 10);
+		
+		
+		[Embed(source="Background+Robot.jpg")]
+		public static const INPUT_BG:Class; //заводим поле - константа
+        [Embed(source="Lamp_H_01.png")]
+		public static const Lamp_H_01:Class;
+		[Embed(source="Big_Button_01.jpg")]
+		public static const Big_Button_01:Class;
+		[Embed(source="Wires_02.png")]
+		public static const Wires_02:Class;
+		[Embed(source="Big_Button_02.jpg")]
+		public static const Big_Button_02:Class;
+		[Embed(source="Big_Button_03.jpg")]
+		public static const Big_Button_03:Class;
 		public function Main():void 
 		{
+			
 			var i:int;	
+			var bg:Sprite = new Sprite();
+			var bmp:* = new INPUT_BG;
+			bg.addChild(bmp); //добавляем картинку на спрайт
+			addChild(bg);
+			
 			createNum();
 			createCont();
 			createCont_Prov();
@@ -122,107 +158,101 @@ package ru.ipo.kio._11.recognition
 			createBin();
 			text_fields();
 			//--------------------------------------------------------
-			//линия разграничения
-			var line:Shape = new Shape();
-			line.graphics.lineStyle(1);
-			line.graphics.moveTo(120, 0);
-			line.graphics.lineTo(120, 900);
-			addChild(line);
-			//-----------------------------------------------------			
 			addEventListener(Event.ENTER_FRAME, controlLamp);
 		}
 		//===================================================
 		public function text_fields():void
 		{
 		
-			// текстовые поля вывода уровня
-			var text_lvl:TextField = new TextField();
-			text_lvl.autoSize = TextFieldAutoSize.LEFT;
-			text_lvl.text = "Уровень:";
-			text_lvl.x = 10;
-			text_lvl.y = 50;			
-			addChild(text_lvl);
 			
-			text_lvl_1.autoSize = TextFieldAutoSize.LEFT;
-			text_lvl_1.text = '            '+level;
-			text_lvl_1.x = 30;
-			text_lvl_1.y = 50;			
-			addChild(text_lvl_1);
+			
 			//-----------------------------------------------------------
 			// текстовые поля вывода результата
 			var text_result:TextField = new TextField();
 			text_result.autoSize = TextFieldAutoSize.LEFT;
-			text_result.text = "Число верно распознанных цифр:";
-			text_result.x = 500;
-			text_result.y = 450;			
+			text_result.text = "Результат:";
+			text_result.x = 440;
+			text_result.y = 415;			
 			addChild(text_result);
+			
+			var text_result_1:TextField = new TextField();
+			text_result_1.autoSize = TextFieldAutoSize.LEFT;
+			text_result_1.text = "Распознаются:";
+			text_result_1.x = 435;
+			text_result_1.y = 435;			
+			addChild(text_result_1);
 			
 			
 			t_result.autoSize = TextFieldAutoSize.LEFT;
-			t_result.text =  '  '+Result;
-			t_result.x = 670;
+			t_result.text = ''+Result+' цифр из 10';
+			t_result.x = 435;
 			t_result.y = 450;			
 			addChild(t_result);				
 			//-----------------------------------------------------------------
 			// текстовые поля вывода количества блоков
 			var text_numberBlokcs:TextField = new TextField();
 			text_numberBlokcs.autoSize = TextFieldAutoSize.LEFT;
-			text_numberBlokcs.text = "Количество блоков:";
-			text_numberBlokcs.x = 500;
-			text_numberBlokcs.y = 480;			
+			text_numberBlokcs.text = "Элементов";
+			text_numberBlokcs.x = 435;
+			text_numberBlokcs.y = 465;			
 			addChild(text_numberBlokcs);
 			
 			
 			t_nB.autoSize = TextFieldAutoSize.LEFT;
 			t_nB.text =  '  '+NumberBlokcs;
-			t_nB.x = 600;
-			t_nB.y = 480;			
+			t_nB.x = 490;
+			t_nB.y = 465;			
 			addChild(t_nB);	
 			//-------------------------------------------------------------
 			// текстовые поля вывода рекорда
 			var text_record_result:TextField = new TextField();
 			text_record_result.autoSize = TextFieldAutoSize.LEFT;
-			text_record_result.text = "Число верно распознанных цифр Рекорд:";
-			text_record_result.x = 500;
-			text_record_result.y = 520;			
+			text_record_result.text = "Рекорд:";
+			text_record_result.x = 565;
+			text_record_result.y = 415;			
 			addChild(text_record_result);
 			
+			var text_result_2:TextField = new TextField();
+			text_result_2.autoSize = TextFieldAutoSize.LEFT;
+			text_result_2.text = "Распознаются:";
+			text_result_2.x = 560;
+			text_result_2.y = 435;			
+			addChild(text_result_2);
 			
 			t_record_result.autoSize = TextFieldAutoSize.LEFT;
-			t_record_result.text =  '  '+Record_Result;
-			t_record_result.x = 710;
-			t_record_result.y = 520;			
+			t_record_result.text =  ''+Record_Result+' цифр из 10';
+			t_record_result.x = 560;
+			t_record_result.y =450;			
 			addChild(t_record_result);				
 			//-----------------------------------------------------------------
 			// текстовые поля вывода рекорда
 			var text_record_numberBlokcs:TextField = new TextField();
 			text_record_numberBlokcs.autoSize = TextFieldAutoSize.LEFT;
-			text_record_numberBlokcs.text = "Количество блоков Рекорд:";
-			text_record_numberBlokcs.x = 500;
-			text_record_numberBlokcs.y = 560;			
+			text_record_numberBlokcs.text = "Элементов";
+			text_record_numberBlokcs.x = 560;
+			text_record_numberBlokcs.y = 465;			
 			addChild(text_record_numberBlokcs);
 			
 			
 			t_record_numberBlokcs.autoSize = TextFieldAutoSize.LEFT;
 			t_record_numberBlokcs.text =  '  '+Record_NumberBlokcs;
-			t_record_numberBlokcs.x = 640;
-			t_record_numberBlokcs.y = 560;			
+			t_record_numberBlokcs.x = 610;
+			t_record_numberBlokcs.y = 465;			
 			addChild(t_record_numberBlokcs);			
 			//-------------------------------------------------------------			
-			var text_bin:TextField = new TextField();
+			/*var text_bin:TextField = new TextField();
 			text_bin.autoSize = TextFieldAutoSize.LEFT;
 			text_bin.text = "Корзина";
 			text_bin.x = 25;
 			text_bin.y = 380;			
-			addChild(text_bin);			
+			addChild(text_bin);	*/		
 		}
 		//===================================================
 public function test_continius(e:Event):void
 {
 			var i:int;	
 			// блокировка скобок
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
-			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);				
+						
 	for (i = 0; i < 10 ; i++)
 	{
 				// цифра 0 на табло
@@ -566,26 +596,19 @@ public function test_continius(e:Event):void
 		public function test_step(e:Event):void
 		{
 			// блокировка кнопок
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
-			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);
+			
 			// цифра 0 на табло
 			
 		if (NUM == 0)
 		{
-			     if ( level == 2)
-				{
+			     
 					rect_lamp_Green[3].visible = false;
 			        circle_lamp_Green[3].visible = false;
 					rect_lamp_Green[7].visible = false;
 			        circle_lamp_Green[7].visible = false;
 					rect_lamp_Green[8].visible = false;
 			        circle_lamp_Green[8].visible = false;
-				}
-				else
-				{
-				   rect_lamp_Green[3].visible = false;
-			       circle_lamp_Green[3].visible = false;
-				}
+				
 			 //get_result(NUM);
 		}
 		
@@ -598,9 +621,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[7].visible = true;
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;	
-					
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[0].visible = false;
 				circle_lamp_Green[0].visible = false;	
 				rect_lamp_Green[1].visible = false;
@@ -613,20 +634,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[5].visible = false;			 
 				rect_lamp_Green[8].visible = false;
 				circle_lamp_Green[8].visible = false;
-			}
-			else
-			{
-				rect_lamp_Green[0].visible = false;
-				circle_lamp_Green[0].visible = false;	
-				rect_lamp_Green[1].visible = false;
-				circle_lamp_Green[1].visible = false;	
-				rect_lamp_Green[3].visible = false;
-				circle_lamp_Green[3].visible = false;
-				rect_lamp_Green[4].visible = false;
-				circle_lamp_Green[4].visible = false;
-				rect_lamp_Green[5].visible = false;
-				circle_lamp_Green[5].visible = false;	
-			}
+			
 			// get_result(NUM);
 		}		
 			 // цифра 2 на табло
@@ -645,8 +653,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;			
 			 
-			 if (level == 2)
-			 {
+			
 			   rect_lamp_Green[0].visible = false;
 			   circle_lamp_Green[0].visible = false;			 
 			   rect_lamp_Green[6].visible = false;
@@ -657,14 +664,7 @@ public function test_continius(e:Event):void
 			   circle_lamp_Green[4].visible = false;
 			   rect_lamp_Green[7].visible = false;
 			   circle_lamp_Green[7].visible = false;
-			 }
-			 else
-			 {
-			   rect_lamp_Green[0].visible = false;
-			   circle_lamp_Green[0].visible = false;			 
-			   rect_lamp_Green[6].visible = false;
-			   circle_lamp_Green[6].visible = false;
-			 }
+			 
 			// get_result(NUM);
 		}
 			 // цифра 3 на табло
@@ -681,8 +681,7 @@ public function test_continius(e:Event):void
 			   rect_lamp_Green[7].visible = true;
 			   circle_lamp_Green[7].visible = true;	
 			   
-			 if (level == 2)
-			 {
+			 
 			   rect_lamp_Green[0].visible = false;
 			   circle_lamp_Green[0].visible = false;			 
 			   rect_lamp_Green[2].visible = false;
@@ -693,14 +692,7 @@ public function test_continius(e:Event):void
 			   circle_lamp_Green[5].visible = false;
 			   rect_lamp_Green[6].visible = false;
 			   circle_lamp_Green[6].visible = false; 				 
-			 }
-			 else 
-			 {			
-				rect_lamp_Green[0].visible = false;
-				circle_lamp_Green[0].visible = false;				
-				rect_lamp_Green[4].visible = false;
-				circle_lamp_Green[4].visible = false;
-			 }
+			 
 			// get_result(NUM);
 		} 
 			 // цифра 4 на табло
@@ -717,8 +709,7 @@ public function test_continius(e:Event):void
 			   rect_lamp_Green[6].visible = true;
 			   circle_lamp_Green[6].visible = true; 				
 			 
-			 if (level == 2)
-			 {
+			 
 				rect_lamp_Green[1].visible = false;
 				circle_lamp_Green[1].visible = false;			 	
 				rect_lamp_Green[4].visible = false;
@@ -729,16 +720,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[7].visible = false;			 
 				rect_lamp_Green[8].visible = false;
 				circle_lamp_Green[8].visible = false;
-			 }
-			 else
-			 {		   
-				rect_lamp_Green[1].visible = false;
-				circle_lamp_Green[1].visible = false;			 	
-				rect_lamp_Green[4].visible = false;
-				circle_lamp_Green[4].visible = false;			 
-				rect_lamp_Green[5].visible = false;
-				circle_lamp_Green[5].visible = false;
-			 }
+			 
 			// get_result(NUM);
 		} 
 			 // цифра 5 на табло
@@ -755,8 +737,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;			 
 			 
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[2].visible = false;
 				circle_lamp_Green[2].visible = false;	
 				rect_lamp_Green[4].visible = false;;
@@ -766,14 +747,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = false;;
 				circle_lamp_Green[8].visible = false;
 			 
-			}
-			else
-			{			 
-				rect_lamp_Green[2].visible = false;
-				circle_lamp_Green[2].visible = false;	
-				rect_lamp_Green[4].visible = false;;
-				circle_lamp_Green[4].visible = false;
-			} 
+			
 			 //get_result(NUM);
 		}
 			 // цифра 6 на табло
@@ -787,8 +761,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[7].visible = true;	
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;				
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[2].visible = false;
 			    circle_lamp_Green[2].visible = false;
 				rect_lamp_Green[0].visible = false;
@@ -797,12 +770,7 @@ public function test_continius(e:Event):void
 			    circle_lamp_Green[1].visible = false;
 				rect_lamp_Green[8].visible = false;
 			    circle_lamp_Green[8].visible = false;
-			}
-			else
-			{ 
-				rect_lamp_Green[2].visible = false;
-				circle_lamp_Green[2].visible = false;		 
-			} 
+			
 			// get_result(NUM);
 		}
 			 // цифра 7 на табло
@@ -818,8 +786,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = true;
 			    circle_lamp_Green[8].visible = true;		 
 			 	
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[0].visible = false;
 				circle_lamp_Green[0].visible = false;				 		 
 				rect_lamp_Green[2].visible = false;
@@ -832,18 +799,7 @@ public function test_continius(e:Event):void
 				circle_lamp_Green[6].visible = false;
 				rect_lamp_Green[8].visible = false;
 				circle_lamp_Green[8].visible = false;
-			}
-			else
-			{
-				rect_lamp_Green[0].visible = false;
-				circle_lamp_Green[0].visible = false;				 		 
-				rect_lamp_Green[3].visible = false;
-				circle_lamp_Green[3].visible = false;
-				rect_lamp_Green[4].visible = false;
-				circle_lamp_Green[4].visible = false;
-				rect_lamp_Green[5].visible = false;
-				circle_lamp_Green[5].visible = false;			 
-			}
+			
 			 //get_result(NUM);			
 		}
 			 // цифра 8 на табло
@@ -864,13 +820,12 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[4].visible = true;
 				circle_lamp_Green[4].visible = true;
 			
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[7].visible = false;
 				circle_lamp_Green[7].visible = false;
 				rect_lamp_Green[8].visible = false;
 				circle_lamp_Green[8].visible = false;
-			}
+			
 			 
 			 //get_result(NUM);
 		}
@@ -882,8 +837,7 @@ public function test_continius(e:Event):void
 				rect_lamp_Green[8].visible = true;
 				circle_lamp_Green[8].visible = true;
 				
-			if (level == 2)
-			{
+			
 				rect_lamp_Green[4].visible = false;
 			    circle_lamp_Green[4].visible = false;
 			    rect_lamp_Green[7].visible = false;
@@ -892,12 +846,7 @@ public function test_continius(e:Event):void
 			    circle_lamp_Green[5].visible = false;
 				rect_lamp_Green[6].visible = false;
 			    circle_lamp_Green[6].visible = false;
-			}
-			else
-			{
-			 rect_lamp_Green[4].visible = false;
-			 circle_lamp_Green[4].visible = false;				 
-			}
+			
 		}	
 		
 		controllaContattonot(e);
@@ -912,8 +861,7 @@ public function test_continius(e:Event):void
 		public function test(e:Event):void
 		{			
 			// блокировка кнопок
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
-			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);
+			
 			
 			timer.addEventListener(TimerEvent.TIMER, test_time);
 			timer.start();
@@ -1261,12 +1209,8 @@ public function test_continius(e:Event):void
 		//===================================================
 		public function Buttons():void	//функция создающая кнопки
 		{				
-			//кнопка смены уровня								
-    		var But_level:TextButton = createButtons("Уровень");	
-			But_level.x = 20;
-			But_level.y = 80;
-			addChild(But_level);
-			But_level.addEventListener(MouseEvent.CLICK, Level);			
+										
+    		/*		
 			//---------------------------------------------------
 			var text_creat:TextField = new TextField();
 			text_creat.autoSize = TextFieldAutoSize.LEFT;
@@ -1293,17 +1237,37 @@ public function test_continius(e:Event):void
 			But_create_not.x = 20;
 			But_create_not.y = 240;
 			addChild(But_create_not);
-			But_create_not.addEventListener(MouseEvent.CLICK, Createnot);
+			But_create_not.addEventListener(MouseEvent.CLICK, Createnot);*/
 			
+			var tf_1:TextField = new TextField();
+			tf_1.text = "Разделить";			
+			tf_1.selectable = false;
+			tf_1.autoSize = TextFieldAutoSize.CENTER;
+			tf_1.x = 58;
+            tf_1.y = 425;
+			var But_create_non:SimpleButton = createButtons("'Разделить'");
+			But_create_non.x = 20;
+			But_create_non.y = 420;
+			addChild(But_create_non);
+			addChild(tf_1);
+			But_create_non.addEventListener(MouseEvent.CLICK, Createnon);
+			
+			var tf_2:TextField = new TextField();
+			tf_2.text = "Отсоединить";		
+			tf_2.selectable = false;
+			tf_2.autoSize = TextFieldAutoSize.CENTER;
+			tf_2.x = 52;
+			tf_2.y = 465;			
 			var But_create_Disconnect:SimpleButton = createButtons("Отсоединить");
 			But_create_Disconnect.x = 20;
-			But_create_Disconnect.y = 280;
+			But_create_Disconnect.y = 460;
 			addChild(But_create_Disconnect);
+			addChild(tf_2);
 			But_create_Disconnect.addEventListener(MouseEvent.CLICK, disconnect);
 			
 			//---------------------------------------------------------------------------
 			
-			var text_test:TextField = new TextField();
+			/*var text_test:TextField = new TextField();
 			text_test.autoSize = TextFieldAutoSize.LEFT;
 			text_test.text = "Проверки:";
 			text_test.x = 150;
@@ -1315,46 +1279,43 @@ public function test_continius(e:Event):void
 			But_test_step.y = 480;
 			addChild(But_test_step);
 			But_test_step.addEventListener(MouseEvent.CLICK,test_step);
-			myVar = 0;
+			myVar = 0;*/
 			
-			//кнопка проверка
-			var But_test_continius:SimpleButton = createButtons("Мгновенная");
-			But_test_continius.x = 250;
-			But_test_continius.y = 480;
-			addChild(But_test_continius);
-			But_test_continius.addEventListener(MouseEvent.CLICK, test_continius);
-						
-			//кнопка Прверка с задержкой
-			var But_test:SimpleButton = createButtons("С задержкой");
-			But_test.x = 350;
-			But_test.y = 480;
-			addChild(But_test);
-			But_test.addEventListener(MouseEvent.CLICK, test);
 			//-------------------------------------------------------------------------------
 			// кнопка сброса решения
+			var tf_3:TextField = new TextField();
+			tf_3.text = "Сбросить";		
+			tf_3.selectable = false;
+			tf_3.autoSize = TextFieldAutoSize.CENTER;
+			tf_3.x = 680;
+			tf_3.y = 370;	
 			var Del_result:SimpleButton = createButtons("Сбросить");
-			Del_result.x = 780;
-			Del_result.y = 450;
+			Del_result.x = 640;
+			Del_result.y = 365;
 			addChild(Del_result);
+			addChild(tf_3);
 			Del_result.addEventListener(MouseEvent.CLICK, del_result);
-			
-			//-----------------------------------------------------------------------------------
-		    //кнопка для убирания одной лапочки			
-			Del_1_lamp.x = 150;
-			Del_1_lamp.y = 520;
-			addChild(Del_1_lamp);
-			Del_1_lamp.addEventListener(MouseEvent.CLICK, one_Break_lamp);
-						
-			//кнопка для убирания двух лапочек			
-			Del_2_lamp.x = 350;
-			Del_2_lamp.y = 500;			
-			Del_2_lamp.addEventListener(MouseEvent.CLICK, two_Breaks_lamp);
 						
 		}
 		//===================================================================================================
-		public function createButtons(a:String):TextButton  // функция создания кнопок
+		public function createButtons(a:String):SimpleButton  // функция создания кнопок
 		{
-				return new TextButton(a);
+			var button:SimpleButton = new  SimpleButton;
+			var bb1:Sprite = new Sprite();
+			var bmp_but_1:* = new Big_Button_01;
+			bb1.addChild(bmp_but_1); 
+			var bb2:Sprite = new Sprite();
+			var bmp_but_2:* = new Big_Button_02;
+			bb2.addChild(bmp_but_2); 
+			var bb3:Sprite = new Sprite();
+			var bmp_but_3:* = new Big_Button_03;
+			bb3.addChild(bmp_but_3);			
+			button.upState = 	bmp_but_1;
+			button.overState = bmp_but_2;
+			button.downState = bmp_but_3;
+			button.hitTestState = button.overState;
+			
+			return button;
 		}	
 		
 		//===================================================================================================
@@ -1369,7 +1330,7 @@ public function test_continius(e:Event):void
 			// красные лампочки
 			for (i = 0; i < 10; i++) 
 			{
-				var c_lamp_Red_prov:Sprite = createCircle( 0xff0000, 10);
+				var c_lamp_Red_prov:Sprite = createCircle( 0xff0000, 10,1);
 				circle_lamp_Red_prov[i] = c_lamp_Red_prov;
 				
 				circle_lamp_Red_prov[i].x = 860;
@@ -1382,7 +1343,7 @@ public function test_continius(e:Event):void
 			a = 40;
 			for (i = 0; i < 10; i++) 
 			{
-				var c_lamp_Green_prov:Sprite = createCircle( 0x00ff00, 10);
+				var c_lamp_Green_prov:Sprite = createCircle( 0x00ff00, 10,1);
 				circle_lamp_Green_prov[i] = c_lamp_Green_prov;
 				
 				circle_lamp_Green_prov[i].x = 860;
@@ -1487,173 +1448,139 @@ public function test_continius(e:Event):void
 		public function createCont():void //функция создающая контакты
 		{
 			var i:int = 0;
-			var a:int = 100;
+			var a:int = 35;
 			// красные лампочки			
 			for (i = 0; i < 9; i++) 
 			{
-				var c_lamp_Red:Sprite = createCircle( 0xff0000, 7);
+				var c_lamp_Red:Sprite = createCircle( 0xff0000, 7,1);
 				circle_lamp_Red[i] = c_lamp_Red;
 				
-				circle_lamp_Red[i].x = 280;
-			    circle_lamp_Red[i].y =  a;			    
-				a = a + 30;
-			}			
+				
+			}	
+		circle_lamp_Red[0].x = 200;
+	    circle_lamp_Red[0].y = 75;			    
+		circle_lamp_Red[1].x = 200;
+	    circle_lamp_Red[1].y = 35;
+		circle_lamp_Red[2].x = 200;
+	    circle_lamp_Red[2].y = 155;
+		circle_lamp_Red[3].x = 200;
+	    circle_lamp_Red[3].y = 195;
+		circle_lamp_Red[4].x = 200;
+	    circle_lamp_Red[4].y = 235;
+		circle_lamp_Red[5].x = 200;
+	    circle_lamp_Red[5].y = 355;
+		circle_lamp_Red[6].x = 200;
+	    circle_lamp_Red[6].y = 315;
+		circle_lamp_Red[7].x = 200;
+	    circle_lamp_Red[7].y = 115;
+		circle_lamp_Red[8].x = 200;
+	    circle_lamp_Red[8].y = 275;
+	
 		//-------------------------------------------------------------------------------------------
 		// зеленые лампочки
-		a = 100;
+		
 		for (i = 0; i < 9; i++) 
 			{
-				var c_lamp_Green:Sprite = createCircle( 0x00ff00, 7);
-				circle_lamp_Green[i] = c_lamp_Green;
-				
-				circle_lamp_Green[i].x = 280;
-			    circle_lamp_Green[i].y = a;			    
-				a = a + 30;				
+				var c_lamp_Green:Sprite = createCircle( 0x00ff00, 7,1);
+				circle_lamp_Green[i] = c_lamp_Green;				
+							
 			}
+		circle_lamp_Green[0].x = 200;
+		circle_lamp_Green[0].y = 75;			    
+		circle_lamp_Green[1].x = 200;
+		circle_lamp_Green[1].y = 35;
+		circle_lamp_Green[2].x = 200;
+		circle_lamp_Green[2].y = 155;
+		circle_lamp_Green[3].x = 200;
+		circle_lamp_Green[3].y = 195;
+		circle_lamp_Green[4].x = 200;
+		circle_lamp_Green[4].y = 235;
+		circle_lamp_Green[5].x = 200;
+		circle_lamp_Green[5].y = 355;
+		circle_lamp_Green[6].x = 200;
+		circle_lamp_Green[6].y = 315;
+		circle_lamp_Green[7].x = 200;
+		circle_lamp_Green[7].y = 115;
+		circle_lamp_Green[8].x = 200;
+		circle_lamp_Green[8].y = 275;
+			
 		// вывод на сцены ламп
-		  if (level == 1)
-		  {
-			  for (i = 0; i < 7; i++)	
-			  {
-				addChild(circle_lamp_Red[i]);
-				addChild(circle_lamp_Green[i]);
-			  }
-		  }
-		  if (level == 2)
-		  {
-			  for (i = 0; i < 9; i++)	
+		  	for (i = 0; i < 9; i++)	
 			  {
 				addChild(circle_lamp_Red[i]);
 				addChild(circle_lamp_Green[i]);
 			   }
-		  }					
+		  				
 		}	
 		//===================================================================================================
 		public function createNum():void //функция создающая табло
 		{
 		    var i:int;	
-			var rect:Sprite = createRect( 0x808080, 150, 280); // основа табло 
-			rect.x = 140;
-			rect.y = 80;
-			addChild(rect);			
 			
 			for (i = 0; i < 9; i++) 
 			{
-				var lamp_Green:Sprite = createRect( 0x00ff00, 60, 15);
+				var lamp_Green:Sprite = new Sprite;
+				var bmp_lamp:* = new Lamp_H_01;
+				lamp_Green.addChild(bmp_lamp);
 				rect_lamp_Green[i] = lamp_Green;
 			}			
 			// местоположение зеленых горизонтальных ламп
-			//верхний
-			rect_lamp_Green[1].x = 170; 
-			rect_lamp_Green[1].y = 90;			
+			//верхний 1я линия
+			rect_lamp_Green[1].x = 65; 
+			rect_lamp_Green[1].y = 130;			
 			addChild(rect_lamp_Green[1]);
-			//средний
-			rect_lamp_Green[3].x = 170; 
-			rect_lamp_Green[3].y = 170;
+			//средний 5я линия
+			rect_lamp_Green[3].x = 65; 
+			rect_lamp_Green[3].y = 200;
 			addChild(rect_lamp_Green[3]);
-			//нижний
-			rect_lamp_Green[5].x = 170; 
-			rect_lamp_Green[5].y = 245;
+			//нижний 9я линия
+			rect_lamp_Green[5].x = 65; 
+			rect_lamp_Green[5].y = 270;
 			addChild(rect_lamp_Green[5]);
 			
 			// местоположение зеленых вертикальных ламп
-			//правый верхний
-			rect_lamp_Green[0].x = 160; 
-			rect_lamp_Green[0].y = 105;
+			//левый верхний 2я линия
+			rect_lamp_Green[0].x = 62; 
+			rect_lamp_Green[0].y = 145;
 			rect_lamp_Green[0].rotation = 90;
 		    addChild(rect_lamp_Green[0]);
-			//правый нижний
-			rect_lamp_Green[4].x = 160; 
-			rect_lamp_Green[4].y = 185;
+			//левый нижний 6я линия
+			rect_lamp_Green[4].x = 62; 
+			rect_lamp_Green[4].y = 215;
 			rect_lamp_Green[4].rotation = 90;
 			addChild(rect_lamp_Green[4]);
-			//левый верхний
-			rect_lamp_Green[2].x = 255; 
-			rect_lamp_Green[2].y = 105;
+			//правый верхний 4я линия
+			rect_lamp_Green[2].x = 145; 
+			rect_lamp_Green[2].y = 145;
 			rect_lamp_Green[2].rotation = 90;
 			addChild(rect_lamp_Green[2]);
-			//левый нижний
-			rect_lamp_Green[6].x = 255; 
-			rect_lamp_Green[6].y = 185;
+			//правый нижний 8я линия
+			rect_lamp_Green[6].x = 145; 
+			rect_lamp_Green[6].y = 215;
 			rect_lamp_Green[6].rotation = 90;
-			addChild(rect_lamp_Green[6]);
-			if ( level == 2)
-			{
-		    //диагональный верхний
-			rect_lamp_Green[7].x = 172; 
-			rect_lamp_Green[7].y = 152;
+			addChild(rect_lamp_Green[6]);			
+		    //диагональный верхний 3я линия
+			rect_lamp_Green[7].x = 68; 
+			rect_lamp_Green[7].y = 188;
 			rect_lamp_Green[7].rotation = -45;
 			addChild(rect_lamp_Green[7]);
-			//диагональный нижний
-			rect_lamp_Green[8].x = 172; 
-			rect_lamp_Green[8].y = 232;
+			//диагональный нижний 7я линия
+			rect_lamp_Green[8].x = 68; 
+			rect_lamp_Green[8].y = 258;
 			rect_lamp_Green[8].rotation =-45;
 			addChild(rect_lamp_Green[8]);
-			// текстовые поля вывода подписей на лампах
-			var num8:TextField = new TextField();
-			num8.autoSize = TextFieldAutoSize.LEFT;
-			num8.text = "8";
-			num8.x = 192;
-			num8.y = 127;			
-			addChild(num8);
 			
-			var num9:TextField = new TextField();
-			num9.autoSize = TextFieldAutoSize.LEFT;
-			num9.text = "9";
-			num9.x = 192;
-			num9.y = 207;			
-			addChild(num9);			
-			}			
-			// текстовые поля вывода подписей на лампах
-			var num1:TextField = new TextField();
-			num1.autoSize = TextFieldAutoSize.LEFT;
-			num1.text = "1";
-			num1.x = 148;
-			num1.y = 128;			
-			addChild(num1);
+			var Wires:Sprite = new Sprite();
+			var bmp_Wires:* = new Wires_02;
+			Wires.addChild(bmp_Wires); //добавляем картинку на спрайт
+			addChild(Wires);
+			Wires.x = 46;
+			Wires.y = 25;
 			
-			var num2:TextField = new TextField();
-			num2.autoSize = TextFieldAutoSize.LEFT;
-			num2.text = "2";
-			num2.x = 195;
-			num2.y = 89;			
-			addChild(num2);
 			
-			var num3:TextField = new TextField();
-			num3.autoSize = TextFieldAutoSize.LEFT;
-			num3.text = "3";
-			num3.x = 243;
-			num3.y = 128;			
-			addChild(num3);
 			
-			var num4:TextField = new TextField();
-			num4.autoSize = TextFieldAutoSize.LEFT;
-			num4.text = "4";
-			num4.x = 195;
-			num4.y = 169;			
-			addChild(num4);			
 			
-			var num5:TextField = new TextField();
-			num5.autoSize = TextFieldAutoSize.LEFT;
-			num5.text = "5";
-			num5.x = 148;
-			num5.y = 208;			
-			addChild(num5);
-			
-			var num6:TextField = new TextField();
-			num6.autoSize = TextFieldAutoSize.LEFT;
-			num6.text = "6";
-			num6.x = 195;
-			num6.y = 244;			
-			addChild(num6);
-			
-			var num7:TextField = new TextField();
-			num7.autoSize = TextFieldAutoSize.LEFT;
-			num7.text = "7";
-			num7.x = 243;
-			num7.y = 208;			
-			addChild(num7);	
-		}
+			}
 		
 		//==========================================================================
 		//==========================================================================
@@ -1667,10 +1594,10 @@ public function test_continius(e:Event):void
 			return shape;
 		}
 		//===================================================
-		public function createCircle( color: int , radius:int ): Sprite
+		public function createCircle( color: int , radius:int,alp:int): Sprite
 		{
 			var shape:Sprite = new Sprite();
-			shape.graphics.beginFill(color);
+			shape.graphics.beginFill(color,alp);
 			shape.graphics.drawCircle(0, 0, radius);
 			shape.graphics.endFill();	
 			return shape;
@@ -1678,8 +1605,7 @@ public function test_continius(e:Event):void
 		
 		public function del_result (e:Event) :void // функция сброса результатат
 		{
-			Del_1_lamp.addEventListener(MouseEvent.CLICK, one_Break_lamp);
-			Del_2_lamp.addEventListener(MouseEvent.CLICK, two_Breaks_lamp);	
+			
 			
 			 rect_lamp_Green[0].visible = true;
 			 circle_lamp_Green[0].visible = true;	
@@ -1789,20 +1715,20 @@ public function test_continius(e:Event):void
 		{
 			del_result(e);
 			var i:int = 0;
-			Del_2_lamp.removeEventListener(MouseEvent.CLICK, two_Breaks_lamp);
+			
 			i = Math.floor(Math.random()*7);
 			removeChild(rect_lamp_Green[i]);
 			removeChild(circle_lamp_Green[i]);
 			removeChild(circle_lamp_Red[i]);
 			NUM_first_Break_lamp = i;
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
+			
 		}		
 		//===================================================
 		public function two_Breaks_lamp ( e:Event):void // функция удаления двух ламп
 		{
 			var j:int = 0;
 			var i:int = 0;
-			Del_1_lamp.removeEventListener(MouseEvent.CLICK, one_Break_lamp);
+		
 			i = Math.floor(Math.random() * 9);
 			j = Math.floor(Math.random() * 9);
 			if (i == j)
@@ -1822,18 +1748,6 @@ public function test_continius(e:Event):void
 			NUM_second_Break_lamp = j;
 		}		
 		//=================================================
-		public function Level(e:Event):void
-		{
-			del_result(e);
-			if (level == 1 )
-			    level = 2;
-			else
-			    level = 1 ;
-			text_lvl_1.text = '            ' + level;
-			createNum();
-			createCont();
-			createCont_Prov();
-		}
 		/**
 		* ...
 		* @author this part is Vlad
@@ -1893,9 +1807,9 @@ public function test_continius(e:Event):void
 			del_result(e);
 			timer.stop();
             var tull:Sprite = createRect( 0x508080, 30, 30); //тело
-		    var leftc:Sprite = createCircle(0x228B22, 7);// левый контакт
-		    var rightc:Sprite = createCircle(0x228B22, 7);// правый контакт
-		    var aimc:Sprite = createCircle(0x200321, 7);	//		итоговый контакт
+		    var leftc:Sprite = createCircle(0x228B22, 7,1);// левый контакт
+		    var rightc:Sprite = createCircle(0x228B22, 7,1);// правый контакт
+		    var aimc:Sprite = createCircle(0x200321, 7,1);	//		итоговый контакт
 			
 			tull.x = 350;
 			tull.y = 10;
@@ -1986,7 +1900,7 @@ public function test_continius(e:Event):void
 		public function createBezie(x1:int, y1:int, x2:int, y2:int, arr:Array, stepX:int, stepY:int,stepYAnchor:int,n:int):void
 		{
 			var line:Sprite = new Sprite();
-			line.graphics.lineStyle(3,0x0000CC);
+			line.graphics.lineStyle(2,0x0000CC);
 			line.graphics.moveTo(x1+stepX, y1+stepY);
 			line.graphics.curveTo(x1+20+(x2-x1)/2,y2-stepYAnchor,x2,y2);
 			addChild(line);
@@ -2000,11 +1914,11 @@ public function test_continius(e:Event):void
 			var line:Sprite = new Sprite();
 			if (andLeftResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 				
 			if (lineLAddAnd[n])
@@ -2030,11 +1944,11 @@ public function test_continius(e:Event):void
 			var additLine:Sprite = new Sprite();
 			if (andRightResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 			if (lineRAddAnd[n])
 				{
@@ -2180,6 +2094,15 @@ public function test_continius(e:Event):void
 								complite2 = 0;
 							}
 					}
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
+					}
 					
 					if(!complite)
 					{
@@ -2246,6 +2169,15 @@ public function test_continius(e:Event):void
 								removeChild(additLineROr[i]);
 								complite2 = 0;
 							}
+					}
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
 					}
 					if(!complite)
 					{
@@ -2328,17 +2260,26 @@ public function test_continius(e:Event):void
 		//===================================================
 		public function dragConnect(event:MouseEvent):void
 		{
-			moveconnect(event, myVar, andAim);
+			if (myVar >= 0)
+				moveconnect(event, myVar, andAim);
 		}
 		//=====================================================
 		public function dragConnectOr(event:MouseEvent):void
 		{
-			moveconnect(event, myVar2, orAim);
+			if (myVar2 >= 0)
+				moveconnect(event, myVar2, orAim);
 		}
 		//======================================================
 		public function dragConnectNot(event:MouseEvent):void
 		{
-			moveconnect(event, myVar3, notAim);
+			if (myVar3 >= 0)
+				moveconnect(event, myVar3, notAim);
+		}
+		//=======================================================
+		public function dragConnectNon(event:MouseEvent):void
+		{
+			if (myVar4 >= 0)
+				moveconnect(event, myVar4, nonAim);
 		}
 		//===================================================
 		public function moveconnect(e:MouseEvent,n:int, aim:Array):void
@@ -2380,6 +2321,15 @@ public function test_continius(e:Event):void
 				{
 					notRight[i].x = aim[n].x;
 					notRight[i].y = aim[n].y;
+					flag = 0;
+				}
+			}
+			for (i = 0; i < nonTull.length&&flag; i++)
+			{
+				if (nonRight[i].hitTestObject(aim[n]))
+				{
+					nonRight[i].x = aim[n].x;
+					nonRight[i].y = aim[n].y;
 					flag = 0;
 				}
 			}
@@ -2464,17 +2414,25 @@ public function test_continius(e:Event):void
 							andRight[myVar].y = notAim[k].y;
 						}
 					}
+					for (k = 0; k < nonTull.length; k++)
+					{
+						if (andRight[myVar].hitTestObject(nonAim[k]))
+						{
+							andRight[myVar].x = nonAim[k].x;
+							andRight[myVar].y = nonAim[k].y;
+						}
+					}
 				}
 				if(e.target==andTull[myVar])
 				{
 					andTull[myVar].stopDrag();
 					stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
 					removeEventListener(MouseEvent.MOUSE_MOVE, dragConnect);
-					if(leftAndHit[k])
+					if(leftAndHit[myVar])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsAnd);
-					if (rightAndHit[k])
+					if (rightAndHit[myVar])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsAnd);
-					if(!leftAndHit[k]&&!rightAndHit[k])
+					if(!leftAndHit[myVar]&&!rightAndHit[myVar])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircle);
 				}
 			
@@ -2602,6 +2560,7 @@ public function test_continius(e:Event):void
 			var unit2:int = 1; var unit2b:int = 1;
 			var unit3:int = 1; var unit3b:int = 1;
 			var unit4:int = 1; var unit4b:int = 1;
+			var unit5:int = 1; var unit5b:int = 1;
 			for (var i:int = 0; i < andRight.length; i++)
 			{
 				for (var k:int = 0; k < 9;k++)
@@ -2663,16 +2622,33 @@ public function test_continius(e:Event):void
 								leftAndHit[myVar] = true;
 								andLeftResult[i] = notAimResult[k];
 							}
-				}						
+				}
+				for (k = 0; k < nonTull.length; k++)
+				{
+					if (andRight[i].hitTestObject(nonAim[k]))
+							{
+								unit5 = 0;
+								rightAndHit[myVar] = true;
+								andRightResult[i] = nonAimResult[k];
+							}
+					if (andLeft[i].hitTestObject(nonAim[k]))
+							{
+								unit5b = 0;
+								leftAndHit[myVar] = true;
+								andLeftResult[i] = nonAimResult[k];
+							}
+				}			
 				andAimResult[i] = andLeftResult[i] && andRightResult[i];
-				if (unit1 && unit2 && unit3 && unit4)
+				if (unit1 && unit2 && unit3 && unit4&& unit5)
 					{
 						rightAndHit[i] = false;
 					}
-				if (unit1b && unit2b && unit3b && unit4b)
+				if (unit1b && unit2b && unit3b && unit4b&&unit5b)
 					{
 						leftAndHit[i] = false;
 					}
+				unit1 = unit2 = unit3 = unit4 = unit5 = 1;
+				unit1b = unit2b = unit3b = unit4b = unit5b = 1;
 			}
 			/*for (i = 0; i < 10; i++)
 			{
@@ -2697,9 +2673,9 @@ public function test_continius(e:Event):void
 			del_result(e);
 			timer.stop();
             var tull:Sprite = createRect( 0x807080, 30, 30); //тело
-		    var leftc:Sprite = createCircle(0x235B30, 7);// левый контакт
-		    var rightc:Sprite = createCircle(0x235B30, 7);// правый контакт
-		    var aimc:Sprite = createCircle(0x200321, 7);	//		итоговый контакт
+		    var leftc:Sprite = createCircle(0x235B30, 7,1);// левый контакт
+		    var rightc:Sprite = createCircle(0x235B30, 7,1);// правый контакт
+		    var aimc:Sprite = createCircle(0x200321, 7,1);	//		итоговый контакт
 			tull.x = 350;
 			tull.y = 10;
 			leftc.x = 330;
@@ -2739,11 +2715,11 @@ public function test_continius(e:Event):void
 			var additLine:Sprite = new Sprite();
 			if (orRightResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 			if (lineRAddOr[n])
 				{
@@ -2767,11 +2743,11 @@ public function test_continius(e:Event):void
 			var additLine:Sprite = new Sprite();
 			if (orLeftResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 			if (lineLAddOr[n])
 				{
@@ -2882,7 +2858,15 @@ public function test_continius(e:Event):void
 								complite = 0;
 							}
 					}
-					
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
+					}
 					if(!complite2)
 					{
 						flag = 1;
@@ -2949,7 +2933,15 @@ public function test_continius(e:Event):void
 								complite = 0;
 							}
 					}
-					
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
+					}
 					if(!complite2)
 					{
 						flag = 1;
@@ -2991,24 +2983,26 @@ public function test_continius(e:Event):void
 		//====================================================
 		public function dragContactsOr(event:MouseEvent):void 
 		{ 
-
-			if (!leftOrHit[myVar2])
+			if (myVar2 >= 0)
 			{
-				orLeft[myVar2].x = orTull[myVar2].x -20; 
-				orLeft[myVar2].y = orTull[myVar2].y -5;
+				if (!leftOrHit[myVar2])
+				{
+					orLeft[myVar2].x = orTull[myVar2].x -20; 
+					orLeft[myVar2].y = orTull[myVar2].y -5;
+				}
+				if (!rightOrHit[myVar2])
+				{
+					orRight[myVar2].x = orTull[myVar2].x - 20; 
+					orRight[myVar2].y = orTull[myVar2].y +30;
+				}
+				orAim[myVar2].x = orTull[myVar2].x + 50; 
+				orAim[myVar2].y = orTull[myVar2].y +15;
+				orLineAim[myVar2].x = orTull[myVar2].x - 350;
+				orLineAim[myVar2].y = orTull[myVar2].y - 10;
+				wireLor(event,myVar2);
+				wireRor(event,myVar2);
+				event.updateAfterEvent(); 
 			}
-			if (!rightOrHit[myVar2])
-			{
-				orRight[myVar2].x = orTull[myVar2].x - 20; 
-				orRight[myVar2].y = orTull[myVar2].y +30;
-			}
-			orAim[myVar2].x = orTull[myVar2].x + 50; 
-			orAim[myVar2].y = orTull[myVar2].y +15;
-			orLineAim[myVar2].x = orTull[myVar2].x - 350;
-			orLineAim[myVar2].y = orTull[myVar2].y - 10;
-			wireLor(event,myVar2);
-			wireRor(event,myVar2);
-			event.updateAfterEvent(); 
 		} 
 		//===================================================
 		public function upor(e:Event):void
@@ -3093,11 +3087,11 @@ public function test_continius(e:Event):void
 				{
 					orTull[myVar2].stopDrag();
 					removeEventListener(MouseEvent.MOUSE_MOVE, dragConnectOr);
-					if(leftOrHit[k])
+					if(leftOrHit[myVar2])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsOr);
-					if (rightOrHit[k])
+					if (rightOrHit[myVar2])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsOr);
-					if(!leftOrHit[k]&&!rightOrHit[k])
+					if(!leftOrHit[myVar2]&&!rightOrHit[myVar2])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCircleor);
 					
 				}
@@ -3204,6 +3198,7 @@ public function test_continius(e:Event):void
 			var unit2:int = 1; var unit2b:int = 1;
 			var unit3:int = 1; var unit3b:int = 1;
 			var unit4:int = 1; var unit4b:int = 1;
+			var unit5:int = 1; var unit5b:int = 1;
 			for (var i:int = 0; i < orRight.length; i++)
 			{
 				for (var k:int = 0; k < 9;k++)
@@ -3266,16 +3261,33 @@ public function test_continius(e:Event):void
 								orLeftResult[i] = notAimResult[k];
 							}
 					}
+					for (k = 0; k < nonTull.length; k++)
+					{
+						if (orRight[i].hitTestObject(nonAim[k]))
+							{
+								unit5 = 0;
+								rightOrHit[i] = true;
+								orRightResult[i] = nonAimResult[k];
+							}
+						if (orLeft[i].hitTestObject(nonAim[k]))
+							{
+								unit5b = 0;
+								leftOrHit[i] = true;
+								orLeftResult[i] = nonAimResult[k];
+							}
+					}
 				
 				orAimResult[i] = orLeftResult[i] || orRightResult[i];
-				if (unit1 && unit2 && unit3 && unit4)
+				if (unit1 && unit2 && unit3 && unit4&&unit5)
 					{
 						rightOrHit[i] = false;
 					}
-				if (unit1b && unit2b && unit3b && unit4b)
+				if (unit1b && unit2b && unit3b && unit4b&&unit5b)
 					{
 						leftOrHit[i] = false;
 					}
+				unit1 = unit2 = unit3 = unit4 = unit5 = 1;
+				unit1b = unit2b = unit3b = unit4b = unit5b = 1;
 			}
 			/*for (i = 0; i < 10; i++)
 				{
@@ -3300,8 +3312,8 @@ public function test_continius(e:Event):void
 			del_result(e);
 			timer.stop();
             var tull:Sprite = createRect( 0x808060, 30, 30); //тело
-		    var rightc:Sprite = createCircle(0x220B00, 7);//  контакт
-		    var aimc:Sprite = createCircle(0x200321, 7);	//		итоговый контакт
+		    var rightc:Sprite = createCircle(0x220B00, 7,1);//  контакт
+		    var aimc:Sprite = createCircle(0x200321, 7,1);	//		итоговый контакт
 			tull.x = 350;
 			tull.y = 10;
 			rightc.x = 330;
@@ -3336,11 +3348,11 @@ public function test_continius(e:Event):void
 			var additLine:Sprite = new Sprite();
 			if (notRightResult[n] == true)
 				{
-					line.graphics.lineStyle(3, 0xFF0000);
+					line.graphics.lineStyle(3, 0xF7C709);
 				}
 			else
 				{
-					line.graphics.lineStyle(3, 0x0000CC);
+					line.graphics.lineStyle(3, 0x000001);
 				}
 			if (lineRAddNot[n])
 				{
@@ -3432,6 +3444,15 @@ public function test_continius(e:Event):void
 								removeChild(additLineRAnd[i]);
 								complite = 0;
 							}
+					}
+					for (i = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							complite4 = 0;
+						}
 					}
 					if(!complite3)
 					{
@@ -3540,9 +3561,9 @@ public function test_continius(e:Event):void
 			{
 				notTull[myVar3].stopDrag();
 				removeEventListener(MouseEvent.MOUSE_MOVE, dragConnectNot);
-				if (rightNotHit[k])
+				if (rightNotHit[myVar3])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsNot);
-					if(!rightNotHit[k])
+					if(!rightNotHit[myVar3])
 						stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCirclenot);	
 			}
 			//stage.removeEventListener(MouseEvent.MOUSE_MOVE, distanceNot); 
@@ -3619,7 +3640,8 @@ public function test_continius(e:Event):void
 			var unit2:int = 1;
 			var unit3:int = 1;
 			var unit4:int = 1;
-
+			var unit5 :int = 1;
+			
 			for (var i:int = 0; i < notRight.length; i++)
 			{
 				for (var k:int = 0; k < 9;k++)
@@ -3658,28 +3680,20 @@ public function test_continius(e:Event):void
 								notRightResult[i] = notAimResult[k];
 							}
 				}
-				
-				notAimResult[i] = !notRightResult[i];
-				if (unit1 && unit2 && unit3 && unit4)
-					rightNotHit[i] = false;
-			}
-			
-			/*for (i = 0; i < 10; i++)
+				for (k = 0; k < nonTull.length; k++)
 				{
-					for (k = 0; k < notTull.length&&flag; k++)
-					{
-						if (circle_lamp_Green_prov[i].hitTestObject(notAim[k]))
-						{
-							circle_lamp_Green_prov[i].visible = notAimResult[k];
-							flag = 0;
-						}
-						else
-						{
-							circle_lamp_Green_prov[i].visible = false;
-						}
-					}
-					flag = 1;
-				}*/
+					if (notRight[i].hitTestObject(nonAim[k]))
+							{
+								unit5 = 0;
+								rightNotHit[i] = true;
+								notRightResult[i] = nonAimResult[k];
+							}
+				}
+				notAimResult[i] = !notRightResult[i];
+				if (unit1 && unit2 && unit3 && unit4&&unit5)
+					rightNotHit[i] = false;
+				unit1 = unit2 = unit3 = unit4 = unit5 = 1;		
+			}
 		}
 		//===================================================
 		public function createBin():void
@@ -3712,5 +3726,547 @@ public function test_continius(e:Event):void
 			addChild(line);
 		}
 		//========================================================
+		[Embed(source="Empty_01.png")]
+		public static const Non:Class;
+		[Embed(source="Connector_01.png")]
+		public static const NonConect:Class;
+		public function Createnon(e:Event):void 
+		{
+			del_result(e);
+			timer.stop();
+			
+            var flag:int = 1;
+			var tull:Sprite = new Sprite(); //тело
+			var bmp:*= new Non;
+			var con:*= new NonConect;
+			tull.addChild(bmp);
+		    var rightc:Sprite = new Sprite();//  контакт
+			rightc.addChild(con);
+		    var aimc:Sprite = createCircle(0x00ff99, 3,1);	//		итоговый контакт
+			for (var i:int = 0; i < andTull.length&&flag;i++)
+			{
+				if (lineLAddAnd[i])
+				{
+					tull.x = (andTull[i].x-(andTull[i].x-andLeft[i].x)/2);
+					tull.y = andTull[i].y-(andTull[i].y-andLeft[i].y)/2;
+					rightc.x = andLeft[i].x;
+					rightc.y = andLeft[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					andLeft[i].x = aimc.x;
+					andLeft[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+				if (lineRAddAnd[i])
+				{
+					tull.x = (andTull[i].x-(andTull[i].x-andRight[i].x)/2);
+					tull.y = andTull[i].y-(andTull[i].y-andRight[i].y)/2;
+					rightc.x = andRight[i].x;
+					rightc.y = andRight[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					andRight[i].x = aimc.x;
+					andRight[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+			}
+			for (i = 0; i < notTull.length && flag; i++)
+			{
+				if (lineRAddNot[i])
+				{
+					tull.x = (notTull[i].x-(notTull[i].x-notRight[i].x)/2);
+					tull.y = notTull[i].y-(notTull[i].y-notRight[i].y)/2;
+					rightc.x = notRight[i].x;
+					rightc.y = notRight[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					notRight[i].x = aimc.x;
+					notRight[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+			}
+			for (i = 0; i < orTull.length&&flag; i++)
+			{
+				if (lineRAddOr[i])
+				{
+					tull.x = (orTull[i].x-(orTull[i].x-orRight[i].x)/2);
+					tull.y = orTull[i].y-(orTull[i].y-orRight[i].y)/2;
+					rightc.x = orRight[i].x;
+					rightc.y = orRight[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					orRight[i].x = aimc.x;
+					orRight[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+				if (lineLAddOr[i])
+				{
+					tull.x = (orTull[i].x-(orTull[i].x-orLeft[i].x)/2);
+					tull.y = orTull[i].y-(orTull[i].y-orLeft[i].y)/2;
+					rightc.x = orLeft[i].x;
+					rightc.y = orLeft[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					orLeft[i].x = aimc.x;
+					orLeft[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+			}
+			for (i = 0; i < nonTull.length && flag; i++)
+			{
+				if (lineRAddNon[i])
+				{
+					tull.x = (nonTull[i].x-(nonTull[i].x-nonRight[i].x)/2);
+					tull.y = nonTull[i].y-(nonTull[i].y-nonRight[i].y)/2;
+					rightc.x = nonRight[i].x;
+					rightc.y = nonRight[i].y;
+					aimc.x = tull.x+13;
+					aimc.y = tull.y + 5;
+					nonRight[i].x = aimc.x;
+					nonRight[i].y = aimc.y;
+					flag = 0;
+					nonTull.push(tull);
+					nonRight.push(rightc);
+					nonAim.push(aimc);
+			
+					addChild(tull);	
+					addChild(rightc);
+					addChild(aimc);
+					createLine(tull.x, tull.y, rightc.x + 12, rightc.y + 6, nonLineR, 0, 5, numNon);
+					addEventListener(MouseEvent.MOUSE_DOWN, downnon);
+					addEventListener(MouseEvent.MOUSE_UP,  upnon);
+					addEventListener(Event.ENTER_FRAME, controllaContattonon);
+					addEventListener(Event.ENTER_FRAME, controlWireNon);
+					numNon++;
+				}
+			}
+			
+		}
+		//=========================================================
+		public function controlWireNon(e:Event):void
+		{
+			for (var i:int = 0; i < numNon; i++)
+			{
+				wireNon(e,i);
+			}
+		}
+		//========================================================
+		public function controllaContattonon(e:Event):void
+		{
+			var flag:int = 1;
+			var unit1:int = 1;
+			var unit2:int = 1;
+			var unit3:int = 1;
+			var unit4:int = 1;
+			var unit5:int = 1;
+
+			for (var i:int = 0; i < nonRight.length; i++)
+			{
+				
+				for (var k:int = 0; k < 9;k++)
+					{
+						if(nonRight[i].hitTestObject(circle_lamp_Green[k]))
+							{
+								unit1 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = circle_lamp_Green[k].visible;
+							}
+					}
+				for (k = 0; k < andTull.length; k++)
+					{
+						if (nonRight[i].hitTestObject(andAim[k]))
+							{
+								unit2 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = andAimResult[k];
+							}
+					}
+				for (k = 0; k < orTull.length;k++)
+					{
+						if (nonRight[i].hitTestObject(orAim[k]))
+							{
+								unit3 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = orAimResult[k];
+							}
+					}
+				for (k = 0; k < notTull.length; k++)
+				{
+					if (nonRight[i].hitTestObject(notAim[k]))
+							{
+								unit4 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = notAimResult[k];
+							}
+				}
+				for (k = 0; k < nonTull.length; k++)
+				{
+					if (nonRight[i].hitTestObject(nonAim[k]))
+							{
+								unit5 = 0;
+								rightNonHit[i] = true;
+								nonRightResult[i] = nonAimResult[k];
+							}
+				}
+				
+				nonAimResult[i] = nonRightResult[i];
+				if (unit1 && unit2 && unit3 && unit4&&unit5)
+					rightNonHit[i] = false;
+				unit1 = 1; unit2 = 1; unit3 = 1; unit4 = 1; unit5 = 1;
+			}
+		}
+		//========================================================
+		public function wireNon(e:Event,n:int):void
+		{
+			removeChild(nonLineR[n]);
+			var line:Sprite = new Sprite();
+			var additLine:Sprite = new Sprite();
+			if (nonRightResult[n] == true)
+				{
+					line.graphics.lineStyle(2, 0xF7C709);
+				}
+			else
+				{
+					line.graphics.lineStyle(2, 0x000001);
+				}
+			if (lineRAddNon[n])
+				{
+					removeChild(additLineRNon[n]);
+					if (nonRightResult[n] == true)
+						additLine.graphics.lineStyle(6, 0xF7C709, 0.5);
+					else
+						additLine.graphics.lineStyle(6, 0x000001, 0.3);
+					additLine.graphics.moveTo(nonTull[n].x, nonTull[n].y+5);
+					additLine.graphics.lineTo(nonRight[n].x+12,nonRight[n].y+6);
+					additLineRNon[n] = additLine;
+					addChild(additLineRNon[n]);
+				}
+			line.graphics.moveTo(nonTull[n].x, nonTull[n].y+5);
+			line.graphics.lineTo(nonRight[n].x+12,nonRight[n].y+6);
+			addChild(line);
+			nonLineR[n] = line;
+		}
+		//=========================================================
+		public function downnon(e:Event):void
+		{
+			var flag : int = 0 ;
+			var k: int = 0;
+			var additLine:Sprite = new Sprite();
+			for (k = 0;k < 30 && flag==0; k++)
+			{
+				if(nonTull[k]==e.target)
+				{
+					myVar4 = k;
+					flag = 1;
+					setChildIndex(nonTull[k], numChildren - 1);
+					nonTull[k].startDrag();
+					addEventListener(MouseEvent.MOUSE_MOVE, dragConnectNon);
+					if (rightNonHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragContactsNon);
+					if(!rightNonHit[k])
+						stage.addEventListener(MouseEvent.MOUSE_MOVE, dragCirclenon);	
+				}
+				if (nonRight[k]==e.target )
+				{
+					flag = 1;
+					myVar4 = k;
+					setChildIndex(nonRight[k], numChildren - 1);
+					nonRight[k].startDrag();
+				}	
+				if (e.target == nonLineR[k])
+				{
+					flag = 1;
+					myVar4 = k;
+					for (var i:int = 0; i < nonTull.length;i++)
+					{
+						if (lineRAddNon[i])
+						{
+							lineRAddNon[i] = false;
+							removeChild(additLineRNon[i]);
+							if (i == myVar4)
+							{
+								complite4 = 1;
+							}
+							else
+							{
+								complite4 = 0;
+							}
+						}
+					}
+					for (i = 0; i < notTull.length;i++)
+					{
+						if (lineRAddNot[i])
+						{
+							lineRAddNot[i] = false;
+							removeChild(additLineRNot[i]);
+							complite3 = 0;
+						}
+					}
+					for (i = 0; i < orTull.length; i++)
+					{
+						if (lineLAddOr[i])
+							{
+								lineLAddOr[i] = false;
+								removeChild(additLineLOr[i]);
+								complite2 = 0;
+							}
+						if (lineRAddOr[i])
+							{
+								lineRAddOr[i] = false;
+								removeChild(additLineROr[i]);
+								complite2 = 0;
+							}
+					}
+					for (i = 0; i < andTull.length; i++)
+					{
+						if (lineLAddAnd[i])
+							{
+								lineLAddAnd[i] = false;
+								removeChild(additLineLAnd[i]);
+								complite = 0;
+							}
+						if (lineRAddAnd[i])
+							{
+								lineRAddAnd[i] = false;
+								removeChild(additLineRAnd[i]);
+								complite = 0;
+							}
+					}
+					if(!complite4)
+					{
+						flag = 1;
+						myVar4 = k;
+						lineRAddNon[k] = true;
+						setChildIndex(nonRight[k], numChildren - 1);
+						additLine.graphics.lineStyle(5, 0x00CCFF);
+						additLine.graphics.moveTo(nonTull[k].x, nonTull[k].y+15);
+						
+						additLineRNon[k] = additLine;
+						addChild(additLineRNon[k]);
+						complite4 = 1;
+					}
+					else
+						complite4 = 0;
+				}
+			}
+		}
+		//========================================================
+		//===================================================
+		public function dragCirclenon(event:MouseEvent):void 
+		{ 
+			if (myVar4 >= 0)
+			{
+				nonAim[myVar4].x = nonTull[myVar4].x +13; 
+				nonAim[myVar4].y = nonTull[myVar4].y + 5;
+				nonRight[myVar4].x = nonTull[myVar4].x - 30; 
+				nonRight[myVar4].y = nonTull[myVar4].y - 2;
+				wireNon(event,myVar4);
+				event.updateAfterEvent(); 
+			}
+		} 
+		//===================================================
+		public function dragContactsNon(event:MouseEvent):void 
+		{ 
+			if (!rightNonHit[myVar4])
+			{
+				nonRight[myVar4].x = nonTull[myVar4].x - 30; 
+				nonRight[myVar4].y = nonTull[myVar4].y - 2;
+			}
+			nonAim[myVar4].x = nonTull[myVar4].x +13; 
+			nonAim[myVar4].y = nonTull[myVar4].y + 5;
+			wireNon(event,myVar4);
+			event.updateAfterEvent();
+		} 
+		//========================================
+		public function upnon(e:Event):void
+		{
+			var flag:int = 0;
+			var k:int = 0;
+			var vs2:Sprite = new Sprite();
+			var vs:Boolean;
+			if (e.target == nonRight[myVar4])
+			{
+				nonRight[myVar4].stopDrag();
+				for (k = 0; k < 9; k++)
+					{
+						if (nonRight[myVar4].hitTestObject(circle_lamp_Green[k]))
+							{
+								nonRight[myVar4].x = circle_lamp_Green[k].x;
+								nonRight[myVar4].y = circle_lamp_Green[k].y;
+								//wireNot(e);
+							}
+					}
+					for (k = 0; k < andTull.length; k++)
+					{
+						if (nonRight[myVar3].hitTestObject(andAim[k]))
+						{
+							nonRight[myVar4].x = andAim[k].x;
+							nonRight[myVar4].y = andAim[k].y;
+							//wireNot(e);
+						}
+					}
+					for (k = 0; k < orTull.length; k++)
+					{
+						if (nonRight[myVar4].hitTestObject(orAim[k]))
+						{
+							nonRight[myVar4].x = orAim[k].x;
+							nonRight[myVar4].y = orAim[k].y;
+							//wireNot(e);
+						}
+					}
+					for (k = 0; k < notTull.length; k++)
+					{
+						if (nonRight[myVar4].hitTestObject(notAim[k]))
+						{
+							nonRight[myVar4].x = notAim[k].x;
+							nonRight[myVar4].y = notAim[k].y;
+							//wireNot(e);
+						}
+					}
+					for (k = 0; k < nonTull.length; k++)
+					{
+						if (nonRight[myVar4].hitTestObject(nonAim[k]))
+						{
+							nonRight[myVar4].x = nonAim[k].x;
+							nonRight[myVar4].y = nonAim[k].y;
+							//wireNot(e);
+						}
+					}
+			}
+			if(e.target==nonTull[myVar4])
+			{
+				nonTull[myVar4].stopDrag();
+				//trace(k);
+				removeEventListener(MouseEvent.MOUSE_MOVE, dragConnectNon);
+				if (rightNonHit[myVar4])
+					stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragContactsNon);
+				if(!rightNonHit[myVar4])
+					stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragCirclenon);	
+			}
+			//stage.removeEventListener(MouseEvent.MOUSE_MOVE, distanceNot); 
+			if (myVar4 >= 0)
+			{
+				if(nonTull[myVar4].hitTestObject(bin))//Удаление
+					{
+						
+						removeChild(nonRight[myVar4]);
+						removeChild(nonAim[myVar4]);
+						removeChild(nonTull[myVar4]);
+						removeChild(nonLineR[myVar4]);
+						if (lineRAddNon[myVar4])
+							removeChild(additLineRNon[myVar4]);
+						flag = 1;
+						
+					}
+				if (flag)
+				{
+					flag = 0;
+					vs2 = nonTull[myVar4];
+					nonTull[myVar4] = nonTull[nonTull.length - 1];
+					nonTull[nonTull.length - 1] = vs2;
+				
+					vs2 = nonAim[myVar4];
+					nonAim[myVar4] = nonAim[nonAim.length - 1];
+					nonAim[nonAim.length - 1] = vs2;
+				
+					vs2 = nonRight[myVar4];
+					nonRight[myVar4] = nonRight[nonRight.length - 1];
+					nonRight[nonRight.length - 1] = vs2;
+					
+					vs2 = nonLineR[myVar4];
+					nonLineR[myVar4] = nonLineR[nonLineR.length - 1];
+					nonLineR[nonLineR.length - 1] = vs2;
+					
+					vs = nonRightResult[myVar4];
+					nonRightResult[myVar4] = nonRightResult[nonRightResult.length - 1];
+					nonRightResult[nonRightResult.length - 1] = vs;
+					
+					vs2 = additLineRNon[myVar4];
+					additLineRNon[myVar4] = additLineRNon[additLineRNon.length - 1];
+					additLineRNon[additLineRNon.length - 1] = vs2;
+					additLineRNon.pop();
+					
+					vs = lineRAddNon[myVar4];
+					lineRAddNon[myVar4] = lineRAddNon[lineRAddNon.length - 1];
+					lineRAddNon[lineRAddNon.length - 1] = vs;
+					lineRAddNon.pop();
+					
+					
+					nonTull.pop();
+					nonAim.pop();
+					nonRight.pop();
+					nonLineR.pop();
+					nonRightResult.pop();
+					myVar4--;
+					numNon--;
+				}
+			}
+		}
+		//==========================================
 	}
 }

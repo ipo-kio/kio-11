@@ -12,6 +12,8 @@ import flash.filters.BevelFilter;
 import flash.geom.ColorTransform;
 import flash.geom.Matrix;
 
+import ru.ipo.kio.api.controls.BrightnessFilter;
+
 public class Room extends Shape {
 
     private var _highlight:Boolean;
@@ -64,10 +66,16 @@ public class Room extends Shape {
 
         _highlight = value;
 
-        if (value)
+        /*if (value)
             transform.colorTransform = new ColorTransform(1, 1, 1, 1, 0, 96, 96);
         else
-            transform.colorTransform = new ColorTransform();
+            transform.colorTransform = new ColorTransform();*/
+
+        if (value)
+            filters = [BrightnessFilter(3/2)];
+        else
+            filters = [];
     }
+
 }
 }

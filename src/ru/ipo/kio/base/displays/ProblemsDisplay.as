@@ -14,12 +14,13 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 
 import flash.filters.ColorMatrixFilter;
-import flash.net.sendToURL;
 import flash.text.TextField;
 
+import ru.ipo.kio.api.FileUtils;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.TextUtils;
+import ru.ipo.kio.api.controls.BrightnessFilter;
 import ru.ipo.kio.api.controls.TextButton;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
@@ -39,29 +40,15 @@ public class ProblemsDisplay extends Sprite {
                 title = 'No title';
 
             var imageClass:Class;
-            if (KioApi.getLocalization(problem.id).image)
-                imageClass = KioApi.getLocalization(problem.id).image;
+            if (problem.icon)
+                imageClass = problem.icon;
             else
                 imageClass = Resources.NO_PROBLEM_IMG;
 
             var upDownImage:* = new imageClass;
 
             var over:DisplayObject = new imageClass;
-            var brightness:ColorMatrixFilter = new ColorMatrixFilter();
-            /*brightness.matrix = [
-             1.14948, 0.293459, 0.0569921, 0, 0,
-             0.149511, 1.29352, 0.057004, 0, 0,
-             0.1495, 0.2935, 1.057, 0, 0,
-             0, 0, 0, 1, 0
-             ];*/
-            brightness.matrix = [
-                1.07474, 0.14673, 0.028496, 0, 0,
-                0.0747553, 1.14767, 0.028502, 0, 0,
-                0.07475, 0.14675, 1.0285, 0, 0,
-                0, 0, 0, 1, 0
-            ];
-
-            over.filters = [brightness];
+            over.filters = [BrightnessFilter(5/4)];
 
             var prb:SimpleButton = new SimpleButton(upDownImage, over, upDownImage, upDownImage);
 
@@ -89,9 +76,11 @@ public class ProblemsDisplay extends Sprite {
             }(i));
         }
 
-        var formButton:TextButton = new TextButton("Заполнить анкету", 200);
-        var loadButton:TextButton = new TextButton("Загрузить рабочую область", 200);
-        var saveButton:TextButton = new TextButton("Сохранить рабочую область", 200);
+        var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
+
+        var formButton:TextButton = new TextButton(loc.screen.problems.fill_form, 200);
+        var loadButton:TextButton = new TextButton(loc.buttons.load_workspace, 200);
+        var saveButton:TextButton = new TextButton(loc.buttons.save_workspace, 200);
 
         formButton.x = GlobalMetrics.H_PADDING;
         loadButton.x = GlobalMetrics.H_PADDING;
@@ -105,10 +94,21 @@ public class ProblemsDisplay extends Sprite {
         addChild(saveButton);
 
         formButton.addEventListener(MouseEvent.CLICK, formButtonClick);
+        loadButton.addEventListener(MouseEvent.CLICK, loadButtonClick);
+        saveButton.addEventListener(MouseEvent.CLICK, saveButtonClick);
+    }
+
+    private function saveButtonClick(event:Event):void {
+        FileUtils.saveAll();
+    }
+
+    private function loadButtonClick(event:Event):void {
+        FileUtils.loadAll();
     }
 
     private function formButtonClick(event:Event):void {
         KioBase.instance.currentDisplay = new AnketaDisplay;
     }
+
 }
 }

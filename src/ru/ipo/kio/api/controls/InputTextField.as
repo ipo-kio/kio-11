@@ -9,7 +9,6 @@ package ru.ipo.kio.api.controls {
 import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.events.Event;
-import flash.text.Font;
 import flash.text.TextField;
 import flash.text.TextFieldType;
 import flash.text.TextFormat;
@@ -33,34 +32,46 @@ public class InputTextField extends Sprite {
     private var border:Sprite;
 
     private var fontSize:int;
+    private var effectiveFontSize:int;
     private var fieldWidth:int;
 
     private var _filter:Function = null;
+    private var _id:String;
 
-    public function InputTextField(width:int, fontSize:int, errorToTheRight:Boolean = true) {
+    private var lines:int;
+
+    public function InputTextField(id:String, width:int, fontSize:int, errorToTheRight:Boolean = true, lines:int = 1) {
         this.fontSize = fontSize;
+        this.effectiveFontSize = fontSize + 3;
         this.fieldWidth = width;
+        this.lines = lines;
+        this._id = id;
 
         tf = new TextField;
-        var enumerateFonts:Array = Font.enumerateFonts();
+        /*var enumerateFonts:Array = Font.enumerateFonts();
         enumerateFonts.sortOn("fontName");
         for each (var e:Font in enumerateFonts) {
             trace(e.fontName);
-        }
+        }*/
 
         tf.embedFonts = true;
         tf.defaultTextFormat = new TextFormat(TextUtils.FONT_INPUT, fontSize);
         tf.type = TextFieldType.INPUT;
+
+        if (lines > 1) {
+            tf.wordWrap = true;
+            tf.multiline = true;
+        }
 
         var ba:BitmapAsset = new Resources.INPUT_BG;
         var b:BitmapData = ba.bitmapData;
         //b.copyPixels(b, new Rectangle(0, 0, Math.min(width, b.width), fontSize + 3 + 2 * V_PADDING), new Point(0, 0));
 
         graphics.beginBitmapFill(b);
-        graphics.drawRect(0, 0, width, fontSize + 2 * V_PADDING);
+        graphics.drawRect(0, 0, width, lines * effectiveFontSize + 2 * V_PADDING);
         graphics.endFill();
 
-        tf.height = fontSize + 5;
+        tf.height = getHeight();
         tf.x = H_PADDING;
         tf.y = 0;
         tf.width = width - 10;
@@ -86,13 +97,17 @@ public class InputTextField extends Sprite {
             errorTf.wordWrap = false;
         } else {
             errorTf.x = 0;
-            errorTf.y = fontSize + 2 * V_PADDING;
+            errorTf.y = effectiveFontSize * lines + 2 * V_PADDING;
             errorTf.width = width;
         }
 
         addChild(errorTf);
 
         updateErrorInfo();
+    }
+
+    private function getHeight():int {
+        return effectiveFontSize * lines + 3;
     }
 
     public function get filter():Function {
@@ -125,7 +140,7 @@ public class InputTextField extends Sprite {
     private function updateBorder():void {
         border.graphics.clear();
         border.graphics.lineStyle(3, errorLabel ? ERROR_BORDER_COLOR : CORRECT_BORDER_COLOR);
-        border.graphics.drawRect(0, 0, fieldWidth, fontSize + 2 * V_PADDING);
+        border.graphics.drawRect(0, 0, fieldWidth, effectiveFontSize * lines + 2 * V_PADDING);
     }
 
     public function get text():String {
@@ -133,6 +148,8 @@ public class InputTextField extends Sprite {
     }
 
     public function set text(value:String):void {
+        if (!value)
+            value = '';
         tf.text = value;
 
         updateErrorInfo();
@@ -149,6 +166,14 @@ public class InputTextField extends Sprite {
 
     public function get restrict():String {
         return tf.restrict;
+    }
+
+    public function get id():String {
+        return _id;
+    }
+
+    public function get error():String {
+        return _filter != null ? _filter(tf.text) : null; // != null is needed to suppress warnings
     }
 }
 }

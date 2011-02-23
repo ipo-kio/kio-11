@@ -14,6 +14,7 @@ import flash.text.StyleSheet;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
+import ru.ipo.kio.api.FileUtils;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.LsoProxy;
 import ru.ipo.kio.api.TextUtils;
@@ -71,7 +72,7 @@ public class WelcomeDisplay extends Sprite {
     }
 
     private function loadWorkspaceButtonClicked(event:Event):void {
-        //TODO implement
+        FileUtils.loadAll();
     }
 
 }
