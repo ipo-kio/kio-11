@@ -10,6 +10,7 @@ import ru.ipo.kio.base.displays.ProblemsDisplay;
 import ru.ipo.kio.base.displays.WelcomeDisplay;
 
 import ru.ipo.kio.api.*;
+import ru.ipo.kio.base.resources.Resources;
 
 /**
  * ...
@@ -30,6 +31,7 @@ public class KioBase {
 
     private var _lsoProxy:LsoProxy;
     private var _level:int;
+    private var _problems_bg:DisplayObject;
 
     private var spaceSettings:SpaceSettingsDialog = new SpaceSettingsDialog;
 
@@ -46,6 +48,10 @@ public class KioBase {
 
         this.stage = stage;
         this.problems = problems;
+
+        _problems_bg = new Resources.BG_PR_IMAGE;
+        _problems_bg.visible = false;
+        stage.addChild(_problems_bg);
 
         //test this is the first start
 
@@ -80,12 +86,15 @@ public class KioBase {
         if (workspace)
             stage.removeChild(workspace);
 
-        if (!contestPanel) {
+        if (!
+                contestPanel) {
             contestPanel = new ContestPanel;
             contestPanel.x = GlobalMetrics.CONTEST_PANEL_X;
             contestPanel.y = GlobalMetrics.CONTEST_PANEL_Y;
             stage.addChild(contestPanel);
         }
+
+        _problems_bg.visible = true;
 
         //place problem view on the screen
         workspace = problem.display;
@@ -110,6 +119,8 @@ public class KioBase {
             stage.removeChild(contestPanel);
             contestPanel = null;
         }
+
+        _problems_bg.visible = true;
 
         workspace = display;
         workspace.x = 0;

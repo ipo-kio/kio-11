@@ -8,8 +8,11 @@
 package ru.ipo.kio.base.resources {
 public class Resources {
 
-    [Embed(source="imgs/bg.jpg")]
+    [Embed(source="bg.jpg")]
     public static const BG_IMAGE:Class;
+
+    [Embed(source="bg_pr.jpg")]
+    public static const BG_PR_IMAGE:Class;
 
     [Embed(source="imgs/up_arrow.png")]
     public static const UP_ARROW_IMAGE:Class;

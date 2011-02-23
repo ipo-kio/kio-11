@@ -18,10 +18,11 @@ import ru.ipo.kio.base.displays.ProblemsDisplay;
 		
 		public function ContestPanel() 
 		{
-			graphics.beginFill(0xAABBCC);
+            //background not needed
+			/*graphics.beginFill(0xAABBCC);
 			graphics.lineStyle(1, 0x000000);
 			graphics.drawRect(0, 0, GlobalMetrics.CONTEST_PANEL_WIDTH - 1, GlobalMetrics.CONTEST_PANEL_HEIGHT - 1);
-			graphics.endFill();
+			graphics.endFill();*/
 
             var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
 			
