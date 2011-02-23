@@ -39,7 +39,7 @@ package ru.ipo.kio._11.CrossedCountry
 		}
 		public function DropPt(e:MouseEvent):void
 		{
-			if(land.hitTestPoint(e.stageX,e.stageY,true))
+			if(land.hitTestPoint(Main.instance.mouseX,Main.instance.mouseY,true))
 			{
 			pt.stopDrag();
 			trace("drop pt");
@@ -47,8 +47,8 @@ package ru.ipo.kio._11.CrossedCountry
 			dr = true;
 			}
 			
-			pX = (e.stageX - e.stageX % 10)+5;
-			pY = (e.stageY - e.stageY % 10)+5;
+			pX = (Main.instance.mouseX - Main.instance.mouseX % 10)+5;
+			pY = (Main.instance.mouseY - Main.instance.mouseY % 10)+5;
 			
 		}
 		public function PickPt(e:MouseEvent):void
@@ -68,7 +68,7 @@ package ru.ipo.kio._11.CrossedCountry
 				mouseOver = true;
 				trace("pick");
 				trace(pX, pY);
-				trace(e.stageX, e.stageY);
+				trace(Main.instance.mouseX, Main.instance.mouseY);
 				
 				}
 		}
@@ -82,7 +82,7 @@ package ru.ipo.kio._11.CrossedCountry
 			mouseOver = false;
 			trace("not pick");
 			trace(pX, pY);
-			trace(e.stageX, e.stageY);
+			trace(Main.instance.mouseX, Main.instance.mouseY);
 
 		}
 		
@@ -90,8 +90,8 @@ package ru.ipo.kio._11.CrossedCountry
 		{
 			mouseOver = false;
 			trace("selecting");
-			pX = (e.stageX - e.stageX % 10)+5;
-			pY = (e.stageY - e.stageY % 10)+5;
+			pX = (Main.instance.mouseX - Main.instance.mouseX % 10)+5;
+			pY = (Main.instance.mouseY - Main.instance.mouseY % 10)+5;
 			
 			if ((selPt&1) == 0)
 				{

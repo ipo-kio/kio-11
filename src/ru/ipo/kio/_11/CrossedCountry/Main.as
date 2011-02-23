@@ -55,12 +55,17 @@ package ru.ipo.kio._11.CrossedCountry
 		public var bg:* = new BG;
 		public var bgSpr:Sprite = new Sprite();
 		
+		public static var instance:Main;
+		
 		public function Main():void 
 		{
+			instance = this;
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
+		//e.stageX -> this.mouseX, mouseX
+		//         -> Main.instance.mouseX
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
@@ -80,7 +85,7 @@ package ru.ipo.kio._11.CrossedCountry
 			this.addEventListener(MouseEvent.MOUSE_MOVE, landLines); // перерисовка линий
 			txt.b.addEventListener(MouseEvent.CLICK, del); // удаление последнего шага
 			txt.b2.addEventListener(MouseEvent.CLICK, delselectedPoint); // удаление выбранной точки
-			txt.butHero.addEventListener(MouseEvent.CLICK, StartHero);
+			//txt.butHero.addEventListener(MouseEvent.CLICK, StartHero);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, DragPoint); 
 			this.addEventListener(MouseEvent.MOUSE_UP, DropPoint);
 			
@@ -95,6 +100,8 @@ package ru.ipo.kio._11.CrossedCountry
 		
 		private function StartHero(e:MouseEvent):void
 		{
+			deleteAll();
+			
 			// создание героя
 			
 			/*var ar:Array = new Array(30,540,610,40);
@@ -104,7 +111,7 @@ package ru.ipo.kio._11.CrossedCountry
 		
 		private function landLines(e:MouseEvent):void
 		{
-			if (land.hitTestPoint(e.stageX, e.stageY, true))
+			if (land.hitTestPoint(mouseX, mouseY, true))
 			{
 					if (pointArray[pointNumber].startdr)
 					{
@@ -112,8 +119,8 @@ package ru.ipo.kio._11.CrossedCountry
 					trace("length array " + pointArray.length);	
 					pi = pointNumber;
 					
-					ptX = e.stageX;
-					ptY = e.stageY;
+					ptX = mouseX;
+					ptY = mouseY;
 			
 					pointArray[pi + 1] = ptX;
 					pointArray[pi + 2] = ptY;
@@ -125,7 +132,7 @@ package ru.ipo.kio._11.CrossedCountry
 		
 		private function landCap(e:MouseEvent):void
 		{
-			if(land.hitTestPoint(e.stageX,e.stageY,true))
+			if(land.hitTestPoint(mouseX,mouseY,true))
 				{
 					
 					DrawNewPoint(e);
@@ -143,12 +150,12 @@ package ru.ipo.kio._11.CrossedCountry
 					//
 				}
 			
-			if (notRemovedNewPoint)
+			/*if (notRemovedNewPoint)
 			{
 				land.removeChild(newPoint);
 				notRemovedNewPoint = false;
 				trace("deleted point");
-			}
+			}*/
 			}
 			
 			
@@ -173,8 +180,9 @@ package ru.ipo.kio._11.CrossedCountry
 		{
 			if (!notRemovedNewPoint)
 			{
-			ptX = (e.stageX - e.stageX % 10)+5;
-			ptY = (e.stageY - e.stageY % 10)+5;
+			ptX = (mouseX - mouseX % 10)+5;
+			ptY = (mouseY - mouseY % 10)+5;
+			
 			
 			newPoint = new pointer(ptX, ptY, 0x00ff00,5,0.3);
 			
@@ -187,8 +195,9 @@ package ru.ipo.kio._11.CrossedCountry
 			}
 			else
 			{
-				newPoint.pt.x = (e.stageX - e.stageX % 10) +5 - ptX;
-				newPoint.pt.y = (e.stageY - e.stageY % 10) +5- ptY;
+				
+				newPoint.pt.x = (mouseX - mouseX % 10) +5 - ptX;
+				newPoint.pt.y = (mouseY - mouseY % 10) +5 - ptY;
 			}
 			
 		}
@@ -205,8 +214,8 @@ package ru.ipo.kio._11.CrossedCountry
 				notRemovedNewPoint = false;
 			}
 			
-			ptX = (e.stageX - e.stageX % 10)+5;
-			ptY = (e.stageY - e.stageY % 10) + 5;
+			ptX = (mouseX - mouseX % 10)+ 5;
+			ptY = (mouseY - mouseY % 10) + 5;
 			
 			if(selectline==-1)
 			{
@@ -220,7 +229,7 @@ package ru.ipo.kio._11.CrossedCountry
 			
 			pi = pointArray.length - 6;
 			pointArray[pi].Dr(land);
-			
+			trace("/////");
 			pointArray[pi].pt.addEventListener(MouseEvent.CLICK, PickDel);
 			
 			if (pointArray[pi].selPt == 0 )
@@ -393,7 +402,7 @@ package ru.ipo.kio._11.CrossedCountry
 		{
 			for (var i:int = 0; i < lines.length; i++ )
 				{
-					if (lines[i].hitTestPoint(e.stageX, e.stageY, true))
+					if (lines[i].hitTestPoint(mouseX, mouseY, true))
 						{
 							trace(i);
 							return i;
@@ -612,7 +621,7 @@ package ru.ipo.kio._11.CrossedCountry
 			trace("length array " + pointArray.length);	
 			selectPoint = false;
 			trace(FindLine(e));
-		    if ((!txt.b2.hitTestPoint(e.stageX, e.stageY, true)))
+		    if ((!txt.b2.hitTestPoint(mouseX, mouseY, true)))
 			{
 		
 			prevPoint = pointNumber;
@@ -631,8 +640,8 @@ package ru.ipo.kio._11.CrossedCountry
 					pointNumber = i;
 					selectPoint = true;
 					
-					eDragX = (e.stageX - e.stageX % 10)+5;
-					eDragY = (e.stageY - e.stageY % 10)+5;
+					eDragX = (mouseX - mouseX % 10)+5;
+					eDragY = (mouseY - mouseY % 10)+5;
 					
 					
 				}
@@ -690,11 +699,11 @@ package ru.ipo.kio._11.CrossedCountry
 			var b:Boolean;
 			
 			
-			if (!txt.b2.hitTestPoint(e.stageX, e.stageY, true))
+			if (!txt.b2.hitTestPoint(mouseX, mouseY, true))
 			{
 			
-			ptX = (e.stageX - e.stageX % 10)+5;
-			ptY = (e.stageY - e.stageY % 10)+5;
+			ptX = (mouseX - mouseX % 10)+5;
+			ptY = (mouseY - mouseY % 10)+5;
 			
 			
 			
@@ -807,7 +816,7 @@ package ru.ipo.kio._11.CrossedCountry
 			}
 			
 			
-			
+			trace("path  = " +path);
 			path = land.collisionTest(pointArray);
 			txt.t1.text = "Длина = " + Math.round(path) + " м";
 			txt.t2.text = "Время = " + Math.round(land.PathTime)+ " сек";
@@ -818,6 +827,19 @@ package ru.ipo.kio._11.CrossedCountry
 		{
 			return Math.round(path);
 		}
+		
+		public function deleteAll():void
+		{
+			var Arr:int = pointArray.length;
+			for (var i:int = 0; i < (Arr - 6)/3; i++)
+			{
+				deletePoint();
+				trace(pointArray);
+			}
+			
+		}
+		
+		
 	}
 	
 }

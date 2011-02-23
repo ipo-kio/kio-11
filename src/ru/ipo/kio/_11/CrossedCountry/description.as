@@ -8,6 +8,7 @@ package ru.ipo.kio._11.CrossedCountry
 	import flash.events.*;
 	import flash.text.*;
 	import flash.display.*;
+	import ru.ipo.kio.api.controls.*;
 	
 	public class description extends Sprite
 	{
@@ -21,6 +22,24 @@ package ru.ipo.kio._11.CrossedCountry
 		public var t2:TextField = new TextField();
 		public var tEr:TextField = new TextField();
 		public var tErTrue:Boolean = false;
+		
+		
+		/*[Embed(source="Button_01.png")]
+		public static const BIm1:Class;
+		public var im1:* = new BIm1;
+		
+		[Embed(source="Button_02.png")]
+		public static const BIm2:Class;
+		public var im2:* = new BIm2;
+		
+		[Embed(source="Button_03.png")]
+		public static const BIm3:Class;
+		public var im3:* = new BIm3;
+		
+		[Embed(source='ds_greece.ttf',embedAsCFF = "false",fontName = "Greece", mimeType = "application/x-font-truetype")]
+		private static var greece_font:Class;
+		
+		public var testbut:GraphicsButton = new GraphicsButton("Результат", im1, im2, im3, greece_font, 10, 20);*/
 		
 		public function description () 
 		{

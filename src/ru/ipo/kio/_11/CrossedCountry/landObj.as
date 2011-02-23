@@ -45,7 +45,7 @@ import flash.net.URLRequest;
 
 			pic = new INPUT_BG();
 			bmpImage = pic.bitmapData;
-			bmpImage.draw(bmpImage);
+			//bmpImage.draw(bmpImage);
 
 			var matrix:Matrix = new Matrix();
 			matrix.translate( tx, ty);
@@ -94,10 +94,10 @@ import flash.net.URLRequest;
 
 		public function eventHandler(e:MouseEvent):void
 		{
-			if (mShape.hitTestPoint(e.stageX, e.stageY))
+			if (mShape.hitTestPoint(Main.instance.mouseX, Main.instance.mouseY))
 			{
-				eventX = e.stageX;
-				eventY = e.stageY;
+				eventX = Main.instance.mouseX;
+				eventY = Main.instance.mouseY;
 				if (drawB) removeDrawC();
 
 				if (checkCapy)
