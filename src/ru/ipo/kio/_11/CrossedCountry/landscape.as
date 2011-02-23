@@ -111,7 +111,7 @@ package ru.ipo.kio._11.CrossedCountry
 		public function landscape() 
 		{
 		ArrayObjs.push(land1, land2, land3,land4,land5,land6,land7,land8,land9,land10,land11,land12,land13,land14,land15,land16,land17,land18,land19,land20,land21,land22,land23,land24,land25,land26,land27);
-			
+		//ArrayObjs.push(land2);
 		
 			// вывод на экран всех объектов
 			for (var l:int = 0; l < ArrayObjs.length; l++ )
@@ -131,12 +131,12 @@ package ru.ipo.kio._11.CrossedCountry
 		public function eventHandler(e:MouseEvent):void 
 		{
 			
-			eventX = e.stageX;
-			eventY = e.stageY;
+			eventX = Main.instance.mouseX;
+			eventY = Main.instance.mouseY;
 			
 			for (var k:int = 0; k < ArrayObjs.length; k++ )
 			{
-				if (ArrayObjs[k].mShape.hitTestPoint(e.stageX, e.stageY, true))
+				if (ArrayObjs[k].mShape.hitTestPoint(Main.instance.mouseX, Main.instance.mouseY, true))
 			{
 				if (ArrayCheckObj[k])
 				{
@@ -230,6 +230,7 @@ package ru.ipo.kio._11.CrossedCountry
 			//var StartP:Point = new Point;
 			var StEndPoint:Boolean = false;
 			
+			trace("start path");
 			
 			for (k = 0; k < ObjsArrays.length; k++ )
 			{
@@ -238,20 +239,20 @@ package ru.ipo.kio._11.CrossedCountry
 			
 			for (i = 0; i < pointArray.length-5 ; i = i + 3 )
 			{
-				
-				
-				
+
 				p0.x = pointArray[i + 1];
 				p0.y = pointArray[i + 2];
 				p1.x = pointArray[i + 4];
 				p1.y = pointArray[i + 5];
 			
 				StEndPoint = false;
+				
 			
-				if (ArrayObjs[k].mShape.hitTestPoint(p0.x, p0.y, true))
+				if (ArrayObjs[k].mShape.hitTestPoint(p0.x+(Main.instance.x), p0.y+(Main.instance.y), true))
 					{
 						PointCrossArray.push(p0.x, p0.y);
-						//trace("начальная точка принадлежит");
+						trace(p0.x,p0.y);
+						trace("начальная точка принадлежит к объекту" + (k+1));
 						StEndPoint = true;
 					}
 				
@@ -269,10 +270,13 @@ package ru.ipo.kio._11.CrossedCountry
 				
 				if (lMath.lineCross(lp0, lp1, p0, p1) == true)
 				{
-					//trace("пересекает объект" + (k+1));
+					trace("пересекает объект" + (k + 1));
+					trace(PointCrossArray);
 					colP = lMath.lineIntersect(lp0, lp1, p0, p1);
 					
-				
+					//var p:pointer = new pointer(colP.x, colP.y, 0x00ff00,3,0.5); 
+					//addChild(p);
+					trace(colP.x, colP.y);
 					
 					for (var g:int = 0; g < PointCrossArray.length; g=g+2)
 						if((PointCrossArray[g] == colP.x) && (PointCrossArray[g+1] == colP.y))
@@ -284,12 +288,14 @@ package ru.ipo.kio._11.CrossedCountry
 				}
 			}
 			
+			//trace("2 точка" + ArrayObjs[1].mShape.hitTestPoint(p1.x, p1.y, true));
 			
-			if (ArrayObjs[k].mShape.hitTestPoint(p1.x, p1.y, true))
+			if (ArrayObjs[k].mShape.hitTestPoint(p1.x+Main.instance.x, p1.y+Main.instance.y, true))
 					{
+						trace(p1.x+Main.instance.x);
 						PointCrossArray.push(p1.x, p1.y);
 						StEndPoint = true;
-						//trace("2 точка принадлежит");
+						trace("2 точка принадлежит");
 					}
 					
 			if(PointCrossArray.length == 2)
@@ -310,6 +316,7 @@ package ru.ipo.kio._11.CrossedCountry
 				
 					while (PointCrossArray.length!=0)
 					{
+						trace("pointcross array  "+PointCrossArray);
 						m = 0;
 						minX = PointCrossArray[m];
 						minY = PointCrossArray[m + 1];
@@ -340,7 +347,7 @@ package ru.ipo.kio._11.CrossedCountry
 						min_index = 0;
 						
 						
-					//	trace(min0);
+						trace("min0"+min0);
 						
 						for (n = 2; n < PointCrossArray.length; n = n + 2 )
 						{
@@ -355,7 +362,7 @@ package ru.ipo.kio._11.CrossedCountry
 						
 						
 						PointCrossArray.splice(min_index, 2);
-						
+						trace("pathland = " + PathLand);
 						PathLand = PathLand + min0;
 						PathTime = PathTime + min0/ ArrayWeight[k];
 					

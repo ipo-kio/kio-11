@@ -98,6 +98,9 @@ package ru.ipo.kio._11.CrossedCountry {
 		public function loadSolution(solution:Object):Boolean {
 			//для загрузки решения нужно взять поле txt и записать его в текстовое поле
 			if (solution.points) {
+				// удаление всех точек, обнуление результата
+				sp.deleteAll();
+				loadSol(solution.points);
 				trace("добавление точек");
 				//  добавление точек
 				//sp.text = solution.txt;

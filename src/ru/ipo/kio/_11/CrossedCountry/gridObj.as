@@ -22,7 +22,7 @@ package ru.ipo.kio._11.CrossedCountry
 				gridShape.x = 20;
 				gridShape.y = 25+j*10;
 			
-				gridShape.graphics.lineStyle(1);
+				gridShape.graphics.lineStyle(1,0xffffff,0.2);
 				for (i= 0; i < 40; i++) 
 				{
 				gridShape.graphics.lineTo(600, 0);
@@ -35,7 +35,7 @@ package ru.ipo.kio._11.CrossedCountry
 				gridShape.x = 25+j*10;
 				gridShape.y = 20;
 			
-				gridShape.graphics.lineStyle(1);
+				gridShape.graphics.lineStyle(1,0xffffff,0.2);
 				for (i = 0; i < 40; i++) 
 				{
 				gridShape.graphics.lineTo(0, 540);
