@@ -150,7 +150,8 @@ package ru.ipo.kio._11.CrossedCountry
 					landObjN = ArrayObjs[k];
 					clearInterval(interval);
 					ObjIndex = k + 1;
-					drawCap();
+					//drawCap();
+					writeCap();
 					
 					trace("object " + (k + 1));
 					
@@ -159,6 +160,14 @@ package ru.ipo.kio._11.CrossedCountry
 			}
 			}
 			
+		}
+		
+		public function writeCap():void
+		{
+			clearInterval(interval);
+			
+			Main.instance.txt.t3.text =  landObjN.ObjA[landObjN.ObjA.length - 1] + "   " + ArrayWeight[ObjIndex - 1] + " м/с";
+			Main.instance.txt.t3.setTextFormat(new TextFormat("Greece", 15));
 		}
 		
 		public function drawCap():void

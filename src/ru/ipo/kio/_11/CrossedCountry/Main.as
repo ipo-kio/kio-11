@@ -83,8 +83,8 @@ package ru.ipo.kio._11.CrossedCountry
 			land.addEventListener(MouseEvent.CLICK, landPt); // добавление точки
 			land.addEventListener(MouseEvent.MOUSE_MOVE, landCap); // добавление подсказки
 			this.addEventListener(MouseEvent.MOUSE_MOVE, landLines); // перерисовка линий
-			txt.b.addEventListener(MouseEvent.CLICK, del); // удаление последнего шага
-			txt.b2.addEventListener(MouseEvent.CLICK, delselectedPoint); // удаление выбранной точки
+			txt.DelLast.addEventListener(MouseEvent.CLICK, del); // удаление последнего шага
+			txt.DelSel.addEventListener(MouseEvent.CLICK, delselectedPoint); // удаление выбранной точки
 			//txt.butHero.addEventListener(MouseEvent.CLICK, StartHero);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, DragPoint); 
 			this.addEventListener(MouseEvent.MOUSE_UP, DropPoint);
@@ -629,7 +629,7 @@ package ru.ipo.kio._11.CrossedCountry
 			trace("length array " + pointArray.length);	
 			selectPoint = false;
 			trace(FindLine(e));
-		    if ((!txt.b2.hitTestPoint(mouseX, mouseY, true)))
+		    if ((!txt.DelSel.hitTestPoint(mouseX, mouseY, true)))
 			{
 		
 			prevPoint = pointNumber;
@@ -707,7 +707,7 @@ package ru.ipo.kio._11.CrossedCountry
 			var b:Boolean;
 			
 			
-			if (!txt.b2.hitTestPoint(mouseX, mouseY, true))
+			if (!txt.DelSel.hitTestPoint(mouseX, mouseY, true))
 			{
 			
 			ptX = (mouseX - mouseX % 10)+5;

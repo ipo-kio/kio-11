@@ -21,6 +21,7 @@ package ru.ipo.kio._11.CrossedCountry
 		public var t0:TextField = new TextField();
 		public var t1:TextField = new TextField();
 		public var t2:TextField = new TextField();
+		public var t3:TextField = new TextField();
 		public var tEr:TextField = new TextField();
 		public var tErTrue:Boolean = false;
 		
@@ -40,7 +41,9 @@ package ru.ipo.kio._11.CrossedCountry
 		[Embed(source='ds_greece.ttf',embedAsCFF = "false",fontName = "Greece", mimeType = "application/x-font-truetype")]
 		private static var greece_font:Class;
 		
-		public var DelLast:GraphicsButton =new GraphicsButton("Удалить последний шаг", im1.bitmapData, im2.bitmapData, im3.bitmapData, "Greece", 5, 5);
+		public var DelLast:GraphicsButton =new GraphicsButton("Удалить последний шаг", im1.bitmapData, im2.bitmapData, im3.bitmapData, "Greece", 8, 8);
+		
+		public var DelSel:GraphicsButton =new GraphicsButton("Удалить точку", im1.bitmapData, im2.bitmapData, im3.bitmapData, "Greece", 8, 8);
 		
 		public function description () 
 		{
@@ -52,51 +55,66 @@ package ru.ipo.kio._11.CrossedCountry
 		private function uint1 (e:Event = null):void
 		{
 			
-			DelLast.x = 640;
-			DelLast.y = 170;
+			DelLast.x = 650;
+			DelLast.y = 200;
 			addChild(DelLast);
+			
+			DelSel.x = 650;
+			DelSel.y = 300;
+			addChild(DelSel);
 			
 			t0.embedFonts = true;
 			t1.embedFonts = true;
 			t2.embedFonts = true;
+			t3.embedFonts = true;
+			
 			t0.text = "Результат";
 			t1.text = "Длина";
 			t2.text = "Время";
+			
+			t3.text = "";
 			
 			//format.font = "_sans";
 			//format.size = 15;
 			t0.setTextFormat(new TextFormat("Greece",15));
 			t2.setTextFormat(new TextFormat("Greece",15));
 			t1.setTextFormat(new TextFormat("Greece", 15));
+			t3.setTextFormat(new TextFormat("Greece", 15));
+			
 			t0.x = 670;
 			t0.y = 20;
 			t1.x = 650;
 			t1.y = 40;
 			t2.x = 650;
 			t2.y = 60;
+			
+			t3.x = 650;
+			t3.y = 420;
+			
 			tEr.x = 700;
 			tEr.y = 330;
 			tEr.wordWrap = true;
 			addChild(t0);
 			addChild(t1);
 			addChild(t2);
+			addChild(t3);
 		}
 		private function uint2 (e:Event = null):void
 		{
 			
 			b.x = 700;
 			b.y = 200;
-			addChild(b);
+			//addChild(b);
 			
 			b2.x = 700;
 			b2.y = 270;
 			
-			addChild(b2);
+			//addChild(b2);
 			
 			butHero.x = 700;
 			butHero.y = 100;
 			
-			addChild(butHero);
+			//addChild(butHero);
 			
 			
 			var label:TextField = new TextField();
