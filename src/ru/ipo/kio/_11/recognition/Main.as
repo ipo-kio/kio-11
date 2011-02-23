@@ -1940,8 +1940,8 @@ public function test_continius(e:Event):void
 					if(controlAnswer[i] == 1)
 						Result++;
 				}
-				t_result.text =  '  ' + Result;
-				t_nB.text =  '  ' + NumberBlokcs;
+				t_result.text = ''+Result+' цифр из 10';
+				t_nB.text =  '  '+NumberBlokcs;
 			}
 			
 		}		
@@ -1962,8 +1962,8 @@ public function test_continius(e:Event):void
 					 Record_NumberBlokcs = NumberBlokcs;  
 				  }				  
 			  }	
-			  t_record_result.text =  '  ' + Record_Result;
-			  t_record_numberBlokcs.text =  '  ' + Record_NumberBlokcs
+			  t_record_result.text =  ''+Record_Result+' цифр из 10';
+			  t_record_numberBlokcs.text =  '  '+Record_NumberBlokcs;
 		}
 		//====================================================
 		public function one_Break_lamp ( e:Event):void // функция удаления одной лампы
