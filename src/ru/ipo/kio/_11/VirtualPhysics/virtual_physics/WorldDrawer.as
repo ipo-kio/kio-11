@@ -33,6 +33,12 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 				var bitmapAsset:mx.core.BitmapAsset = new MyEmbed_02();
 				return bitmapAsset.bitmapData;
 			}
+		[Embed(source="../images/Background.jpg")]
+		public var MyEmbed_background:Class;
+			private function getBitmapData_background():flash.display.BitmapData {
+				var bitmapAsset:mx.core.BitmapAsset = new MyEmbed_background();
+				return bitmapAsset.bitmapData;
+			}
 		//Метод отрисовки объекта
 		public function drawObject(x:Number, y:Number, type:Number):void {
 			var g:Graphics = this.graphics;
@@ -43,7 +49,8 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 				case 1:
 					g.beginBitmapFill( getBitmapData_02());
 				break;
-			}			
+			}
+			//g.drawRect(x, y, x+5, y+5);
 			g.drawCircle(x, y, WorldConstants.ObjectRadius);
 			g.endFill();
 		}
@@ -51,8 +58,8 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 		public function drawGrid():void {
 			var g:Graphics = this.graphics;
 			g.clear();
-			g.beginFill(0xFF0000);
-			g.lineStyle(1, 0x000000);			
+			g.lineStyle(1, 0x000000);		
+			g.beginBitmapFill(getBitmapData_background());
 			//рисуем горизонтальные линии
 			var hstep:Number = width / WorldConstants.HorizontalSize;
 			for (i = 0; i <= width ; i += hstep) {
@@ -67,7 +74,8 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 			}			
 			g.moveTo(width / 2, 0);
 			g.lineStyle(3, 0x000000);
-			g.lineTo(width / 2, height);
+			g.lineTo(width / 2, height);			
+			g.drawRect(getRect(this).x, getRect(this).y, width, height) //прямоугольник, куда врисовывается картинка
 			g.endFill();
 		}
 		//метод добавления шариков в ручном режиме
