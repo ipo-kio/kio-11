@@ -48,7 +48,7 @@ public class ContestPanel extends Sprite {
         var saveButton:SimpleButton = placeButton(loc.buttons.save);
         //TODO clear button
 
-        __y0 += 50;
+        __y0 = 564;
 
         var backButton:SimpleButton = placeButton(loc.buttons.back);
 
@@ -69,7 +69,7 @@ public class ContestPanel extends Sprite {
 
     private function placeButton(caption:String):SimpleButton {
         var b:SimpleButton = new ShellButton(caption);
-        b.x = Math.floor((GlobalMetrics.CONTEST_PANEL_WIDTH - b.width) / 2);
+        b.x = Math.floor((GlobalMetrics.CONTEST_PANEL_WIDTH - b.width) / 2) + 2;
         b.y = __y0;
         __y0 += b.height + 4;
         addChild(b);
@@ -81,7 +81,7 @@ public class ContestPanel extends Sprite {
         tf.width = GlobalMetrics.CONTEST_PANEL_WIDTH;
         tf.htmlText = "<p align='center'>" + text + "</p>";
 
-        tf.x = Math.floor((GlobalMetrics.CONTEST_PANEL_WIDTH - tf.width) / 2);
+        tf.x = Math.floor((GlobalMetrics.CONTEST_PANEL_WIDTH - tf.width) / 2) + 2;
         tf.y = __y0;
 
         __y0 += tf.height + 4;
