@@ -8,7 +8,6 @@
 package ru.ipo.kio.api {
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
-import flash.text.Font;
 import flash.text.StyleSheet;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
@@ -20,40 +19,59 @@ public class TextUtils {
     /*
      [Embed(source='../../../../../resources/fonts/ds_crystal.ttf', embedAsCFF = "false", fontName="DS Crystal", mimeType="application/x-font-truetype")]
      private static var DC_CRYSTAL_FONT:Class;
+
+     [Embed(source='../base/resources/fonts/ACADEMY.TTF', embedAsCFF = "false", fontName="Academy", mimeType="application/x-font-truetype")]
+     private static var ACADEMY_FONT:Class;
+
+     [Embed(source='../base/resources/fonts/PRESENT.TTF', embedAsCFF = "false", fontName="Presentum", mimeType="application/x-font-truetype")]
+     private static var PRESENTUM_FONT:Class;
+
+     [Embed(source='../base/resources/fonts/IRISN4.TTF', embedAsCFF = "false", fontName="Iris", mimeType="application/x-font-truetype")]
+     private static var IRIS_FONT:Class;
+
+     [Embed(systemFont="Arial", fontName="InputArial", embedAsCFF = "false", mimeType="application/x-font")]
+     private static var ARIAL_FONT:Class;
      */
-    [Embed(source='../base/resources/fonts/ACADEMY.TTF', embedAsCFF = "false", fontName="Academy", mimeType="application/x-font-truetype")]
-    private static var ACADEMY_FONT:Class;
 
-    [Embed(source='../base/resources/fonts/PRESENT.TTF', embedAsCFF = "false", fontName="Presentum", mimeType="application/x-font-truetype")]
-    private static var PRESENTUM_FONT:Class;
+    [Embed(
+            source='../base/resources/fonts/tahoma.ttf',
+            embedAsCFF = "false",
+            fontName="KioTahoma",
+            mimeType="application/x-font-truetype",
+            unicodeRange = "U+0000-U+FFFF"
+            )]
+    private static var TAHOMA_FONT:Class;
 
-    [Embed(source='../base/resources/fonts/IRISN4.TTF', embedAsCFF = "false", fontName="Iris", mimeType="application/x-font-truetype")]
-    private static var IRIS_FONT:Class;
-
-    [Embed(systemFont="Arial", fontName="InputArial", embedAsCFF = "false", mimeType="application/x-font")]
-    private static var ARIAL_FONT:Class;
+    [Embed(
+            source='../base/resources/fonts/tahomabd.ttf',
+            embedAsCFF = "false",
+            fontWeight = "bold",
+            fontName="KioTahoma",
+            mimeType="application/x-font-truetype",
+            unicodeRange = "U+0000-U+FFFF"
+            )]
+    private static var TAHOMA_BD_FONT:Class;
 
     public static const SMALL_TEXT_SIZE:int = 14;
     public static const NORMAL_TEXT_SIZE:int = 18;
     public static const LARGE_TEXT_SIZE:int = 24;
     public static const X_LARGE_TEXT_SIZE:int = 32;
 
-    public static const FONT_MESSAGES:String = "Academy";
-    public static const FONT_INPUT:String = "InputArial";
+    public static const FONT_MESSAGES:String = "KioTahoma";
+    public static const FONT_INPUT:String = "KioTahoma";
 
     public static const CSS:String =
-            " p , li {font-family: " + FONT_MESSAGES + "; font-size: 20; color:#ffffff;} " +
-                    ".h1 { color:#ee82ee; font-size: 32; } " +
-                    ".h15 { color:#ee82ee; font-size: 24; } " +
-                    ".h2 { color:#0082ee; font-size: 20; } " +
-                    ".footnote {font-size: 14} " +
-                    ".warning {color:#ffaa44; font-size: smaller} " +
+            " p , li {font-family: " + FONT_MESSAGES + "; font-size: 14; color:#000000;} " +
+                    ".h1 { color:#000000; font-size: 16; font-weight:bold;} " +
+                    ".h2 { color:#000000; font-size: 14; font-weight:bold;} " +
+                    ".footnote {font-size: 14; font-weight:600;} " +
+                    ".warning {color:#00000; font-weight:bold; font-size: smaller} " +
                     ".c {textAlign: center;}";
 
     private static function prepareTextField(text:String, x0:int, y0:int, size:int, align:String, color:uint, alpha:Number):TextField {
         var tf:TextField = new TextField;
         tf.text = text;
-        tf.setTextFormat(new TextFormat('Academy', size));
+        tf.setTextFormat(new TextFormat(FONT_MESSAGES, size));
         tf.x = x0;
         tf.y = y0;
         tf.textColor = color;
@@ -120,16 +138,11 @@ public class TextUtils {
         tf.embedFonts = true;
         tf.autoSize = TextFieldAutoSize.LEFT;
         /*tf.styleSheet = new StyleSheet();
-        fontName = "Arial";
-        tf.styleSheet.parseCSS("p {font-family: " + fontName + "; font-size: " + fontSize +";}");*/
+         fontName = "Arial";
+         tf.styleSheet.parseCSS("p {font-family: " + fontName + "; font-size: " + fontSize +";}");*/
         tf.defaultTextFormat = new TextFormat(fontName, fontSize);
         tf.selectable = false;
         return tf;
-    }
-
-    public static function setTextForTextField(tf:TextField, text:String, fontName:String, fontSize:int):void {
-        tf.text = text;
-        tf.setTextFormat(new TextFormat(fontName, fontSize));
     }
 
 }

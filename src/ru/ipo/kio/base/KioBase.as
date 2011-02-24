@@ -55,9 +55,9 @@ public class KioBase {
 
         //test this is the first start
 
-        if (_lsoProxy.getGlobalData().notFirstTime)
+        /*if (_lsoProxy.getGlobalData().notFirstTime)
             currentDisplay = new ProblemsDisplay;
-        else
+        else*/
             currentDisplay = new WelcomeDisplay;
     }
 
@@ -133,7 +133,8 @@ public class KioBase {
     }
 
     public function complainLSO():void {
-        stage.addChild(spaceSettings);
+        if (!stage.contains(spaceSettings))
+            stage.addChild(spaceSettings);
     }
 
     public function setProblem(pind:int):void {

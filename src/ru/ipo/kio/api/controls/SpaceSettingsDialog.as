@@ -92,7 +92,7 @@ public class SpaceSettingsDialog extends Sprite {
         openSettingButton.y = HEIGHT - BORDER_SIZE - openSettingButton.height;
         centerPanel.addChild(openSettingButton);
         openSettingButton.addEventListener(MouseEvent.CLICK, openSettingButtonClicked);
-        stage.focus = openSettingButton;
+        stage.focus = this;//openSettingButton;
         //todo make it modal
 
         var closeButton:TextButton = new TextButton("Закрыть");

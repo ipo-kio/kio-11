@@ -25,6 +25,11 @@ ru.ipo.kio.base{
         public static const V_PADDING:int = 20;
         public static const H_PADDING:int = 20;
 
+        public static const DISPLAYS_TEXT_WIDTH:int = 350;
+        public static const DISPLAYS_TEXT_TOP:int = 150;
+        public static const ANKETA_LEFT:int = 50;
+        public static const ANKETA_BLOCK_SKIP:int = 30;
+
 	}
 
 }

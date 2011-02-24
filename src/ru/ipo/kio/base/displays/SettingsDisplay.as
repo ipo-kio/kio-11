@@ -7,6 +7,7 @@
  */
 package ru.ipo.kio.base.displays {
 import flash.display.DisplayObject;
+import flash.display.SimpleButton;
 import flash.display.Sprite;
 
 import flash.events.Event;
@@ -18,7 +19,6 @@ import flash.text.TextField;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.LsoProxy;
 import ru.ipo.kio.api.TextUtils;
-import ru.ipo.kio.api.controls.TextButton;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
 import ru.ipo.kio.base.resources.Resources;
@@ -32,39 +32,47 @@ public class SettingsDisplay extends Sprite {
 
         var message:TextField = TextUtils.createCustomTextField();
         message.htmlText = loc.settings.mainMessage;
-        message.width = GlobalMetrics.STAGE_WIDTH - 2 * GlobalMetrics.H_PADDING;
-        message.x = GlobalMetrics.H_PADDING;
-        message.y = GlobalMetrics.V_PADDING;
+        message.width = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
+        message.x = (GlobalMetrics.STAGE_WIDTH - GlobalMetrics.DISPLAYS_TEXT_WIDTH) / 2;
+        message.y = GlobalMetrics.DISPLAYS_TEXT_TOP;
 
         addChild(message);
 
-        var img:* = new Resources.SETTINGS_HELPER_RU;
-        img.x = GlobalMetrics.H_PADDING;
-        img.y = message.y + message.height + 6;
+        //settings sprite with image and button
 
-        addChild(img);
+        var settings_sprite:Sprite = new Sprite;
+
+        var img:* = new Resources.SETTINGS_HELPER_RU;
+        settings_sprite.addChild(img);
+
+        var setupButton:SimpleButton = new ShellButton(loc.settings.configure_button);
+        setupButton.x = Math.floor(img.x + img.width + 32);
+        setupButton.y = Math.floor(img.y + (img.height - setupButton.height) / 2);
+        setupButton.addEventListener(MouseEvent.CLICK, setupClicked);
+
+        settings_sprite.addChild(setupButton);
+
+        settings_sprite.x = Math.floor((GlobalMetrics.STAGE_WIDTH - settings_sprite.width) / 2);
+        settings_sprite.y = Math.floor(message.y + message.textHeight + 10);
+        addChild(settings_sprite);
+
+        //message continuation
 
         var messageContinuation:TextField = TextUtils.createCustomTextField();
         messageContinuation.htmlText = loc.settings.mainMessageContinuation;
-        messageContinuation.width = GlobalMetrics.STAGE_WIDTH - 2 * GlobalMetrics.H_PADDING;
-        messageContinuation.x = GlobalMetrics.H_PADDING;
-        messageContinuation.y = img.y + img.height;
+        messageContinuation.width = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
+        messageContinuation.x = (GlobalMetrics.STAGE_WIDTH - GlobalMetrics.DISPLAYS_TEXT_WIDTH) / 2;
+        messageContinuation.y = settings_sprite.y + settings_sprite.height + 10;
 
         addChild(messageContinuation);
 
-        var setupButton:TextButton = new TextButton(loc.settings.configure_button, 100);
-        setupButton.x = img.x + img.width + 32;
-        setupButton.y = img.y + (img.height - setupButton.height) / 2;
-        setupButton.addEventListener(MouseEvent.CLICK, setupClicked);
-
-        addChild(setupButton);
-
-        var continueButton:TextButton = new TextButton(loc.buttons.continue_, 200, 100);
+        var continueButton:SimpleButton = new ShellButton(loc.buttons.continue_);
         continueButton.x = GlobalMetrics.STAGE_WIDTH - continueButton.width - GlobalMetrics.H_PADDING;
         continueButton.y = GlobalMetrics.STAGE_HEIGHT - continueButton.height - GlobalMetrics.V_PADDING;
-        continueButton.addEventListener(MouseEvent.CLICK, continueButtonClicked);
 
         addChild(continueButton);
+
+        continueButton.addEventListener(MouseEvent.CLICK, continueButtonClicked);
     }
 
     private function continueButtonClicked(event:Event):void {

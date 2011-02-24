@@ -15,16 +15,16 @@ public class InputBlock extends Sprite {
 
     private var _inputs:Array;
 
-    public function InputBlock(caption:String, labels:Array, filters:Array, ids:Array, labelWidth:int, inputWidth:int, inputLinesHeight:Array = null) {
+    public function InputBlock(caption:String, labels:Array, filters:Array, ids:Array, captionWidth:int, labelWidth:int, inputWidth:int, inputLinesHeight:Array = null) {
         var captionTF:TextField = TextUtils.createCustomTextField();
-        captionTF.wordWrap = false;
-        captionTF.multiline = false;
+        captionTF.width = captionWidth;
         addChild(captionTF);
         captionTF.htmlText = "<p class='h2'>" + caption + "</p>";
 
         _inputs = [];
 
-        var y0:int = captionTF.textHeight + 4;
+        //var y0:int = captionTF.textHeight + 4;
+        var y0:int = 0;
 
         for (var i:int = 0; i < labels.length; i++) {
             var lines:int = 1;
@@ -41,10 +41,10 @@ public class InputBlock extends Sprite {
 
             _inputs.push(inp);
 
-            label.x = 0;
+            label.x = captionWidth;
             label.y = y0;
 
-            inp.x = labelWidth + 10;
+            inp.x = captionWidth + labelWidth + 10;
             inp.y = y0;
 
             inp.filter = filters[i];

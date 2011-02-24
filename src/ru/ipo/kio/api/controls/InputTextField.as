@@ -63,11 +63,12 @@ public class InputTextField extends Sprite {
             tf.multiline = true;
         }
 
-        var ba:BitmapAsset = new Resources.INPUT_BG;
+        /*var ba:BitmapAsset = new Resources.INPUT_BG;
         var b:BitmapData = ba.bitmapData;
         //b.copyPixels(b, new Rectangle(0, 0, Math.min(width, b.width), fontSize + 3 + 2 * V_PADDING), new Point(0, 0));
 
-        graphics.beginBitmapFill(b);
+        graphics.beginBitmapFill(b);*/
+        graphics.beginFill(0xFFFFFF);
         graphics.drawRect(0, 0, width, lines * effectiveFontSize + 2 * V_PADDING);
         graphics.endFill();
 

@@ -6,6 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio.base.displays {
+import flash.display.SimpleButton;
 import flash.display.Sprite;
 
 import flash.events.Event;
@@ -37,31 +38,31 @@ public class WelcomeDisplay extends Sprite {
 
         var mainMessage:TextField = TextUtils.createCustomTextField();
         mainMessage.htmlText = '<html>' + loc.welcome.mainMessage + '</html>';
-        mainMessage.width = GlobalMetrics.STAGE_WIDTH - 2 * GlobalMetrics.H_PADDING;
-        mainMessage.x = GlobalMetrics.H_PADDING;
-        mainMessage.y = GlobalMetrics.V_PADDING;
+        mainMessage.width = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
+        mainMessage.x = (GlobalMetrics.STAGE_WIDTH - GlobalMetrics.DISPLAYS_TEXT_WIDTH) / 2;
+        mainMessage.y = GlobalMetrics.DISPLAYS_TEXT_TOP;
 
         addChild(mainMessage);
 
-        var loadWorkspaceButton:TextButton = new TextButton(loc.buttons.loadWorkspace);
-        loadWorkspaceButton.x = GlobalMetrics.H_PADDING;
-        loadWorkspaceButton.y = GlobalMetrics.STAGE_HEIGHT - loadWorkspaceButton.height - GlobalMetrics.V_PADDING;
+        var loadWorkspaceMessage:TextField = TextUtils.createCustomTextField();
+        loadWorkspaceMessage.htmlText = '<p class="footnote"><i>' + loc.welcome.loadWorkspace + '</i></p>';
+        loadWorkspaceMessage.width = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
+        loadWorkspaceMessage.x = (GlobalMetrics.STAGE_WIDTH - GlobalMetrics.DISPLAYS_TEXT_WIDTH) / 2;
+        loadWorkspaceMessage.y = mainMessage.y + mainMessage.textHeight + 50;
+
+        addChild(loadWorkspaceMessage);
+
+        var loadWorkspaceButton:SimpleButton = new ShellButton(loc.buttons.loadWorkspace);
+        loadWorkspaceButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - loadWorkspaceButton.width) / 2);
+        loadWorkspaceButton.y = Math.floor(loadWorkspaceMessage.y + loadWorkspaceMessage.textHeight + 20);
 
         addChild(loadWorkspaceButton);
 
-        var continueButton:TextButton = new TextButton(loc.buttons.continue_, 200, 100);
+        var continueButton:SimpleButton = new ShellButton(loc.buttons.continue_);
         continueButton.x = GlobalMetrics.STAGE_WIDTH - continueButton.width - GlobalMetrics.H_PADDING;
         continueButton.y = GlobalMetrics.STAGE_HEIGHT - continueButton.height - GlobalMetrics.V_PADDING;
 
         addChild(continueButton);
-
-        var loadWorkspaceMessage:TextField = TextUtils.createCustomTextField();
-        loadWorkspaceMessage.htmlText = '<p class="footnote"><i>' + loc.welcome.loadWorkspace + '</i></p';
-        loadWorkspaceMessage.width = 3 * loadWorkspaceButton.width;
-        loadWorkspaceMessage.x = GlobalMetrics.H_PADDING;
-        loadWorkspaceMessage.y = loadWorkspaceButton.y - loadWorkspaceMessage.height - 6;
-
-        addChild(loadWorkspaceMessage);
 
         loadWorkspaceButton.addEventListener(MouseEvent.CLICK, loadWorkspaceButtonClicked);
         continueButton.addEventListener(MouseEvent.CLICK, continueButtonClicked);

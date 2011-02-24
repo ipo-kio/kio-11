@@ -6,6 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio.base.displays {
+import flash.display.SimpleButton;
 import flash.display.Sprite;
 
 import flash.events.Event;
@@ -17,7 +18,6 @@ import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.InputBlock;
 import ru.ipo.kio.api.controls.InputTextField;
-import ru.ipo.kio.api.controls.TextButton;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
 import ru.ipo.kio.base.resources.Resources;
@@ -25,7 +25,7 @@ import ru.ipo.kio.base.resources.Resources;
 public class AnketaDisplay extends Sprite {
 
     private var inputTextFields:Array;
-    private var continueButton:TextButton;
+    private var continueButton:SimpleButton;
 
     public function AnketaDisplay() {
         addChild(new Resources.BG_IMAGE);
@@ -40,26 +40,21 @@ public class AnketaDisplay extends Sprite {
 
         var header:TextField = TextUtils.createCustomTextField();
         header.htmlText = '<p class="h1">' + loc.form.header + '</p>';
-        header.width = GlobalMetrics.STAGE_WIDTH - 2 * GlobalMetrics.H_PADDING;
-        header.x = GlobalMetrics.H_PADDING;
-        header.y = GlobalMetrics.V_PADDING;
+        header.width = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
+        header.x = (GlobalMetrics.STAGE_WIDTH - GlobalMetrics.DISPLAYS_TEXT_WIDTH) / 2;
+        header.y = GlobalMetrics.DISPLAYS_TEXT_TOP;
 
         addChild(header);
 
-        continueButton = new TextButton(loc.buttons.continue_, 200, 100);
+        continueButton = new ShellButton(loc.buttons.continue_);
         continueButton.x = GlobalMetrics.STAGE_WIDTH - continueButton.width - GlobalMetrics.H_PADDING;
         continueButton.y = GlobalMetrics.STAGE_HEIGHT - continueButton.height - GlobalMetrics.V_PADDING;
+        addChild(continueButton);
         continueButton.addEventListener(MouseEvent.CLICK, continueButtonClicked);
 
-        addChild(continueButton);
-
-        /*var placeHolder:TextField = TextUtils.createCustomTextField();
-         placeHolder.htmlText = '<p class="warning">' + 'Анкета пока не оформлена. Жмите "продолжить".' + '</p>';
-         placeHolder.width = GlobalMetrics.STAGE_WIDTH - 2 * GlobalMetrics.H_PADDING;
-         placeHolder.x = GlobalMetrics.H_PADDING;
-         placeHolder.y = header.y + header.height + 32;
-
-         addChild(placeHolder);*/
+        var captionWidth:int = 150;
+        var labelWidth:int = 100;
+        var inputWidth:int = 300;
 
         var fio:InputBlock = new InputBlock(
                 loc.form.participant_name,
@@ -74,12 +69,13 @@ public class AnketaDisplay extends Sprite {
                     must_be_filled
                 ],
                 ['surname', 'name', 'second_name'],
-                100,
-                300
+                captionWidth,
+                labelWidth,
+                inputWidth
                 );
 
-        fio.x = GlobalMetrics.H_PADDING;
-        fio.y = 80;
+        fio.x = GlobalMetrics.ANKETA_LEFT;
+        fio.y = header.y + header.textHeight + GlobalMetrics.ANKETA_BLOCK_SKIP;
         addChild(fio);
 
         for (var bi:int = 0; bi < 3; bi++)
@@ -95,19 +91,20 @@ public class AnketaDisplay extends Sprite {
                     must_be_filled
                 ],
                 ['email'],
-                100,
-                300
+                captionWidth,
+                labelWidth,
+                inputWidth
                 );
 
-        connection.x = GlobalMetrics.H_PADDING;
-        connection.y = fio.y + fio.height;
+        connection.x = GlobalMetrics.ANKETA_LEFT;
+        connection.y = fio.y + fio.height + GlobalMetrics.ANKETA_BLOCK_SKIP;;
         addChild(connection);
 
         var school:InputBlock = new InputBlock(
                 loc.form.institution,
                 [
                     loc.form.institution_name,
-                    loc.form.zip,
+                    loc.form.grade,
                     loc.form.address
                     /*"Город",
                      "Улица",
@@ -119,14 +116,15 @@ public class AnketaDisplay extends Sprite {
                     must_be_filled,
                     must_be_filled
                 ],
-                ['inst_name', 'zip', 'address'],
-                100,
-                300,
+                ['inst_name', 'grade', 'address'],
+                captionWidth,
+                labelWidth,
+                inputWidth,
                 [1, 1, 3]
                 );
 
-        school.x = GlobalMetrics.H_PADDING;
-        school.y = connection.y + connection.height;
+        school.x = GlobalMetrics.ANKETA_LEFT;
+        school.y = connection.y + connection.height + GlobalMetrics.ANKETA_BLOCK_SKIP;
         addChild(school);
 
         inputTextFields = [];
@@ -147,8 +145,10 @@ public class AnketaDisplay extends Sprite {
     private function valueChanged(event:Event):void {
         var i:InputTextField = InputTextField(event.currentTarget);
         var anketa:Object = KioBase.instance.lsoProxy.getAnketa();
-        if (!i.error)
+        if (!i.error) {
             anketa[i.id] = i.text;
+            KioBase.instance.lsoProxy.flush();
+        }
         setEnabledForContinueButton();
     }
 

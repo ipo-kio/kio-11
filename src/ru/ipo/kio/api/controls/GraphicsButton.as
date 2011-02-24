@@ -29,17 +29,17 @@ public class GraphicsButton extends SimpleButton {
      * @param up_size font size in normal and mouse over states
      * @param down_size font size in down state
      */
-    public function GraphicsButton(title:String, up:BitmapData, over:BitmapData, down:BitmapData, fontName:String, up_size:int, down_size:int) {
-        var up_sprite:Sprite = createSprite(title, up, fontName, up_size);
+    public function GraphicsButton(title:String, up:BitmapData, over:BitmapData, down:BitmapData, fontName:String, up_size:int, down_size:int, move_text:Boolean = false) {
+        var up_sprite:Sprite = createSprite(title, up, fontName, up_size, move_text ? -1 : 0, move_text ? -1 : 0);
         super(
                 up_sprite,
-                createSprite(title, over, fontName, up_size),
+                createSprite(title, over, fontName, up_size, move_text ? -1 : 0, move_text ? -1 : 0),
                 createSprite(title, down, fontName, down_size),
                 up_sprite
                 );
     }
 
-    private function createSprite(title:String, bmp:BitmapData, fontName:String, size:int):Sprite {
+    private function createSprite(title:String, bmp:BitmapData, fontName:String, size:int, dx:int = 0, dy:int = 0):Sprite {
         var sprite:Sprite = new Sprite;
 
         sprite.graphics.beginBitmapFill(bmp);
@@ -50,8 +50,8 @@ public class GraphicsButton extends SimpleButton {
 //        TextUtils.setTextForTextField(textField, title, fontName, size);
         //textField.htmlText = "<p>" + title + "</p>";
         textField.text = title;
-        textField.x = (bmp.width - textField.width) / 2;
-        textField.y = (bmp.height - textField.height) / 2;
+        textField.x = dx + (bmp.width - textField.width) / 2;
+        textField.y = dy + (bmp.height - textField.height) / 2;
         sprite.addChild(textField);
 
         return sprite;
