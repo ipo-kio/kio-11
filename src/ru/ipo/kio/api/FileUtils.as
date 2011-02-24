@@ -71,12 +71,13 @@ public class FileUtils {
             fr.addEventListener(Event.COMPLETE, function(e:Event):void {
                 var data:ByteArray = fr.data;
                 var solUTF:String = data.readUTFBytes(data.length);
-                try {
+//                try {
                     var allData:* = JSON.decode(solUTF);
                     KioBase.instance.loadAllData(allData);
-                } catch (error:Error) {
+                /*} catch (error:Error) {
                     //TODO show error message
-                }
+                    trace('failed to load all data');
+                }*/
             });
             fr.load();
         });

@@ -15,7 +15,6 @@ public class KioApi {
     private static var locs:Dictionary = new Dictionary();
 
     private var lso : LsoProxy;
-    private var problemData : Object;
 
     /**
      * Конструктор, вызывать не следует
@@ -24,7 +23,6 @@ public class KioApi {
     public function KioApi(problem:KioProblem) {
         this._problem = problem;
         lso = LsoProxy.getInstance(problem.level, problem.year);
-        problemData = lso.getProblemData(problem.id);
     }
 
     /**
@@ -112,6 +110,10 @@ public class KioApi {
      */
     public function get problem():KioProblem {
         return _problem;
+    }
+
+    private function get problemData():Object {
+        return lso.getProblemData(problem.id);
     }
 }
 }

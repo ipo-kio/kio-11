@@ -27,7 +27,7 @@ public class SemiramidaProblem implements KioProblem {
         sp = new Workspace;
 
         api = KioApi.instance(ID);
-        _recordCheck = check(api.bestSolution);
+        /*_recordCheck = check(api.bestSolution);*/
     }
 
     public function get id():String {

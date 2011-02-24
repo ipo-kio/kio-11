@@ -196,8 +196,25 @@ public class Workspace extends Sprite {
         _house.switchWaterTimer();
 //        });
 //        addChild(switchTimer);
+
+//        addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+//        addEventListener(Event.REMOVED_FROM_STAGE, removedFromStage);
     }
 
+    /*private function addedToStage(event:Event):void {
+        stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpOnWorkspace);
+    }
+
+    private function removedFromStage(event:Event):void {
+        stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpOnWorkspace);
+    }
+
+    private function mouseUpOnWorkspace(event:Event):void {
+        var api:KioApi = KioApi.instance(SemiramidaProblem.ID);
+        SemiramidaProblem(api.problem).submitSolution(house.roomsCount, house.pipesLength);
+
+        api.autoSaveSolution();
+    }*/
 
     public function get house():House {
         return _house;

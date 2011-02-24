@@ -78,6 +78,12 @@ public class KioBase {
         return _currentProblem;
     }
 
+    /*private function copyObjectTo(o1:Object, o2:Object):void {
+        for (var key:String in o1) {
+            o2[key] = o1[key];
+        }
+    }*/
+
     public function set currentProblem(problem:KioProblem):void {
         _currentProblem = problem;
 
@@ -102,7 +108,12 @@ public class KioBase {
         //load autosave solution
         var problemData:Object = _lsoProxy.getProblemData(problem.id);
 
+        var best:Object = problemData.best;
         var autoSave:Object = problemData.autoSave;
+
+        if (best)
+            problem.loadSolution(best);
+
         if (autoSave)
             problem.loadSolution(autoSave);
     }
@@ -133,6 +144,8 @@ public class KioBase {
         if (!spaceSettings) {
             spaceSettings = new SpaceSettingsDialog;
             stage.addChild(spaceSettings);
+        } else {
+            stage.setChildIndex(spaceSettings, stage.numChildren - 1);
         }
     }
 
@@ -151,7 +164,21 @@ public class KioBase {
     }
 
     public function loadAllData(data:*):void {
-        KioBase.instance.lsoProxy.data = data;
+        var lso:LsoProxy = KioBase.instance.lsoProxy;
+//        copyObjectTo(data, lso.data);
+        lso.data = data;
+
+        for (var i:int = 0; i < problems.length; i++) {
+            var best:Object = lso.getProblemData(problems[i].id).best;
+            var autoSave:Object = lso.getProblemData(problems[i].id).autoSave;
+
+            if (best)
+                problems[i].loadSolution(best);
+
+            if (autoSave)
+                problems[i].loadSolution(autoSave);
+        }
+
         if (_currentProblem)
             currentProblem = _currentProblem;
         else

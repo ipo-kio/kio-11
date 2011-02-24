@@ -11,6 +11,7 @@ import flash.events.Event;
 
 import ru.ipo.kio._11.digit.DigitProblem;
 import ru.ipo.kio._11.semiramida.SemiramidaProblem;
+import ru.ipo.kio.api.LsoProxy;
 import ru.ipo.kio.api_example.Pr1;
 import ru.ipo.kio.base.*;
 
@@ -25,6 +26,8 @@ public class KioShell1 extends Sprite {
 
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
+
+        LsoProxy.getInstance(1, 2011).cleanup();
 
         KioBase.instance.init(this,
                 [

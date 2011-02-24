@@ -27,7 +27,7 @@ public class DigitProblem implements KioProblem {
 
         sp = new Workspace;
 
-        api = KioApi.instance(ID);
+        /*api = KioApi.instance(ID);
         if (api.bestSolution)
             _recordCheck = api.bestSolution.record;
         else
@@ -38,7 +38,7 @@ public class DigitProblem implements KioProblem {
 
         sp.updateResultsInfo(true, _recordCheck.recognized, _recordCheck.elements);
 
-        updateSolutionInfo();
+        updateSolutionInfo();*/
     }
 
     private function updateSolutionInfo():void {

@@ -135,5 +135,12 @@ public class LsoProxy {
     public function hasAnketa():Boolean {
         return getGlobalData().anketa;
     }
+
+    //used for debugging
+    public function cleanup():void {
+        for (var key:String in data)
+            _data[key] = null;
+        flush();
+    }
 }
 }

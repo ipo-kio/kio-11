@@ -87,29 +87,29 @@ public class ProblemsDisplay extends Sprite {
         }
 
         var formButton:SimpleButton = new ShellButton(loc.screen.problems.fill_form, true);
-        var loadButton:SimpleButton = new ShellButton(loc.buttons.load_workspace, true);
         var saveButton:SimpleButton = new ShellButton(loc.buttons.save_workspace, true);
+        var aboutButton:SimpleButton = new ShellButton(loc.buttons.load_workspace, true);
 
         formButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - formButton.width) / 2);
-        loadButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - loadButton.width) / 2);
         saveButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - saveButton.width) / 2);
+        aboutButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - aboutButton.width) / 2);
         formButton.y = 440;
-        loadButton.y = 505;
-        saveButton.y = 540;
+        saveButton.y = 505;
+        aboutButton.y = 540;
 
         addChild(formButton);
-        addChild(loadButton);
+        addChild(aboutButton);
         addChild(saveButton);
 
         formButton.addEventListener(MouseEvent.CLICK, formButtonClick);
-        loadButton.addEventListener(MouseEvent.CLICK, loadButtonClick);
         saveButton.addEventListener(MouseEvent.CLICK, saveButtonClick);
+        aboutButton.addEventListener(MouseEvent.CLICK, aboutButtonClick);
 
-        var aboutButton:SimpleButton = new ShellButton(loc.screen.problems.about);
+        /*var aboutButton:SimpleButton = new ShellButton(loc.screen.problems.about);
         aboutButton.x = GlobalMetrics.H_PADDING;
         aboutButton.y = GlobalMetrics.STAGE_HEIGHT - GlobalMetrics.H_PADDING - aboutButton.height;
         addChild(aboutButton);
-        aboutButton.addEventListener(MouseEvent.CLICK, aboutButtonClick);
+        aboutButton.addEventListener(MouseEvent.CLICK, aboutButtonClick);*/
     }
 
     private function saveButtonClick(event:Event):void {

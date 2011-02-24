@@ -11,6 +11,7 @@ import ru.ipo.kio.api.TextUtils;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.FileUtils;
+import ru.ipo.kio.base.displays.HelpDisplay;
 import ru.ipo.kio.base.displays.ProblemsDisplay;
 import ru.ipo.kio.base.displays.ShellButton;
 
@@ -75,6 +76,14 @@ public class ContestPanel extends Sprite {
 
         saveAllDataButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
             FileUtils.saveAll();
+        });
+
+        helpButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
+            KioBase.instance.currentDisplay = new HelpDisplay(KioBase.instance.currentProblem, false);
+        });
+
+        statementButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
+            KioBase.instance.currentDisplay = new HelpDisplay(KioBase.instance.currentProblem, true);
         });
     }
 
