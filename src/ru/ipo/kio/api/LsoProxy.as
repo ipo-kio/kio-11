@@ -111,5 +111,9 @@ public class LsoProxy {
             _data[key] = data[key];
         flush();
     }
+
+    public function hasAnketa():Boolean {
+        return getGlobalData().anketa;
+    }
 }
 }

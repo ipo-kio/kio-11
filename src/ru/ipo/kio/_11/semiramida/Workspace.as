@@ -13,49 +13,49 @@ public class Workspace extends Sprite {
     private var currentResults:ResultsPanel;
     private var recordResults:ResultsPanel;
 
-    [Embed(source='resouces/BOSANO_7.TTF', embedAsCFF = "false", fontName="KioBosano", mimeType="application/x-font-truetype", unicodeRange = "U+0000-U+FFFF")]
+    [Embed(source='resources/BOSANO_7.TTF', embedAsCFF = "false", fontName="KioBosano", mimeType="application/x-font-truetype", unicodeRange = "U+0000-U+FFFF")]
     private static const GARDEN_FONT:Class;
 
-    [Embed(source='resouces/buttons/top1.png')]
+    [Embed(source='resources/buttons/top1.png')]
     private static const BT_TOP_1:Class;
-    [Embed(source='resouces/buttons/top2.png')]
+    [Embed(source='resources/buttons/top2.png')]
     private static const BT_TOP_2:Class;
-    [Embed(source='resouces/buttons/top3.png')]
+    [Embed(source='resources/buttons/top3.png')]
     private static const BT_TOP_3:Class;
 
-    [Embed(source='resouces/buttons/bottom1.png')]
+    [Embed(source='resources/buttons/bottom1.png')]
     private static const BT_BOTTOM_1:Class;
-    [Embed(source='resouces/buttons/bottom2.png')]
+    [Embed(source='resources/buttons/bottom2.png')]
     private static const BT_BOTTOM_2:Class;
-    [Embed(source='resouces/buttons/bottom3.png')]
+    [Embed(source='resources/buttons/bottom3.png')]
     private static const BT_BOTTOM_3:Class;
 
-    [Embed(source='resouces/buttons/up1.png')]
+    [Embed(source='resources/buttons/up1.png')]
     private static const BT_UP_1:Class;
-    [Embed(source='resouces/buttons/up2.png')]
+    [Embed(source='resources/buttons/up2.png')]
     private static const BT_UP_2:Class;
-    [Embed(source='resouces/buttons/up3.png')]
+    [Embed(source='resources/buttons/up3.png')]
     private static const BT_UP_3:Class;
 
-    [Embed(source='resouces/buttons/down1.png')]
+    [Embed(source='resources/buttons/down1.png')]
     private static const BT_DOWN_1:Class;
-    [Embed(source='resouces/buttons/down2.png')]
+    [Embed(source='resources/buttons/down2.png')]
     private static const BT_DOWN_2:Class;
-    [Embed(source='resouces/buttons/down3.png')]
+    [Embed(source='resources/buttons/down3.png')]
     private static const BT_DOWN_3:Class;
 
-    [Embed(source='resouces/buttons/left1.png')]
+    [Embed(source='resources/buttons/left1.png')]
     private static const BT_LEFT_1:Class;
-    [Embed(source='resouces/buttons/left2.png')]
+    [Embed(source='resources/buttons/left2.png')]
     private static const BT_LEFT_2:Class;
-    [Embed(source='resouces/buttons/left3.png')]
+    [Embed(source='resources/buttons/left3.png')]
     private static const BT_LEFT_3:Class;
 
-    [Embed(source='resouces/buttons/right1.png')]
+    [Embed(source='resources/buttons/right1.png')]
     private static const BT_RIGHT_1:Class;
-    [Embed(source='resouces/buttons/right2.png')]
+    [Embed(source='resources/buttons/right2.png')]
     private static const BT_RIGHT_2:Class;
-    [Embed(source='resouces/buttons/right3.png')]
+    [Embed(source='resources/buttons/right3.png')]
     private static const BT_RIGHT_3:Class;
 
     public function Workspace() {

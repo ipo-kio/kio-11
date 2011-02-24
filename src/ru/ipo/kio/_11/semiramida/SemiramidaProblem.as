@@ -12,7 +12,7 @@ public class SemiramidaProblem implements KioProblem {
     private var _recordCheck:Object = null;
     private var api:KioApi;
 
-    [Embed(source="resouces/Semiramida.ru.json-settings",mimeType="application/octet-stream")]
+    [Embed(source="resources/Semiramida.ru.json-settings",mimeType="application/octet-stream")]
     public static var locTxt:Class;
 
     //private var spitter:SpitMem = new SpitMem;
@@ -103,7 +103,7 @@ public class SemiramidaProblem implements KioProblem {
         return _recordCheck;
     }
 
-    [Embed(source='resouces/icon.png')]
+    [Embed(source='resources/icon.jpg')]
     private const ICON:Class;
 
     public function get icon():Class {

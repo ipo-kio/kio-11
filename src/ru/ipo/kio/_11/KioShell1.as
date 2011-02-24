@@ -9,11 +9,8 @@ package ru.ipo.kio._11 {
 import flash.display.Sprite;
 import flash.events.Event;
 
-import ru.ipo.kio._11.CrossedCountry.Pr1;
 import ru.ipo.kio._11.digit.DigitProblem;
-import ru.ipo.kio._11.recognition.Pr1;
 import ru.ipo.kio._11.semiramida.SemiramidaProblem;
-import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api_example.Pr1;
 import ru.ipo.kio.base.*;
 
@@ -29,56 +26,17 @@ public class KioShell1 extends Sprite {
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-        KioApi.registerLocalization(
-				ru.ipo.kio.api_example.Pr1.ID, //идентификатор
-				{                              //объект локализации
-					text1 : "Hello World",
-					text2 : "text 2",
-					menu : {
-						file : "Файл",
-						exit : "Выйти"
-					}
-				}
-			);
-
-        KioApi.registerLocalization(
-				ru.ipo.kio._11.recognition.Pr1.ID, //идентификатор
-				{                              //объект локализации
-					text1 : "Hello World",
-					text2 : "text 2",
-					menu : {
-						file : "Файл",
-						exit : "Выйти"
-					}
-				}
-			);
-
-        KioApi.registerLocalization(
-				ru.ipo.kio._11.CrossedCountry.Pr1.ID, //идентификатор
-				{                              //объект локализации
-					text1 : "Hello World",
-					text2 : "text 2",
-					menu : {
-						file : "Файл",
-						exit : "Выйти"
-					}
-				}
-			);
-
         KioBase.instance.init(this,
                 [
                     //new ru.ipo.kio._11.CrossedCountry.Pr1()
-                    new ru.ipo.kio.api_example.Pr1(),
+                    new SemiramidaProblem(),
                     new DigitProblem(1),
-//                    new ru.ipo.kio.api_example.Pr1(),
-                    new SemiramidaProblem()
+                    new Pr1()
                 ],
                 2011,
                 2
         );
 
-        /*var spaceSettingsDialog:SpaceSettingsDialog = new SpaceSettingsDialog;
-        addChild(spaceSettingsDialog);*/
     }
 
 }

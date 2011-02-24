@@ -1,63 +1,93 @@
 package ru.ipo.kio.base {
-	
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import ru.ipo.kio.api.controls.TextButton;
+import flash.display.SimpleButton;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.MouseEvent;
 
-	import ru.ipo.kio.api.KioApi;
-	import ru.ipo.kio.api.FileUtils;
+import flash.text.TextField;
+
+import ru.ipo.kio.api.TextUtils;
+import ru.ipo.kio.api.controls.TextButton;
+
+import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.api.FileUtils;
 import ru.ipo.kio.base.displays.ProblemsDisplay;
+import ru.ipo.kio.base.displays.ShellButton;
 
 /**
-	 * ...
-	 * @author Ilya
-	 */
-	public class ContestPanel extends Sprite
-	{
-		
-		public function ContestPanel() 
-		{
-            //background not needed
-			/*graphics.beginFill(0xAABBCC);
-			graphics.lineStyle(1, 0x000000);
-			graphics.drawRect(0, 0, GlobalMetrics.CONTEST_PANEL_WIDTH - 1, GlobalMetrics.CONTEST_PANEL_HEIGHT - 1);
-			graphics.endFill();*/
+ * ...
+ * @author Ilya
+ */
+public class ContestPanel extends Sprite {
 
-            var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
-			
-			var loadButton : TextButton = new TextButton(loc.contest_panel.buttons.load);
-			var saveButton : TextButton = new TextButton(loc.contest_panel.buttons.save);
-            var backButton : TextButton = new TextButton(loc.contest_panel.buttons.back);
-			
-			loadButton.x = 10;
-			loadButton.y = 20;
-			
-			saveButton.x = 10;
-			saveButton.y = 50;
+    private var __y0:int; // y0 is the top position of current inserting element
 
-            backButton.x = 10;
-            backButton.y = 80;
+    public function ContestPanel() {
+        __y0 = 30;
 
-            addChild(loadButton);
-			addChild(saveButton);
-            addChild(backButton);
+        var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID).contest_panel;
 
-			loadButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
-				FileUtils.loadSolution(KioBase.instance.currentProblem);
+        placeText(loc.records_and_anketa_header);
+        var saveAllData:SimpleButton = placeButton(loc.buttons.save);
+
+        __y0 += 20;
+
+        placeText(loc.help_header);
+        var helpButton:SimpleButton = placeButton(loc.buttons.help);
+        var statementButton:SimpleButton = placeButton(loc.buttons.statement);
+
+        __y0 += 20;
+
+        placeText(loc.record_header);
+        var recordButton:SimpleButton = placeButton(loc.buttons.load);
+
+        __y0 += 20;
+
+        placeText(loc.current_solution_caption);
+        var loadButton:SimpleButton = placeButton(loc.buttons.load);
+        var saveButton:SimpleButton = placeButton(loc.buttons.save);
+        //TODO clear button
+
+        __y0 += 50;
+
+        var backButton:SimpleButton = placeButton(loc.buttons.back);
+
+        loadButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
+            FileUtils.loadSolution(KioBase.instance.currentProblem);
 //                KioBase.instance.lsoProxy.getGlobalData().push = 239;
 //                KioBase.instance.lsoProxy.flush();             0
-			});
+        });
 
-			saveButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
-				FileUtils.saveSolution(KioBase.instance.currentProblem);
-			});
+        saveButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
+            FileUtils.saveSolution(KioBase.instance.currentProblem);
+        });
 
-            backButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
-				KioBase.instance.currentDisplay = new ProblemsDisplay;
-			});
-		}
-		
-	}
+        backButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
+            KioBase.instance.currentDisplay = new ProblemsDisplay;
+        });
+    }
+
+    private function placeButton(caption:String):SimpleButton {
+        var b:SimpleButton = new ShellButton(caption);
+        b.x = Math.floor((GlobalMetrics.CONTEST_PANEL_WIDTH - b.width) / 2);
+        b.y = __y0;
+        __y0 += b.height + 4;
+        addChild(b);
+        return b;
+    }
+
+    private function placeText(text:String):void {
+        var tf:TextField = TextUtils.createTextFieldWithFont(TextUtils.FONT_MESSAGES, 13);
+        tf.width = GlobalMetrics.CONTEST_PANEL_WIDTH;
+        tf.htmlText = "<p align='center'>" + text + "</p>";
+
+        tf.x = Math.floor((GlobalMetrics.CONTEST_PANEL_WIDTH - tf.width) / 2);
+        tf.y = __y0;
+
+        __y0 += tf.height + 4;
+        addChild(tf);
+    }
+
+}
 
 }

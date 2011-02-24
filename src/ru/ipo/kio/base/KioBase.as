@@ -42,7 +42,7 @@ public class KioBase {
         KioApi.registerLocalization(KioBase.BASE_API_ID, new Settings(locTxt).data);
     }
 
-    public function init(stage:DisplayObjectContainer, problems:Array, year:int, level:int):void {
+    private function basicInitialization(level:int, year:int, stage:DisplayObjectContainer, problems:Array):void {
         _level = level;
         _lsoProxy = LsoProxy.getInstance(level, year);
 
@@ -52,20 +52,20 @@ public class KioBase {
         _problems_bg = new Resources.BG_PR_IMAGE;
         _problems_bg.visible = false;
         stage.addChild(_problems_bg);
+    }
+
+    public function init(stage:DisplayObjectContainer, problems:Array, year:int, level:int):void {
+        basicInitialization(level, year, stage, problems);
 
         //test this is the first start
-
-        /*if (_lsoProxy.getGlobalData().notFirstTime)
+        if (_lsoProxy.hasAnketa())
             currentDisplay = new ProblemsDisplay;
-        else*/
+        else
             currentDisplay = new WelcomeDisplay;
     }
 
     public function initOneProblem(stage:DisplayObjectContainer, problem:KioProblem):void {
-        this._lsoProxy = LsoProxy.getInstance(problem.level, problem.year);
-
-        this.stage = stage;
-        this.problems = [problem];
+        basicInitialization(problem.level, problem.year, stage, [problem]);
 
         currentProblem = problem;
     }
@@ -86,8 +86,7 @@ public class KioBase {
         if (workspace)
             stage.removeChild(workspace);
 
-        if (!
-                contestPanel) {
+        if (!contestPanel) {
             contestPanel = new ContestPanel;
             contestPanel.x = GlobalMetrics.CONTEST_PANEL_X;
             contestPanel.y = GlobalMetrics.CONTEST_PANEL_Y;
@@ -98,8 +97,8 @@ public class KioBase {
 
         //place problem view on the screen
         workspace = problem.display;
-        workspace.x = GlobalMetrics.WORKSPACE_X;
-        workspace.y = GlobalMetrics.WORKSPACE_Y;
+        workspace.x = GlobalMetrics.WORKSPACE_X + Math.floor((GlobalMetrics.WORKSPACE_WIDTH - workspace.width) / 2);
+        workspace.y = GlobalMetrics.WORKSPACE_Y + Math.floor((GlobalMetrics.WORKSPACE_HEIGHT - workspace.height) / 2);
         stage.addChild(workspace);
 
         //load autosave solution

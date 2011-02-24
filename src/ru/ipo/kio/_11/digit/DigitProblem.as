@@ -157,14 +157,11 @@ public class DigitProblem implements KioProblem {
         return _recordCheck;
     }
 
-    /*
-    [Embed(source='resouces/icon.png')]
+    [Embed(source='resources/icon.jpg')]
     private const ICON:Class;
-    */
 
     public function get icon():Class {
-        //TODO make normal ICON
-        //return ICON;
+        return ICON;
         return null;
     }
 }

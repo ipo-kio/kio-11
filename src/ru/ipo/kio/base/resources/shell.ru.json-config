@@ -1,5 +1,7 @@
 ﻿/*This file contains texts that are common to all problems and that are used in the Shell*/
 {
+    "contest_header":"Конкурс КИО 2011",
+    "contest_level":["уровень I", "уровень II"],
     "help":{ /*Common help text*/
 		"all_problems": <<< /*Such quotes <<< >>> mark the text, that spans multiple lines.
 		                    Multiline text is always treated as html, so you can use tags like <p> and <br>.
@@ -78,6 +80,7 @@
 			"name_restriction": "А-Я\-" /*Здесь можно писать диапазоны распознаваемых символов*/
         },
         "problems": {
+            "header": "Выберите задачу",
             "fill_form": "Заполнить анкету"
         },
         "problem": {

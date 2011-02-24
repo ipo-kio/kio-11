@@ -20,6 +20,8 @@ public class Pr1 implements KioProblem {
         //в первой строке конструктора задачи требуется вызвать инициализацию api:
         KioApi.initialize(this);
 
+        KioApi.registerLocalization(ID, {text1:"Hello World!"});
+
         //теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
         //В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
         sp = new MainSprite;

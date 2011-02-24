@@ -26,7 +26,7 @@ import ru.ipo.kio.base.resources.Resources;
 public class SettingsDisplay extends Sprite {
 
     public function SettingsDisplay() {
-        addChild(new Resources.BG_IMAGE);
+        DisplayUtils.placeBackground(this);
 
         var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID).screen;
 
@@ -66,11 +66,7 @@ public class SettingsDisplay extends Sprite {
 
         addChild(messageContinuation);
 
-        var continueButton:SimpleButton = new ShellButton(loc.buttons.continue_);
-        continueButton.x = GlobalMetrics.STAGE_WIDTH - continueButton.width - GlobalMetrics.H_PADDING;
-        continueButton.y = GlobalMetrics.STAGE_HEIGHT - continueButton.height - GlobalMetrics.V_PADDING;
-
-        addChild(continueButton);
+        var continueButton:SimpleButton = DisplayUtils.placeContinueButton(this);
 
         continueButton.addEventListener(MouseEvent.CLICK, continueButtonClicked);
     }
@@ -79,7 +75,7 @@ public class SettingsDisplay extends Sprite {
         KioBase.instance.currentDisplay = new AnketaDisplay;
 
         var lso:LsoProxy = KioBase.instance.lsoProxy;
-        lso.getGlobalData().notFirstTime = true;
+        lso.getGlobalData().test_write_available = true;
         lso.flush();
     }
 

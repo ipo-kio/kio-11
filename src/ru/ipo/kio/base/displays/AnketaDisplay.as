@@ -14,13 +14,14 @@ import flash.events.MouseEvent;
 
 import flash.text.TextField;
 
+import mx.utils.DisplayUtil;
+
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.InputBlock;
 import ru.ipo.kio.api.controls.InputTextField;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
-import ru.ipo.kio.base.resources.Resources;
 
 public class AnketaDisplay extends Sprite {
 
@@ -28,7 +29,7 @@ public class AnketaDisplay extends Sprite {
     private var continueButton:SimpleButton;
 
     public function AnketaDisplay() {
-        addChild(new Resources.BG_IMAGE);
+        DisplayUtils.placeBackground(this);
 
         var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID).screen;
 
@@ -41,15 +42,12 @@ public class AnketaDisplay extends Sprite {
         var header:TextField = TextUtils.createCustomTextField();
         header.htmlText = '<p class="h1">' + loc.form.header + '</p>';
         header.width = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
-        header.x = (GlobalMetrics.STAGE_WIDTH - GlobalMetrics.DISPLAYS_TEXT_WIDTH) / 2;
+        header.x = (GlobalMetrics.STAGE_WIDTH - header.textWidth) / 2;
         header.y = GlobalMetrics.DISPLAYS_TEXT_TOP;
 
         addChild(header);
 
-        continueButton = new ShellButton(loc.buttons.continue_);
-        continueButton.x = GlobalMetrics.STAGE_WIDTH - continueButton.width - GlobalMetrics.H_PADDING;
-        continueButton.y = GlobalMetrics.STAGE_HEIGHT - continueButton.height - GlobalMetrics.V_PADDING;
-        addChild(continueButton);
+        continueButton = DisplayUtils.placeContinueButton(this);
         continueButton.addEventListener(MouseEvent.CLICK, continueButtonClicked);
 
         var captionWidth:int = 150;

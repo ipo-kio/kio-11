@@ -32,7 +32,7 @@ public class WelcomeDisplay extends Sprite {
     private static const TEXT_COLOR:uint = 0xDDDDDD;
 
     public function WelcomeDisplay() {
-        addChild(new Resources.BG_IMAGE);
+        DisplayUtils.placeBackground(this);
 
         var loc:* = KioApi.getLocalization(KioBase.BASE_API_ID).screen;
 
@@ -58,11 +58,7 @@ public class WelcomeDisplay extends Sprite {
 
         addChild(loadWorkspaceButton);
 
-        var continueButton:SimpleButton = new ShellButton(loc.buttons.continue_);
-        continueButton.x = GlobalMetrics.STAGE_WIDTH - continueButton.width - GlobalMetrics.H_PADDING;
-        continueButton.y = GlobalMetrics.STAGE_HEIGHT - continueButton.height - GlobalMetrics.V_PADDING;
-
-        addChild(continueButton);
+        var continueButton:SimpleButton = DisplayUtils.placeContinueButton(this);
 
         loadWorkspaceButton.addEventListener(MouseEvent.CLICK, loadWorkspaceButtonClicked);
         continueButton.addEventListener(MouseEvent.CLICK, continueButtonClicked);

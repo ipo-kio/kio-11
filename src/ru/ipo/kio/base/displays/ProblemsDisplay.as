@@ -13,7 +13,6 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
-import flash.filters.ColorMatrixFilter;
 import flash.text.TextField;
 
 import ru.ipo.kio.api.FileUtils;
@@ -21,7 +20,6 @@ import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.BrightnessFilter;
-import ru.ipo.kio.api.controls.TextButton;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
 import ru.ipo.kio.base.resources.Resources;
@@ -29,7 +27,17 @@ import ru.ipo.kio.base.resources.Resources;
 public class ProblemsDisplay extends Sprite {
 
     public function ProblemsDisplay() {
-        addChild(new Resources.BG_IMAGE);
+        DisplayUtils.placeBackground(this);
+
+        var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
+
+        var message:TextField = TextUtils.createCustomTextField();
+        message.htmlText = "<p class='h1'>" + loc.screen.problems.header + "</p>";
+        message.width = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
+        message.x = (GlobalMetrics.STAGE_WIDTH - message.textWidth/*GlobalMetrics.DISPLAYS_TEXT_WIDTH*/) / 2;
+        message.y = GlobalMetrics.DISPLAYS_TEXT_TOP;
+
+        addChild(message);
 
         for (var i:int = 0; i < 3; i++) {
             var problem:KioProblem = KioBase.instance.problem(i);
@@ -52,7 +60,7 @@ public class ProblemsDisplay extends Sprite {
 
             var prb:SimpleButton = new SimpleButton(upDownImage, over, upDownImage, upDownImage);
 
-            prb.y = 100;
+            prb.y = message.y + message.textHeight + 20;
             var skip:int = 20;
             var emptySpace:int = (GlobalMetrics.STAGE_WIDTH - prb.width * 3 - 2 * skip) / 2;
             prb.x = emptySpace + i * prb.width + i * skip;
@@ -76,18 +84,16 @@ public class ProblemsDisplay extends Sprite {
             }(i));
         }
 
-        var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
+        var formButton:SimpleButton = new ShellButton(loc.screen.problems.fill_form, true);
+        var loadButton:SimpleButton = new ShellButton(loc.buttons.load_workspace, true);
+        var saveButton:SimpleButton = new ShellButton(loc.buttons.save_workspace, true);
 
-        var formButton:TextButton = new TextButton(loc.screen.problems.fill_form, 200);
-        var loadButton:TextButton = new TextButton(loc.buttons.load_workspace, 200);
-        var saveButton:TextButton = new TextButton(loc.buttons.save_workspace, 200);
-
-        formButton.x = GlobalMetrics.H_PADDING;
-        loadButton.x = GlobalMetrics.H_PADDING;
-        saveButton.x = GlobalMetrics.H_PADDING;
-        formButton.y = 400;
-        loadButton.y = 465;
-        saveButton.y = 500;
+        formButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - formButton.width) / 2);
+        loadButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - loadButton.width) / 2);
+        saveButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - saveButton.width) / 2);
+        formButton.y = 440;
+        loadButton.y = 505;
+        saveButton.y = 540;
 
         addChild(formButton);
         addChild(loadButton);
