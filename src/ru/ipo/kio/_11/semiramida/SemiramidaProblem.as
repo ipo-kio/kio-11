@@ -112,5 +112,12 @@ public class SemiramidaProblem implements KioProblem {
     public function get icon():Class {
         return ICON;
     }
+
+    [Embed(source='resources/icon_help.jpg')]
+    private const ICON_HELP:Class;
+
+    public function get icon_help():Class {
+        return ICON_HELP;
+    }
 }
 }

@@ -182,7 +182,7 @@ public class Workspace extends Sprite {
 
     private function stageMouseUp(event:Event):void {
         /*if (KioBase.instance.currentProblem.id != DigitProblem.ID)
-            return;*/
+         return;*/
 
         switch (Globals.instance.drag_type) {
             case Globals.DRAG_TYPE_GATE:
@@ -234,11 +234,19 @@ public class Workspace extends Sprite {
         if (!KioBase.instance.currentProblem || KioBase.instance.currentProblem.id != DigitProblem.ID)
             return;
 
-        DigitProblem(KioApi.instance(DigitProblem.ID).problem).submitSolution
-                (
-                        Globals.instance.workspace.solutionState.recognized,
-                        field.gates.length
-                        );
+        //count all gates except empty
+        var cnt:int = 0;
+        for each (var g:Gate in field.gates) {
+            if (g.type != GatesFactory.TYPE_NOP)
+                cnt ++;
+        }
+
+        DigitProblem(KioApi.instance(DigitProblem.ID).problem)
+                .submitSolution(
+                Globals.instance.workspace.solutionState.recognized,
+                cnt
+                );
+
     }
 
     private function updateTrashState(x:Number, y:Number):void {

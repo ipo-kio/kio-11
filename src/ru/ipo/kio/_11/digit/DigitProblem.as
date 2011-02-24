@@ -79,10 +79,10 @@ public class DigitProblem implements KioProblem {
         for (i = 0; i < exits.length; i++)
             sol.exits[i] = exits[i].serialization;
 
-        sol.record = {
+        /*sol.record = {
             recognized:Globals.instance.workspace.solutionState.recognized,
             elements:Globals.instance.workspace.field.gates.length
-        };
+        };*/
 
         return sol;
     }
@@ -164,7 +164,17 @@ public class DigitProblem implements KioProblem {
 
     public function get icon():Class {
         return ICON;
-        return null;
     }
+
+    [Embed(source='resources/icon_help_1.jpg')]
+    private const ICON_HELP_1:Class;
+
+    [Embed(source='resources/icon_help_2.jpg')]
+    private const ICON_HELP_2:Class;
+
+    public function get icon_help():Class {
+        return level == 1 ? ICON_HELP_1 : ICON_HELP_2;
+    }
+
 }
 }

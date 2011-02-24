@@ -147,6 +147,10 @@ package ru.ipo.kio._11.CrossedCountry {
 		public function get recordCheck():Object {
         return _recordCheck;
     }
+
+        public function get icon_help():Class {
+            return null;
+        }
     }
 
 }

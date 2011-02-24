@@ -7,6 +7,7 @@
  */
 package ru.ipo.kio.base.displays {
 import flash.display.Bitmap;
+import flash.display.DisplayObject;
 import flash.display.SimpleButton;
 import flash.display.Sprite;
 
@@ -40,16 +41,23 @@ public class HelpDisplay extends Sprite {
         header.y = GlobalMetrics.DISPLAYS_TEXT_TOP;
         addChild(header);
 
-        var text_width:int = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
+        var main_text_start:Number = header.y + header.textHeight + 10;
+
+        var imgCl:Class = problem.icon_help;
+        if (imgCl != null) {
+            var img:DisplayObject = new imgCl;
+            img.x = GlobalMetrics.STAGE_WIDTH - GlobalMetrics.H_PADDING - img.width;
+            img.y = main_text_start;
+            addChild(img);
+        }
+
+        var text_width:int = Math.min(2 * GlobalMetrics.DISPLAYS_TEXT_WIDTH, img.x - 2 * GlobalMetrics.H_PADDING);
 
         var tf:TextField = TextUtils.createCustomTextField();
         tf.text = text;
         tf.width = text_width;
-        /*tf.x = is_statement ?
-                GlobalMetrics.H_PADDING :
-                (GlobalMetrics.STAGE_WIDTH - text_width) / 2;*/
         tf.x = GlobalMetrics.H_PADDING;
-        tf.y = header.y + header.textHeight + 10;
+        tf.y = main_text_start;
         addChild(tf);
 
         var continueButton:SimpleButton = DisplayUtils.placeContinueButton(this);
@@ -57,6 +65,7 @@ public class HelpDisplay extends Sprite {
         continueButton.addEventListener(MouseEvent.CLICK, function (event:Event):void {
             KioBase.instance.currentProblem = problem;
         });
+
     }
 
 }

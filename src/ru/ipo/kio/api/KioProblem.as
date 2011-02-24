@@ -28,6 +28,8 @@ public interface KioProblem {
 
     function get icon():Class;
 
+    function get icon_help():Class;
+
     //function get help_icon():Class;
 }
 }

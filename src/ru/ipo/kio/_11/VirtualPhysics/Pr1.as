@@ -111,6 +111,10 @@ package ru.ipo.kio._11.VirtualPhysics {
         public function get icon():Class {
             return null;
         }
+
+        public function get icon_help():Class {
+            return null;
+        }
     }
 
 }

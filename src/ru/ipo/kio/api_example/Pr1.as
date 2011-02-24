@@ -122,6 +122,10 @@ public class Pr1 implements KioProblem {
     public function get icon():Class {
         return null;
     }
+
+    public function get icon_help():Class {
+        return null;
+    }
 }
 
 }
