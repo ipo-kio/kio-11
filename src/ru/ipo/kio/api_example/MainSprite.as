@@ -27,6 +27,8 @@ package ru.ipo.kio.api_example{
 			addChild(textField);
 			//разрешаем пользователю изменять текст
 			textField.type = TextFieldType.INPUT;
+
+            textField.textColor = 0xFFFFFF;
 			
 			//устанавливаем слушатель на изменение текста
 			textField.addEventListener(Event.CHANGE, function(e:Event):void {

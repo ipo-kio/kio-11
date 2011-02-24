@@ -63,7 +63,7 @@ package ru.ipo.kio.api_example
 			
 			//Запускаем задачу. Метод initOneProblem() рекомендуется использовать программистам для отладки одной задачи.
 			//Первый параметр - текущий спрайт, второй параметр - задача
-			KioBase.instance.initOneProblem(this, new Pr1);
+			KioBase.instance.initOneProblem(this, new Pr1(1));
 		}
 		
 	}
