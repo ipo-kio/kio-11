@@ -15,6 +15,8 @@ import flash.events.MouseEvent;
 
 import flash.text.TextField;
 
+import flashx.textLayout.elements.GlobalSettings;
+
 import ru.ipo.kio.api.FileUtils;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
@@ -102,6 +104,12 @@ public class ProblemsDisplay extends Sprite {
         formButton.addEventListener(MouseEvent.CLICK, formButtonClick);
         loadButton.addEventListener(MouseEvent.CLICK, loadButtonClick);
         saveButton.addEventListener(MouseEvent.CLICK, saveButtonClick);
+
+        var aboutButton:SimpleButton = new ShellButton(loc.screen.problems.about);
+        aboutButton.x = GlobalMetrics.H_PADDING;
+        aboutButton.y = GlobalMetrics.STAGE_HEIGHT - GlobalMetrics.H_PADDING - aboutButton.height;
+        addChild(aboutButton);
+        aboutButton.addEventListener(MouseEvent.CLICK, aboutButtonClick);
     }
 
     private function saveButtonClick(event:Event):void {
@@ -110,6 +118,10 @@ public class ProblemsDisplay extends Sprite {
 
     private function loadButtonClick(event:Event):void {
         FileUtils.loadAll();
+    }
+
+    private function aboutButtonClick(event:Event):void {
+        KioBase.instance.currentDisplay = new AboutDisplay;
     }
 
     private function formButtonClick(event:Event):void {
