@@ -40,7 +40,7 @@ public class Room extends Shape {
         //TODO why room shifts down compared to the initial image?
         var m:Matrix = new Matrix();//Resources.Flowers.transform.matrix.clone();
         m.translate(-ind * house.house_width / rooms_on_floor, -floor_ind_from_top * house.floorHeight);
-        graphics.beginBitmapFill(Resources.Flowers.bitmapData, m);
+        graphics.beginBitmapFill(Resources.Flowers2.bitmapData, m);
         graphics.lineStyle(0, 0, 0);
         graphics.drawRect(0, 0, house.house_width / rooms_on_floor, house.floorHeight);
         graphics.endFill();

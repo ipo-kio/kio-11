@@ -293,8 +293,10 @@ public class Gate extends Sprite implements Out {
 
             if (oc.g_dest >= 0)
                 c.dest = Globals.instance.workspace.field.gates[oc.g_dest];
-            if (oc.i_dest >= 0)
+            else if (oc.i_dest >= 0)
                 c.dest = Globals.instance.workspace.field.inputs[oc.i_dest];
+            else
+                c.dest = null;
         }
 
         positionSubElements(false);

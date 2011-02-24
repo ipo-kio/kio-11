@@ -10,9 +10,13 @@ import mx.core.BitmapAsset;
 
 public class Resources {
 
-    [Embed(source="resources/Garden_02.jpg")]
+    [Embed(source="resources/flowers.jpg")]
     private static const FLOWERS:Class;
     public static const Flowers:BitmapAsset = new FLOWERS;
+
+    [Embed(source="resources/flowers2.jpg")]
+    private static const FLOWERS2:Class;
+    public static const Flowers2:BitmapAsset = new FLOWERS2;
 
     [Embed(source="resources/bg.png")]
     private static const BG:Class;

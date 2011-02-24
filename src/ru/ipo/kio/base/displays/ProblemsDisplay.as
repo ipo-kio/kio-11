@@ -88,7 +88,7 @@ public class ProblemsDisplay extends Sprite {
 
         var formButton:SimpleButton = new ShellButton(loc.screen.problems.fill_form, true);
         var saveButton:SimpleButton = new ShellButton(loc.buttons.save_workspace, true);
-        var aboutButton:SimpleButton = new ShellButton(loc.buttons.load_workspace, true);
+        var aboutButton:SimpleButton = new ShellButton(loc.screen.problems.about, true);
 
         formButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - formButton.width) / 2);
         saveButton.x = Math.floor((GlobalMetrics.STAGE_WIDTH - saveButton.width) / 2);

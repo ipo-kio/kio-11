@@ -23,6 +23,9 @@ public class SolutionState1 extends Sprite implements SolutionState {
 
     private var loc:Object = KioApi.getLocalization(DigitProblem.ID);
 
+    private static const CORRECT_COLOR:uint = 0x083f08;
+    private static const WRONG_COLOR:uint = 0x9b0000;
+
     public function SolutionState1() {
         state_text_fields = new Array(10);
         for (var d:int = 0; d < 10; d++) {
@@ -76,8 +79,10 @@ public class SolutionState1 extends Sprite implements SolutionState {
 
     //must be called only right after updateData if needed
     public function updateView():void {
-        for (var d:int = 0; d < 10; d++)
+        for (var d:int = 0; d < 10; d++) {
             state_text_fields[d].text = d + " : " + (_data[d] ? loc.results.correct : loc.results.wrong);
+            state_text_fields[d].textColor = _data[d] ? CORRECT_COLOR : WRONG_COLOR;
+        }
 
         d = Globals.instance.workspace.digit.val;
 
@@ -86,7 +91,7 @@ public class SolutionState1 extends Sprite implements SolutionState {
         cur_state_marker.x = tf.x;
         cur_state_marker.y = tf.y;
 
-        cur_state_marker.graphics.lineStyle(2, 0x000000);
+        cur_state_marker.graphics.lineStyle(2, _data[d] ? CORRECT_COLOR : WRONG_COLOR);
         cur_state_marker.graphics.drawRect(-2, -2, tf.textWidth + 8, tf.textHeight + 6);
 
     }

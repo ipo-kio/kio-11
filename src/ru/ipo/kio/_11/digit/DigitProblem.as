@@ -27,8 +27,8 @@ public class DigitProblem implements KioProblem {
 
         sp = new Workspace;
 
-        /*api = KioApi.instance(ID);
-        if (api.bestSolution)
+        api = KioApi.instance(ID);
+        /*if (api.bestSolution)
             _recordCheck = api.bestSolution.record;
         else
             _recordCheck = {recognized:0, elements:0};
@@ -111,10 +111,13 @@ public class DigitProblem implements KioProblem {
         for (i = 0; i < solution.exits.length; i++)
             f.exits[i].serialization = solution.exits[i];
 
-        if (autoSave)
-            KioApi.instance(ID).autoSaveSolution();
+        //updateSolutionInfo();
+        sp.field.evaluate();
 
-        updateSolutionInfo();
+        /*if (autoSave)
+            KioApi.instance(ID).autoSaveSolution();*/
+        if (autoSave)
+            sp.submitSolution();
 
         return true;
     }
@@ -149,7 +152,6 @@ public class DigitProblem implements KioProblem {
         }
 
         sp.updateResultsInfo(false, recognized, elements);
-        //TODO update results
         api.autoSaveSolution();
     }
 

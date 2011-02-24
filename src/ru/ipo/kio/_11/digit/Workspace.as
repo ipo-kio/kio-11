@@ -230,7 +230,7 @@ public class Workspace extends Sprite {
         submitSolution();
     }
 
-    private function submitSolution():void {
+    public function submitSolution():void {
         if (!KioBase.instance.currentProblem || KioBase.instance.currentProblem.id != DigitProblem.ID)
             return;
 

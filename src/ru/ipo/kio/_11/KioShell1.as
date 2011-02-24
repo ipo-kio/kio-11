@@ -27,7 +27,7 @@ public class KioShell1 extends Sprite {
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-        LsoProxy.getInstance(1, 2011).cleanup();
+//        LsoProxy.getInstance(1, 2011).cleanup();
 
         KioBase.instance.init(this,
                 [
