@@ -29,12 +29,12 @@ public class KioShell1 extends Sprite {
         KioBase.instance.init(this,
                 [
                     //new ru.ipo.kio._11.CrossedCountry.Pr1()
-                    new SemiramidaProblem(),
+                    new SemiramidaProblem(1),
                     new DigitProblem(1),
-                    new Pr1()
+                    new Pr1(1)
                 ],
                 2011,
-                2
+                1
         );
 
     }

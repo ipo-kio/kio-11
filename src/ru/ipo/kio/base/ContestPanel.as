@@ -6,6 +6,7 @@ import flash.events.MouseEvent;
 
 import flash.text.TextField;
 
+import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.TextUtils;
 
 import ru.ipo.kio.api.KioApi;
@@ -27,7 +28,7 @@ public class ContestPanel extends Sprite {
         var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID).contest_panel;
 
         placeText(loc.records_and_anketa_header);
-        var saveAllData:SimpleButton = placeButton(loc.buttons.save);
+        var saveAllDataButton:SimpleButton = placeButton(loc.buttons.save);
 
         __y0 += 20;
 
@@ -63,6 +64,17 @@ public class ContestPanel extends Sprite {
 
         backButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
             KioBase.instance.currentDisplay = new ProblemsDisplay;
+        });
+
+        recordButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
+            var problem:KioProblem = KioBase.instance.currentProblem;
+            var pd:Object = KioBase.instance.lsoProxy.getProblemData(problem.id);
+            if (pd.best)
+                problem.loadSolution(pd.best);
+        });
+
+        saveAllDataButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
+            FileUtils.saveAll();
         });
     }
 

@@ -61,7 +61,7 @@ public class TextUtils {
     public static const FONT_INPUT:String = "KioTahoma";
 
     public static const CSS:String =
-            " p , li {font-family: " + FONT_MESSAGES + "; font-size: 14; color:#000000;} " +
+            " p , li {font-family: " + FONT_MESSAGES + "; font-size: 14; color:#000000; text-align:justify;} " +
                     ".h1 { color:#000000; font-size: 16; font-weight:bold;} " +
                     ".h2 { color:#000000; font-size: 14; font-weight:bold;} " +
                     ".footnote {font-size: 14; font-weight:600;} " +

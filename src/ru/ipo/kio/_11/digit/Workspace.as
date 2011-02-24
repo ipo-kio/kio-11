@@ -231,6 +231,9 @@ public class Workspace extends Sprite {
     }
 
     private function submitSolution():void {
+        if (!KioBase.instance.currentProblem || KioBase.instance.currentProblem.id != DigitProblem.ID)
+            return;
+
         DigitProblem(KioApi.instance(DigitProblem.ID).problem).submitSolution
                 (
                         Globals.instance.workspace.solutionState.recognized,

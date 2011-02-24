@@ -11,13 +11,16 @@ public class SemiramidaProblem implements KioProblem {
     private var sp:Workspace;
     private var _recordCheck:Object = null;
     private var api:KioApi;
+    private var _level:int;
 
     [Embed(source="resources/Semiramida.ru.json-settings",mimeType="application/octet-stream")]
     public static var locTxt:Class;
 
     //private var spitter:SpitMem = new SpitMem;
 
-    public function SemiramidaProblem() {
+    public function SemiramidaProblem(level:int) {
+        _level = level;
+
         KioApi.registerLocalization(ID, new Settings(locTxt).data);
         KioApi.initialize(this);
 
@@ -36,7 +39,7 @@ public class SemiramidaProblem implements KioProblem {
     }
 
     public function get level():int {
-        return 2;
+        return _level;
     }
 
     public function get display():DisplayObject {

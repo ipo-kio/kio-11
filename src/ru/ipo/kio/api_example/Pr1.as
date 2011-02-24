@@ -15,8 +15,12 @@ public class Pr1 implements KioProblem {
     //Это спрайт, на котором рисуется задача
     private var sp:MainSprite;
 
+    private var _level:int;
+
     //конструктор задачи
-    public function Pr1() {
+    public function Pr1(level:int) {
+        _level = level;
+
         //в первой строке конструктора задачи требуется вызвать инициализацию api:
         KioApi.initialize(this);
 
@@ -46,7 +50,7 @@ public class Pr1 implements KioProblem {
      * Уровень, для которого предназначена задача
      */
     public function get level():int {
-        return 2;
+        return _level;
     }
 
     /**

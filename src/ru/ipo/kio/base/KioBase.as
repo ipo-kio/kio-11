@@ -31,7 +31,7 @@ public class KioBase {
     private var _level:int;
     private var _problems_bg:DisplayObject;
 
-    private var spaceSettings:SpaceSettingsDialog = new SpaceSettingsDialog;
+    private var spaceSettings:SpaceSettingsDialog = null;
 
     [Embed(source="resources/shell.ru.json-config",mimeType="application/octet-stream")]
     private var locTxt:Class;
@@ -130,8 +130,16 @@ public class KioBase {
     }
 
     public function complainLSO():void {
-        if (!stage.contains(spaceSettings))
+        if (!spaceSettings) {
+            spaceSettings = new SpaceSettingsDialog;
             stage.addChild(spaceSettings);
+        }
+    }
+
+    public function LSOConcernResolved():void {
+        if (spaceSettings)
+            stage.removeChild(spaceSettings);
+        spaceSettings = null;
     }
 
     public function setProblem(pind:int):void {

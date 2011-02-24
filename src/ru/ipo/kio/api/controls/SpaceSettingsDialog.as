@@ -9,6 +9,7 @@ package ru.ipo.kio.api.controls {
 import flash.display.SimpleButton;
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.events.FocusEvent;
 import flash.events.MouseEvent;
 import flash.filters.BevelFilter;
 
@@ -103,11 +104,11 @@ public class SpaceSettingsDialog extends Sprite {
         closeButton.addEventListener(MouseEvent.CLICK, closeButtonClicked);
 
         //todo make it modal
-        stage.focus = this;//openSettingButton;
+        stage.focus = this;
     }
 
     private function closeButtonClicked(event:Event):void {
-        this.parent.removeChild(this);
+        KioBase.instance.LSOConcernResolved();
         KioBase.instance.lsoProxy.flush();
     }
 

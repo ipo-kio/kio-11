@@ -22,17 +22,17 @@ public class LsoProxy {
     private var level:int;
     private var year:int;
 
-    public static function getInstance(level : int, year : int):LsoProxy {
-        var id : String = year + '-' + level;
+    public static function getInstance(level:int, year:int):LsoProxy {
+        var id:String = year + '-' + level;
         if (!_instance[id])
             _instance[id] = new LsoProxy(level, year);
         return _instance[id];
     }
 
-    private var _local : SharedObject;
-    private var _data : Object;
+    private var _local:SharedObject;
+    private var _data:Object;
 
-    public function LsoProxy(level : int, year : int) {
+    public function LsoProxy(level:int, year:int) {
         this.level = level;
         this.year = year;
         _data = {};
@@ -46,11 +46,29 @@ public class LsoProxy {
         } catch (e:Error) {
             _local = null;
         }
+
+        /*var t:Timer = new Timer(100);
+        t.addEventListener(TimerEvent.TIMER, function (event:Event):void {
+            tr();
+        });
+        t.start();*/
     }
+
+    /*private function tr():void {
+        var b:* = _data.digit.autoSave;
+        if (b) {
+            trace("b = ");
+            for (var k:String in b) {
+                trace("  " + k + " --> " + b[k]);
+            }
+        } else {
+            trace("b is null");
+        }
+    }*/
 
     private function getLocal():SharedObject {
         var local:SharedObject = SharedObject.getLocal("ru/ipo/kio/" + year + "/" + level, "/");
-        local.addEventListener(NetStatusEvent.NET_STATUS, function (event:Event):void{
+        local.addEventListener(NetStatusEvent.NET_STATUS, function (event:Event):void {
             trace('net status handled');
             //TODO find out WHY this event was not triggered before. (google suggests it is just not handled at all in linux)
         });
@@ -79,6 +97,8 @@ public class LsoProxy {
     }
 
     public function getProblemData(id:String):Object {
+        //tr();
+
         if (!_data[id]) {
             _data[id] = {};
         }
