@@ -14,7 +14,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 
 	xmlns:virtual_physics="ru.ipo.kio._11.VirtualPhysics.virtual_physics.*"
 	
-    creationComplete="doInit()"  frameRate="60">
+    creationComplete="doInit()"  >
 	<mx:Style>
 		.testeGradiente{
 			fillColors: #444444, #ffffff;
@@ -40,7 +40,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
         import flash.events.TimerEvent;
         import flash.events.KeyboardEvent;
         import flash.events.Event;
-		import org.flashdevelop.utils.FlashConnect;
+//		import org.flashdevelop.utils.FlashConnect;
 		import mx.events.MenuEvent;
 		//Модель мира
         internal var model:WorldModel = new WorldModel();
@@ -59,7 +59,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 		
 			//получаем доступ к API, для этого передаем в качестве параметра id нашей задачи
 			var api:KioApi = KioApi.instance(Pr1.ID);
-		    FlashConnect.trace("api say:"+api.localization.text1);
+//		    FlashConnect.trace("api say:"+api.localization.text1);
 			//Задаем границы мира
 			WorldConstants.LeftLine = 0;
 			WorldConstants.TopLine = 0;

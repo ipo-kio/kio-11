@@ -3,8 +3,6 @@
         layout="absolute"
 	applicationComplete="startKIO()">
 	 <mx:Script><![CDATA[
-	 
-	    import ru.ipo.kio._11.VirtualPhysics.ExampleRunner;
 	 	public function startKIO():void {
 			//Запуск основного класса
 			var er:ExampleRunner = new ExampleRunner();

@@ -9,15 +9,20 @@ package ru.ipo.kio._11 {
 import flash.display.Sprite;
 import flash.events.Event;
 
+import mx.core.UIComponent;
+
 import ru.ipo.kio._11.digit.DigitProblem;
 import ru.ipo.kio._11.semiramida.SemiramidaProblem;
 import ru.ipo.kio.api.LsoProxy;
 import ru.ipo.kio.api_example.Pr1;
 import ru.ipo.kio.base.*;
 
-public class KioShell2 extends Sprite {
+public class KioShell extends UIComponent {
 
-    public function KioShell2() {
+    private var _level:int;
+
+    public function KioShell(level:int) {
+        _level = level;
         if (stage)
             init();
         else
@@ -32,13 +37,13 @@ public class KioShell2 extends Sprite {
         KioBase.instance.init(this,
                 [
                     //new ru.ipo.kio._11.CrossedCountry.Pr1()
-                    new SemiramidaProblem(2),
-                    new DigitProblem(2),
-                    new Pr1(2)
+                    new SemiramidaProblem(_level),
+                    new DigitProblem(_level),
+                    new Pr1(_level)
                 ],
                 2011,
-                2
-                );
+                _level
+        );
 
     }
 

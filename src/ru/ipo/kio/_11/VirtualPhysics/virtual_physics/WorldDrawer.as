@@ -7,7 +7,7 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 	import mx.core.Container;
 	import flash.events.MouseEvent;
 	import flash.display.Sprite ;
-	import org.flashdevelop.utils.FlashConnect ;
+//	import org.flashdevelop.utils.FlashConnect ;
 	
 	//Класс рисующий мир
 	public class WorldDrawer extends Container {
