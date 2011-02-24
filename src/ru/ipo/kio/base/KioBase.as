@@ -3,7 +3,12 @@ import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 
+import flash.text.TextField;
+
+import mx.utils.DisplayUtil;
+
 import ru.ipo.kio.api.controls.SpaceSettingsDialog;
+import ru.ipo.kio.base.displays.DisplayUtils;
 import ru.ipo.kio.base.displays.ProblemsDisplay;
 import ru.ipo.kio.base.displays.WelcomeDisplay;
 
@@ -30,6 +35,7 @@ public class KioBase {
     private var _lsoProxy:LsoProxy;
     private var _level:int;
     private var _problems_bg:DisplayObject;
+    private var _problem_header:TextField = null;
 
     private var spaceSettings:SpaceSettingsDialog = null;
 
@@ -105,6 +111,12 @@ public class KioBase {
         workspace.y = GlobalMetrics.WORKSPACE_Y + Math.floor((GlobalMetrics.WORKSPACE_HEIGHT - workspace.height) / 2);
         stage.addChild(workspace);
 
+        if (_problem_header) {
+            stage.removeChild(_problem_header);
+            _problem_header = null;
+        }
+        _problem_header = DisplayUtils.placeHeader(stage, problem);
+
         //load autosave solution
         var problemData:Object = _lsoProxy.getProblemData(problem.id);
 
@@ -134,6 +146,11 @@ public class KioBase {
         workspace.x = 0;
         workspace.y = 0;
         stage.addChild(workspace);
+
+        if (_problem_header) {
+            stage.removeChild(_problem_header);
+            _problem_header = null;
+        }
     }
 
     public function get lsoProxy():LsoProxy {

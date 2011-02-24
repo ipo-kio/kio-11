@@ -33,8 +33,8 @@ public class HelpDisplay extends Sprite {
         var loc_sh:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
         var title:String = is_statement ? loc_sh.contest_panel.buttons.statement : loc_sh.contest_panel.buttons.help;
         var text:String = is_statement ?
-                String(DisplayUtils.getKyByLevel(loc, 'statement', problem.level)) :
-                String(DisplayUtils.getKyByLevel(loc, 'help', problem.level));
+                String(DisplayUtils.getKeyByLevel(loc, 'statement', problem.level)) :
+                String(DisplayUtils.getKeyByLevel(loc, 'help', problem.level));
 
         var header:TextField = TextUtils.createCustomTextField();
         header.htmlText = '<p class="h1">' + title + '</p>';

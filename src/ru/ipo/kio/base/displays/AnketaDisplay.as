@@ -168,6 +168,8 @@ public class AnketaDisplay extends Sprite {
             KioBase.instance.currentDisplay = new ProblemsDisplay;
             var lso:LsoProxy = KioBase.instance.lsoProxy;
             lso.getGlobalData().anketa_filled = true;
+            lso.getGlobalData().level = KioBase.instance.level;
+            lso.getGlobalData().language = 'ru'; //TODO write real language
             lso.flush();
         }
     }

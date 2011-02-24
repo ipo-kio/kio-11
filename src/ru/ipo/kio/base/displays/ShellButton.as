@@ -48,8 +48,8 @@ public class ShellButton extends GraphicsButton {
                 is_big ? BIG_BUTTON_OVER_BMP : BUTTON_OVER_BMP,
                 is_big ? BIG_BUTTON_DOWN_BMP : BUTTON_DOWN_BMP,
                 TextUtils.FONT_MESSAGES,
-                13,
-                13,
+                12,
+                12,
                 true
                 );
     }

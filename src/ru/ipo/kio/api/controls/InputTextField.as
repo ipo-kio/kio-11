@@ -16,7 +16,7 @@ import ru.ipo.kio.api.TextUtils;
 
 public class InputTextField extends Sprite {
 
-    private static const ERROR_BORDER_COLOR:uint = 0xA0659C;
+    private static const ERROR_BORDER_COLOR:uint = 0xda5594;
     private static const CORRECT_BORDER_COLOR:uint = 0x33CC99;
 
     private static const H_PADDING:int = 3;
@@ -129,7 +129,7 @@ public class InputTextField extends Sprite {
         if (errorLabel == null)
             errorTf.text = "";
         else
-            errorTf.htmlText = "<p class='warning'>" + errorLabel + "</p>";
+            errorTf.htmlText = "<p class='warning_anketa'>" + errorLabel + "</p>";
 
         updateBorder();
     }

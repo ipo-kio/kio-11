@@ -11,6 +11,7 @@ import flash.events.Event;
 
 import mx.core.UIComponent;
 
+import ru.ipo.kio._11.VirtualPhysics.PhysicsProblem;
 import ru.ipo.kio._11.digit.DigitProblem;
 import ru.ipo.kio._11.semiramida.SemiramidaProblem;
 import ru.ipo.kio.api.LsoProxy;
@@ -39,7 +40,7 @@ public class KioShell extends UIComponent {
                     //new ru.ipo.kio._11.CrossedCountry.Pr1()
                     new SemiramidaProblem(_level),
                     new DigitProblem(_level),
-                    new Pr1(_level)
+                    _level == 1 ? new Pr1(_level) : new PhysicsProblem
                 ],
                 2011,
                 _level

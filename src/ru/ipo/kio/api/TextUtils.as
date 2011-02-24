@@ -66,6 +66,7 @@ public class TextUtils {
                     ".h2 { color:#000000; font-size: 14; font-weight:bold;} " +
                     ".footnote {font-size: 14; font-weight:600;} " +
                     ".warning {color:#00000; font-weight:bold; font-size: smaller} " +
+                    ".warning_anketa {color:#00000; font-size: smaller} " +
                     ".c {textAlign: center;}";
 
     private static function prepareTextField(text:String, x0:int, y0:int, size:int, align:String, color:uint, alpha:Number):TextField {

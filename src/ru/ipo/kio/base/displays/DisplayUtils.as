@@ -7,6 +7,7 @@
  */
 package ru.ipo.kio.base.displays {
 import flash.display.DisplayObject;
+import flash.display.DisplayObjectContainer;
 import flash.display.SimpleButton;
 import flash.display.Sprite;
 
@@ -19,6 +20,7 @@ import flash.text.TextField;
 import flash.utils.setInterval;
 
 import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
@@ -35,14 +37,28 @@ public class DisplayUtils {
 
         //place title
 
+        placeHeader(display);
+    }
+
+    public static function placeHeader(display:DisplayObjectContainer, problem:KioProblem = null):TextField {
         var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
-        var title:String = loc.contest_header + ", " + loc.contest_level[-1 + KioBase.instance.level];
+        var title:String;
+        if (problem) {
+            var loc_pr:Object = KioApi.getLocalization(problem.id);
+            title = loc.contest_panel.problem_header + " \"" +
+                    getKeyByLevel(loc_pr, 'title', problem.level) +
+                    "\"";
+        }
+        else
+            title = loc.contest_header + ", " + loc.contest_level[-1 + KioBase.instance.level];
 
         var header:TextField = TextUtils.createTextFieldWithFont(TextUtils.FONT_MESSAGES, 13, false);
         header.x = 10;
         header.y = 0;
         header.text = title;
         display.addChild(header);
+
+        return header;
     }
 
     public static function placeContinueButton(display:Sprite):SimpleButton {
@@ -76,7 +92,7 @@ public class DisplayUtils {
         Security.showSettings(SecurityPanel.LOCAL_STORAGE);
     }
 
-    public static function getKyByLevel(o:Object, key:String, level:int):Object {
+    public static function getKeyByLevel(o:Object, key:String, level:int):Object {
         if (o[key])
             return o[key];
         else if (o[key + level])

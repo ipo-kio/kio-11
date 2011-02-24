@@ -43,7 +43,7 @@ public class ProblemsDisplay extends Sprite {
 
         for (var i:int = 0; i < 3; i++) {
             var problem:KioProblem = KioBase.instance.problem(i);
-            var title:String = String(DisplayUtils.getKyByLevel(KioApi.getLocalization(problem.id), 'title', problem.level));
+            var title:String = String(DisplayUtils.getKeyByLevel(KioApi.getLocalization(problem.id), 'title', problem.level));
 
             var imageClass:Class;
             if (problem.icon)

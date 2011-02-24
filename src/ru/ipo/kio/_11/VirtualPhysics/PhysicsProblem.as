@@ -3,8 +3,9 @@ package ru.ipo.kio._11.VirtualPhysics {
 	import flash.display.DisplayObject;
 	import ru.ipo.kio.api.KioApi;
 	import ru.ipo.kio.api.KioProblem;
-	
-	/**
+import ru.ipo.kio.api.Settings;
+
+/**
 	 * Пример задачи
 	 * @author Ilya
 	 */
@@ -15,9 +16,15 @@ package ru.ipo.kio._11.VirtualPhysics {
 	
 		//Это спрайт, на котором рисуется задача
 		private var sp:Main;
-		
+
+        [Embed(source="resources/physics.ru.json-settings",mimeType="application/octet-stream")]
+        public static var locTxt_ru:Class;
+
 		//конструктор задачи
 		public function PhysicsProblem() {
+
+            KioApi.registerLocalization(ID, new Settings(locTxt_ru).data);
+
 			//в первой строке конструктора задачи требуется вызвать инициализацию api:
 			KioApi.initialize(this);
 			
@@ -108,8 +115,11 @@ package ru.ipo.kio._11.VirtualPhysics {
 			return 1;
 		}
 
+        [Embed(source="resources/icon.jpg")]
+        private static const ICON:Class;
+
         public function get icon():Class {
-            return null;
+            return ICON;
         }
 
         public function get icon_help():Class {
