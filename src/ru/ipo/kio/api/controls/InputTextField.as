@@ -88,7 +88,7 @@ public class InputTextField extends Sprite {
         errorTf = TextUtils.createCustomTextField();
 
         if (errorToTheRight) {
-            errorTf.x = fieldWidth + 3;
+            errorTf.x = fieldWidth + 10;
             errorTf.y = tf.y;
             errorTf.multiline = false;
             errorTf.wordWrap = false;
