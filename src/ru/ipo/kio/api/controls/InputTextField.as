@@ -20,8 +20,8 @@ import ru.ipo.kio.base.resources.Resources;
 
 public class InputTextField extends Sprite {
 
-    private static const ERROR_BORDER_COLOR:uint = 0xAA2222;
-    private static const CORRECT_BORDER_COLOR:uint = 0x22AA22;
+    private static const ERROR_BORDER_COLOR:uint = 0xA0659C;
+    private static const CORRECT_BORDER_COLOR:uint = 0x33CC99;
 
     private static const H_PADDING:int = 3;
     private static const V_PADDING:int = 3;
@@ -108,7 +108,7 @@ public class InputTextField extends Sprite {
     }
 
     private function getHeight():int {
-        return effectiveFontSize * lines + 3;
+        return effectiveFontSize * lines + 10;
     }
 
     public function get filter():Function {
@@ -140,7 +140,7 @@ public class InputTextField extends Sprite {
 
     private function updateBorder():void {
         border.graphics.clear();
-        border.graphics.lineStyle(3, errorLabel ? ERROR_BORDER_COLOR : CORRECT_BORDER_COLOR);
+        border.graphics.lineStyle(2, errorLabel ? ERROR_BORDER_COLOR : CORRECT_BORDER_COLOR);
         border.graphics.drawRect(0, 0, fieldWidth, effectiveFontSize * lines + 2 * V_PADDING);
     }
 
