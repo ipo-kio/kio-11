@@ -26,13 +26,13 @@ public class House extends Sprite {
     private const BORDER_ALPHA:Number = 0.8;
 
     private const FLOOR_WIDTH:Number = 1;
-//    private const FLOOR_COLOR:uint = 0xc8c8c8;
-    private const FLOOR_COLOR:uint = 0x000000;
+    private const FLOOR_COLOR:uint = 0xc8c8c8;
+//    private const FLOOR_COLOR:uint = 0x000000;
     private const FLOOR_ALPHA:Number = 0.8;
 
     private const WALL_WIDTH:Number = 1;
-//    private const WALL_COLOR:uint = 0x0c8c8c8;
-    private const WALL_COLOR:uint = 0x000000;
+    private const WALL_COLOR:uint = 0x0c8c8c8;
+//    private const WALL_COLOR:uint = 0x000000;
     private const WALL_ALPHA:Number = 0.8;
 
     private var _house_width:int;

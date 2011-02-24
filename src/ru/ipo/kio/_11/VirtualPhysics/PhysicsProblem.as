@@ -8,7 +8,7 @@ package ru.ipo.kio._11.VirtualPhysics {
 	 * Пример задачи
 	 * @author Ilya
 	 */
-	public class Pr1 implements KioProblem
+	public class PhysicsProblem implements KioProblem
 	{
 		
 		public static const ID:String = "test";
@@ -17,7 +17,7 @@ package ru.ipo.kio._11.VirtualPhysics {
 		private var sp:Main;
 		
 		//конструктор задачи
-		public function Pr1() {
+		public function PhysicsProblem() {
 			//в первой строке конструктора задачи требуется вызвать инициализацию api:
 			KioApi.initialize(this);
 			

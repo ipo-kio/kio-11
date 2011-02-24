@@ -53,7 +53,7 @@ import mx.controls.Text;
 			//
 			//Чтобы не вписывать сюда объект локализации, его можно создать отдельно, см. ru.ipo.kio.base.KioBase.init()
 			KioApi.registerLocalization(
-				Pr1.ID, //идентификатор
+				PhysicsProblem.ID, //идентификатор
 				{                              //объект локализации
 					text1 : "Виртуальная физика",
 					text2 : "text 2",
@@ -66,7 +66,7 @@ import mx.controls.Text;
 			
 			//Запускаем задачу. Метод initOneProblem() рекомендуется использовать программистам для отладки одной задачи.
 			//Первый параметр - текущий спрайт, второй параметр - задача
-			KioBase.instance.initOneProblem(this, new Pr1);
+			KioBase.instance.initOneProblem(this, new PhysicsProblem);
 		}
 		
 	}

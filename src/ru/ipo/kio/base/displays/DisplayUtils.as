@@ -76,5 +76,14 @@ public class DisplayUtils {
         Security.showSettings(SecurityPanel.LOCAL_STORAGE);
     }
 
+    public static function getKyByLevel(o:Object, key:String, level:int):Object {
+        if (o[key])
+            return o[key];
+        else if (o[key + level])
+            return o[key + level];
+        else
+            return "no key";
+    }
+
 }
 }

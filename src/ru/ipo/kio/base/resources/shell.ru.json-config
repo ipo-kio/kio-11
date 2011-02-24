@@ -15,6 +15,7 @@
 		"save_workspace": "Сохранить лучшие результаты и анкету"
 	},
 	"contest_panel":{
+	    "problem_header":"Задача",
 		"current_solution_caption" : "Решение",
 		"help_header" : "Помощь",
 		"records_and_anketa_header" : "Лучшие результаты и анкета",

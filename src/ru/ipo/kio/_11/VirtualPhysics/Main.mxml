@@ -25,302 +25,317 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 
 
     <mx:Script><![CDATA[
-	    import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldConstants;
-		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldDrawer;
-		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldModel;
-		import ru.ipo.kio._11.VirtualPhysics.virtual_physics.FileManager;
-		import ru.ipo.kio.api.*;
-		import mx.controls.Text;
-		import flash.events.Event;
-		import mx.controls.TextInput;
+        import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldConstants;
+        import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldDrawer;
+        import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldModel;
+        import ru.ipo.kio._11.VirtualPhysics.virtual_physics.FileManager;
+        import ru.ipo.kio.api.*;
+
+        import mx.controls.Text;
+
+        import flash.events.Event;
+
+        import mx.controls.TextInput;
         import mx.core.mx_internal;
-		import mx.controls.Label;
+        import mx.controls.Label;
         import mx.controls.Alert;
+
         import flash.utils.Timer;
         import flash.events.TimerEvent;
         import flash.events.KeyboardEvent;
         import flash.events.Event;
-//		import org.flashdevelop.utils.FlashConnect;
-		import mx.events.MenuEvent;
-		//Модель мира
+
+        //		import org.flashdevelop.utils.FlashConnect;
+
+        import mx.events.MenuEvent;
+
+        //Модель мира
         internal var model:WorldModel = new WorldModel();
-		//Таймер для непрерыной симуляции
-		internal var myTimer:Timer = new Timer(35, 0);
-		//Активирован автоматический режим
-		internal var automaticMode:Boolean = true;
-		//Добавленные шарики не сконвертированы
-		internal var spriteConverted:Boolean = false;
-		//Начальное значение рекордов
-		public  var RecordF1:String="0.0";
-		internal var RecordF2:String="0.0";
-		internal var RecordF3:String="0.0";
-		
-        public  function doInit() : void {
-		
-			//получаем доступ к API, для этого передаем в качестве параметра id нашей задачи
-			var api:KioApi = KioApi.instance(Pr1.ID);
+        //Таймер для непрерыной симуляции
+        internal var myTimer:Timer = new Timer(35, 0);
+        //Активирован автоматический режим
+        internal var automaticMode:Boolean = true;
+        //Добавленные шарики не сконвертированы
+        internal var spriteConverted:Boolean = false;
+        //Начальное значение рекордов
+        public var RecordF1:String = "0.0";
+        internal var RecordF2:String = "0.0";
+        internal var RecordF3:String = "0.0";
+
+        public function doInit():void {
+
+            //получаем доступ к API, для этого передаем в качестве параметра id нашей задачи
+            var api:KioApi = KioApi.instance(PhysicsProblem.ID);
 //		    FlashConnect.trace("api say:"+api.localization.text1);
-			//Задаем границы мира
-			WorldConstants.LeftLine = 0;
-			WorldConstants.TopLine = 0;
-			WorldConstants.RightLine = drawer.width;
-			WorldConstants.BottomLine = drawer.height;
-			//Задаем радиус объектов
-			WorldConstants.ObjectRadius = 10;
-			WorldConstants.a = debugLabel1;
-			WorldConstants.result1 = ResultLabel1;
-			WorldConstants.result2 = ResultLabel2;
-			WorldConstants.result3 = ResultLabel3;
+            //Задаем границы мира
+            WorldConstants.LeftLine = 0;
+            WorldConstants.TopLine = 0;
+            WorldConstants.RightLine = drawer.width;
+            WorldConstants.BottomLine = drawer.height;
+            //Задаем радиус объектов
+            WorldConstants.ObjectRadius = 10;
+            WorldConstants.a = debugLabel1;
+            WorldConstants.result1 = ResultLabel1;
+            WorldConstants.result2 = ResultLabel2;
+            WorldConstants.result3 = ResultLabel3;
             myTimer.addEventListener("timer", timerHandler);
-			model.painter = drawer;
-			//Обновление координат перемещаемого шара при отпускании кнопки мыши
-			stage.addEventListener(MouseEvent.MOUSE_UP, dragPositionOut);
-			//Сбрасываем модель
-			if (automaticMode) {
-				model.reset();
-				AddButton.visible = false;
-			}else {
-				model.painter.drawGrid();
-				AddButton.visible = true;
-				StartStopButton.enabled = false;
-				GotoRecordButton.enabled = false;
-			}
-			
-			dragPositionHeader.visible = !automaticMode;
-			dragPositionHeaderX.visible = !automaticMode;
-			dragPositionX.visible = !automaticMode;
-			dragPositionHeaderY.visible = !automaticMode;
-			dragPositionY.visible = !automaticMode;
-			debudLablel1Header.visible = true;
-			debugLabel1.text = "0";
-			WorldConstants.dragPosX = 0;
-			WorldConstants.dragPosY = 0;
-        }
-		//Вывод координат перемещенного шара
-		public function dragPositionOut(event:MouseEvent):void {
-			dragPositionX.text = String(WorldConstants.dragPosX);
-			dragPositionY.text = String(WorldConstants.dragPosY);
-		}
-		 //Обработка события таймера
-		 public function timerHandler(event:TimerEvent):void {
-			model.simulationStep();
-			if (WorldConstants.a.text == "zero"&&WorldConstants.KoeffOne>0.01) {
-				myTimer.stop();
-				WorldConstants.a.text = "simulation complete";
-				debudLablel1Header.visible = false;
-				if (Number(ResultLabel1.text) < Number(RecordLabel1.text) ||
-					(RecordLabel2.text == ResultLabel1.text &&
-					(Number(ResultLabel2.text) > Number(RecordLabel2.text))) ||
-					(RecordLabel2.text == ResultLabel1.text &&
-					(Number(ResultLabel2.text) > Number(RecordLabel2.text)) &&
-					(Number(ResultLabel3.text) < Number(RecordLabel3.text))))
-				{
-					Alert.show("Новый рекорд!","Поздравляем!");
-					RecordLabel2.text = ResultLabel2.text;
-					RecordLabel1.text = ResultLabel1.text;
-					RecordLabel3.text = ResultLabel3.text;
-					RecordF1 = OnetoOneForceTextInput.text;
-					RecordF2 = OnetoTwoForceTextInput.text;
-					RecordF3 = TwotoTwoForceTextInput.text;
-				}
-				
-			}
-		}
-		//Действие при нажатии на кнопку "В начало"
-		public function ResetClick():void {
-					if (automaticMode) {
-						model.reset();
-					}else {						
-						WorldConstants.dragPosX = 0;
-						WorldConstants.dragPosY = 0;
-						model.painter.removeSprites();
-						model.restart();
-						AddButton.visible = true;
-						spriteConverted = false;
-						StartStopButton.enabled = false;
-						GotoRecordButton.enabled = false;
-						dragPositionX.text = "0";
-						dragPositionY.text = "0";
-				    }
-					ForceBox.enabled = true;
-					myTimer.stop();
-					StartStopButton.label = "Запустить";
-					debugLabel1.text = "0";
-					debudLablel1Header.visible = true;
-		}
-		//Действие при нажатии на кнопку ускоренного режима
-		public function SpeedUpButtonClick():void {
-			if (myTimer.delay >= 35){
-				myTimer.delay = 1;
-				SpeedUpButton.label = "Замедлить";
-			}else if (myTimer.delay <= 10){
-				myTimer.delay = 35;
-				SpeedUpButton.label = "Ускорить";
-			}
-		}
-		//Действие при нажатии на кнопку добавления шарика
-		public function addClick():void {
-			model.painter.dynamicFunc();
-			//для активации кнопок "Запустить" и "Перейти" необходимо добавить 2 и более шариков
-			if (model.painter.arr.length > 1) {
-				StartStopButton.enabled = true;
-				//GotoRecordButton.enabled = true;
-			}
-		}
-		//Действие при нажатии на кнопку запуска
-		public function StartStopButtonClick():void {
-			ForceOneButtonClick();
-			ForceTwoButtonClick();	
-			ForceThreeButtonClick();
-			if (OnetoOneForceTextInput.errorString == "" &&
-			    OnetoTwoForceTextInput.errorString == "" &&
-				TwotoTwoForceTextInput.errorString == "") {
-				ForceBox.enabled = false;
-				AddButton.visible = false;
-				if (myTimer.running) {
-					myTimer.stop();
-					StartStopButton.label = "Запустить";
-				} else {
-					myTimer.start();
-					StartStopButton.label = "Пауза";
-					if (!automaticMode && !spriteConverted){
-						model.convertSprite();
-						spriteConverted = true;
-						GotoRecordButton.enabled = true;
-					}	
-				}
-			}			
-		}
-		//Задание 1 силы
-		public function ForceOneButtonClick():void {				
-				WorldConstants.ForceOneToOne.setExpressionString(OnetoOneForceTextInput.text);
-			    var eq:Number;
-				if(WorldConstants.ForceOneToOne.isExpressionCorrect()){			
-					OnetoOneForceTextInput.errorString = "";
-					var i:Number;				
-				} else {
-					OnetoOneForceTextInput.errorString ="Ошибка";//WorldConstants.ForceOneToOne.getError();
-				}
-		}
-		//Задание 2 силы
-		public function ForceTwoButtonClick():void {		
-				WorldConstants.ForceOneToTwo.setExpressionString(OnetoTwoForceTextInput.text);
-			    var eq:Number;
-				if(WorldConstants.ForceOneToTwo.isExpressionCorrect()){					
-					OnetoTwoForceTextInput.errorString = "";
-				} else {						
-					OnetoTwoForceTextInput.errorString ="Ошибка";// WorldConstants.ForceOneToTwo.getError();
-				}			
-        }
-		//Задание 3 силы
-		public function ForceThreeButtonClick():void {		
-				WorldConstants.ForceTwoToTwo.setExpressionString(TwotoTwoForceTextInput.text);
-			    var eq:Number;
-				if(WorldConstants.ForceTwoToTwo.isExpressionCorrect()){					
-					TwotoTwoForceTextInput.errorString = "";
-				} else {
-					TwotoTwoForceTextInput.errorString = "Ошибка";//WorldConstants.ForceTwoToTwo.getError();
-				}			
-        }
-		//Удаление символа из активного текстового поля
-		public function removeFromActiveTextField():void {
-			var selectedetextinput:TextInput;
-			if (focusManager.getFocus() is mx.controls.TextInput) {
-				selectedetextinput = ( focusManager.getFocus() as mx.controls.TextInput );				
-				WorldConstants.a.text =selectedetextinput.text;				
-				var textBeforeSelection:String = selectedetextinput.text.substring(0, selectedetextinput.selectionBeginIndex-1);
-			    var textAfterSelection:String = selectedetextinput.text.substring(selectedetextinput.selectionBeginIndex,selectedetextinput.text.length);			
-			    selectedetextinput.text = textBeforeSelection + textAfterSelection;
-				if (selectedetextinput.selectionBeginIndex > 0)
-					selectedetextinput.setSelection(selectedetextinput.selectionBeginIndex - 1, selectedetextinput.selectionBeginIndex-1);
-			} else
-				WorldConstants.a.text = "fail";
-		}
-		//Добавление символа в активное текстовое поле
-		public function InsertIntoActiveTextField(instr:String):void {
-			var selectedetextinput:TextInput;
-			if (focusManager.getFocus() is mx.controls.TextInput) {
-				selectedetextinput = ( focusManager.getFocus() as mx.controls.TextInput );				
-				WorldConstants.a.text =selectedetextinput.selectionBeginIndex.toString();				
-				var textBeforeSelection:String = selectedetextinput.text.substring(0, selectedetextinput.selectionBeginIndex);
-				var textAfterSelection:String = selectedetextinput.text.substring(selectedetextinput.selectionBeginIndex,selectedetextinput.text.length);			
-				selectedetextinput.text = textBeforeSelection +instr + textAfterSelection;
-				selectedetextinput.setSelection(selectedetextinput.selectionBeginIndex + instr.length, selectedetextinput.selectionBeginIndex + instr.length);			
-			} else
-				WorldConstants.a.text = "fail";
-		}
-		//Действия элементов меню		
-		private function menuClickHandler(event:MenuEvent):void {
-			switch (event.label) {
-				case "Ручной":
-					automaticMode = false;
-					StartStopButton.label = "Запустить";
-					model.painter.removeSprites();
-					model.removeObj();
-					doInit();
-				break;
-				case "Автоматический":
-					automaticMode = true;
-					spriteConverted = false;
-					StartStopButton.enabled = true;
-					GotoRecordButton.enabled = true;
-					StartStopButton.label = "Запустить";
-					model.painter.removeSprites();
-					model.removeObj();
-					doInit();
-				break;
-				case "В начало":
-					ResetClick();
-				break;
-				case "Сохранить":
-					var fmS:FileManager = new FileManager();
-					fmS.saveToFile(OnetoOneForceTextInput.text,
-									OnetoTwoForceTextInput.text,
-									TwotoTwoForceTextInput.text,
-									ResultLabel1.text,
-									ResultLabel2.text,
-									ResultLabel3.text);
-				break;
-				case "Загрузить":
-					var fmO:FileManager = new FileManager();
-					var con:Array = ["0", "0", "0", "0", "0"];
-					fmO.loadFromFile(OnetoOneForceTextInput,
-									OnetoTwoForceTextInput,
-									TwotoTwoForceTextInput,
-									ResultLabel1,
-									ResultLabel2,
-									ResultLabel3);
-				break;
-				default:
-					WorldConstants.a.text=event.label;
-			}
-		}
-		//Переход к рекордам 
-		public function GoToRecordButtonClick():void {
-			ResultLabel2.text = RecordLabel2.text;
-			ResultLabel1.text = RecordLabel1.text;
-			ResultLabel3.text = RecordLabel3.text;
-			OnetoOneForceTextInput.text=RecordF1;
-			OnetoTwoForceTextInput.text=RecordF2;
-			TwotoTwoForceTextInput.text=RecordF3;
-		}
-		//добавить в меню элементы: <menuitem label="Условие"/><menuitem label="Помощь"/>  
-		public function handleMenuClick(event:int) : void {
-		/*	switch(event){
-					case 2:
-						Alert.show("Здесь должны быть описаны условия","Условие задачи",0x8000);
-					break;
-					case 3:
-						Alert.show("Тут должна содержаться помощь","Работа с программой",0x8000);
-					break;
-			}*/
-		}
+            model.painter = drawer;
+            //Обновление координат перемещаемого шара при отпускании кнопки мыши
+            stage.addEventListener(MouseEvent.MOUSE_UP, dragPositionOut);
+            //Сбрасываем модель
+            if (automaticMode) {
+                model.reset();
+                AddButton.visible = false;
+            } else {
+                model.painter.drawGrid();
+                AddButton.visible = true;
+                StartStopButton.enabled = false;
+                GotoRecordButton.enabled = false;
+            }
 
-	
-	
-	
+            dragPositionHeader.visible = !automaticMode;
+            dragPositionHeaderX.visible = !automaticMode;
+            dragPositionX.visible = !automaticMode;
+            dragPositionHeaderY.visible = !automaticMode;
+            dragPositionY.visible = !automaticMode;
+            debudLablel1Header.visible = true;
+            debugLabel1.text = "0";
+            WorldConstants.dragPosX = 0;
+            WorldConstants.dragPosY = 0;
+        }
 
-    ]]></mx:Script>
+        //Вывод координат перемещенного шара
+        public function dragPositionOut(event:MouseEvent):void {
+            dragPositionX.text = String(WorldConstants.dragPosX);
+            dragPositionY.text = String(WorldConstants.dragPosY);
+        }
+
+        //Обработка события таймера
+        public function timerHandler(event:TimerEvent):void {
+            model.simulationStep();
+            if (WorldConstants.a.text == "zero" && WorldConstants.KoeffOne > 0.01) {
+                myTimer.stop();
+                WorldConstants.a.text = "simulation complete";
+                debudLablel1Header.visible = false;
+                if (Number(ResultLabel1.text) < Number(RecordLabel1.text) ||
+                        (RecordLabel2.text == ResultLabel1.text &&
+                                (Number(ResultLabel2.text) > Number(RecordLabel2.text))) ||
+                        (RecordLabel2.text == ResultLabel1.text &&
+                                (Number(ResultLabel2.text) > Number(RecordLabel2.text)) &&
+                                (Number(ResultLabel3.text) < Number(RecordLabel3.text)))) {
+                    Alert.show("Новый рекорд!", "Поздравляем!");
+                    RecordLabel2.text = ResultLabel2.text;
+                    RecordLabel1.text = ResultLabel1.text;
+                    RecordLabel3.text = ResultLabel3.text;
+                    RecordF1 = OnetoOneForceTextInput.text;
+                    RecordF2 = OnetoTwoForceTextInput.text;
+                    RecordF3 = TwotoTwoForceTextInput.text;
+                }
+
+            }
+        }
+
+        //Действие при нажатии на кнопку "В начало"
+        public function ResetClick():void {
+            if (automaticMode) {
+                model.reset();
+            } else {
+                WorldConstants.dragPosX = 0;
+                WorldConstants.dragPosY = 0;
+                model.painter.removeSprites();
+                model.restart();
+                AddButton.visible = true;
+                spriteConverted = false;
+                StartStopButton.enabled = false;
+                GotoRecordButton.enabled = false;
+                dragPositionX.text = "0";
+                dragPositionY.text = "0";
+            }
+            ForceBox.enabled = true;
+            myTimer.stop();
+            StartStopButton.label = "Запустить";
+            debugLabel1.text = "0";
+            debudLablel1Header.visible = true;
+        }
+
+        //Действие при нажатии на кнопку ускоренного режима
+        public function SpeedUpButtonClick():void {
+            if (myTimer.delay >= 35) {
+                myTimer.delay = 1;
+                SpeedUpButton.label = "Замедлить";
+            } else if (myTimer.delay <= 10) {
+                myTimer.delay = 35;
+                SpeedUpButton.label = "Ускорить";
+            }
+        }
+
+        //Действие при нажатии на кнопку добавления шарика
+        public function addClick():void {
+            model.painter.dynamicFunc();
+            //для активации кнопок "Запустить" и "Перейти" необходимо добавить 2 и более шариков
+            if (model.painter.arr.length > 1) {
+                StartStopButton.enabled = true;
+                //GotoRecordButton.enabled = true;
+            }
+        }
+
+        //Действие при нажатии на кнопку запуска
+        public function StartStopButtonClick():void {
+            ForceOneButtonClick();
+            ForceTwoButtonClick();
+            ForceThreeButtonClick();
+            if (OnetoOneForceTextInput.errorString == "" &&
+                    OnetoTwoForceTextInput.errorString == "" &&
+                    TwotoTwoForceTextInput.errorString == "") {
+                ForceBox.enabled = false;
+                AddButton.visible = false;
+                if (myTimer.running) {
+                    myTimer.stop();
+                    StartStopButton.label = "Запустить";
+                } else {
+                    myTimer.start();
+                    StartStopButton.label = "Пауза";
+                    if (!automaticMode && !spriteConverted) {
+                        model.convertSprite();
+                        spriteConverted = true;
+                        GotoRecordButton.enabled = true;
+                    }
+                }
+            }
+        }
+
+        //Задание 1 силы
+        public function ForceOneButtonClick():void {
+            WorldConstants.ForceOneToOne.setExpressionString(OnetoOneForceTextInput.text);
+            var eq:Number;
+            if (WorldConstants.ForceOneToOne.isExpressionCorrect()) {
+                OnetoOneForceTextInput.errorString = "";
+                var i:Number;
+            } else {
+                OnetoOneForceTextInput.errorString = "Ошибка";//WorldConstants.ForceOneToOne.getError();
+            }
+        }
+
+        //Задание 2 силы
+        public function ForceTwoButtonClick():void {
+            WorldConstants.ForceOneToTwo.setExpressionString(OnetoTwoForceTextInput.text);
+            var eq:Number;
+            if (WorldConstants.ForceOneToTwo.isExpressionCorrect()) {
+                OnetoTwoForceTextInput.errorString = "";
+            } else {
+                OnetoTwoForceTextInput.errorString = "Ошибка";// WorldConstants.ForceOneToTwo.getError();
+            }
+        }
+
+        //Задание 3 силы
+        public function ForceThreeButtonClick():void {
+            WorldConstants.ForceTwoToTwo.setExpressionString(TwotoTwoForceTextInput.text);
+            var eq:Number;
+            if (WorldConstants.ForceTwoToTwo.isExpressionCorrect()) {
+                TwotoTwoForceTextInput.errorString = "";
+            } else {
+                TwotoTwoForceTextInput.errorString = "Ошибка";//WorldConstants.ForceTwoToTwo.getError();
+            }
+        }
+
+        //Удаление символа из активного текстового поля
+        public function removeFromActiveTextField():void {
+            var selectedetextinput:TextInput;
+            if (focusManager.getFocus() is mx.controls.TextInput) {
+                selectedetextinput = ( focusManager.getFocus() as mx.controls.TextInput );
+                WorldConstants.a.text = selectedetextinput.text;
+                var textBeforeSelection:String = selectedetextinput.text.substring(0, selectedetextinput.selectionBeginIndex - 1);
+                var textAfterSelection:String = selectedetextinput.text.substring(selectedetextinput.selectionBeginIndex, selectedetextinput.text.length);
+                selectedetextinput.text = textBeforeSelection + textAfterSelection;
+                if (selectedetextinput.selectionBeginIndex > 0)
+                    selectedetextinput.setSelection(selectedetextinput.selectionBeginIndex - 1, selectedetextinput.selectionBeginIndex - 1);
+            } else
+                WorldConstants.a.text = "fail";
+        }
+
+        //Добавление символа в активное текстовое поле
+        public function InsertIntoActiveTextField(instr:String):void {
+            var selectedetextinput:TextInput;
+            if (focusManager.getFocus() is mx.controls.TextInput) {
+                selectedetextinput = ( focusManager.getFocus() as mx.controls.TextInput );
+                WorldConstants.a.text = selectedetextinput.selectionBeginIndex.toString();
+                var textBeforeSelection:String = selectedetextinput.text.substring(0, selectedetextinput.selectionBeginIndex);
+                var textAfterSelection:String = selectedetextinput.text.substring(selectedetextinput.selectionBeginIndex, selectedetextinput.text.length);
+                selectedetextinput.text = textBeforeSelection + instr + textAfterSelection;
+                selectedetextinput.setSelection(selectedetextinput.selectionBeginIndex + instr.length, selectedetextinput.selectionBeginIndex + instr.length);
+            } else
+                WorldConstants.a.text = "fail";
+        }
+
+        //Действия элементов меню
+        private function menuClickHandler(event:MenuEvent):void {
+            switch (event.label) {
+                case "Ручной":
+                    automaticMode = false;
+                    StartStopButton.label = "Запустить";
+                    model.painter.removeSprites();
+                    model.removeObj();
+                    doInit();
+                    break;
+                case "Автоматический":
+                    automaticMode = true;
+                    spriteConverted = false;
+                    StartStopButton.enabled = true;
+                    GotoRecordButton.enabled = true;
+                    StartStopButton.label = "Запустить";
+                    model.painter.removeSprites();
+                    model.removeObj();
+                    doInit();
+                    break;
+                case "В начало":
+                    ResetClick();
+                    break;
+                case "Сохранить":
+                    var fmS:FileManager = new FileManager();
+                    fmS.saveToFile(OnetoOneForceTextInput.text,
+                            OnetoTwoForceTextInput.text,
+                            TwotoTwoForceTextInput.text,
+                            ResultLabel1.text,
+                            ResultLabel2.text,
+                            ResultLabel3.text);
+                    break;
+                case "Загрузить":
+                    var fmO:FileManager = new FileManager();
+                    var con:Array = ["0", "0", "0", "0", "0"];
+                    fmO.loadFromFile(OnetoOneForceTextInput,
+                            OnetoTwoForceTextInput,
+                            TwotoTwoForceTextInput,
+                            ResultLabel1,
+                            ResultLabel2,
+                            ResultLabel3);
+                    break;
+                default:
+                    WorldConstants.a.text = event.label;
+            }
+        }
+
+        //Переход к рекордам
+        public function GoToRecordButtonClick():void {
+            ResultLabel2.text = RecordLabel2.text;
+            ResultLabel1.text = RecordLabel1.text;
+            ResultLabel3.text = RecordLabel3.text;
+            OnetoOneForceTextInput.text = RecordF1;
+            OnetoTwoForceTextInput.text = RecordF2;
+            TwotoTwoForceTextInput.text = RecordF3;
+        }
+
+        //добавить в меню элементы: <menuitem label="Условие"/><menuitem label="Помощь"/>
+        public function handleMenuClick(event:int):void {
+            /*	switch(event){
+             case 2:
+             Alert.show("Здесь должны быть описаны условия","Условие задачи",0x8000);
+             break;
+             case 3:
+             Alert.show("Тут должна содержаться помощь","Работа с программой",0x8000);
+             break;
+             }*/
+        }
+        ]]></mx:Script>
 
 <mx:Panel horizontalAlign="center" title="Моделирование физических законов" backgroundAlpha="0" width="800" height="600" >
 	<mx:VBox horizontalAlign="center" borderColor="black" x="0" y="0" width="100%">		

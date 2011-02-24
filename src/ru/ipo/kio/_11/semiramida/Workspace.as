@@ -81,7 +81,7 @@ public class Workspace extends Sprite {
         //add _house
         _house = new House(677, 437);
         _house.x = 53;
-        _house.y = 10;
+        _house.y = 10 + 1;
         addChild(_house);
 
         //add buttons
