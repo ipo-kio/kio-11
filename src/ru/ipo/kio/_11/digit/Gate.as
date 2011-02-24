@@ -91,7 +91,7 @@ public class Gate extends Sprite implements Out {
             startDrag();
         } else {
             Globals.instance.drag_type = Globals.DRAG_TYPE_GATE;
-            startDrag(false, new Rectangle(0, 0, Field.WIDTH - width, Field.HEIGHT - height));
+            startDrag(false/*, new Rectangle(0, 0, Field.WIDTH - width, Field.HEIGHT - height)*/);
         }
     }
 

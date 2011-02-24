@@ -191,6 +191,20 @@ public class Workspace extends Sprite {
                 updateTrashImage(TRASH_NORMAL_IMG);
                 if (trashHitTest(__last_mouse_move_x, __last_mouse_move_y))
                     _field.removeGate(g);
+
+                //position gate if outside field
+                if (g.x < 0)
+                    g.x = 0;
+                if (g.y < 0)
+                    g.y = 0;
+                var fw:Number = Field.WIDTH - g.width;
+                if (g.x >= fw)
+                    g.x = fw;
+                var fh:Number = Field.HEIGHT - g.height;
+                if (g.y >= fh)
+                    g.y = fh;
+                g.positionSubElements();
+
                 break;
             case Globals.DRAG_TYPE_CONNECTOR:
                 var c:Connector = Connector(Globals.instance.drag_object);
