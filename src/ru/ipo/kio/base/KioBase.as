@@ -3,8 +3,6 @@ import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 
-import flash.profiler.profile;
-
 import ru.ipo.kio.api.controls.SpaceSettingsDialog;
 import ru.ipo.kio.base.displays.ProblemsDisplay;
 import ru.ipo.kio.base.displays.WelcomeDisplay;
@@ -58,7 +56,7 @@ public class KioBase {
         basicInitialization(level, year, stage, problems);
 
         //test this is the first start
-        if (_lsoProxy.hasAnketa())
+        if (_lsoProxy.getGlobalData().anketa_filled)
             currentDisplay = new ProblemsDisplay;
         else
             currentDisplay = new WelcomeDisplay;
@@ -119,7 +117,7 @@ public class KioBase {
             contestPanel = null;
         }
 
-        _problems_bg.visible = true;
+        _problems_bg.visible = false;
 
         workspace = display;
         workspace.x = 0;

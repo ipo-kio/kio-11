@@ -10,7 +10,13 @@ import flash.display.DisplayObject;
 import flash.display.SimpleButton;
 import flash.display.Sprite;
 
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.system.Security;
+import flash.system.SecurityPanel;
 import flash.text.TextField;
+
+import flash.utils.setInterval;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
@@ -47,6 +53,27 @@ public class DisplayUtils {
         display.addChild(continueButton);
 
         return continueButton;
+    }
+
+    public static function getSettingsSprite():Sprite {
+        var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID).screen;
+
+        var settings_sprite:Sprite = new Sprite;
+
+        var img:* = new Resources.SETTINGS_HELPER_RU;
+        settings_sprite.addChild(img);
+
+        var setupButton:SimpleButton = new ShellButton(loc.settings.configure_button);
+        setupButton.x = Math.floor(img.x + img.width + 32);
+        setupButton.y = Math.floor(img.y + (img.height - setupButton.height) / 2);
+        setupButton.addEventListener(MouseEvent.CLICK, setupClicked);
+
+        settings_sprite.addChild(setupButton);
+        return settings_sprite;
+    }
+
+    private static function setupClicked(event:Event):void {
+        Security.showSettings(SecurityPanel.LOCAL_STORAGE);
     }
 
 }

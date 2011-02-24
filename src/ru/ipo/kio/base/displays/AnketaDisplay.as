@@ -17,6 +17,7 @@ import flash.text.TextField;
 import mx.utils.DisplayUtil;
 
 import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.api.LsoProxy;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.InputBlock;
 import ru.ipo.kio.api.controls.InputTextField;
@@ -145,7 +146,7 @@ public class AnketaDisplay extends Sprite {
         var anketa:Object = KioBase.instance.lsoProxy.getAnketa();
         if (!i.error) {
             anketa[i.id] = i.text;
-            KioBase.instance.lsoProxy.flush();
+            //KioBase.instance.lsoProxy.flush(); // flush only on continue button
         }
         setEnabledForContinueButton();
     }
@@ -163,8 +164,12 @@ public class AnketaDisplay extends Sprite {
     }
 
     private function continueButtonClicked(event:Event):void {
-        if (continueButton.enabled)
+        if (continueButton.enabled) {
             KioBase.instance.currentDisplay = new ProblemsDisplay;
+            var lso:LsoProxy = KioBase.instance.lsoProxy;
+            lso.getGlobalData().anketa_filled = true;
+            lso.flush();
+        }
     }
 
     private function trim(s:String):String {

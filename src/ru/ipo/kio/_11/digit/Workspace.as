@@ -18,6 +18,7 @@ import flash.text.TextField;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.GraphicsButton;
+import ru.ipo.kio.base.KioBase;
 
 public class Workspace extends Sprite {
 
@@ -180,6 +181,9 @@ public class Workspace extends Sprite {
     }
 
     private function stageMouseUp(event:Event):void {
+        /*if (KioBase.instance.currentProblem.id != DigitProblem.ID)
+            return;*/
+
         switch (Globals.instance.drag_type) {
             case Globals.DRAG_TYPE_GATE:
                 var g:Gate = Gate(Globals.instance.drag_object);

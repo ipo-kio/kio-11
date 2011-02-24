@@ -6,17 +6,13 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio.api.controls {
-import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.text.TextField;
 import flash.text.TextFieldType;
 import flash.text.TextFormat;
 
-import mx.core.BitmapAsset;
-
 import ru.ipo.kio.api.TextUtils;
-import ru.ipo.kio.base.resources.Resources;
 
 public class InputTextField extends Sprite {
 

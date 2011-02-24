@@ -6,19 +6,21 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio.api.controls {
+import flash.display.SimpleButton;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.filters.BevelFilter;
 
-import flash.system.Security;
-import flash.system.SecurityPanel;
 import flash.text.TextFieldAutoSize;
 
+import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.base.GlobalMetrics;
 
 import ru.ipo.kio.base.KioBase;
+import ru.ipo.kio.base.displays.DisplayUtils;
+import ru.ipo.kio.base.displays.ShellButton;
 
 public class SpaceSettingsDialog extends Sprite {
 
@@ -31,14 +33,13 @@ public class SpaceSettingsDialog extends Sprite {
 
     private static const BORDER_SIZE:int = 10;
 
-    [Embed(source="../../base/resources/imgs/settings_ru.png")]
-    public var SettingsImage:Class;
-
     public function SpaceSettingsDialog() {
         addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
     private function init(e:Event):void {
+
+        var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
 
         x = 0;
         y = 0;
@@ -66,44 +67,43 @@ public class SpaceSettingsDialog extends Sprite {
         TextUtils.output(
                 centerPanel,
                 TextUtils.drawText(
-                        "ВНИМАНИЕ!", TextUtils.NORMAL_TEXT_SIZE, TextFieldAutoSize.LEFT, 0x880000, 1
+                        loc.screen.space_settings.warning, TextUtils.NORMAL_TEXT_SIZE, TextFieldAutoSize.LEFT, 0x660000, 1
                         )
                 );
         TextUtils.output(
                 centerPanel,
-                TextUtils.drawTextWidth("Для работы программы конкурса КИО ей необходимо разрешить хранить данные на диске. \n" +
-                        "Нажмите кнопку \"Открыть окно настроек\" и позвольте программе пользоваться как минимум одним мегабайтом. Для этого установите настройки как на картинке:",
+                TextUtils.drawTextWidth(loc.screen.space_settings.action,
                         WIDTH - 2 * BORDER_SIZE, TextUtils.NORMAL_TEXT_SIZE, TextFieldAutoSize.LEFT, 0, 1
                         )
                 );
         TextUtils.output(
                 centerPanel,
-                new SettingsImage
+                DisplayUtils.getSettingsSprite()
                 );
         TextUtils.output(
                 centerPanel,
-                TextUtils.drawTextWidth("Только после этого вы сможете закрыть это окно кнопкой \"Закрыть\"",
+                TextUtils.drawTextWidth(loc.screen.space_settings.after,
                         WIDTH - 2 * BORDER_SIZE, TextUtils.NORMAL_TEXT_SIZE, TextFieldAutoSize.LEFT, 0, 1
                         )
                 );
 
+        /*
         var openSettingButton:TextButton = new TextButton("Открыть окно настроек", WIDTH / 3);
         openSettingButton.x = BORDER_SIZE;
         openSettingButton.y = HEIGHT - BORDER_SIZE - openSettingButton.height;
         centerPanel.addChild(openSettingButton);
         openSettingButton.addEventListener(MouseEvent.CLICK, openSettingButtonClicked);
-        stage.focus = this;//openSettingButton;
-        //todo make it modal
+        */
 
-        var closeButton:TextButton = new TextButton("Закрыть");
+        //TODO create its own button caption in localization
+        var closeButton:SimpleButton = new ShellButton(loc.contest_panel.buttons.back);
         closeButton.x = WIDTH - BORDER_SIZE - closeButton.width;
         closeButton.y = HEIGHT - BORDER_SIZE - closeButton.height;
         centerPanel.addChild(closeButton);
-        closeButton.addEventListener(MouseEvent.CLICK, closeButtonClicked)
-    }
+        closeButton.addEventListener(MouseEvent.CLICK, closeButtonClicked);
 
-    private function openSettingButtonClicked(event:Event):void {
-        Security.showSettings(SecurityPanel.LOCAL_STORAGE);
+        //todo make it modal
+        stage.focus = this;//openSettingButton;
     }
 
     private function closeButtonClicked(event:Event):void {

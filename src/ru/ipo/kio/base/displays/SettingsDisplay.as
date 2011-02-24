@@ -6,14 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio.base.displays {
-import flash.display.DisplayObject;
 import flash.display.SimpleButton;
 import flash.display.Sprite;
 
 import flash.events.Event;
 import flash.events.MouseEvent;
-import flash.system.Security;
-import flash.system.SecurityPanel;
 import flash.text.TextField;
 
 import ru.ipo.kio.api.KioApi;
@@ -21,7 +18,6 @@ import ru.ipo.kio.api.LsoProxy;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
-import ru.ipo.kio.base.resources.Resources;
 
 public class SettingsDisplay extends Sprite {
 
@@ -40,17 +36,7 @@ public class SettingsDisplay extends Sprite {
 
         //settings sprite with image and button
 
-        var settings_sprite:Sprite = new Sprite;
-
-        var img:* = new Resources.SETTINGS_HELPER_RU;
-        settings_sprite.addChild(img);
-
-        var setupButton:SimpleButton = new ShellButton(loc.settings.configure_button);
-        setupButton.x = Math.floor(img.x + img.width + 32);
-        setupButton.y = Math.floor(img.y + (img.height - setupButton.height) / 2);
-        setupButton.addEventListener(MouseEvent.CLICK, setupClicked);
-
-        settings_sprite.addChild(setupButton);
+        var settings_sprite:Sprite = DisplayUtils.getSettingsSprite();
 
         settings_sprite.x = Math.floor((GlobalMetrics.STAGE_WIDTH - settings_sprite.width) / 2);
         settings_sprite.y = Math.floor(message.y + message.textHeight + 10);
@@ -75,12 +61,8 @@ public class SettingsDisplay extends Sprite {
         KioBase.instance.currentDisplay = new AnketaDisplay;
 
         var lso:LsoProxy = KioBase.instance.lsoProxy;
-        lso.getGlobalData().test_write_available = true;
+        lso.getGlobalData().anketa_filled = false; //used in KioBase to test what screen to display at start
         lso.flush();
-    }
-
-    private function setupClicked(event:Event):void {
-        Security.showSettings(SecurityPanel.LOCAL_STORAGE);
     }
 
 }
