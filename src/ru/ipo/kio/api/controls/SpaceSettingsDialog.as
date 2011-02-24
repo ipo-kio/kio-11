@@ -13,6 +13,7 @@ import flash.events.FocusEvent;
 import flash.events.MouseEvent;
 import flash.filters.BevelFilter;
 
+import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
 import ru.ipo.kio.api.KioApi;
@@ -26,8 +27,8 @@ import ru.ipo.kio.base.displays.ShellButton;
 public class SpaceSettingsDialog extends Sprite {
 
     private static const ALPHA:Number = 0.5;
-    private static const COLOR_BG:uint = 0xAA0000;
-    private static const COLOR:uint = 0xFF8C00;
+    private static const COLOR_BG:uint = 0x979797;
+    private static const COLOR:uint = 0xbfdbff;
 //    private static const COLOR_BORDER:uint = 0x880022;
     private static const WIDTH:int = 560;
     private static const HEIGHT:int = 420;
@@ -64,7 +65,7 @@ public class SpaceSettingsDialog extends Sprite {
         addChild(centerPanel);
 
         //set text
-        TextUtils.moveTo(centerPanel, BORDER_SIZE, BORDER_SIZE, 6);
+        TextUtils.moveTo(centerPanel, BORDER_SIZE, BORDER_SIZE, 12);
         TextUtils.output(
                 centerPanel,
                 TextUtils.drawText(
