@@ -23,7 +23,7 @@ public class FileUtils {
         var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
 
         fr.browse([
-            new FileFilter(loc.files.solutions, "*.kio-" + problem.id),
+            new FileFilter(loc.files.solutions, "*.kio-" + problem.id + "-" + KioBase.instance.level),
             new FileFilter(loc.files.all_files, "*.*")
         ]);
         fr.addEventListener(Event.SELECT, function(e:Event):void {
@@ -49,13 +49,13 @@ public class FileUtils {
         //data.writeObject(sol);
         //fr.save(data);
 
-        fr.save(JSON.encode(sol), SOLUTION_FILE_NAME + inventDate() + ".kio-" + problem.id);
+        fr.save(JSON.encode(sol), SOLUTION_FILE_NAME + inventDate() + ".kio-" + problem.id + "-" + KioBase.instance.level);
     }
 
     public static function saveAll():void {
         var fr:FileReference = new FileReference();
         var sol:Object = KioBase.instance.lsoProxy.data;
-        fr.save(JSON.encode(sol), RESULTS_FILE_NAME + inventDate() + ".kio");
+        fr.save(JSON.encode(sol), RESULTS_FILE_NAME + inventDate() + ".kio-" + KioBase.instance.level);
     }
 
     private static function inventDate():String {
@@ -76,7 +76,7 @@ public class FileUtils {
         var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
 
         fr.browse([
-            new FileFilter(loc.files.results, "*.kio"),
+            new FileFilter(loc.files.results, "*.kio-" + KioBase.instance.level),
             new FileFilter(loc.files.all_files, "*.*")
         ]);
         fr.addEventListener(Event.SELECT, function(e:Event):void {
