@@ -12,6 +12,7 @@ import flash.text.TextFieldAutoSize;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
+import ru.ipo.kio.api.controls.RecordBlinkEffect;
 
 public class ResultsPanel extends Sprite {
 
@@ -81,5 +82,6 @@ public class ResultsPanel extends Sprite {
         ftLength.text = '' +  value;
         ftLength.x = (field_width - ftLength.textWidth) / 2;
     }
+
 }
 }

@@ -4,6 +4,7 @@ import flash.display.DisplayObject;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.Settings;
+import ru.ipo.kio.api.controls.RecordBlinkEffect;
 
 public class SemiramidaProblem implements KioProblem {
 
@@ -97,6 +98,7 @@ public class SemiramidaProblem implements KioProblem {
             _recordCheck = currentCheck;
             sp.updateResults(true, rooms, pipesLength);
             api.saveBestSolution();
+            RecordBlinkEffect.blink(sp, 591, 468, 734 - 591, 571 - 468);
         }
 
         sp.updateResults(false, rooms, pipesLength);

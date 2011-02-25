@@ -4,6 +4,7 @@ import flash.display.DisplayObject;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.Settings;
+import ru.ipo.kio.api.controls.RecordBlinkEffect;
 
 public class DigitProblem implements KioProblem {
 
@@ -149,6 +150,7 @@ public class DigitProblem implements KioProblem {
             _recordCheck = currentCheck;
             sp.updateResultsInfo(true, recognized, elements);
             api.saveBestSolution();
+            RecordBlinkEffect.blink(sp, 530, 404, 653 - 530, 496 - 404);
         }
 
         sp.updateResultsInfo(false, recognized, elements);
