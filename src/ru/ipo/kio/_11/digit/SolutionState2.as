@@ -70,7 +70,8 @@ public class SolutionState2 extends Sprite implements SolutionState {
         _info.addEventListener(MouseEvent.CLICK, mouseClick);
 
         popup = new Sprite;
-        popup_tf = TextUtils.createTextFieldWithFont("KioDigits", 12, false);
+        popup_tf = TextUtils.createTextFieldWithFont("KioDigits", 12, true);
+        popup_tf.width = 240;
         popup.addChild(popup_tf);
 
         _info.addChild(popup);

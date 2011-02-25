@@ -33,7 +33,7 @@ public class SpaceSettingsDialog extends Sprite {
     private static const WIDTH:int = 560;
     private static const HEIGHT:int = 420;
 
-    private static const BORDER_SIZE:int = 10;
+    private static const BORDER_SIZE:int = 40;
 
     public function SpaceSettingsDialog() {
         addEventListener(Event.ADDED_TO_STAGE, init);
@@ -65,18 +65,16 @@ public class SpaceSettingsDialog extends Sprite {
         addChild(centerPanel);
 
         //set text
-        TextUtils.moveTo(centerPanel, BORDER_SIZE, BORDER_SIZE, 12);
+        TextUtils.moveTo(centerPanel, BORDER_SIZE, BORDER_SIZE / 2, 16);
         TextUtils.output(
                 centerPanel,
                 TextUtils.drawText(
-                        loc.screen.space_settings.warning, TextUtils.NORMAL_TEXT_SIZE, TextFieldAutoSize.LEFT, 0x660000, 1
-                        )
+                        loc.screen.space_settings.warning, 16, TextFieldAutoSize.LEFT, 0x660000, 1)
                 );
         TextUtils.output(
                 centerPanel,
                 TextUtils.drawTextWidth(loc.screen.space_settings.action,
-                        WIDTH - 2 * BORDER_SIZE, TextUtils.NORMAL_TEXT_SIZE, TextFieldAutoSize.LEFT, 0, 1
-                        )
+                        WIDTH - 2 * BORDER_SIZE, 16, TextFieldAutoSize.LEFT, 0, 1)
                 );
         TextUtils.output(
                 centerPanel,
@@ -85,8 +83,7 @@ public class SpaceSettingsDialog extends Sprite {
         TextUtils.output(
                 centerPanel,
                 TextUtils.drawTextWidth(loc.screen.space_settings.after,
-                        WIDTH - 2 * BORDER_SIZE, TextUtils.NORMAL_TEXT_SIZE, TextFieldAutoSize.LEFT, 0, 1
-                        )
+                        WIDTH - 2 * BORDER_SIZE, 16, TextFieldAutoSize.LEFT, 0, 1)
                 );
 
         /*
@@ -99,8 +96,8 @@ public class SpaceSettingsDialog extends Sprite {
 
         //TODO create its own button caption in localization
         var closeButton:SimpleButton = new ShellButton(loc.contest_panel.buttons.back);
-        closeButton.x = WIDTH - BORDER_SIZE - closeButton.width;
-        closeButton.y = HEIGHT - BORDER_SIZE - closeButton.height;
+        closeButton.x = WIDTH - 10 - closeButton.width;
+        closeButton.y = HEIGHT - 10 - closeButton.height;
         centerPanel.addChild(closeButton);
         closeButton.addEventListener(MouseEvent.CLICK, closeButtonClicked);
 

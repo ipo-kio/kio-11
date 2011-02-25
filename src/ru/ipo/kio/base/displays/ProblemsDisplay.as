@@ -106,6 +106,16 @@ public class ProblemsDisplay extends Sprite {
         aboutButton.y = GlobalMetrics.STAGE_HEIGHT - GlobalMetrics.H_PADDING - aboutButton.height;
         addChild(aboutButton);
         aboutButton.addEventListener(MouseEvent.CLICK, aboutButtonClick);*/
+
+        var helpButton:SimpleButton = new ShellButton(loc.contest_panel.help_header);
+        helpButton.x = GlobalMetrics.H_PADDING;
+        helpButton.y = GlobalMetrics.STAGE_HEIGHT - GlobalMetrics.H_PADDING - helpButton.height;
+        addChild(helpButton);
+        helpButton.addEventListener(MouseEvent.CLICK, helpButtonClick);
+    }
+
+    private function helpButtonClick(event:Event):void {
+        KioBase.instance.currentDisplay = new HelpDisplay(null, false);
     }
 
     private function saveButtonClick(event:Event):void {

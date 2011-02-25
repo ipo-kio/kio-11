@@ -25,16 +25,26 @@ import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
 
 public class HelpDisplay extends Sprite {
+    //problem = null means show overall help
     public function HelpDisplay(problem:KioProblem, is_statement:Boolean) {
 
         DisplayUtils.placeBackground(this);
 
-        var loc:Object = KioApi.getLocalization(problem.id);
+        var loc:Object = problem ? KioApi.getLocalization(problem.id) : null;
         var loc_sh:Object = KioApi.getLocalization(KioBase.BASE_API_ID);
-        var title:String = is_statement ? loc_sh.contest_panel.buttons.statement : loc_sh.contest_panel.buttons.help;
-        var text:String = is_statement ?
-                String(DisplayUtils.getKeyByLevel(loc, 'statement', problem.level)) :
-                String(DisplayUtils.getKeyByLevel(loc, 'help', problem.level));
+        var title:String;
+        if (problem)
+            title = is_statement ? loc_sh.contest_panel.buttons.statement : loc_sh.contest_panel.buttons.help;
+        else
+            title = loc_sh.contest_panel.help_header;
+
+        var text:String;
+        if (problem)
+            text = is_statement ?
+                    String(DisplayUtils.getKeyByLevel(loc, 'statement', problem.level)) :
+                    String(DisplayUtils.getKeyByLevel(loc, 'help', problem.level));
+        else
+            text = loc_sh.help.all_problems;
 
         var header:TextField = TextUtils.createCustomTextField();
         header.htmlText = '<p class="h1">' + title + '</p>';
@@ -45,15 +55,18 @@ public class HelpDisplay extends Sprite {
 
         var main_text_start:Number = header.y + header.textHeight + 10;
 
-        var imgCl:Class = problem.icon_help;
+        var imgCl:Class = problem ? problem.icon_help : null;
+        var img:DisplayObject = null;
         if (imgCl != null) {
-            var img:DisplayObject = new imgCl;
+            img = new imgCl;
             img.x = GlobalMetrics.STAGE_WIDTH - GlobalMetrics.H_PADDING - img.width;
             img.y = main_text_start;
             addChild(img);
         }
 
-        var text_width:int = Math.min(2 * GlobalMetrics.DISPLAYS_TEXT_WIDTH, img.x - 2 * GlobalMetrics.H_PADDING);
+        var img_x:int = img ? img.x : GlobalMetrics.STAGE_WIDTH - GlobalMetrics.H_PADDING - 200;
+
+        var text_width:int = Math.min(2 * GlobalMetrics.DISPLAYS_TEXT_WIDTH, img_x - 2 * GlobalMetrics.H_PADDING);
 
         var tf:TextField = TextUtils.createCustomTextField();
         tf.text = text;
@@ -65,7 +78,10 @@ public class HelpDisplay extends Sprite {
         var continueButton:SimpleButton = DisplayUtils.placeContinueButton(this);
 
         continueButton.addEventListener(MouseEvent.CLICK, function (event:Event):void {
-            KioBase.instance.currentProblem = problem;
+            if (problem)
+                KioBase.instance.currentProblem = problem;
+            else
+                KioBase.instance.currentDisplay = new ProblemsDisplay;
         });
 
     }
