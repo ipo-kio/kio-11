@@ -1,36 +1,37 @@
-package ru.ipo.kio.api_example {
+package ru.ipo.kio._11.CrossedCountry {
 import flash.display.DisplayObject;
+
+import flash.display.Sprite;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
+import ru.ipo.kio.api.Settings;
+import ru.ipo.kio.api_example.ExampleProblemSprite;
 
 /**
  * Пример задачи
- * @author Ilya
  */
-public class Pr1 implements KioProblem {
+public class CrossedCountry implements KioProblem {
 
-    public static const ID:String = "test";
+    public static const ID:String = "crossed_country";
 
     //Это спрайт, на котором рисуется задача
-    private var sp:MainSprite;
+    private var sp:Sprite;
+    private var _recordCheck:Object = null;
 
-    private var _level:int;
+    [Embed(source="resources/Ariadne.ru.json-settings",mimeType="application/octet-stream")]
+    public static var locTxt_ru:Class;
 
-    //конструктор задачи. Будем указывать в конструкторе уровень, чтобы задачу можно было использовать и в
-    //конкурсе первого уровня и второго. Если бы она была, например, только для первого уровня, параметр бы
-    //был не нужен
-    public function Pr1(level:int) {
-        _level = level;
-
+    //конструктор задачи
+    public function CrossedCountry() {
         //в первой строке конструктора задачи требуется вызвать инициализацию api:
+        KioApi.registerLocalization(ID, new Settings(locTxt_ru).data);
         KioApi.initialize(this);
-
-        KioApi.registerLocalization(ID, {text1:"Hello World!"});
 
         //теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
         //В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
-        sp = new MainSprite;
+        sp = new ExampleProblemSprite(true, ID);
+        // получить рекорд
     }
 
     /**
@@ -52,7 +53,7 @@ public class Pr1 implements KioProblem {
      * Уровень, для которого предназначена задача
      */
     public function get level():int {
-        return _level;
+        return 1;
     }
 
     /**
@@ -70,8 +71,22 @@ public class Pr1 implements KioProblem {
     public function get solution():Object {
         //в качестве решения возвращаем текст внутри текстового поля задачи
         return {
-            txt : sp.text
+//            points:sp.pointArray.concat(),
+//            time: sp.getPathTime()
+            //txt : sp.text
         };
+        /*
+         var o:Object = {
+         points_count:10,
+         point:[{x:1, y:2}, {x:3, y:-1}]
+         };
+
+         trace(o.points_count);
+         trace(o.point[1].x); //3
+         o.new_points = new Array();
+         o.new_points.push(10);
+         o.new_points.push( { x:10, y:5 } );
+         o.new_points.clone();*/
 
         //Другой способ сделать тоже самое:
         // var o:Object = new Object();
@@ -89,8 +104,13 @@ public class Pr1 implements KioProblem {
      */
     public function loadSolution(solution:Object):Boolean {
         //для загрузки решения нужно взять поле txt и записать его в текстовое поле
-        if (solution.txt) {
-            sp.text = solution.txt;
+        if (solution.points) {
+            // удаление всех точек, обнуление результата
+//            sp.deleteAll();
+            // добавление точек на сцену
+//            sp.loadSol(solution.points);
+
+            //sp.text = solution.txt;
             return true;
         } else
             return false;
@@ -102,8 +122,12 @@ public class Pr1 implements KioProblem {
      * @return результат проверки
      */
     public function check(solution:Object):Object {
-        return new Object();
+        return {
+//            time: sp.getPathTime()
+        };
     }
+
+    //otkluchilos
 
     /**
      * Сравнение двух решений, понадобится позже, комментарий будет позже
@@ -112,15 +136,24 @@ public class Pr1 implements KioProblem {
      * @return результат сравнения
      */
     public function compare(solution1:Object, solution2:Object):int {
-        return 1;
+
+        if (!solution1)
+            return solution2 ? 0 : -1;
+        if (!solution2)
+            return 1;
+
+        return solution1.time - solution2.time; //sm. semiramidaProblem, add null check
     }
 
-    /**
-     * Возвращает класс изображения с иконкой. Отображается для выбора задачи
-     * Пример в задаче semiramida
-     */
+    [Embed(source="resources/icon.jpg")]
+    public static const ICON:Class;
+
     public function get icon():Class {
-        return null;
+        return ICON;
+    }
+
+    public function get recordCheck():Object {
+        return _recordCheck;
     }
 
     public function get icon_help():Class {

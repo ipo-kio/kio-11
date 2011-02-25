@@ -6,6 +6,8 @@ import flash.events.MouseEvent;
 
 import flash.text.TextField;
 
+import ru.ipo.kio._11.CrossedCountry.CrossedCountry;
+import ru.ipo.kio._11.VirtualPhysics.PhysicsProblem;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.TextUtils;
 
@@ -79,12 +81,19 @@ public class ContestPanel extends Sprite {
         });
 
         helpButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
-            KioBase.instance.currentDisplay = new HelpDisplay(KioBase.instance.currentProblem, false);
+            if (testNonBrokenProblem())
+                KioBase.instance.currentDisplay = new HelpDisplay(KioBase.instance.currentProblem, false);
         });
 
         statementButton.addEventListener(MouseEvent.CLICK, function(e:Event):void {
-            KioBase.instance.currentDisplay = new HelpDisplay(KioBase.instance.currentProblem, true);
+            if (testNonBrokenProblem())
+                KioBase.instance.currentDisplay = new HelpDisplay(KioBase.instance.currentProblem, true);
         });
+    }
+
+    private function testNonBrokenProblem():Boolean {
+        var id:String = KioBase.instance.currentProblem.id;
+        return KioBase.instance.currentProblem.id != PhysicsProblem.ID && id != CrossedCountry.ID;
     }
 
     private function placeButton(caption:String):SimpleButton {

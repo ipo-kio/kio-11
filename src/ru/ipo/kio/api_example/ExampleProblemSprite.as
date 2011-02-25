@@ -9,27 +9,35 @@ package ru.ipo.kio.api_example{
 	 * это слово текстовое поле со сторокой текста
 	 * @author Ilya
 	 */
-	public class MainSprite extends Sprite
+	public class ExampleProblemSprite extends Sprite
 	{
 		
 		//текстовое поле - единственный видимый объект задачи
 		private var textField:TextField;
 		
 		//конструктор спрайта, инициализация всех объектов
-		public function MainSprite() 
+		public function ExampleProblemSprite(readonly:Boolean, id:String = null)
 		{
 			//получаем доступ к API, для этого передаем в качестве параметра id нашей задачи
-			var api:KioApi = KioApi.instance(Pr1.ID);
+			var api:KioApi = KioApi.instance(id ? id : ExampleProblem.ID);
 			
 			textField = new TextField();
 			//в качестве текста для отображения устанавливаем текст, взятый из объекта локализации
-			textField.text = api.localization.text1;
+			textField.text = api.localization.message;
+            textField.autoSize = TextFieldAutoSize.LEFT;
 			addChild(textField);
 			//разрешаем пользователю изменять текст
-			textField.type = TextFieldType.INPUT;
+            if (!readonly)
+			    textField.type = TextFieldType.INPUT;
+            else {
+                textField.multiline = true;
+                textField.wordWrap = true;
+                textField.width = 500;
+            }
 
+            textField.setTextFormat(new TextFormat(null, 16));
             textField.textColor = 0xFFFFFF;
-			
+
 			//устанавливаем слушатель на изменение текста
 			textField.addEventListener(Event.CHANGE, function(e:Event):void {
 				//просим api сохранить текущее решение, т.е. содержимое текстового поля (см. описание класса Pr1)

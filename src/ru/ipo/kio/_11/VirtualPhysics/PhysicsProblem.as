@@ -1,9 +1,12 @@
 package ru.ipo.kio._11.VirtualPhysics {
 	
 	import flash.display.DisplayObject;
-	import ru.ipo.kio.api.KioApi;
+import flash.display.Sprite;
+
+import ru.ipo.kio.api.KioApi;
 	import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.Settings;
+import ru.ipo.kio.api_example.ExampleProblemSprite;
 
 /**
 	 * Пример задачи
@@ -12,10 +15,10 @@ import ru.ipo.kio.api.Settings;
 	public class PhysicsProblem implements KioProblem
 	{
 		
-		public static const ID:String = "test";
+		public static const ID:String = "physics";
 	
 		//Это спрайт, на котором рисуется задача
-		private var sp:Main;
+		private var sp:Sprite;
 
         [Embed(source="resources/physics.ru.json-settings",mimeType="application/octet-stream")]
         public static var locTxt_ru:Class;
@@ -30,7 +33,7 @@ import ru.ipo.kio.api.Settings;
 			
 			//теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
 			//В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
-			sp = new Main;
+			sp = new ExampleProblemSprite(true, ID);
 		}
 		
 		/**

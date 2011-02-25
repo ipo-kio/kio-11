@@ -181,6 +181,13 @@ public class KioBase {
     }
 
     public function loadAllData(data:*):void {
+        if (!data.kio_base)
+            return;
+        if (!data.kio_base.level)
+            return;
+        if (data.kio_base.level != _level)
+            return;
+
         var lso:LsoProxy = KioBase.instance.lsoProxy;
 //        copyObjectTo(data, lso.data);
         lso.data = data;

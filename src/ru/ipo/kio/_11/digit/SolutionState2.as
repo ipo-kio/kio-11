@@ -94,9 +94,13 @@ public class SolutionState2 extends Sprite implements SolutionState {
         var i:int = r[0];
         var j:int = r[1];
 
-        var hint:String = _data[i][j] >= 0 ? loc.results.hint_wrong : loc.results.hint_correct;
+        var hint:String;
+        if (i == 0)
+            hint = _data[i][j] >= 0 ? loc.results.hint_wrong_0 : loc.results.hint_correct_0;
+        else
+            hint = _data[i][j] >= 0 ? loc.results.hint_wrong : loc.results.hint_correct;
 
-        hint = hint.replace(/\{line\}/, /*i == 0 ? '-' : i*/ i).replace(/\{digit\}/, j);
+        hint = hint.replace(/\{line\}/, loc.results.lines[i]).replace(/\{digit\}/, j);
 
         showPopup(hint, _info.mouseX, _info.mouseY);
     }

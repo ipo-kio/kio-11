@@ -49,13 +49,25 @@ public class FileUtils {
         //data.writeObject(sol);
         //fr.save(data);
 
-        fr.save(JSON.encode(sol), SOLUTION_FILE_NAME + ".kio-" + problem.id);
+        fr.save(JSON.encode(sol), SOLUTION_FILE_NAME + inventDate() + ".kio-" + problem.id);
     }
 
     public static function saveAll():void {
         var fr:FileReference = new FileReference();
         var sol:Object = KioBase.instance.lsoProxy.data;
-        fr.save(JSON.encode(sol), RESULTS_FILE_NAME + ".kio");
+        fr.save(JSON.encode(sol), RESULTS_FILE_NAME + inventDate() + ".kio");
+    }
+
+    private static function inventDate():String {
+        var d:Date = new Date();
+        return '-' + /*dbl(d.getMonth()) + '-' +*/ dbl(d.getDay()) + "_" + dbl(d.getHours()) + '-' + dbl(d.getMinutes()) + '-' + dbl(d.getSeconds());
+    }
+
+    private static function dbl(x:int):String {
+        var s:String = '' + x;
+        while (s.length < 2)
+            s = '0' + s;
+        return s;
     }
 
     public static function loadAll():void {

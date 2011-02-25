@@ -31,7 +31,7 @@ public class TestSemiramida extends Sprite {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
         KioApi.registerLocalization(
-                Pr1.ID, //идентификатор
+                ExampleProblem.ID, //идентификатор
         {                              //объект локализации
             text1 : "Hello World",
             text2 : "text 2",

@@ -50,7 +50,7 @@ package ru.ipo.kio.api_example
 			//
 			//Чтобы не вписывать сюда объект локализации, его можно создать отдельно, см. ru.ipo.kio.base.KioBase.init()
 			KioApi.registerLocalization(
-				Pr1.ID, //идентификатор
+				ExampleProblem.ID, //идентификатор
 				{                              //объект локализации
 					text1 : "Hello World",
 					text2 : "text 2",
@@ -63,7 +63,7 @@ package ru.ipo.kio.api_example
 			
 			//Запускаем задачу. Метод initOneProblem() рекомендуется использовать программистам для отладки одной задачи.
 			//Первый параметр - текущий спрайт, второй параметр - задача
-			KioBase.instance.initOneProblem(this, new Pr1(1));
+			KioBase.instance.initOneProblem(this, new ExampleProblem(1));
 		}
 		
 	}
