@@ -33,7 +33,9 @@ import ru.ipo.kio.api_example.ExampleProblemSprite;
 			
 			//теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
 			//В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
-			sp = new ExampleProblemSprite(true, ID);
+
+//			sp = new ExampleProblemSprite(true, ID); //Это вызов заглушки, которая показывает, что задача будет доступна позже
+            sp = new Main;
 		}
 		
 		/**

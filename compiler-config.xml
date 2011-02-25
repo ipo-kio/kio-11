@@ -1,13 +1,4 @@
 <flex-config xmlns="http://www.adobe.com/2006/flex-config">
-    <compiler>
-        <debug>true</debug>
-        <source-path>
-            <path-element>/home/ilya/programming/kio-11/src</path-element>
-        </source-path>
-    </compiler>
-    <file-specs>
-    </file-specs>
-
     <default-size>
         <width>900</width>
         <height>600</height>
