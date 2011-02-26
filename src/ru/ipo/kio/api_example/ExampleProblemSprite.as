@@ -16,6 +16,8 @@ package ru.ipo.kio.api_example{
 		private var textField:TextField;
 		
 		//конструктор спрайта, инициализация всех объектов
+		//!!!! Важно. Параметры readonly и id необходимы для работы заглушек конкурса, в котором были выданы не все задачи
+        //при разборе примера можно считать, что readonly = false, id = null
 		public function ExampleProblemSprite(readonly:Boolean, id:String = null)
 		{
 			//получаем доступ к API, для этого передаем в качестве параметра id нашей задачи

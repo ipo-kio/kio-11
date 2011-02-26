@@ -15,14 +15,13 @@ public class SemiramidaProblem implements KioProblem {
     private var _level:int;
 
     [Embed(source="resources/Semiramida.ru.json-settings",mimeType="application/octet-stream")]
-    public static var locTxt:Class;
-
-    //private var spitter:SpitMem = new SpitMem;
+    public static var SEMIRAMIDA_RU:Class;
 
     public function SemiramidaProblem(level:int) {
         _level = level;
 
-        KioApi.registerLocalization(ID, new Settings(locTxt).data);
+        KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(SEMIRAMIDA_RU).data);
+
         KioApi.initialize(this);
 
         sp = new Workspace;

@@ -1,4 +1,5 @@
-package ru.ipo.kio._11.digit {
+package ru.ipo.kio._11.ariadne {
+import ru.ipo.kio._11.digit.*;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -6,9 +7,9 @@ import flash.events.Event;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.base.KioBase;
 
-public class TestDigit extends Sprite {
+public class TestAriadne extends Sprite {
 
-    public function TestDigit() {
+    public function TestAriadne() {
         if (stage)
             init();
         else
@@ -20,7 +21,7 @@ public class TestDigit extends Sprite {
 
         KioApi.lang = KioApi.L_RU;
 
-        KioBase.instance.initOneProblem(this, new DigitProblem(2));
+        KioBase.instance.initOneProblem(this, new AriadneProblem);
     }
 
 }

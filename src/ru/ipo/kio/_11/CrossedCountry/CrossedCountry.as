@@ -25,7 +25,7 @@ public class CrossedCountry implements KioProblem {
     //конструктор задачи
     public function CrossedCountry() {
         //в первой строке конструктора задачи требуется вызвать инициализацию api:
-        KioApi.registerLocalization(ID, new Settings(locTxt_ru).data);
+        KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(locTxt_ru).data);
         KioApi.initialize(this);
 
         //теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:

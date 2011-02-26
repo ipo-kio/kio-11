@@ -14,8 +14,6 @@ import flash.events.MouseEvent;
 
 import flash.text.TextField;
 
-import mx.utils.DisplayUtil;
-
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.LsoProxy;
 import ru.ipo.kio.api.TextUtils;
@@ -96,7 +94,7 @@ public class AnketaDisplay extends Sprite {
                 );
 
         connection.x = GlobalMetrics.ANKETA_LEFT;
-        connection.y = fio.y + fio.height + GlobalMetrics.ANKETA_BLOCK_SKIP;;
+        connection.y = fio.y + fio.height + GlobalMetrics.ANKETA_BLOCK_SKIP;
         addChild(connection);
 
         var school:InputBlock = new InputBlock(
@@ -159,7 +157,6 @@ public class AnketaDisplay extends Sprite {
                 break;
             }
 
-        //TODO make sure enabled means not clickable
         continueButton.enabled = ! hasError;
     }
 
@@ -169,7 +166,7 @@ public class AnketaDisplay extends Sprite {
             var lso:LsoProxy = KioBase.instance.lsoProxy;
             lso.getGlobalData().anketa_filled = true;
             lso.getGlobalData().level = KioBase.instance.level;
-            lso.getGlobalData().language = 'ru'; //TODO write real language
+            lso.getGlobalData().language = KioApi.lang;
             lso.flush();
         }
     }

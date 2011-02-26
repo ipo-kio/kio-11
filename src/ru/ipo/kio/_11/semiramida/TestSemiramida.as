@@ -30,17 +30,7 @@ public class TestSemiramida extends Sprite {
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-        KioApi.registerLocalization(
-                ExampleProblem.ID, //идентификатор
-        {                              //объект локализации
-            text1 : "Hello World",
-            text2 : "text 2",
-            menu : {
-                file : "Файл",
-                exit : "Выйти"
-            }
-        }
-                );
+        KioApi.lang = KioApi.L_RU;
 
         KioBase.instance.initOneProblem(this, new SemiramidaProblem(1));
     }

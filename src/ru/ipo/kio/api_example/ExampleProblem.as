@@ -26,7 +26,8 @@ public class ExampleProblem implements KioProblem {
         //в первой строке конструктора задачи требуется вызвать инициализацию api:
         KioApi.initialize(this);
 
-        KioApi.registerLocalization(ID, {message:"Hello World"});
+        KioApi.registerLocalization(ID, 'ru', {message:"Hello World"});
+        KioApi.lang = KioApi.L_RU;
 
         //теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
         //В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)

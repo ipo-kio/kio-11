@@ -5,8 +5,6 @@ import flash.display.Sprite;
 
 import flash.text.TextField;
 
-import mx.utils.DisplayUtil;
-
 import ru.ipo.kio.api.controls.SpaceSettingsDialog;
 import ru.ipo.kio.base.displays.DisplayUtils;
 import ru.ipo.kio.base.displays.ProblemsDisplay;
@@ -39,11 +37,11 @@ public class KioBase {
 
     private var spaceSettings:SpaceSettingsDialog = null;
 
-    [Embed(source="resources/shell.ru.json-config",mimeType="application/octet-stream")]
-    private var locTxt:Class;
+    [Embed(source="resources/shell.ru.json-settings",mimeType="application/octet-stream")]
+    public static var SHELL_RU:Class;
 
     public function KioBase() {
-        KioApi.registerLocalization(KioBase.BASE_API_ID, new Settings(locTxt).data);
+        KioApi.registerLocalization(BASE_API_ID, KioApi.L_RU, new Settings(SHELL_RU).data);
     }
 
     private function basicInitialization(level:int, year:int, stage:DisplayObjectContainer, problems:Array):void {

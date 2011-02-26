@@ -19,10 +19,11 @@ public class AriadneProblem implements KioProblem {
     private var _recordCheck:Object = null;
 
     [Embed(source="resources/Ariadne.ru.json-settings",mimeType="application/octet-stream")]
-    public static var locTxt_ru:Class;
+    public static var ARIADNE_RU:Class;
 
     public function AriadneProblem() {
-        KioApi.registerLocalization(ID, new Settings(locTxt_ru).data);
+        KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(ARIADNE_RU).data);
+
         KioApi.initialize(this);
 
         sp = new ExampleProblemSprite(true, ID);
