@@ -4,7 +4,7 @@
  * Date: 25.02.11
  * Time: 17:08
  */
-package ru.ipo.kio._11.ariadne {
+package ru.ipo.kio._11.ariadne.model {
 import ru.ipo.kio.api.KioApi;
 
 public class AriadneTerra implements Terra {

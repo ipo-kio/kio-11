@@ -4,7 +4,7 @@
  * Date: 25.02.11
  * Time: 16:38
  */
-package ru.ipo.kio._11.ariadne {
+package ru.ipo.kio._11.ariadne.model {
 public class Rational {
 
     private var _n:int;
@@ -122,5 +122,23 @@ public class Rational {
     public function toString():String {
         return "Rational{_n=" + String(_n) + ",_d=" + String(_d) + "}";
     }
+
+    public function sqr_():Rational {
+        _n *= _n;
+        _d *= _d;
+        return this;
+    }
+
+    public function get value():Number {
+        return _n / _d;
+    }
+
+    /*public function get serialize():Object {
+        return {n:_n, d:_d};
+    }
+
+    public static function unSerialize(value:Object):Rational {
+        return new Rational(value.n, value.d);
+    }*/
 }
 }

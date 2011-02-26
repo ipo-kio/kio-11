@@ -4,15 +4,18 @@
  * Date: 25.02.11
  * Time: 23:48
  */
-package ru.ipo.kio._11.ariadne {
+package ru.ipo.kio._11.ariadne.test {
+import ru.ipo.kio._11.ariadne.*;
+
 import flash.display.Sprite;
 
 public class TestEvaluations extends Sprite {
 
     public function TestEvaluations() {
-        var ariadneTerra:AriadneTerra = new AriadneTerra();
+        var terra:TestTerra = new TestTerra();
 
-        var split:Array = Segment.create(10, 10, 40, 7).split(ariadneTerra);
+        var split:Array = Segment.split(terra, 13, 2, 1, 2);
+        trace(split.length);
         for each (var e:Segment in split)
             trace(e);
 

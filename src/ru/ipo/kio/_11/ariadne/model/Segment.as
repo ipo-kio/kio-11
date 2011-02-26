@@ -4,7 +4,7 @@
  * Date: 25.02.11
  * Time: 20:06
  */
-package ru.ipo.kio._11.ariadne {
+package ru.ipo.kio._11.ariadne.model {
 
 public class Segment {
 
@@ -87,23 +87,50 @@ public class Segment {
             return intersection.equals(_finish) ? null : new Segment(intersection, _finish, type < 0 ? _type : type);
     }
 
-    public function split(terra:Terra):Array {
+    public static function split(terra:Terra, x1:int, y1:int, x2:int, y2:int):Array {
         var w:int = terra.width;
         var h:int = terra.height;
 
         var elements:Array = [];
 
+        var segment:Segment = Segment.create(x1, y1, x2, y2);
+
         //if horizontal or vertical
-        if (_start.x.equals(_finish.x) || _start.y.equals(_finish.y)) {
+        if (x1 == x2 || y1 == y2) {
+            var dx:int = x2 - x1;
+            var dy:int = y2 - y1;
+            if (dx > 0)
+                dx = 1;
+            else if (dx < 0)
+                dx = -1;
+            if (dy > 0)
+                dy = 1;
+            else if (dy < 0)
+                dy = -1;
+
+            var x:int = x1;
+            var y:int = y1;
+            while (x != x2 || y != y2) {
+                var t1:int = terra.squareType(x + (dx + dy - 1) / 2, y + (dy - dx - 1) / 2);
+                var t2:int = terra.squareType(x + (dx - dy - 1) / 2, y + (dy + dx - 1) / 2);
+                elements.push(
+                        create(x, y, x + dx, y + dy,
+                                terra.velocity(t1) > terra.velocity(t2) ? t2 : t1
+                                )
+                        );
+
+                x += dx;
+                y += dy;
+            }
 
         } else { // diagonal
-            var grows:Boolean = _finish.x.sub(_start.x).positive();
+            var grows:Boolean = x2 > x1;
 
-            for (var x:int = 0; x < w; x++)
-                for (var y:int = 0; y < h; y++) {
-                    var s:Segment = intersect(x, y, terra.squareType(x, y));
-                    if (s)
-                        elements.push(s);
+            for (var x0:int = 0; x < w; x++)
+                for (var y0:int = 0; y < h; y++) {
+                    var intersection_segment:Segment = segment.intersect(x0, y0, terra.squareType(x0, y0));
+                    if (intersection_segment)
+                        elements.push(intersection_segment);
                 }
 
             var e_len:int = elements.length;
@@ -116,7 +143,32 @@ public class Segment {
                     }
         }
 
-        return elements;
+        if (elements.length == 0)
+            return elements;
+
+        var last_united:Segment = elements[0];
+        var united_elements:Array = [last_united];
+        for each (var s:Segment in elements) {
+            if (s.type == last_united.type) {
+                last_united = new Segment(last_united.start, s.finish, s.type);
+                united_elements.pop();
+                united_elements.push(last_united);
+            } else {
+                united_elements.push(s);
+                last_united = s;
+            }
+        }
+
+        return united_elements;
+    }
+
+    public function get length():Number {
+        return Math.sqrt(
+                _start.x.sub(_finish.x).sqr_().add_(
+                        _start.y.sub(_finish.y).sqr_()
+                        )
+                        .value
+                );
     }
 
     public function toString():String {
@@ -126,11 +178,11 @@ public class Segment {
                 "        [" + _type + "]";
     }
 
-    public static function create(x1:int, y1:int, x2:int, y2:int):Segment {
+    public static function create(x1:int, y1:int, x2:int, y2:int, type:int = -1):Segment {
         return new Segment(
                 new RationalPoint(new Rational(x1, 1), new Rational(y1, 1)),
                 new RationalPoint(new Rational(x2, 1), new Rational(y2, 1)),
-                0
+                type
                 );
     }
 }

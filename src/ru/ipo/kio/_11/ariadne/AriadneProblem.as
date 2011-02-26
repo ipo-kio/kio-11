@@ -11,7 +11,7 @@ import ru.ipo.kio.api_example.ExampleProblemSprite;
 /**
  * Пример задачи
  */
-public class Ariadne implements KioProblem {
+public class AriadneProblem implements KioProblem {
 
     public static const ID:String = "ariadne";
 
@@ -21,7 +21,7 @@ public class Ariadne implements KioProblem {
     [Embed(source="resources/Ariadne.ru.json-settings",mimeType="application/octet-stream")]
     public static var locTxt_ru:Class;
 
-    public function Ariadne() {
+    public function AriadneProblem() {
         KioApi.registerLocalization(ID, new Settings(locTxt_ru).data);
         KioApi.initialize(this);
 

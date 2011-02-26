@@ -4,7 +4,7 @@
  * Date: 25.02.11
  * Time: 16:52
  */
-package ru.ipo.kio._11.ariadne {
+package ru.ipo.kio._11.ariadne.model {
 public interface Terra {
 
     function get width():int;

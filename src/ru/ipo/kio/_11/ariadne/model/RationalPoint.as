@@ -5,7 +5,7 @@
  * Time: 19:53
  * To change this template use File | Settings | File Templates.
  */
-package ru.ipo.kio._11.ariadne {
+package ru.ipo.kio._11.ariadne.model {
 public class RationalPoint {
 
     private var _x:Rational;

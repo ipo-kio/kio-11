@@ -42,7 +42,7 @@ public class TestSemiramida extends Sprite {
         }
                 );
 
-        KioBase.instance.initOneProblem(this, new SemiramidaProblem);
+        KioBase.instance.initOneProblem(this, new SemiramidaProblem(1));
     }
 
 }
