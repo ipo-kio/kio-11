@@ -48,5 +48,79 @@ public class Rational {
     public function equals(r:Rational):Boolean {
         return _n == r._n && _d == r._d;
     }
+
+    public function add(r:Rational):Rational {
+        return new Rational(_n * r._d + r._n * _d, _d * r._d);
+    }
+
+    public function sub(r:Rational):Rational {
+        return new Rational(_n * r._d - r._n * _d, _d * r._d);
+    }
+
+    //returns this
+    public function add_(r:Rational):Rational {
+        var d:int = _d * r._d;
+        _n = _n * r._d + r._n * _d;
+        _d = d;
+        normalize();
+        return this;
+    }
+
+    //returns this
+    public function sub_(r:Rational):Rational {
+        var d:int = _d * r._d;
+        _n = _n * r._d - r._n * _d;
+        _d = d;
+        normalize();
+        return this;
+    }
+
+    public function positive():Boolean {
+        return _n > 0;
+    }
+
+    public function nonNegative():Boolean {
+        return _n >= 0;
+    }
+
+    public function mul(r:Rational):Rational {
+        return new Rational(r._n * _n, _d * r._d);
+    }
+
+    public function mul_(r:Rational):Rational {
+        _n *= r._n;
+        _d *= r._d;
+        normalize();
+        return this;
+    }
+
+    public function div(r:Rational):Rational {
+        return new Rational(r._d * _n, _d * r._n);
+    }
+
+    public function div_(r:Rational):Rational {
+        _n *= r._d;
+        _d *= r._n;
+        normalize();
+        return this;
+    }
+
+    public function mul_int(a:int):Rational {
+        return new Rational(a * _n, _d);
+    }
+
+    public function mul_int_(a:int):Rational {
+        _n *= a;
+        normalize();
+        return this;
+    }
+
+    public function sub_int(a:int):Rational {
+        return new Rational(_n - a * _d, _d);
+    }
+
+    public function toString():String {
+        return "Rational{_n=" + String(_n) + ",_d=" + String(_d) + "}";
+    }
 }
 }
