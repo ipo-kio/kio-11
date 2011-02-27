@@ -3,6 +3,7 @@ import flash.display.DisplayObject;
 
 import flash.display.Sprite;
 
+import ru.ipo.kio._11.ariadne.view.Workspace;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.Settings;

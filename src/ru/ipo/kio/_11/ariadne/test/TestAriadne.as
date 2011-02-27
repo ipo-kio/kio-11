@@ -1,9 +1,10 @@
 package ru.ipo.kio._11.ariadne.test {
-import ru.ipo.kio._11.ariadne.AriadneProblem;
-
 import flash.display.Sprite;
+
+import ru.ipo.kio._11.ariadne.AriadneProblem;
 import flash.events.Event;
 
+import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.base.KioBase;
 
 public class TestAriadne extends Sprite {
@@ -18,7 +19,9 @@ public class TestAriadne extends Sprite {
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-        KioBase.instance.initOneProblem(this, new AriadneProblem());
+        KioApi.language = KioApi.L_RU;
+
+        KioBase.instance.initOneProblem(this, new AriadneProblem);
     }
 
 }

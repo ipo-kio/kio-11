@@ -31,11 +31,11 @@ package ru.ipo.kio.api_example{
 			//разрешаем пользователю изменять текст
             if (!readonly)
 			    textField.type = TextFieldType.INPUT;
-            else {
+            /*else {
                 textField.multiline = true;
                 textField.wordWrap = true;
                 textField.width = 500;
-            }
+            }*/
 
             textField.setTextFormat(new TextFormat(null, 16));
             textField.textColor = 0xFFFFFF;

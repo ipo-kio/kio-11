@@ -5,12 +5,14 @@
  * Time: 18:57
  * To change this template use File | Settings | File Templates.
  */
-package ru.ipo.kio._11.ariadne {
+package ru.ipo.kio._11.ariadne.view {
 import flash.display.Sprite;
+
+import ru.ipo.kio._11.ariadne.model.AriadneTerra;
 
 public class Workspace extends Sprite {
 
-    [Embed(source='resources/Bg_All.jpg')]
+    [Embed(source='../resources/Bg_All.jpg')]
     private static const BG:Class;
 
     private var _land:Land = new Land(11);

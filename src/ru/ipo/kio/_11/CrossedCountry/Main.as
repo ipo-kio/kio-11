@@ -714,14 +714,14 @@ public class Main extends Sprite {
                 trace("selected point " + pointArray[pointNumber].selPt);
                 pointArray[pointNumber].SelectedPt(e);
                 trace("selected point " + pointArray[pointNumber].selPt);
-                selectPoint = pointArray[pointNumber].selPt & 1 != 0;
+//                TODO uncomment
+//                selectPoint = pointArray[pointNumber].selPt & 1 != 0;
                 trace("selected");
 
 
             }
         }
     }
-
 
     private function drawLines():void {
         if (pointArray.length == 3) {

@@ -16,11 +16,14 @@ public class SemiramidaProblem implements KioProblem {
 
     [Embed(source="resources/Semiramida.ru.json-settings",mimeType="application/octet-stream")]
     public static var SEMIRAMIDA_RU:Class;
+    [Embed(source="resources/Semiramida.es.json-settings",mimeType="application/octet-stream")]
+    public static var SEMIRAMIDA_ES:Class;
 
     public function SemiramidaProblem(level:int) {
         _level = level;
 
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(SEMIRAMIDA_RU).data);
+        KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(SEMIRAMIDA_ES).data);
 
         KioApi.initialize(this);
 

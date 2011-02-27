@@ -19,17 +19,21 @@ public class CrossedCountry implements KioProblem {
     private var sp:Sprite;
     private var _recordCheck:Object = null;
 
-    [Embed(source="resources/Ariadne.ru.json-settings",mimeType="application/octet-stream")]
+    [Embed(source="../ariadne/resources/Ariadne.ru.json-settings",mimeType="application/octet-stream")]
     public static var locTxt_ru:Class;
+    [Embed(source="../ariadne/resources/Ariadne.es.json-settings",mimeType="application/octet-stream")]
+    public static var locTxt_es:Class;
 
     //конструктор задачи
     public function CrossedCountry() {
         //в первой строке конструктора задачи требуется вызвать инициализацию api:
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(locTxt_ru).data);
+        KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(locTxt_es).data);
         KioApi.initialize(this);
 
         //теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
-        //В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
+//        В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
+//        sp = new Main;
         sp = new ExampleProblemSprite(true, ID);
         // получить рекорд
     }

@@ -65,7 +65,7 @@ import mx.controls.Text;
 			);
 			*/
 
-            KioApi.lang = KioApi.L_RU;
+            KioApi.language = KioApi.L_RU;
 			
 			//Запускаем задачу. Метод initOneProblem() рекомендуется использовать программистам для отладки одной задачи.
 			//Первый параметр - текущий спрайт, второй параметр - задача

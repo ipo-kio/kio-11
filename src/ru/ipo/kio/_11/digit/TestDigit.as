@@ -18,7 +18,7 @@ public class TestDigit extends Sprite {
     private function init(e:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-        KioApi.lang = KioApi.L_RU;
+        KioApi.language = KioApi.L_RU;
 
         KioBase.instance.initOneProblem(this, new DigitProblem(2));
     }

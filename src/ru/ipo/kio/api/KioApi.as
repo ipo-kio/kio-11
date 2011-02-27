@@ -16,9 +16,10 @@ public class KioApi {
 
     private var lso : LsoProxy;
 
-    private static var _lang:String = null;
+    private static var _language:String = null;
 
     public static const L_RU:String = 'ru';
+    public static const L_ES:String = 'es';
 
     /**
      * Конструктор, вызывать не следует
@@ -59,14 +60,14 @@ public class KioApi {
     }
 
     public static function getLocalization(id:String):Object {
-        return locs[_lang][id];
+        return locs[_language][id];
     }
 
     /**
      * Получить объект, содержащий специфичный для локали набор данных
      */
     public function get localization():Object {
-        return locs[_lang][_problem.id];
+        return locs[_language][_problem.id];
     }
 
     /**
@@ -122,12 +123,12 @@ public class KioApi {
         return lso.getProblemData(problem.id);
     }
 
-    public static function get lang():String {
-        return _lang;
+    public static function get language():String {
+        return _language;
     }
 
-    public static function set lang(value:String):void {
-        _lang = value;
+    public static function set language(value:String):void {
+        _language = value;
     }
 }
 }

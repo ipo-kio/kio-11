@@ -26,11 +26,15 @@ public class Path {
         _points.splice(point_index, 1);
     }
 
+    public function get pointsCount():int {
+        return _points.length;
+    }
+
     /**
      * including start and finish
      * @param ind 0 based index
      */
-    public function getIntegerPoint(ind:int):IntegerPoint {
+    public function getPoint(ind:int):IntegerPoint {
         return _points[ind];
     }
 

@@ -39,9 +39,12 @@ public class KioBase {
 
     [Embed(source="resources/shell.ru.json-settings",mimeType="application/octet-stream")]
     public static var SHELL_RU:Class;
+    [Embed(source="resources/shell.es.json-settings",mimeType="application/octet-stream")]
+    public static var SHELL_ES:Class;
 
     public function KioBase() {
         KioApi.registerLocalization(BASE_API_ID, KioApi.L_RU, new Settings(SHELL_RU).data);
+        KioApi.registerLocalization(BASE_API_ID, KioApi.L_ES, new Settings(SHELL_ES).data);
     }
 
     private function basicInitialization(level:int, year:int, stage:DisplayObjectContainer, problems:Array):void {

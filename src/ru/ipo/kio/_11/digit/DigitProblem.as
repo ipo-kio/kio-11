@@ -16,6 +16,8 @@ public class DigitProblem implements KioProblem {
 
     [Embed(source="resources/digit.ru.json-settings",mimeType="application/octet-stream")]
     public static var DIGIT_RU:Class;
+    [Embed(source="resources/digit.es.json-settings",mimeType="application/octet-stream")]
+    public static var DIGIT_ES:Class;
 
     //private var spitter:SpitMem = new SpitMem;
 
@@ -24,6 +26,7 @@ public class DigitProblem implements KioProblem {
         Globals.instance.level = level;
 
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(DIGIT_RU).data);
+        KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(DIGIT_ES).data);
 
         KioApi.initialize(this);
 

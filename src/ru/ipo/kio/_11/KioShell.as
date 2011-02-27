@@ -25,7 +25,7 @@ public class KioShell extends UIComponent {
     public function KioShell(level:int) {
         _level = level;
 
-        KioApi.lang = KioApi.L_RU;
+        KioApi.language = KioApi.L_ES;
 
         if (stage)
             init();

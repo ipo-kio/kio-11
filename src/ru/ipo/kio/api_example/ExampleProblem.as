@@ -27,7 +27,7 @@ public class ExampleProblem implements KioProblem {
         KioApi.initialize(this);
 
         KioApi.registerLocalization(ID, 'ru', {message:"Hello World"});
-        KioApi.lang = KioApi.L_RU;
+        KioApi.language = KioApi.L_RU;
 
         //теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
         //В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)

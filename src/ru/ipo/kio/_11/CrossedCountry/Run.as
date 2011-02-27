@@ -47,8 +47,9 @@ public class Run extends Sprite {
         // trace(o.c.r[0]); -> это число 4
         //
         //Чтобы не вписывать сюда объект локализации, его можно создать отдельно, см. ru.ipo.kio.base.KioBase.init()
-        KioApi.registerLocalization(
+        /*KioApi.registerLocalization(
                 CrossedCountry.ID, //идентификатор
+                'ru',
         {                              //объект локализации
             text1 : "Hello World",
             text2 : "text 2",
@@ -57,7 +58,8 @@ public class Run extends Sprite {
                 exit : "Выйти"
             }
         }
-                );
+                );*/
+        KioApi.language = KioApi.L_RU;
 
         //Запускаем задачу. Метод initOneProblem() рекомендуется использовать программистам для отладки одной задачи.
         //Первый параметр - текущий спрайт, второй параметр - задача

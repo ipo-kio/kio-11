@@ -166,7 +166,7 @@ public class AnketaDisplay extends Sprite {
             var lso:LsoProxy = KioBase.instance.lsoProxy;
             lso.getGlobalData().anketa_filled = true;
             lso.getGlobalData().level = KioBase.instance.level;
-            lso.getGlobalData().language = KioApi.lang;
+            lso.getGlobalData().language = KioApi.language;
             lso.flush();
         }
     }

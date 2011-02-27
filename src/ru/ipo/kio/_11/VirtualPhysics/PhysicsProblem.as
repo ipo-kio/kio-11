@@ -20,11 +20,14 @@ public class PhysicsProblem implements KioProblem {
 
     [Embed(source="resources/physics.ru.json-settings",mimeType="application/octet-stream")]
     public static var PHYSICS_RU:Class;
+    [Embed(source="resources/physics.es.json-settings",mimeType="application/octet-stream")]
+    public static var PHYSICS_ES:Class;
 
     //конструктор задачи
     public function PhysicsProblem() {
 
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(PHYSICS_RU).data);
+        KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(PHYSICS_ES).data);
 
         //в первой строке конструктора задачи требуется вызвать инициализацию api:
         KioApi.initialize(this);
@@ -32,8 +35,8 @@ public class PhysicsProblem implements KioProblem {
         //теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
         //В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
 
-//			sp = new ExampleProblemSprite(true, ID); //Это вызов заглушки, которая показывает, что задача будет доступна позже
-        sp = new Main;
+			sp = new ExampleProblemSprite(true, ID); //Это вызов заглушки, которая показывает, что задача будет доступна позже
+//        sp = new Main;
     }
 
     /**
