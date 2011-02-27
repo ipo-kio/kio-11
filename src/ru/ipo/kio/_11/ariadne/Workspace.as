@@ -13,11 +13,19 @@ public class Workspace extends Sprite {
     [Embed(source='resources/Bg_All.jpg')]
     private static const BG:Class;
 
+    private var _land:Land = new Land(11);
+
     public function Workspace() {
 
         addChild(new BG);
 
-        //land position 25, 20
+        _land.x = 25;
+        _land.y = 20;
+        addChild(_land);
+    }
+
+    public function get land():Land {
+        return _land;
     }
 }
 }

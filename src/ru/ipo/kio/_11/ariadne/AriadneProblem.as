@@ -26,7 +26,8 @@ public class AriadneProblem implements KioProblem {
 
         KioApi.initialize(this);
 
-        sp = new ExampleProblemSprite(true, ID);
+//        sp = new ExampleProblemSprite(true, ID);
+        sp = new Workspace;
     }
 
     public function get id():String {

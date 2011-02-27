@@ -9,7 +9,13 @@ package ru.ipo.kio._11.ariadne {
 import flash.display.Sprite;
 
 public class Land extends Sprite {
-    public function Land() {
+
+    /**
+     * Constructs a land.
+     * @param cell_size size of cell, not including grid
+     */
+    public function Land(cell_size:int) {
+
     }
 }
 }
