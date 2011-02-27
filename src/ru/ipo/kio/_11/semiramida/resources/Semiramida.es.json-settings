@@ -36,7 +36,7 @@
 	"results":{
 		"record":"Puntaje más alto",
 		"current":"Solución actual",
-		"rooms":"Compartimentos irrigados",
-		"length":"Longitud de las tuberías medida en niveles"
+		"rooms":"Irrigados",
+		"length":"Longitud de las tuberías"
 	}
 }
