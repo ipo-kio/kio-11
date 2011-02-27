@@ -1,4 +1,4 @@
-﻿{
+ {
     "title1":"Robot con Ojos Afilados",
 	"title2":"Códigos Postales",
     "statement1": <<<
@@ -63,12 +63,12 @@
         "nop": "vacío"
     },
     "results": {
-        "correct" : "correcto",
-        "wrong" : "incorrecto",
+        "correct" : "bien",
+        "wrong" : "mal",
 		"hint_correct_0" : "Correct. If there are no damaged elements digit {digit} is recognized correctly.",
         "hint_wrong_0" : "Incorrect. If there are no damaged elements digit {digit} is recognized incorrectly.",
-        "hint_correct" : "Correcto: A pesar del daño en la línea # {line},  el dígito {digit} es reconocido correctamente",
-        "hint_wrong" : "Incorrecto: Cuando se leyó con la linea # {line} dañada,  el dígito {digit} fue reconocido incorrectamente",
+        "hint_correct" : "Bien: A pesar del daño en la línea # {line},  el dígito {digit} es reconocido correctamente",
+        "hint_wrong" : "Mal: Cuando se leyó con la linea # {line} dañada,  el dígito {digit} fue reconocido incorrectamente",
         "lines" : [
             "-",
             "upper",
