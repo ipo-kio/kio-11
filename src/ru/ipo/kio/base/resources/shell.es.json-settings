@@ -1,4 +1,4 @@
-﻿/*This file contains texts that are common to all problems and that are used in the Shell*/
+ /*This file contains texts that are common to all problems and that are used in the Shell*/
 {   
     "contest_header":"Contest CTE-2011",
     "contest_level":["Level I", "Level II"],
@@ -91,7 +91,7 @@
         },
         "problems": {
             "fill_form": "Llene el cuestionario",
-			"header": "Choose problem",
+			"header": "Select a problem",
             "about":"About the program"
         },
         "problem": {
