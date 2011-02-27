@@ -192,6 +192,9 @@ public class Workspace extends Sprite {
                 if (trashHitTest(__last_mouse_move_x, __last_mouse_move_y))
                     _field.removeGate(g);
 
+                __last_mouse_move_x = -1;
+                __last_mouse_move_y = -1;
+
                 //position gate if outside field
                 if (g.x < 0)
                     g.x = 0;
