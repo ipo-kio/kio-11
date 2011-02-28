@@ -25,7 +25,7 @@
 		"save_workspace": "Guardar mejores resultados y cuestionario"
 	},
 	"contest_panel":{
-	    "problem_header":"Problem", 
+	    "problem_header":"Problema", 
 		"current_solution_caption" : "Solución",
 		"help_header" : "Ayuda",
 		"records_and_anketa_header" : "Mejores resultados y cuestionario",
@@ -91,8 +91,8 @@
         },
         "problems": {
             "fill_form": "Llene el cuestionario",
-			"header": "Select a problem",
-            "about":"About the program"
+			"header": "Seleccione un problema",
+            "about":"Acerca del progrma"
         },
         "problem": {
             "screen_header":"Problema"
@@ -115,9 +115,9 @@
             >>>
 		},
 		    "space_settings":{
-            "warning":"Attention!",
-            "action":"In order to work with the CTE program you need to let it store data on a hard drive.\nOpen the settings window and allow the program to use at least one megabyte. In order to do it make the settings the same as in the picture:",
-            "after":"Only after doing this you will be able to close the window"
+            "warning":"¡Atención!",
+            "action":"Para poder trabajar con el programa CTE usted necesita almacenar información en el disco duro.\nAbrfa la ventana de configuración y permita que el programa use al menos un megabyte. Para hacer que las configuraciones estén iguales al gráfico:",
+            "after":"Unicamente después de hacer esto usted podrá cerrar la venana"
 		}
         }
     }
