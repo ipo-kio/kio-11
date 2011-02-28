@@ -26,7 +26,7 @@
 </p>
 	>>>,
 	"buttons":{ /*Text on buttons*/
-		"create_pipe": "Añadir",
+		"create_pipe": "Anadir",
 		"remove_pipe": "Borrar",
 		"down": "Abajo",
 		"up": "Arriba",
@@ -34,8 +34,8 @@
 		"right": "Derecha"
     },
 	"results":{
-		"record":"Puntaje más alto",
-		"current":"Solución actual",
+		"record":"Puntaje mas alto",
+		"current":"Solucion actual",
 		"rooms":"Irrigados",
 		"length":"Longitud de las tuberías"
 	}
