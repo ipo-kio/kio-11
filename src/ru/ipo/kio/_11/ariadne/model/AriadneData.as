@@ -7,13 +7,16 @@
 package ru.ipo.kio._11.ariadne.model {
 import flash.events.Event;
 import flash.events.EventDispatcher;
+import flash.geom.Point;
 
 public class AriadneData extends EventDispatcher {
 
     private static var _instance:AriadneData = new AriadneData;
 
-    public static const POINT_CHANGED:String = "point changed";
+    public static const POINT_MOVED:String = "point moved";
     public static const PATH_CHANGED:String = "path changed";
+    public static const POINT_SELECTION_CHANGED:String = "point selection changed";
+    public static const SEGMENT_SELECTION_CHANGED:String = "segment selection changed";
 
     public static function get instance():AriadneData {
         return _instance;
@@ -41,6 +44,11 @@ public class AriadneData extends EventDispatcher {
         return _path.getPoint(ind);
     }
 
+    public function setPoint(ind:int, point:IntegerPoint):void {
+        _path.setPoint(ind, point);
+        dispatchEvent(new PointMovedEvent(ind));
+    }
+
     public function get terra():Terra {
         return _terra;
     }
@@ -49,26 +57,37 @@ public class AriadneData extends EventDispatcher {
         return _selected_point_index;
     }
 
+
     public function get selected_segment_index():int {
         return _selected_segment_index;
     }
 
     public function set selected_point_index(value:int):void {
+        var old_value:int = _selected_point_index;
+
         if (value <= 0)
             value = -1;
         if (value >= _path.pointsCount - 1)
             value = -1;
 
         _selected_point_index = value;
+
+        if (old_value != value)
+            dispatchEvent(new SelectionChangedEvent(POINT_SELECTION_CHANGED, old_value, value));
     }
 
     public function set selected_segment_index(value:int):void {
+        var old_value:int = _selected_segment_index;
+
         if (value < 0)
             value = -1;
         if (value >= _path.pointsCount - 1)
             value = -1;
 
         _selected_segment_index = value;
+
+        if (old_value != value)
+            dispatchEvent(new SelectionChangedEvent(POINT_SELECTION_CHANGED, old_value, value));
     }
 
     public function removePoint():void {

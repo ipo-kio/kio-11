@@ -30,7 +30,7 @@ public class PathPoint extends Sprite {
     }
 
     public function get selectable():Boolean {
-        return _ind == 0 || _ind + 1 == _path.length;
+        return _ind == 0 || _ind + 1 == _path.pointsCount;
     }
 
     public function redraw():void {

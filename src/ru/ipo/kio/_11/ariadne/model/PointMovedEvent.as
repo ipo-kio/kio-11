@@ -8,12 +8,12 @@
 package ru.ipo.kio._11.ariadne.model {
 import flash.events.Event;
 
-public class PointChangedEvent extends Event {
+public class PointMovedEvent extends Event {
 
     private var _point_index:int;
 
-    public function PointChangedEvent(point_index:int) {
-        super(AriadneData.POINT_CHANGED);
+    public function PointMovedEvent(point_index:int) {
+        super(AriadneData.POINT_MOVED);
         _point_index = point_index;
     }
 

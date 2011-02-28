@@ -38,6 +38,10 @@ public class Path {
         return _points[ind];
     }
 
+    public function setPoint(ind:int, point:IntegerPoint):void {
+        _points[ind] = point;
+    }
+
     public function serialize():Object {
         //noinspection JSMismatchedCollectionQueryUpdateInspection
         var p:Array = new Array(_points.length);
