@@ -61,13 +61,13 @@
         "and": "y",
         "or": "o",
         "not": "no",
-        "nop": "vacío"
+        "nop": "vacio" /*"vacío"*/
     },
     "results": {
         "correct" : "bien",
         "wrong" : "mal",
-		"hint_correct_0" : "Correct. If there are no damaged elements digit {digit} is recognized correctly.",
-        "hint_wrong_0" : "Incorrect. If there are no damaged elements digit {digit} is recognized incorrectly.",
+		"hint_correct_0" : "Bien: If there are no damaged elements digit {digit} is recognized correctly.",
+        "hint_wrong_0" : "Mal: If there are no damaged elements digit {digit} is recognized incorrectly.",
         "hint_correct" : "Bien: A pesar del daño en la línea # {line},  el dígito {digit} es reconocido correctamente",
         "hint_wrong" : "Mal: Cuando se leyó con la linea # {line} dañada,  el dígito {digit} fue reconocido incorrectamente",
         "lines" : [
