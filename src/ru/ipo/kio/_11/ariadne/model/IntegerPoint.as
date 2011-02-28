@@ -23,5 +23,9 @@ public class IntegerPoint {
     public function get y():int {
         return _y;
     }
+
+    public function equals(p:IntegerPoint):Boolean {
+        return p && p._x == _x && p._y == _y;
+    }
 }
 }

@@ -33,7 +33,7 @@ public class AriadneData extends EventDispatcher {
     }
 
     private function initPath():void {
-        _path = new Path(new IntegerPoint(1, 1), new IntegerPoint(_terra.width - 1, _terra.height - 1));
+        _path = new Path(new IntegerPoint(1, _terra.height - 1), new IntegerPoint(_terra.width - 1, 1));
     }
 
     public function get pointsCount():int {
@@ -45,6 +45,9 @@ public class AriadneData extends EventDispatcher {
     }
 
     public function setPoint(ind:int, point:IntegerPoint):void {
+        if (point.equals(_path.getPoint(ind)))
+            return;
+
         _path.setPoint(ind, point);
         dispatchEvent(new PointMovedEvent(ind));
     }
@@ -87,7 +90,7 @@ public class AriadneData extends EventDispatcher {
         _selected_segment_index = value;
 
         if (old_value != value)
-            dispatchEvent(new SelectionChangedEvent(POINT_SELECTION_CHANGED, old_value, value));
+            dispatchEvent(new SelectionChangedEvent(SEGMENT_SELECTION_CHANGED, old_value, value));
     }
 
     public function removePoint():void {

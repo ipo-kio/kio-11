@@ -3,7 +3,6 @@
  * User: ilya
  * Date: 26.02.11
  * Time: 18:57
- * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio._11.ariadne.view {
 import flash.display.Shape;
@@ -13,8 +12,12 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Point;
 
+import flash.geom.Rectangle;
+
 import ru.ipo.kio._11.ariadne.model.AriadneData;
 import ru.ipo.kio._11.ariadne.model.IntegerPoint;
+import ru.ipo.kio._11.ariadne.model.PointMovedEvent;
+import ru.ipo.kio._11.ariadne.model.SelectionChangedEvent;
 import ru.ipo.kio._11.ariadne.model.Terra;
 
 public class Land extends Sprite {
@@ -33,6 +36,8 @@ public class Land extends Sprite {
 
     private var _points:Array = []; //Array of PathPoint
     private var _segments:Array = []; //Array of PathSegments
+
+    private var _dragged_index:int = -1;
 
     /**
      * Constructs a land.
@@ -82,7 +87,7 @@ public class Land extends Sprite {
 
         //draw ghost_point
         ghost_point.graphics.beginFill(0xe9d835, 0.6);
-        ghost_point.graphics.drawCircle(0, 0, 4);
+        ghost_point.graphics.drawCircle(0, 0, 7);
         ghost_point.graphics.endFill();
         ghost_point.visible = false;
 
@@ -90,38 +95,89 @@ public class Land extends Sprite {
         addEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
         addEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
         addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+        addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 
         AriadneData.instance.addEventListener(AriadneData.PATH_CHANGED, pathChangedHandler);
+        AriadneData.instance.addEventListener(AriadneData.POINT_MOVED, pointMovedHandler);
+        AriadneData.instance.addEventListener(AriadneData.POINT_SELECTION_CHANGED, pointSelectionHandler);
+        AriadneData.instance.addEventListener(AriadneData.SEGMENT_SELECTION_CHANGED, segmentSelectionHandler);
 
         redrawPath();
     }
 
-    private function redrawPath():void {
-        //remove points and segments
-        for each (var p:PathPoint in _points)
-            points_layer.removeChild(p);
+    private function segmentSelectionHandler(event:SelectionChangedEvent):void {
+        trace('segment selection changed from ' + event.previous_index + ' to ' + event.new_index);
+        if (event.previous_index >= 0)
+            _segments[event.previous_index].redraw();
+        if (event.new_index >= 0)
+            _segments[event.new_index].redraw();
+    }
 
-        for each (var s:PathSegment in _segments)
-            segments_layer.removeChild(s);
+    private function pointSelectionHandler(event:SelectionChangedEvent):void {
+        if (event.previous_index >= 0)
+            _points[event.previous_index].redraw();
+        if (event.new_index >= 0)
+            _points[event.new_index].redraw();
+    }
 
-        _points = [];
-        _segments = [];
-
-        var path_length:int = AriadneData.instance.pointsCount;
-
-        for (var i:int = 0; i < path_length; i++);
-
+    private function pointMovedHandler(event:PointMovedEvent):void {
+        _segments[event.point_index - 1].redraw();
+        _segments[event.point_index].redraw();
+        _points[event.point_index].redraw();
     }
 
     private function pathChangedHandler(event:Event):void {
-
+        redrawPath();
+        trace('path changed');
     }
 
-    private function mouseDownHandler(event:Event):void {
+    private function mouseUpHandler(event:Event):void {
+        if (_dragged_index >= 0) {
+            //_points[_dragged_index].stopDrag();
+            _dragged_index = -1;
+        }
+    }
+
+    private function mouseDownHandler(event:MouseEvent):void {
         if (!ghost_logical_point)
             return;
 
-        AriadneData.instance.addPoint(ghost_logical_point);
+        //find point if over
+        var points_count:int = AriadneData.instance.pointsCount;
+        var point_over_index:int = -1;
+        for (var i:int = 1; i < points_count - 1; i++)
+            if (ghost_logical_point.equals(AriadneData.instance.getPoint(i))) {
+                point_over_index = i;
+                break;
+            }
+
+        //if not over - add, else - start move
+        if (point_over_index < 0) {
+            //test no segment under
+
+            //if over segment - return
+            for (var segment_ind:int = 0; segment_ind < -1 + AriadneData.instance.pointsCount; segment_ind++)
+                if (_segments[segment_ind].hitTestPoint(event.stageX, event.stageY, true))
+                    return;
+
+            AriadneData.instance.addPoint(ghost_logical_point);
+        } else {
+            var zeroPoint:IntegerPoint = screenToLogical(new Point(0, 0));
+            var greatestPoint:IntegerPoint = screenToLogical(new Point(width, height));
+
+            var zero_p:Point = logicalToScreen(zeroPoint);
+            var greatest_p:Point = logicalToScreen(greatestPoint);
+            var current_p:Point = logicalToScreen(AriadneData.instance.getPoint(point_over_index));
+
+            /*_points[point_over_index].startDrag(false, new Rectangle(
+             zero_p.x - current_p.x,
+             zero_p.y - current_p.y,
+             greatest_p.x - zero_p.x,
+             greatest_p.y - zero_p.x
+             )
+             );*/
+            _dragged_index = point_over_index;
+        }
     }
 
     private function rollOutHandler(event:Event):void {
@@ -133,11 +189,17 @@ public class Land extends Sprite {
         ghost_point.visible = true;
     }
 
-    private function mouseMoveHandler(event:Event):void {
+    private function mouseMoveHandler(event:MouseEvent):void {
+        /*if (!event.buttonDown)
+         _dragged_index = -1;*/
+
         ghost_logical_point = screenToLogical(new Point(mouseX, mouseY));
         var sp:Point = logicalToScreen(ghost_logical_point);
         ghost_point.x = sp.x;
         ghost_point.y = sp.y;
+
+        if (_dragged_index >= 0)
+            AriadneData.instance.setPoint(_dragged_index, ghost_logical_point);
     }
 
     public function screenToLogical(s_p:Point):IntegerPoint {
@@ -162,6 +224,32 @@ public class Land extends Sprite {
         //0  3   7
         //***|***|***|***
         return new Point(_cell_size * l_p.x - 1, _cell_size * l_p.y - 1);
+    }
+
+    private function redrawPath():void {
+        //remove points and segments
+        for each (var p:PathPoint in _points)
+            points_layer.removeChild(p);
+
+        for each (var s:PathSegment in _segments)
+            segments_layer.removeChild(s);
+
+        var path_length:int = AriadneData.instance.pointsCount;
+
+        _points = new Array(path_length);
+        _segments = new Array(path_length - 1);
+
+        for (var i:int = 0; i < path_length; i++) {
+            var pathPoint:PathPoint = new PathPoint(this, i);
+            _points[i] = pathPoint;
+            points_layer.addChild(pathPoint);
+        }
+
+        for (var j:int = 0; j < path_length - 1; j++) {
+            var pathSegment:PathSegment = new PathSegment(this, j);
+            segments_layer.addChild(pathSegment);
+            _segments[j] = pathSegment;
+        }
     }
 }
 }
