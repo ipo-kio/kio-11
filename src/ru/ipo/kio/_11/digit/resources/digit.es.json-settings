@@ -18,7 +18,8 @@
 		Un sistema especial de códigos postales y equipos que reconocían estos códigos postales fueron desarrollados para el sistema de clasificación de cartas. 
 		Este sistema está aún en uso en Rusia.
 
-        Para resolver el problema usted necesita crear un equipo que pueda reconocer dígitos escritos con tipos establecidos para este sistema. 
+        Para resolver el problema usted necesita crear un equipo que pueda reconocer dígitos escri
+        tos con tipos establecidos para este sistema.
 		Cada dígito consiste de un conjunto de líneas incluyendo tres líneas horizontales, cuatro líneas verticales y dos líneas inclinadas. 
 		Cada línea puede ser reconocida únicamente por el elemento lector correspondiente. 
 
@@ -84,7 +85,7 @@
 		"result" : "Resultado",
         "record" : "Record",
         "recognition_info_header" : "Son reconocidos",
-        "recognition_info_1" : "dígitos de 10",
+        "recognition_info_1" : "digitos de 10", /*dígitos*/
         "recognition_info_2" : "situaciones",
         "elements_info" : "Compuertas"
     }

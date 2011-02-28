@@ -36,8 +36,8 @@ public class ContestPanel extends Sprite {
         __y0 += 20;
 
         placeText(loc.help_header);
-        var helpButton:SimpleButton = placeButton(loc.buttons.help);
         var statementButton:SimpleButton = placeButton(loc.buttons.statement);
+        var helpButton:SimpleButton = placeButton(loc.buttons.help);
 
         __y0 += 20;
 

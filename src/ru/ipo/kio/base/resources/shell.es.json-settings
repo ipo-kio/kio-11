@@ -87,7 +87,7 @@
 			"institution_name": "Nombre",
 			"grade": "Grado",
 			"address": "Dirección",
-			"name_restriction": "A-ZÑñÇç¿¡áéíóúüÁÉÍÓÚ" /*You can write down a range of recognizable symbols here*/
+			"name_restriction": "A-ZÑÇÁÉÍÓÚÜ" /*You can write down a range of recognizable symbols here, ñç¿¡áéíóúü*/
         },
         "problems": {
             "fill_form": "Llene el cuestionario",
