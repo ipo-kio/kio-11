@@ -68,8 +68,10 @@
         "wrong" : "mal",
 		"hint_correct_0" : "Bien: If there are no damaged elements digit {digit} is recognized correctly.",
         "hint_wrong_0" : "Mal: If there are no damaged elements digit {digit} is recognized incorrectly.",
-        "hint_correct" : "Bien: A pesar del daño en la línea # {line},  el dígito {digit} es reconocido correctamente",
-        "hint_wrong" : "Mal: Cuando se leyó con la linea # {line} dañada,  el dígito {digit} fue reconocido incorrectamente",
+        "hint_correct" : "Bien: A pesar del dano en la linea # {line},  el digito {digit} es reconocido correctamente",
+          /*"hint_correct" : "Bien: A pesar del dano en la linea # {line},  el digito {digit} es reconocido correctamente",*/
+        "hint_wrong" : "Mal: Cuando se leyo con la linea # {line} danada,  el digito {digit} fue reconocido incorrectamente",
+          /*"hint_wrong" : "Mal: Cuando se leyó con la linea # {line} dañada,  el dígito {digit} fue reconocido incorrectamente",*/
         "lines" : [
             "-",
             "upper",
