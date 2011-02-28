@@ -84,7 +84,7 @@
 		"result" : "Resultado",
         "record" : "Record",
         "recognition_info_header" : "Son reconocidos",
-        "recognition_info_1" : "dígitos de 10",
+        "recognition_info_1" : "digitos de 10",
         "recognition_info_2" : "situaciones",
         "elements_info" : "Compuertas"
     }
