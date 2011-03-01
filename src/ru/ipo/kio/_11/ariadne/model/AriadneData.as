@@ -7,7 +7,6 @@
 package ru.ipo.kio._11.ariadne.model {
 import flash.events.Event;
 import flash.events.EventDispatcher;
-import flash.geom.Point;
 
 public class AriadneData extends EventDispatcher {
 
@@ -96,13 +95,20 @@ public class AriadneData extends EventDispatcher {
     public function removePoint():void {
         if (selected_point_index > 0 && selected_point_index < _path.pointsCount - 1) {
             _path.remove(selected_point_index);
-            _selected_point_index = -1;
+            //_selected_point_index = -1;
+
+            if (_selected_point_index >= pointsCount - 1)
+                _selected_point_index = 1;
+            if (_selected_point_index >= pointsCount - 1)
+                _selected_point_index = -1;
+            _selected_segment_index = -1;
+
             dispatchEvent(new Event(PATH_CHANGED));
         }
     }
 
     public function addPoint(ip:IntegerPoint):void {
-        var segment_index:int = _selected_point_index;
+        var segment_index:int = _selected_segment_index;
         if (segment_index < 0)
             segment_index = _path.pointsCount - 2;
 
@@ -116,7 +122,38 @@ public class AriadneData extends EventDispatcher {
     public function clearPath():void {
         initPath();
 
+        _selected_point_index = -1;
+        _selected_segment_index = -1;
+
         dispatchEvent(new Event(PATH_CHANGED));
     }
+
+    public function get serializedPath():Object {
+        return _path.serialize();
+    }
+
+    public function set serializedPath(value:Object):void {
+        var newPath:Path = Path.unSerialize(value);
+        if (!newPath)
+            return;
+        _path = newPath;
+        _selected_point_index = -1;
+        _selected_segment_index = -1;
+
+        dispatchEvent(new Event(PATH_CHANGED));
+    }
+
+    //DEBUG
+
+    private var _velocity_info:Array = null; //Array of ints with velocities
+
+    public function get velocity_info():Array {
+        return _velocity_info;
+    }
+
+    public function set velocity_info(value:Array):void {
+        _velocity_info = value;
+    }
+
 }
 }

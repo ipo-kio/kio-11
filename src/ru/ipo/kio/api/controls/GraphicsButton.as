@@ -29,12 +29,12 @@ public class GraphicsButton extends SimpleButton {
      * @param up_size font size in normal and mouse over states
      * @param down_size font size in down state
      */
-    public function GraphicsButton(title:String, up:BitmapData, over:BitmapData, down:BitmapData, fontName:String, up_size:int, down_size:int, move_text:Boolean = false) {
-        var up_sprite:Sprite = createSprite(title, up, fontName, up_size, move_text ? -1 : 0, move_text ? -1 : 0);
+    public function GraphicsButton(title:String, up:BitmapData, over:BitmapData, down:BitmapData, fontName:String, up_size:int, down_size:int, move_x:int = 0, move_y:int = 0) {
+        var up_sprite:Sprite = createSprite(title, up, fontName, up_size, move_x < 0 ? move_x : 0, move_y < 0 ? move_y : 0);
         super(
                 up_sprite,
-                createSprite(title, over, fontName, up_size, move_text ? -1 : 0, move_text ? -1 : 0),
-                createSprite(title, down, fontName, down_size),
+                createSprite(title, over, fontName, up_size, move_x < 0 ? move_x : 0, move_y < 0 ? move_y : 0),
+                createSprite(title, down, fontName, down_size, move_x > 0 ? move_x : 0, move_y > 0 ? move_y : 0),
                 up_sprite
                 );
     }
@@ -46,7 +46,7 @@ public class GraphicsButton extends SimpleButton {
         sprite.graphics.drawRect(0, 0, bmp.width, bmp.height);
         sprite.graphics.endFill();
 
-        var textField:TextField = TextUtils.createTextFieldWithFont(fontName, size, false);
+        var textField:TextField = TextUtils.createTextFieldWithFont(fontName, size, false, true);
 //        TextUtils.setTextForTextField(textField, title, fontName, size);
         //textField.htmlText = "<p>" + title + "</p>";
         textField.text = title;
@@ -56,5 +56,6 @@ public class GraphicsButton extends SimpleButton {
 
         return sprite;
     }
+
 }
 }

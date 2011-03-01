@@ -53,6 +53,9 @@ public class Path {
     }
 
     public static function unSerialize(value:Object):Path {
+        if (!value.points)
+            return null;
+
         var path:Path = new Path(null, null); //we will substitute this with a normal array
 
         var p:Array = value.points;

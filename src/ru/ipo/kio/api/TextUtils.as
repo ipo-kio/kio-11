@@ -12,6 +12,7 @@ import flash.text.StyleSheet;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 import flash.utils.Dictionary;
 
 public class TextUtils {
@@ -126,13 +127,14 @@ public class TextUtils {
         tf.wordWrap = multiline;
         tf.embedFonts = true;
         tf.autoSize = TextFieldAutoSize.LEFT;
+        tf.condenseWhite = true;
         tf.styleSheet = new StyleSheet();
         tf.styleSheet.parseCSS(TextUtils.CSS);
         tf.selectable = false;
         return tf;
     }
 
-    public static function createTextFieldWithFont(fontName:String, fontSize:int, multiline:Boolean = true):TextField {
+    public static function createTextFieldWithFont(fontName:String, fontSize:int, multiline:Boolean = true, centered:Boolean = false):TextField {
         var tf:TextField = new TextField();
         tf.multiline = multiline;
         tf.wordWrap = multiline;
@@ -141,7 +143,10 @@ public class TextUtils {
         /*tf.styleSheet = new StyleSheet();
          fontName = "Arial";
          tf.styleSheet.parseCSS("p {font-family: " + fontName + "; font-size: " + fontSize +";}");*/
-        tf.defaultTextFormat = new TextFormat(fontName, fontSize);
+        var format:TextFormat = new TextFormat(fontName, fontSize);
+        if (centered)
+            format.align = TextFormatAlign.CENTER;
+        tf.defaultTextFormat = format;
         tf.selectable = false;
         return tf;
     }

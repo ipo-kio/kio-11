@@ -5,11 +5,12 @@
  * Time: 17:08
  */
 package ru.ipo.kio._11.ariadne.model {
+import ru.ipo.kio._11.ariadne.AriadneProblem;
 import ru.ipo.kio.api.KioApi;
 
 public class AriadneTerra implements Terra {
 
-    public static const s:String =
+    public static const s_old:String =
         /* */ "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM" +
         /* */ "M.................##########......................" +
         /* */ "M.................##########......................" +
@@ -56,7 +57,54 @@ public class AriadneTerra implements Terra {
         /* */ "...................#####.........................M" +
         /* */ "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM";
 
-    private static var loc:Object = KioApi.getLocalization('');
+    public static const s:String =
+        /* */ "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM" +
+        /* */ "M.................##########......................" +
+        /* */ "M.................##########......................" +
+        /* */ "M.................##########......................" +
+        /* */ "M...~~~~~~~~~~~...##########...#####MMMMMMMMMM...." +
+        /* */ "M...~~~~~~~~~~~...##########...#####MMMMMMMMMM...M" +
+        /* */ "M...~~~~~~~~~~~........#####...#####MMMMMMMMMM...M" +
+        /* */ "M...~~~~~~~~~~~........#####...#####MMMMMMMMMM...M" +
+        /* */ "M...~~~~~~~~~~~........#####...#####.............M" +
+        /* */ "M...~~~~~fffffffffff...#####...#####.............M" +
+        /* */ "M...~~~~~fffffffffff...#####...#####.............M" +
+        /* */ "M...~~~~~fffffffffff...#####...#####ffffffff#####M" +
+        /* */ "M...~~~~~fffffffffff...#####...#####ffffffff#####M" +
+        /* */ "M...#####fffffffffff...#####...#####ffffffff#####M" +
+        /* */ "M...#####fffffffffff...#####...#####ffffffff#####M" +
+        /* */ "M...#####fffffffffff...#####...#####.............M" +
+        /* */ "M...#####fffffffffff...#####...#####.............M" +
+        /* */ "M...#####..............#####...#####.............M" +
+        /* */ "M...#####..............#####...#####MMMMMMMMMffffM" +
+        /* */ "M...#####..............#####...#####MMMMMMMMMffffM" +
+        /* */ "M...#####MMMM...~~~~~~~~~~~~...#####MMMMMMMMMffffM" +
+        /* */ "M...#####MMMM...~~~~~~~~~~~~...#####MMMMMMMMMffffM" +
+        /* */ "M...#####MMMM...~~~~~~~~~~~~...#####.............M" +
+        /* */ "M...#####MMMM...~~~~~~~~~~~~...#####.............M" +
+        /* */ "M...#####MMMM...~~~~~~~~~~~~...#####.............M" +
+        /* */ "M...#####MMMM..................#####ffffffff#####M" +
+        /* */ "M........MMMM..................#####ffffffff#####M" +
+        /* */ "M........MMMM..................#####ffffffff#####M" +
+        /* */ "M........MMMMMMMMMMMMMMMMMMMMMM#####ffffffff#####M" +
+        /* */ "Mfffff...MMMMMMMMMMMMMMMMMMMMMM#####.............M" +
+        /* */ "Mfffff...MMMMMMMMMMMMMMMMMMMMMM#####.............M" +
+        /* */ "Mfffff...MMMMMMMMMMMMMMMMMMMMMM#####.............M" +
+        /* */ "Mfffff...MMMM..............MMMM~~~~~~~~~~~~~~~...M" +
+        /* */ "Mfffff...MMMM..............MMMM~~~~~~~~~~~~~~~...M" +
+        /* */ "M........MMMM..............MMMM~~~~~~~~~~~~~~~...M" +
+        /* */ "M........MMMM......#####...MMMM~~~~~~~~~~~~~~~...M" +
+        /* */ "M........MMMM......#####...MMMM~~~~~~~~~~~~~~~...M" +
+        /* */ "M...ffffffffffff...#####...MMMM~~~~~~~~..........M" +
+        /* */ "M...ffffffffffff...#####...MMMM~~~~~~~~..........M" +
+        /* */ "M...ffffffffffff...#####...MMMM~~~~~~~~..........M" +
+        /* */ "M...ffffffffffff...#####...MMMM~~~~~~~~..........M" +
+        /* */ "M..................#####.........................M" +
+        /* */ "...................#####.........................M" +
+        /* */ "...................#####.........................M" +
+        /* */ "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM";
+
+    private static var loc:Object = KioApi.getLocalization(AriadneProblem.ID);
 
     public function get width():int {
         return 50;
@@ -90,14 +138,14 @@ public class AriadneTerra implements Terra {
     }
 
     public function velocity(type:int):Number {
-        switch (type) {
-            case 0: return 90;
-            case 1: return 70;
-            case 2: return 50;
-            case 3: return 10;
-            case 4: return 1;
-        }
-        return -1;
+        var velocity_info:Array = AriadneData.instance.velocity_info;
+        if (velocity_info == null)
+//            velocity_info = [90, 70, 50, 10, 1];
+              velocity_info = [80, 65, 55, 20, 1];
+
+        if (type < 0 || type >= velocity_info.length)
+            return -1;
+        return velocity_info[type];
     }
 }
 }

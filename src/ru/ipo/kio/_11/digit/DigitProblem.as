@@ -172,7 +172,7 @@ public class DigitProblem implements KioProblem {
         return ICON;
     }
 
-    [Embed(source='resources/icon_help_1.jpg')]
+    [Embed(source='resources/icon_help_1.png')]
     private const ICON_HELP_1:Class;
 
     [Embed(source='resources/icon_help_2.jpg')]

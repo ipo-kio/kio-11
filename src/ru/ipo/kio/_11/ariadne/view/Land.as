@@ -12,11 +12,17 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Point;
 
-import flash.geom.Rectangle;
-
+import ru.ipo.kio._11.ariadne.hero.Butterfly;
+import ru.ipo.kio._11.ariadne.hero.Clue;
+import ru.ipo.kio._11.ariadne.hero.Fish;
+import ru.ipo.kio._11.ariadne.hero.Hero;
+import ru.ipo.kio._11.ariadne.hero.Snail;
+import ru.ipo.kio._11.ariadne.hero.Snake;
 import ru.ipo.kio._11.ariadne.model.AriadneData;
 import ru.ipo.kio._11.ariadne.model.IntegerPoint;
 import ru.ipo.kio._11.ariadne.model.PointMovedEvent;
+import ru.ipo.kio._11.ariadne.model.RationalPoint;
+import ru.ipo.kio._11.ariadne.model.Segment;
 import ru.ipo.kio._11.ariadne.model.SelectionChangedEvent;
 import ru.ipo.kio._11.ariadne.model.Terra;
 
@@ -38,6 +44,15 @@ public class Land extends Sprite {
     private var _segments:Array = []; //Array of PathSegments
 
     private var _dragged_index:int = -1;
+
+    private var _mouseOverLand:Boolean = false;
+    private var _mouseOverSegment:Array = []; //list of PathSegments that mouse is over
+
+    private var _show_ticks:Boolean = false;
+    private var _show_hero:Boolean = false;
+
+    private var hero:Hero = null;
+    private var hero_segments:Array = null; //array of all segments;
 
     /**
      * Constructs a land.
@@ -95,7 +110,7 @@ public class Land extends Sprite {
         addEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
         addEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
         addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
-        addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+        //addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler); //this handler is registered in mouse_down
 
         AriadneData.instance.addEventListener(AriadneData.PATH_CHANGED, pathChangedHandler);
         AriadneData.instance.addEventListener(AriadneData.POINT_MOVED, pointMovedHandler);
@@ -108,7 +123,7 @@ public class Land extends Sprite {
     private function segmentSelectionHandler(event:SelectionChangedEvent):void {
         trace('segment selection changed from ' + event.previous_index + ' to ' + event.new_index);
         if (event.previous_index >= 0)
-            _segments[event.previous_index].redraw();
+            _segments[event.previous_index].redraw(); //TODO here was 'термин не определен или не имеет свойств'
         if (event.new_index >= 0)
             _segments[event.new_index].redraw();
     }
@@ -124,11 +139,18 @@ public class Land extends Sprite {
         _segments[event.point_index - 1].redraw();
         _segments[event.point_index].redraw();
         _points[event.point_index].redraw();
+
+        if (_show_hero)
+            restartHeroes();
     }
 
     private function pathChangedHandler(event:Event):void {
         redrawPath();
+        _mouseOverSegment = [];
         trace('path changed');
+
+        if (_show_hero)
+            restartHeroes();
     }
 
     private function mouseUpHandler(event:Event):void {
@@ -136,6 +158,8 @@ public class Land extends Sprite {
             //_points[_dragged_index].stopDrag();
             _dragged_index = -1;
         }
+
+        stage.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
     }
 
     private function mouseDownHandler(event:MouseEvent):void {
@@ -156,18 +180,22 @@ public class Land extends Sprite {
             //test no segment under
 
             //if over segment - return
-            for (var segment_ind:int = 0; segment_ind < -1 + AriadneData.instance.pointsCount; segment_ind++)
-                if (_segments[segment_ind].hitTestPoint(event.stageX, event.stageY, true))
-                    return;
+            /*for (var segment_ind:int = 0; segment_ind < -1 + AriadneData.instance.pointsCount; segment_ind++)
+             if (_segments[segment_ind].hitTestPoint(event.stageX, event.stageY, true))
+             return;*/
+            if (_mouseOverSegment.length > 0)
+                return;
 
             AriadneData.instance.addPoint(ghost_logical_point);
         } else {
-            var zeroPoint:IntegerPoint = screenToLogical(new Point(0, 0));
-            var greatestPoint:IntegerPoint = screenToLogical(new Point(width, height));
+            stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 
-            var zero_p:Point = logicalToScreen(zeroPoint);
-            var greatest_p:Point = logicalToScreen(greatestPoint);
-            var current_p:Point = logicalToScreen(AriadneData.instance.getPoint(point_over_index));
+            /*var zeroPoint:IntegerPoint = screenToLogical(new Point(0, 0));
+             var greatestPoint:IntegerPoint = screenToLogical(new Point(width, height));*/
+
+            /*var zero_p:Point = logicalToScreen(zeroPoint);
+             var greatest_p:Point = logicalToScreen(greatestPoint);
+             var current_p:Point = logicalToScreen(AriadneData.instance.getPoint(point_over_index));*/
 
             /*_points[point_over_index].startDrag(false, new Rectangle(
              zero_p.x - current_p.x,
@@ -182,11 +210,11 @@ public class Land extends Sprite {
 
     private function rollOutHandler(event:Event):void {
         ghost_logical_point = null;
-        ghost_point.visible = false;
+        mouseOverLand = false;
     }
 
     private function rollOverHandler(event:Event):void {
-        ghost_point.visible = true;
+        mouseOverLand = true;
     }
 
     private function mouseMoveHandler(event:MouseEvent):void {
@@ -226,6 +254,29 @@ public class Land extends Sprite {
         return new Point(_cell_size * l_p.x - 1, _cell_size * l_p.y - 1);
     }
 
+    public function logicalFloatToScreen(p:RationalPoint):Point {
+        //TODO remove copy&paste
+        return new Point(_cell_size * p.x.value - 1, _cell_size * p.y.value - 1);
+    }
+
+    public function screenToLogicalFloat(p:Point):Point {
+        //TODO remove copy&paste
+        var x0:int = (p.x + 1) / _cell_size;
+        var y0:int = (p.y + 1) / _cell_size;
+
+        if (x0 < x_min)
+            x0 = x_min;
+        if (x0 > x_max)
+            x0 = x_max;
+
+        if (y0 < y_min)
+            y0 = y_min;
+        if (y0 > y_max)
+            y0 = y_max;
+
+        return new Point(x0, y0);
+    }
+
     private function redrawPath():void {
         //remove points and segments
         for each (var p:PathPoint in _points)
@@ -250,6 +301,131 @@ public class Land extends Sprite {
             segments_layer.addChild(pathSegment);
             _segments[j] = pathSegment;
         }
+    }
+
+    public function get segments():Array {
+        return _segments;
+    }
+
+    public function set mouseOverLand(value:Boolean):void {
+        _mouseOverLand = value;
+        updateGhostPoint();
+    }
+
+    public function get mouseOverLand():Boolean {
+        return _mouseOverLand;
+    }
+
+    public function addMouseOverSegment(segment:PathSegment):void {
+        _mouseOverSegment.push(segment);
+        updateGhostPoint();
+    }
+
+    public function removeMouseOverSegment(segment:PathSegment):void {
+        var ind:int = _mouseOverSegment.indexOf(segment);
+        if (ind < 0)
+            return;
+        _mouseOverSegment.splice(ind, 1);
+        updateGhostPoint();
+    }
+
+    private function updateGhostPoint():void {
+        ghost_point.visible = _mouseOverLand && _mouseOverSegment.length == 0;
+    }
+
+    public function get show_hero():Boolean {
+        return _show_hero;
+    }
+
+    public function set show_hero(value:Boolean):void {
+        _show_hero = value;
+
+        if (value)
+            restartHeroes();
+        else {
+            stopHero();
+        }
+    }
+
+    public function get show_ticks():Boolean {
+        return _show_ticks;
+    }
+
+    public function set show_ticks(value:Boolean):void {
+        _show_ticks = value;
+        redrawPath();
+    }
+
+    //heroes
+    private function restartHeroes():void {
+        if (hero) {
+            hero.stop();
+            removeChild(hero);
+            hero = null;
+        }
+
+        hero_segments = [];
+        for (var i:int = 0; i < AriadneData.instance.pointsCount - 1; i++) {
+            var ps:IntegerPoint = AriadneData.instance.getPoint(i);
+            var pf:IntegerPoint = AriadneData.instance.getPoint(i + 1);
+            var split:Array = Segment.split(AriadneData.instance.terra, ps.x, ps.y, pf.x, pf.y);
+            hero_segments = hero_segments.concat(split);
+        }
+
+        startHero(0);
+    }
+
+    private function stopHero():void {
+        if (hero) {
+            hero.stop();
+            removeChild(hero);
+        }
+        hero = null;
+    }
+
+    private function startHero(segment_index:int):void {
+        if (hero)
+            removeChild(hero);
+
+        if (segment_index >= hero_segments.length) {
+            /*hero = null;
+            return;*/
+            segment_index = 0;
+        }
+
+        var hs:Segment = hero_segments[segment_index];
+
+        switch (hs.type) {
+            case 0:
+                hero = new Clue();
+                break;
+            case 1:
+                hero = new Fish();
+                break;
+            case 2:
+                hero = new Snake();
+                break;
+            case 3:
+                hero = new Butterfly();
+                break;
+            case 4:
+                hero = new Snail();
+                break;
+            default:
+                hero = new Snail(); //just for any case
+                break;
+        }
+
+        hero.addEventListener(Hero.HERO_FINISHED, function(event:Event):void {
+            startHero(segment_index + 1);
+        });
+
+        var hero_segment:Segment = hero_segments[segment_index];
+        var ps:RationalPoint = hero_segment.start;
+        var pf:RationalPoint = hero_segment.finish;
+
+        hero.go(logicalFloatToScreen(ps), logicalFloatToScreen(pf));
+        addChild(hero);
     }
 }
 }

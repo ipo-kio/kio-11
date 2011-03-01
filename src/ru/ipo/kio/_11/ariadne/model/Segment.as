@@ -88,9 +88,6 @@ public class Segment {
     }
 
     public static function split(terra:Terra, x1:int, y1:int, x2:int, y2:int):Array {
-        var w:int = terra.width;
-        var h:int = terra.height;
-
         var elements:Array = [];
 
         var segment:Segment = Segment.create(x1, y1, x2, y2);
@@ -126,8 +123,14 @@ public class Segment {
         } else { // diagonal
             var grows:Boolean = x2 > x1;
 
-            for (var x0:int = 0; x < w; x++)
-                for (var y0:int = 0; y < h; y++) {
+            var x_min:int = Math.min(x1, x2);
+            var x_max:int = Math.max(x1, x2);
+
+            var y_min:int = Math.min(y1, y2);
+            var y_max:int = Math.max(y1, y2);
+
+            for (var x0:int = x_min; x0 < x_max; x0++)
+                for (var y0:int = y_min; y0 < y_max; y0++) {
                     var intersection_segment:Segment = segment.intersect(x0, y0, terra.squareType(x0, y0));
                     if (intersection_segment)
                         elements.push(intersection_segment);

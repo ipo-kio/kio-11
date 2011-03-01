@@ -32,19 +32,22 @@
 </p>
 	>>>,
 	"buttons":{ /*Тексты на кнопках*/
-	
-		"remove_step": "Удалить последний шаг",
-		"remove_dot": "Удалить точку"
-		
+		"remove_dot": "Удалить\nточку",
+		"show_ticks": "Показать\nпересечения",
+		"hide_ticks": "Спрятать\nпересечения",
+		"show_hero": "Показать\nгероя",
+		"hide_hero": "Спрятать\nгероя"
     },
 	"results":{
+	    "current_results_header":"Результат",
+	    "record_header":"Рекорд",
 		"length":"Длина",
 		"length_metr":"м",
 		"time":"Время",
 		"time_sec":"сек"	
 	},
     "hover":{
-	    "sand":"песок",
+	    "sand":"земля",
 		"lake":"озеро",
 		"wall":"стена",
 		"mountains":"горы",

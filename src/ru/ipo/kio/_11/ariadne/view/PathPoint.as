@@ -37,7 +37,7 @@ public class PathPoint extends Sprite {
     }
 
     public function get selectable():Boolean {
-        return _ind > 0 || _ind + 1 < AriadneData.instance.pointsCount;
+        return _ind > 0 && _ind + 1 < AriadneData.instance.pointsCount;
     }
 
     public function redraw():void {

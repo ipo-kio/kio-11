@@ -50,7 +50,7 @@ public class ShellButton extends GraphicsButton {
                 TextUtils.FONT_MESSAGES,
                 12,
                 12,
-                true
+                -1, -1
                 );
     }
 }

@@ -32,18 +32,21 @@
 </p>
 	>>>,
 	"buttons":{ /*Text on buttons*/
-	
-		"remove_step": "Borrar el último paso",
-		"remove_dot": "Borrar el punto"
-		
+		/*"remove_step": "Borrar el último paso",*/
+		"remove_dot": "Borrar el punto",
+		"show_ticks": "Показать отсчеты",
+		"hide_ticks": "Спрятать отсчеты",
+		"show_hero": "Показать героя",
+		"hide_hero": "Спрятать героя"
     },
 	"results":{
+	    "current_results_header":"Results",
+	    "record_header":"Record",
 		"length":"Longitud",
 		"length_metr":"m",  /*meter*/
 		"time":"Tiempo",
 		"time_sec":"seg"	/*second*/
 	},
-	
     "hover":{
 	    "sand":"arena",
 		"lake":"lago",
@@ -51,7 +54,5 @@
 		"mountains":"montañas",
 		"forest":"bosque",
 		"speed":"m/s"  /*metros por segundo*/
-
-		
-    }	
+    }
 }

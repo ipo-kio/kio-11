@@ -1,13 +1,12 @@
 package ru.ipo.kio._11.ariadne {
 import flash.display.DisplayObject;
 
-import flash.display.Sprite;
-
+import ru.ipo.kio._11.ariadne.model.AriadneData;
 import ru.ipo.kio._11.ariadne.view.Workspace;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.Settings;
-import ru.ipo.kio.api_example.ExampleProblemSprite;
+import ru.ipo.kio.api.controls.RecordBlinkEffect;
 
 /**
  * Пример задачи
@@ -16,7 +15,7 @@ public class AriadneProblem implements KioProblem {
 
     public static const ID:String = "ariadne";
 
-    private var sp:Sprite;
+    private var sp:Workspace;
     private var _recordCheck:Object = null;
 
     [Embed(source="resources/Ariadne.ru.json-settings",mimeType="application/octet-stream")]
@@ -27,7 +26,6 @@ public class AriadneProblem implements KioProblem {
 
         KioApi.initialize(this);
 
-//        sp = new ExampleProblemSprite(true, ID);
         sp = new Workspace;
     }
 
@@ -48,14 +46,33 @@ public class AriadneProblem implements KioProblem {
     }
 
     public function get solution():Object {
-        return {};
+        return AriadneData.instance.serializedPath;
     }
 
     public function loadSolution(solution:Object):Boolean {
-        return false;
+        if (!solution)
+            return false;
+        AriadneData.instance.serializedPath = solution;
+        return true;
+    }
+
+    public function submitSolution(time:Number, length:Number):void {
+        var api:KioApi = KioApi.instance(ID);
+        var currentCheck:Object = {time:time, length:length};
+        trace('comparing ' + currentCheck.time + ' (record ' + (_recordCheck ? _recordCheck.time : '-') + ')');
+        if (compare(currentCheck, _recordCheck) > 0) {
+            _recordCheck = currentCheck;
+            sp.updateResults(true, time, length);
+            api.saveBestSolution();
+            RecordBlinkEffect.blink(sp, 111, 644, 762 - 644, 204 - 111 - 10);
+        }
+
+        api.autoSaveSolution();
+        sp.updateResults(false, time, length);
     }
 
     public function check(solution:Object):Object {
+        //TODO implement
         return {};
     }
 
@@ -65,7 +82,12 @@ public class AriadneProblem implements KioProblem {
         if (!solution2)
             return 1;
 
-        return solution1.time - solution2.time; //sm. semiramidaProblem, add null check
+        if (solution1.time < solution2.time)
+            return 1;
+        else if (solution1.time > solution2.time)
+            return -1;
+        else
+            return 0;
     }
 
     [Embed(source="resources/icon.jpg")]
@@ -75,8 +97,11 @@ public class AriadneProblem implements KioProblem {
         return ICON;
     }
 
+    [Embed(source='resources/help_icon.jpg')]
+    private const ICON_HELP:Class;
+
     public function get icon_help():Class {
-        return null;
+        return ICON_HELP;
     }
 }
 
