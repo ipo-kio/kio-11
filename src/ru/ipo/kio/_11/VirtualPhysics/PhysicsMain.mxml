@@ -115,13 +115,13 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
                 myTimer.stop();
                 WorldConstants.a.text = "simulation complete";
                 debudLablel1Header.visible = false;
-                //TODO WTF
                 KioApi.instance(PhysicsProblem.ID).autoSaveSolution();
                 testNewRecord(true);
             }
         }
 
         public function testNewRecord(congratulate:Boolean):void {
+            //TODO WTF
             /*if (Number(ResultLabel1.text) < Number(RecordLabel1.text) ||
                     (RecordLabel2.text == ResultLabel1.text &&
                             (Number(ResultLabel2.text) > Number(RecordLabel2.text))) ||
@@ -426,7 +426,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 				  <mx:HBox>
 					   <mx:Label    text="F(К:З) ="/>
 					   <!--<mx:TextInput width="130"  id="OnetoTwoForceTextInput" text="500/r^2"/>-->
-					   <mx:TextInput width="130"  id="OnetoTwoForceTextInput" text="1/r^2"/>
+					   <mx:TextInput width="130"  id="OnetoTwoForceTextInput" text="1/r^2 + 10/r"/>
 				  </mx:HBox>
 				  <mx:HBox>
 					   <mx:Label    text="F(З:З) ="/>
