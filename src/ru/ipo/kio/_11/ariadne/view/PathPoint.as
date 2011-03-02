@@ -44,7 +44,7 @@ public class PathPoint extends Sprite {
         var p:Point = _land.logicalToScreen(AriadneData.instance.getPoint(_ind));
 
         graphics.clear();
-        graphics.beginFill(selectable ? (selected ? 0x7de33b : 0xe9d835) : 0xffffff);
+        graphics.beginFill(selectable ? (selected ? 0x24e02f : 0xffe91f) : 0xffffff);
         graphics.drawCircle(p.x, p.y, RADIUS);
         graphics.endFill();
     }

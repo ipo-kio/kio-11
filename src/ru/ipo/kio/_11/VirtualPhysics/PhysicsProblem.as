@@ -1,11 +1,9 @@
 package ru.ipo.kio._11.VirtualPhysics {
 import flash.display.DisplayObject;
-import flash.display.Sprite;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.Settings;
-import ru.ipo.kio.api_example.ExampleProblemSprite;
 
 /**
  * Пример задачи
@@ -15,8 +13,7 @@ public class PhysicsProblem implements KioProblem {
 
     public static const ID:String = "physics";
 
-    //Это спрайт, на котором рисуется задача
-    private var sp:Sprite;
+    private var sp:PhysicsMain;
 
     [Embed(source="resources/physics.ru.json-settings",mimeType="application/octet-stream")]
     public static var PHYSICS_RU:Class;
@@ -29,20 +26,13 @@ public class PhysicsProblem implements KioProblem {
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(PHYSICS_RU).data);
         KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(PHYSICS_ES).data);
 
-        //в первой строке конструктора задачи требуется вызвать инициализацию api:
         KioApi.initialize(this);
 
-        //теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
-        //В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
 
-			sp = new ExampleProblemSprite(true, ID); //Это вызов заглушки, которая показывает, что задача будет доступна позже
-//        sp = new Main;
+//			sp = new ExampleProblemSprite(true, ID); //Это вызов заглушки, которая показывает, что задача будет доступна позже
+        sp = new PhysicsMain;
     }
 
-    /**
-     * Произвольный идентификатор задачи, который необходимо выбрать и далее использовать при обращении к api:
-     * KioApi.instance(ID). Хорошей практикой является создание статической константы с этим id
-     */
     public function get id():String {
         return ID;
     }
@@ -54,69 +44,48 @@ public class PhysicsProblem implements KioProblem {
         return 2011;
     }
 
-    /**
-     * Уровень, для которого предназначена задача
-     */
     public function get level():int {
         return 2;
     }
 
-    /**
-     * Основной объект для отображения, чаще всего это спрайт (Sprite), на котором лежат все элементы
-     * задачи
-     */
     public function get display():DisplayObject {
         return sp;
     }
 
-    /**
-     * В каждый момент времени задача должна уметь вернуть текущее решение, над которым работает участник.
-     * Запрос может быть дан в произвольный момент, программа всегда должна быть готова выдать текущее решение.
-     */
     public function get solution():Object {
-        //в качестве решения возвращаем текст внутри текстового поля задачи
         return {
-            //txt : sp.text
+            _11: sp._11.text,
+            _12: sp._12.text,
+            _22: sp._22.text,
+            r1: sp.resultLabel_1.text,
+            r2: sp.resultLabel_2.text,
+            r3: sp.resultLabel_3.text
         };
-
-        //Другой способ сделать тоже самое:
-        // var o:Object = new Object();
-        // o.txt = sp.text;
-        // return o;
     }
 
-    /**
-     * Функция заставляет программу загрузить решение. На вход она получает одно из тех решений, которое
-     * выдала в методе solution(). Другими словами, все выданное в методе solution() сохранятся и иногда отдается
-     * обратно в метод loadSolution(). Запрос может быть дан в произвольный момент, программа всегда должна быть
-     * готова загрузить новое решение.
-     * @param    solution решение для загрузки
-     * @return удалось ли загрузить решение
-     */
     public function loadSolution(solution:Object):Boolean {
-        //для загрузки решения нужно взять поле txt и записать его в текстовое поле
-        if (solution.txt) {
-            //sp.text = solution.txt;
-            return true;
-        } else
+        if (!solution)
             return false;
+        if (!solution._11 || !solution._12 || !solution._22 || !solution.r1 || !solution.r2 || !solution.r3)
+            return false;
+
+        sp._11.text = solution._11;
+        sp._12.text = solution._12;
+        sp._22.text = solution._22;
+
+        sp.resultLabel_1.text = solution.r1;
+        sp.resultLabel_2.text = solution.r2;
+        sp.resultLabel_3.text = solution.r3;
+
+        sp.testNewRecord(false);
+
+        return true;
     }
 
-    /**
-     * Проверка решения, понадобится позже, комментарий будет позже
-     * @param    solution решение для проверки
-     * @return результат проверки
-     */
     public function check(solution:Object):Object {
         return new Object();
     }
 
-    /**
-     * Сравнение двух решений, понадобится позже, комментарий будет позже
-     * @param    solution1 результат проверки первого решения
-     * @param    solution2 результат проверки второго решения
-     * @return результат сравнения
-     */
     public function compare(solution1:Object, solution2:Object):int {
         return 1;
     }
@@ -128,8 +97,11 @@ public class PhysicsProblem implements KioProblem {
         return ICON;
     }
 
+    [Embed(source='resources/help_icon.jpg')]
+    private const ICON_HELP:Class;
+
     public function get icon_help():Class {
-        return null;
+        return ICON_HELP;
     }
 }
 

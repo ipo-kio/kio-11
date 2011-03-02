@@ -1,14 +1,15 @@
-package ru.ipo.kio._11.VirtualPhysics.virtual_physics {	
-	import flash.display.Graphics;
-	import flash.display.InteractiveObject;
-	import flash.geom.Rectangle;
-	import mx.controls.Alert;
-	import mx.controls.Label;
-	import mx.core.Container;
-	import flash.events.MouseEvent;
-	import flash.display.Sprite ;
+package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
+import flash.display.BitmapData;
+import flash.display.Graphics;
+import flash.display.Sprite;
+import flash.events.MouseEvent;
+import flash.geom.Matrix;
+
+import mx.core.BitmapAsset;
+import mx.core.Container;
+
 //	import org.flashdevelop.utils.FlashConnect ;
-	
+
 	//Класс рисующий мир
 	public class WorldDrawer extends Container {
 		//массив Sprite-шариков
@@ -16,38 +17,45 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 		//переменная счетчика
 		internal var i:int = 0;
 		//цвет добавляемого Sprite-шарика
-		internal var ballColor:int = 0; 
+		internal var ballColor:int = 0;
 		//constructor
 		public function WorldDrawer() {
 			super();
 		}
 		[Embed(source="../images/Sphere_01.png")]
 		public var MyEmbed_01:Class;
-			private function getBitmapData_01():flash.display.BitmapData {
-				var bitmapAsset:mx.core.BitmapAsset = new MyEmbed_01();
-				return bitmapAsset.bitmapData;
+        public var MyEmbed_01_BMP:BitmapData = new MyEmbed_01().bitmapData;
+			private function getBitmapData_01():BitmapData {
+				/*var bitmapAsset:mx.core.BitmapAsset = new MyEmbed_01();
+				return bitmapAsset.bitmapData;*/
+                return MyEmbed_01_BMP;
 			}
 		[Embed(source="../images/Sphere_02.png")]
-		public var MyEmbed_02:Class;
-			private function getBitmapData_02():flash.display.BitmapData {
-				var bitmapAsset:mx.core.BitmapAsset = new MyEmbed_02();
-				return bitmapAsset.bitmapData;
+        public var MyEmbed_02:Class;
+        public var MyEmbed_02_BMP:BitmapData = new MyEmbed_02().bitmapData;
+			private function getBitmapData_02():BitmapData {
+				/*var bitmapAsset:mx.core.BitmapAsset = new MyEmbed_02();
+				return bitmapAsset.bitmapData;*/
+                return MyEmbed_02_BMP;
 			}
 		[Embed(source="../images/Background.jpg")]
 		public var MyEmbed_background:Class;
-			private function getBitmapData_background():flash.display.BitmapData {
-				var bitmapAsset:mx.core.BitmapAsset = new MyEmbed_background();
+			private function getBitmapData_background():BitmapData {
+				var bitmapAsset:BitmapAsset = new MyEmbed_background();
 				return bitmapAsset.bitmapData;
 			}
 		//Метод отрисовки объекта
 		public function drawObject(x:Number, y:Number, type:Number):void {
 			var g:Graphics = this.graphics;
+            var m:Matrix = new Matrix;
+            m.translate(x - Math.round(MyEmbed_01_BMP.width / 2), y - Math.round(MyEmbed_01_BMP.height / 2));
+            g.lineStyle(0, 0, 0);
 			switch(type) {
 				case 0:
-					g.beginBitmapFill( getBitmapData_01());
+					g.beginBitmapFill( getBitmapData_01(), m);
 				break;
 				case 1:
-					g.beginBitmapFill( getBitmapData_02());
+					g.beginBitmapFill( getBitmapData_02(), m);
 				break;
 			}
 			g.drawCircle(x, y, WorldConstants.ObjectRadius);
@@ -57,7 +65,7 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 		public function drawGrid():void {
 			var g:Graphics = this.graphics;
 			g.clear();
-			g.lineStyle(1, 0x000000);		
+			g.lineStyle(1, 0x000000);
 			g.beginBitmapFill(getBitmapData_background());
 			//рисуем горизонтальные линии
 			var hstep:Number = width / WorldConstants.HorizontalSize;
@@ -70,11 +78,11 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 			for (i = 0; i <= height ; i += vstep) {
 				g.moveTo(0, i);
 				g.lineTo(width, i);
-			}			
+			}
 			g.moveTo(width / 2, 0);
 			g.lineStyle(3, 0x000000);
-			g.lineTo(width / 2, height);			
-			g.drawRect(getRect(this).x, getRect(this).y, width, height) //прямоугольник, куда врисовывается картинка
+			g.lineTo(width / 2, height);
+			g.drawRect(getRect(this).x, getRect(this).y, width, height); //прямоугольник, куда врисовывается картинка
 			g.endFill();
 		}
 		//метод добавления шариков в ручном режиме
@@ -86,9 +94,9 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 			//помещаем новый шарик в левый верхний угол области
 			newSp.x = getRect(stage).x;
 			newSp.y = getRect(stage).y;
-			ballColor++; 
+			ballColor++;
 			ballColor %= 2;
-			var m:flash.geom.Matrix = new flash.geom.Matrix();
+			var m:Matrix = new Matrix();
 			m.translate(14, 14); //матрица "сдвига", на 10 и 20 пикселей
 			switch(ballColor) {
 				case 1:
@@ -116,8 +124,8 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 		public	function redraw(obj:Array):void {
 			for (i = 0; i < arr.length; i++) {
 				var reSp:Graphics = this.graphics;
-				var cvet :int ; 
-				obj[i] = new WorldObject() ; 
+				var cvet :int ;
+				obj[i] = new WorldObject() ;
 			    obj[i].Type = i % 2;
 				obj[i].Vx = 0;
 				obj[i].Vy = 0;
@@ -143,7 +151,7 @@ package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
 		public function removeSprites():void {
 			for (i = 0; i < arr.length; i++)
 				stage.removeChild(arr[i]);
-			arr = [];	
-	    }				
+			arr = [];
+	    }
 	}
 }

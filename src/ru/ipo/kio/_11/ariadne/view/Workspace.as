@@ -16,11 +16,6 @@ import flash.events.MouseEvent;
 import flash.geom.Point;
 import flash.text.TextField;
 
-import flash.text.TextFieldAutoSize;
-import flash.text.TextFieldType;
-
-import flash.text.TextFormat;
-
 import ru.ipo.kio._11.ariadne.AriadneProblem;
 import ru.ipo.kio._11.ariadne.model.AriadneData;
 import ru.ipo.kio._11.ariadne.model.Terra;
@@ -49,12 +44,12 @@ public class Workspace extends Sprite {
 
     private var loc:Object = KioApi.getLocalization(AriadneProblem.ID);
 
-    // 20, 644
-    //111, 644
-    //204, 644
-    //295, 644
-    //388, 644
-    //478, 644 - 762
+    // 20, 636
+    //111, 636
+    //202, 636
+    //294, 636
+    //386, 636
+    //477, 636 - 768
 
     [Embed(source="../resources/Button_01.png")]
     private static const BUTTON_1:Class;
@@ -85,12 +80,12 @@ public class Workspace extends Sprite {
         AriadneData.instance.addEventListener(AriadneData.POINT_MOVED, refreshResults);
         AriadneData.instance.addEventListener(AriadneData.PATH_CHANGED, refreshResults);
 
-        rp_results = new ResultsPanel(762 - 644, loc.results.current_results_header);
-        rp_record = new ResultsPanel(762 - 644, loc.results.record_header);
+        rp_results = new ResultsPanel(768 - 636, loc.results.current_results_header);
+        rp_record = new ResultsPanel(768 - 636, loc.results.record_header);
 
-        rp_results.x = 644;
+        rp_results.x = 636;
         rp_results.y = 20;
-        rp_record.x = 644;
+        rp_record.x = 636;
         rp_record.y = 111;
 
         addChild(rp_results);
@@ -106,8 +101,8 @@ public class Workspace extends Sprite {
                 );
         removePointButton.addEventListener(MouseEvent.CLICK, removeClick);
 
-        removePointButton.x = 644;
-        removePointButton.y = 478;
+        removePointButton.x = 636;
+        removePointButton.y = 477;
 
         addChild(removePointButton);
 
@@ -117,13 +112,13 @@ public class Workspace extends Sprite {
         _land.addEventListener(MouseEvent.MOUSE_MOVE, mouseOverLand);
         _land.addEventListener(MouseEvent.ROLL_OUT, mouseOutLand);
 
-        typeInfo = TextUtils.createTextFieldWithFont('KioGreece', FONT_HEIGHT);
+        typeInfo = TextUtils.createTextFieldWithFont('KioGreece', FONT_HEIGHT, false);
         addChild(typeInfo);
         typeInfo.visible = false;
 
         addEventListener(Event.REMOVED_FROM_STAGE, removedHandler);
 
-        //DEBUG
+        /*//DEBUG
         var tf_velocities:TextField = new TextField;
         tf_velocities.defaultTextFormat = new TextFormat(null, 14);
         tf_velocities.autoSize = TextFieldAutoSize.LEFT;
@@ -135,7 +130,7 @@ public class Workspace extends Sprite {
         tf_velocities.type = TextFieldType.INPUT;
         tf_velocities.addEventListener(Event.CHANGE, function(event:Event):void {
             var num:int = 5;
-            var split:Array = tf_velocities.text.split(/\s*,\s*/);
+            var split:Array = tf_velocities.text.split(/\s*,\s*//*);
             var ar:Array;
 
             if (split.length != num)
@@ -154,7 +149,7 @@ public class Workspace extends Sprite {
             AriadneData.instance.velocity_info = ar;
 
             refreshResults(event);
-        });
+        });*/
     }
 
     private function removedHandler(event:Event):void {
@@ -184,8 +179,8 @@ public class Workspace extends Sprite {
 
         var type:int = terra.squareType(x0, y0);
         typeInfo.text = terra.description(type) + ' ' + terra.velocity(type) + ' ' + loc.hover.speed;
-        typeInfo.x = (644 + 762 - typeInfo.textWidth) / 2;
-        typeInfo.y = (388 + 478 - 10 - typeInfo.textHeight) / 2;
+        typeInfo.x = (636 + 768 - typeInfo.textWidth) / 2;
+        typeInfo.y = (386 + 477 - 10 - typeInfo.textHeight) / 2;
         typeInfo.visible = true;
     }
 
@@ -204,8 +199,8 @@ public class Workspace extends Sprite {
                 );
         newButton.addEventListener(MouseEvent.CLICK, is_hero ? showHeroClick : showTicksClick);
 
-        newButton.x = 644;
-        newButton.y = is_hero ? 295 : 204;
+        newButton.x = 636;
+        newButton.y = is_hero ? 294 : 202;
 
         addChild(newButton);
     }
@@ -232,10 +227,6 @@ public class Workspace extends Sprite {
             length += s.length;
         }
         AriadneProblem(KioApi.instance(AriadneProblem.ID).problem).submitSolution(time, length);
-    }
-
-    public function get land():Land {
-        return _land;
     }
 
     public function updateResults(isRecord:Boolean, time:Number, length:Number):void {

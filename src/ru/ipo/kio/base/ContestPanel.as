@@ -92,8 +92,9 @@ public class ContestPanel extends Sprite {
     }
 
     private function testNonBrokenProblem():Boolean {
-        var id:String = KioBase.instance.currentProblem.id;
-        return KioBase.instance.currentProblem.id != PhysicsProblem.ID && id != CrossedCountry.ID;
+        return true;
+        /*var id:String = KioBase.instance.currentProblem.id;
+        return KioBase.instance.currentProblem.id != PhysicsProblem.ID && id != CrossedCountry.ID;*/
     }
 
     private function placeButton(caption:String):SimpleButton {

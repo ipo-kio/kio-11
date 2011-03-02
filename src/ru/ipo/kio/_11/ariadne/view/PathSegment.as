@@ -62,14 +62,14 @@ public class PathSegment extends Sprite {
 
     public function redraw():void {
         graphics.clear();
-        graphics.lineStyle(selected ? 2 : 1, 0xFFFFFF);
+        graphics.lineStyle(selected ? 2 : 1, selected ? 0xffe91f : 0xFFFFFF);
         var p_start:Point = _land.logicalToScreen(AriadneData.instance.getPoint(_ind));
         graphics.moveTo(p_start.x, p_start.y);
         var p_finish:Point = _land.logicalToScreen(AriadneData.instance.getPoint(_ind + 1));
         graphics.lineTo(p_finish.x, p_finish.y);
 
         _hitArea.graphics.clear();
-        _hitArea.graphics.lineStyle(8, 0xe9d835, 0.6);
+        _hitArea.graphics.lineStyle(8, 0xffe91f, 0.5);
         _hitArea.graphics.moveTo(p_start.x, p_start.y);
         _hitArea.graphics.lineTo(p_finish.x, p_finish.y);
 
@@ -120,7 +120,7 @@ public class PathSegment extends Sprite {
         var time:Number = 0;
         for each (var s:Segment in split)
             time += s.length / terra.velocity(s.type);
-        return time;
+        return time * 100;
     }
 
     public function get length():Number {

@@ -64,7 +64,7 @@ public class AriadneProblem implements KioProblem {
             _recordCheck = currentCheck;
             sp.updateResults(true, time, length);
             api.saveBestSolution();
-            RecordBlinkEffect.blink(sp, 111, 644, 762 - 644, 204 - 111 - 10);
+            RecordBlinkEffect.blink(sp, 636, 111, 768 - 636, 202 - 111 - 10);
         }
 
         api.autoSaveSolution();

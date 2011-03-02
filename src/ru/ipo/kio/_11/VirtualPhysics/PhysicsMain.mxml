@@ -3,11 +3,9 @@
 <mx:Canvas
    
 xmlns:mx="http://www.adobe.com/2006/mxml"
-    height="500" width="900"
+    height="520" width="700"
       borderStyle="solid" 
-      backgroundColor="white"
-
-	 
+	  backgroundColor="#e6e6e6"
      
 
     
@@ -85,12 +83,12 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
             //Сбрасываем модель
             if (automaticMode) {
                 model.reset();
-                AddButton.visible = false;
+//                AddButton.visible = false;
             } else {
                 model.painter.drawGrid();
-                AddButton.visible = true;
+//                AddButton.visible = true;
                 StartStopButton.enabled = false;
-                GotoRecordButton.enabled = false;
+//                GotoRecordButton.enabled = false;
             }
 
             dragPositionHeader.visible = !automaticMode;
@@ -117,21 +115,35 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
                 myTimer.stop();
                 WorldConstants.a.text = "simulation complete";
                 debudLablel1Header.visible = false;
-                if (Number(ResultLabel1.text) < Number(RecordLabel1.text) ||
-                        (RecordLabel2.text == ResultLabel1.text &&
-                                (Number(ResultLabel2.text) > Number(RecordLabel2.text))) ||
-                        (RecordLabel2.text == ResultLabel1.text &&
-                                (Number(ResultLabel2.text) > Number(RecordLabel2.text)) &&
-                                (Number(ResultLabel3.text) < Number(RecordLabel3.text)))) {
-                    Alert.show("Новый рекорд!", "Поздравляем!");
-                    RecordLabel2.text = ResultLabel2.text;
-                    RecordLabel1.text = ResultLabel1.text;
-                    RecordLabel3.text = ResultLabel3.text;
-                    RecordF1 = OnetoOneForceTextInput.text;
-                    RecordF2 = OnetoTwoForceTextInput.text;
-                    RecordF3 = TwotoTwoForceTextInput.text;
-                }
+                //TODO WTF
+                KioApi.instance(PhysicsProblem.ID).autoSaveSolution();
+                testNewRecord(true);
+            }
+        }
 
+        public function testNewRecord(congratulate:Boolean):void {
+            /*if (Number(ResultLabel1.text) < Number(RecordLabel1.text) ||
+                    (RecordLabel2.text == ResultLabel1.text &&
+                            (Number(ResultLabel2.text) > Number(RecordLabel2.text))) ||
+                    (RecordLabel2.text == ResultLabel1.text &&
+                            (Number(ResultLabel2.text) > Number(RecordLabel2.text)) &&
+                            (Number(ResultLabel3.text) < Number(RecordLabel3.text))))*/
+            if (Number(ResultLabel1.text) < Number(RecordLabel1.text) ||
+                    (RecordLabel1.text == ResultLabel1.text &&
+                            (Number(ResultLabel2.text) > Number(RecordLabel2.text))) ||
+                    (RecordLabel1.text == ResultLabel1.text &&
+                            (ResultLabel2.text == RecordLabel2.text) &&
+                            (Number(ResultLabel3.text) < Number(RecordLabel3.text)))) {
+                if (congratulate) {
+                    Alert.show("Новый рекорд!", "Поздравляем!");
+                    KioApi.instance(PhysicsProblem.ID).saveBestSolution();
+                }
+                RecordLabel2.text = ResultLabel2.text;
+                RecordLabel1.text = ResultLabel1.text;
+                RecordLabel3.text = ResultLabel3.text;
+                RecordF1 = OnetoOneForceTextInput.text;
+                RecordF2 = OnetoTwoForceTextInput.text;
+                RecordF3 = TwotoTwoForceTextInput.text;
             }
         }
 
@@ -144,10 +156,10 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
                 WorldConstants.dragPosY = 0;
                 model.painter.removeSprites();
                 model.restart();
-                AddButton.visible = true;
+//                AddButton.visible = true;
                 spriteConverted = false;
                 StartStopButton.enabled = false;
-                GotoRecordButton.enabled = false;
+//                GotoRecordButton.enabled = false;
                 dragPositionX.text = "0";
                 dragPositionY.text = "0";
             }
@@ -188,7 +200,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
                     OnetoTwoForceTextInput.errorString == "" &&
                     TwotoTwoForceTextInput.errorString == "") {
                 ForceBox.enabled = false;
-                AddButton.visible = false;
+//                AddButton.visible = false;
                 if (myTimer.running) {
                     myTimer.stop();
                     StartStopButton.label = "Запустить";
@@ -198,7 +210,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
                     if (!automaticMode && !spriteConverted) {
                         model.convertSprite();
                         spriteConverted = true;
-                        GotoRecordButton.enabled = true;
+//                        GotoRecordButton.enabled = true;
                     }
                 }
             }
@@ -281,7 +293,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
                     automaticMode = true;
                     spriteConverted = false;
                     StartStopButton.enabled = true;
-                    GotoRecordButton.enabled = true;
+//                    GotoRecordButton.enabled = true;
                     StartStopButton.label = "Запустить";
                     model.painter.removeSprites();
                     model.removeObj();
@@ -335,11 +347,48 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
              break;
              }*/
         }
-        ]]></mx:Script>
 
-<mx:Panel horizontalAlign="center" title="Моделирование физических законов" backgroundAlpha="0" width="800" height="600" >
-	<mx:VBox horizontalAlign="center" borderColor="black" x="0" y="0" width="100%">		
-	<mx:MenuBar id="myMenuBar" width="100%" labelField="@label" click="handleMenuClick(myMenuBar.selectedIndex)" itemClick="menuClickHandler(event)" >
+    public function get resultLabel_1():Label {
+        return ResultLabel1;
+    }
+
+    public function get resultLabel_2():Label {
+        return ResultLabel2;
+    }
+
+    public function get resultLabel_3():Label {
+        return ResultLabel3;
+    }
+
+    public function get recordLabel_1():Label {
+        return ResultLabel1;
+    }
+
+    public function get recordLabel_2():Label {
+        return ResultLabel2;
+    }
+
+    public function get recordLabel_3():Label {
+        return ResultLabel3;
+    }
+
+    public function get _11():TextInput {
+        return OnetoOneForceTextInput;
+    }
+
+    public function get _12():TextInput {
+        return OnetoTwoForceTextInput;
+    }
+
+    public function get _22():TextInput {
+        return TwotoTwoForceTextInput;
+    }
+
+    ]]></mx:Script>
+
+<!--<mx:Panel horizontalAlign="center" title="Моделирование физических законов" backgroundAlpha="0" width="800" height="600" >-->
+	<mx:VBox horizontalAlign="center" verticalAlign="middle" borderColor="black" x="0" y="0" width="100%" height="100%">
+	<!--<mx:MenuBar id="myMenuBar" width="100%" labelField="@label" click="handleMenuClick(myMenuBar.selectedIndex)" itemClick="menuClickHandler(event)" >
         <mx:XMLList>
             <menuitem label="Файл">
 				<menuitem label="В начало" />
@@ -351,7 +400,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
                 <menuitem label="Автоматический" />
             </menuitem>         
         </mx:XMLList>
-    </mx:MenuBar>
+    </mx:MenuBar>-->
 		<mx:HBox>
 			<mx:Label id="dragPositionHeader" text="Координаты шарика:"/>
 			<mx:Label id="dragPositionHeaderX" text="X"/>
@@ -363,23 +412,27 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 		</mx:HBox>
       <mx:HBox 	borderColor="black">
 		  <mx:VBox>  
-		  <virtual_physics:WorldDrawer    id="drawer" y="120" x="0" width="480" height="280"/>
+		  <!--<virtual_physics:WorldDrawer    id="drawer" y="120" x="0" width="480" height="280"/>-->
+		  <virtual_physics:WorldDrawer    id="drawer" y="120" x="0" width="480" height="258"/>
 				  <mx:VBox id="ForceBox" 	borderColor="black" height="213" width="480" horizontalAlign="center" borderStyle="solid" paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10">
 			      <mx:Label   text="Задание сил взаимодействия:"/>
 				  <mx:HBox>
 				  <mx:VBox 	width="200" verticalGap="20">				 
 				  <mx:HBox>
 					   <mx:Label    text="F(К:К) ="/>
-					   <mx:TextInput width="130"  id="OnetoOneForceTextInput"  text="1100/r^2-0.01*r^(1/2)"/>					   
+					   <mx:TextInput width="130"  id="OnetoOneForceTextInput"  text="1/r"/>
+					   <!--<mx:TextInput width="130"  id="OnetoOneForceTextInput"  text="1100/r^2-0.01*r^(1/2)"/>-->
 				  </mx:HBox>
 				  <mx:HBox>
 					   <mx:Label    text="F(К:З) ="/>
-					   <mx:TextInput width="130"  id="OnetoTwoForceTextInput" text="500/r^2"/>					   
+					   <!--<mx:TextInput width="130"  id="OnetoTwoForceTextInput" text="500/r^2"/>-->
+					   <mx:TextInput width="130"  id="OnetoTwoForceTextInput" text="1/r^2"/>
 				  </mx:HBox>
 				  <mx:HBox>
 					   <mx:Label    text="F(З:З) ="/>
-					   <mx:TextInput width="130" id="TwotoTwoForceTextInput" text="190/r^2-0.001*r^(1/2)"/>				  
-				  </mx:HBox>  
+					   <!--<mx:TextInput width="130" id="TwotoTwoForceTextInput" text="190/r^2-0.001*r^(1/2)"/>-->
+					   <mx:TextInput width="130" id="TwotoTwoForceTextInput" text="1/r"/>
+				  </mx:HBox>
 				  </mx:VBox>
 				   <mx:VBox>
 						<mx:HBox>
@@ -417,7 +470,7 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 				  </mx:VBox>  
 		  </mx:VBox>  		  
 		  <mx:VBox>
-		  <mx:VBox  verticalGap="3" height="130"	borderColor="black" width="175" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="10" paddingRight="10">
+		  <mx:VBox  verticalGap="8" height="130"	borderColor="black" width="175" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="10" paddingRight="10">
 		  <mx:Label   text="Проверка:"/>
 		  <mx:Button  width="100" label="Запустить" id="StartStopButton" click="{
 		                                                                             StartStopButtonClick();
@@ -428,9 +481,9 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 		  <mx:Button  width="100" id="SpeedUpButton"  label="Ускорить"  click="{
 		                                                                             SpeedUpButtonClick();
 																				   }"/>
-		  <mx:Button  width="100" id="AddButton"  label="Добавить"  click="{
+		  <!--<mx:Button  width="100" id="AddButton"  label="Добавить"  click="{
 		                                                                             addClick();
-																				   }"/>       																				   
+																				   }"/>-->
 		  </mx:VBox>
 		  <mx:VBox verticalGap="3" height="165"	borderColor="black" width="175" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2">
 		  <mx:Label    text="Результат:"/>
@@ -441,7 +494,8 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 		  <mx:Label text="Расстояние до центра:"/>
 		  <mx:Label id="ResultLabel3" text="0"/>
 		  </mx:VBox>
-		 <mx:VBox verticalGap="3"	borderColor="black" width="175" height="193" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2">
+		 <!--<mx:VBox verticalGap="3"	borderColor="black" width="175" height="193" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2">-->
+		 <mx:VBox verticalGap="3"	borderColor="black" width="175" height="170" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2">
 		  <mx:Label    text="Рекорд:"/>
 		  <mx:Label text="Не в той половинке:"/>
 		  <mx:Label id="RecordLabel1" text="12"/>
@@ -449,15 +503,17 @@ xmlns:mx="http://www.adobe.com/2006/mxml"
 		  <mx:Label id="RecordLabel2" text= "24"/>
 		  <mx:Label text="Расстояние до центра:"/>
 		  <mx:Label id="RecordLabel3" text="0"/>
+             <!--
 		  <mx:Button  width="100" id="GotoRecordButton"  label="Перейти"  click="{
 																					ForceOneButtonClick();
 																					ForceTwoButtonClick();	
 																					ForceThreeButtonClick();
 																					model.simulationStep();
 																				   }"/>
+																				   -->
 		  </mx:VBox>
 		  </mx:VBox>
       </mx:HBox>	
     </mx:VBox>
-	</mx:Panel>
+<!--	</mx:Panel> -->
 </mx:Canvas>

@@ -52,6 +52,6 @@
 		"wall":"стена",
 		"mountains":"горы",
 		"forest":"лес",
-		"speed":"м/с"
+		"speed":"cм/с"
     }
 }

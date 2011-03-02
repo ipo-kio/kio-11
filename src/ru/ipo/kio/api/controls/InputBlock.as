@@ -9,6 +9,10 @@ package ru.ipo.kio.api.controls {
 import flash.display.Sprite;
 import flash.text.TextField;
 
+import flash.text.TextFormat;
+
+import flash.text.TextFormatAlign;
+
 import ru.ipo.kio.api.TextUtils;
 
 public class InputBlock extends Sprite {
@@ -34,10 +38,10 @@ public class InputBlock extends Sprite {
             var inp:InputTextField = new InputTextField(ids[i], inputWidth, TextUtils.NORMAL_TEXT_SIZE, true, lines);
 
             var label:TextField = TextUtils.createCustomTextField();
-            label.wordWrap = false;
-            label.multiline = false;
+            /*label.wordWrap = false;
+            label.multiline = false;*/
             label.width = labelWidth;
-            label.htmlText = "<p>" + labels[i] + "</p>";
+            label.htmlText = "<p class='no_justify'>" + labels[i] + "</p>";
 
             _inputs.push(inp);
 

@@ -11,11 +11,11 @@ import mx.controls.Text;
 	 * надо найти этот файл в списке файлов проекта, нажать на нем правой кнопкой, выбрать Always Compile.
 	 * @author Ilya
 	 */
-	public class ExampleRunner extends UIComponent
+	public class PhysicsRunner extends UIComponent
 	{
 		
 		//С этого конструктора начинается программа
-		public function ExampleRunner()
+		public function PhysicsRunner()
 		{
 			//Код в конструкторе рекомендуется всегда писать таким же, как здесь.
 			//

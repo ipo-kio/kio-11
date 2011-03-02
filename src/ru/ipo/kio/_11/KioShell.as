@@ -25,7 +25,7 @@ public class KioShell extends UIComponent {
     public function KioShell(level:int) {
         _level = level;
 
-        KioApi.language = KioApi.L_ES;
+        KioApi.language = KioApi.L_RU;
 
         if (stage)
             init();
@@ -40,7 +40,7 @@ public class KioShell extends UIComponent {
                 [
                     new SemiramidaProblem(_level),
                     new DigitProblem(_level),
-                    _level == 1 ? new CrossedCountry : new PhysicsProblem
+                    _level == 1 ? new AriadneProblem : new PhysicsProblem
                 ],
                 2011,
                 _level
