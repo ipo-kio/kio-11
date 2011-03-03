@@ -2,8 +2,8 @@
 
 <mx:Canvas
 
-        xmlns:mx="http://www.adobe.com/2006/mxml"
-        height="520" width="700"
+        xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:virtualphysics="ru.ipo.kio._11.VirtualPhysics.*"
+        height="500" width="686"
         borderStyle="solid"
         backgroundColor="#e6e6e6"
 
@@ -387,7 +387,7 @@
                 </menuitem>
             </mx:XMLList>
         </mx:MenuBar>-->
-        <mx:HBox>
+        <mx:HBox visible="false" height="0">
             <mx:Label id="dragPositionHeader" text="Координаты шарика:"/>
             <mx:Label id="dragPositionHeaderX" text="X"/>
             <mx:Label id="dragPositionX" text=""/>
@@ -400,9 +400,9 @@
             <mx:VBox>
                 <!--<virtual_physics:WorldDrawer    id="drawer" y="120" x="0" width="480" height="280"/>-->
                 <virtual_physics:WorldDrawer id="drawer" y="120" x="0" width="480" height="258"/>
-                <mx:VBox id="ForceBox" borderColor="black" height="213" width="480" horizontalAlign="center"
+                <mx:VBox id="ForceBox" borderColor="black" height="208" width="480" horizontalAlign="center"
                          borderStyle="solid" paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10">
-                    <mx:Label text="Задание сил взаимодействия:" id="ForcesHeader"/>
+                    <mx:Label text="Задание сил взаимодействия:" id="ForcesHeader" fontWeight="bold" paddingBottom="25"/>
                     <mx:HBox>
                         <mx:VBox width="200" verticalGap="20">
                             <mx:HBox>
@@ -481,7 +481,7 @@
             <mx:VBox>
                 <mx:VBox verticalGap="8" height="130" borderColor="black" width="175" horizontalAlign="center"
                          borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="10" paddingRight="10">
-                    <mx:Label text="Проверка:" id="TestHeader"/>
+                    <mx:Label text="Проверка:" id="TestHeader" fontWeight="bold" paddingTop="6" paddingBottom="-4"/>
                     <mx:Button width="100" label="Запустить" id="StartStopButton" click="{
 		                                                                             StartStopButtonClick();
 																				   }"/>
@@ -495,26 +495,26 @@
                                                                                           addClick();
                                                                                         }"/>-->
                 </mx:VBox>
-                <mx:VBox verticalGap="3" height="165" borderColor="black" width="175" horizontalAlign="center"
-                         borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2">
-                    <mx:Label text="Результат:" id="ResultsHeader"/>
-                    <mx:Label text="Не в той половинке:" id="ResultsWrongHalf"/>
-                    <mx:Label id="ResultLabel1" text="12"/>
-                    <mx:Label text="Клеток с одним шаром:" id="ResultsCellOneBall"/>
-                    <mx:Label id="ResultLabel2" text="0"/>
-                    <mx:Label text="Расстояние до центра:" id="ResultsCenterDist"/>
-                    <mx:Label id="ResultLabel3" text="0"/>
+                <mx:VBox verticalGap="1" height="165" borderColor="black" width="175" horizontalAlign="center"
+                         borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2" textAlign="center">
+                    <mx:Label text="Результат:" id="ResultsHeader" fontWeight="bold"/>
+                    <mx:Text text="Не в той половинке:" id="ResultsWrongHalf"/>
+                    <mx:Label id="ResultLabel1" text="12" fontWeight="bold" paddingTop="-4"/>
+                    <mx:Text text="Клеток с одним шаром:" id="ResultsCellOneBall"/>
+                    <mx:Label id="ResultLabel2" text="0" fontWeight="bold" paddingTop="-4"/>
+                    <mx:Text text="Расстояние до центра:" id="ResultsCenterDist"/>
+                    <mx:Label id="ResultLabel3" text="0" fontWeight="bold" paddingTop="-4"/>
                 </mx:VBox>
                 <!--<mx:VBox verticalGap="3"	borderColor="black" width="175" height="193" horizontalAlign="center" borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2">-->
-                <mx:VBox verticalGap="3" borderColor="black" width="175" height="170" horizontalAlign="center"
-                         borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2">
-                    <mx:Label text="Рекорд:" id="RecordHeader"/>
-                    <mx:Label text="Не в той половинке:" id="RecordWrongHalf"/>
-                    <mx:Label id="RecordLabel1" text="12"/>
-                    <mx:Label text="Клеток с одним шаром:" id="RecordCellOneBall"/>
-                    <mx:Label id="RecordLabel2" text="24"/>
-                    <mx:Label text="Расстояние до центра:" id="RecordCenterDist"/>
-                    <mx:Label id="RecordLabel3" text="0"/>
+                <mx:VBox verticalGap="1" borderColor="black" width="175" height="165" horizontalAlign="center"
+                         borderStyle="solid" paddingTop="2" paddingBottom="2" paddingLeft="2" paddingRight="2" textAlign="center">
+                    <mx:Label text="Рекорд:" id="RecordHeader" fontWeight="bold"/>
+                    <mx:Text text="Не в той половинке:" id="RecordWrongHalf"/>
+                    <mx:Label id="RecordLabel1" text="12" fontWeight="bold" paddingTop="-4"/>
+                    <mx:Text text="Клеток с одним шаром:" id="RecordCellOneBall" textAlign="center"/>
+                    <mx:Label id="RecordLabel2" text="24" fontWeight="bold" paddingTop="-4"/>
+                    <mx:Text text="Расстояние до центра:" id="RecordCenterDist" textAlign="center"/>
+                    <mx:Label id="RecordLabel3" text="0" fontWeight="bold" paddingTop="-4"/>
                     <!--
                <mx:Button  width="100" id="GotoRecordButton"  label="Перейти"  click="{
                                                                                          ForceOneButtonClick();

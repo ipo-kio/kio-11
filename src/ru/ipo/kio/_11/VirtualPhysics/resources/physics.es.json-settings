@@ -40,7 +40,7 @@
 		"check":"Verificar",
 		"results":"Resultado",
 		"wrong_half":"En la mitad equivocada",
-		"cell_ball":"Número de celdas con una bola",
+		"cell_ball":"Número de celdas\ncon una bola",
         "dist_center":"Distancia al centro",
         "record":"Record",
         "functions":"Funciones de fuerzas de iteración",
