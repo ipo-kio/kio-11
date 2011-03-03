@@ -1,4 +1,4 @@
-﻿{
+ {
     "message": "El problema estará disponible después",
     "title": "Patrones de Leyes Físicas",
     "statement": <<<
@@ -30,11 +30,11 @@
 </p>
 	>>>,
 	"buttons":{ /*Text on buttons*/
-		"run":"Cargar",
-		"pause":"Pause",
+		"run":"Ejecutar",
+		"pause":"Pausa",
 		"clear":"Limpiar",
-		"speed_slower":"Go slower",
-		"speed_higher":"Go faster"
+		"speed_slower":"Ir más lento",
+		"speed_higher":"Ir más rápido"
     },
 	"results":{
 		"check":"Verificar",
