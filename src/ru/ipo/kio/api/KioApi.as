@@ -130,5 +130,53 @@ public class KioApi {
     public static function set language(value:String):void {
         _language = value;
     }
+
+    public static function localizationSelfTest(coreLanguage:String):void {
+        for (var language:String in locs)
+            if (language != coreLanguage) {
+                trace('comparing core ' + coreLanguage + ' with ' + language);
+                compareLocalizations('', locs[coreLanguage], locs[language]);
+            }
+    }
+
+    private static function compareLocalizations(path:String, coreLang:Object, lang:Object):void {
+        for (var key:String in coreLang) {
+            var coreVal:* = coreLang[key];
+            var val:* = lang[key];
+            if (!val) {
+                trace("key '" + path + key + "' absent");
+                continue;
+            }
+            var vt:String = getType(val);
+            var cvt:String = getType(coreVal);
+            if (vt != cvt) {
+                trace("key '" + path + key + "' must have type " + cvt + ', not ' + vt);
+                continue;
+            }
+            if (vt == 'array' && (val as Array).length != (coreVal as Array).length) {
+                trace("key '" + path + key + "' must have arrays of the equal length");
+                continue;
+            }
+            if (vt == 'object')
+                compareLocalizations(path + key + '.', coreVal, val);
+        }
+
+        for (key in lang) {
+            if (!coreLang[key])
+                trace("extra key '" + path + key + "'");
+        }
+    }
+
+    private static function getType(val:*):String {
+        if (val is Array)
+            return 'array';
+        else if (val is String)
+            return 'string';
+        else if (val is Number)
+            return 'number';
+        else if (val is Object)
+            return 'object';
+        return 'unknown';
+    }
 }
 }

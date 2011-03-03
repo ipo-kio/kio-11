@@ -30,13 +30,11 @@
 </p>
 	>>>,
 	"buttons":{ /*Text on buttons*/
-	
 		"run":"Cargar",
+		"pause":"Pause",
 		"clear":"Limpiar",
-		"speed_norm":"Velocidad normal",
-		"speed_high":"Velocidad alta",
-        "go":"Ir al record"  		
-		
+		"speed_slower":"Go slower",
+		"speed_higher":"Go faster"
     },
 	"results":{
 		"check":"Verificar",
@@ -45,9 +43,6 @@
 		"cell_ball":"Número de celdas con una bola",
         "dist_center":"Distancia al centro",
         "record":"Record",
-        "wrong_half_rec":"En la mitad equivocada",
-		"cell_ball_rec":"Número de celdas con una bola",
-        "dist_center_rec":"Distancia al centro", 
         "functions":"Funciones de fuerzas de iteración",
         "f_r_r":"F(r:r)=",  	/*r - red, g - green*/
         "f_r_g":"F(r:v)=",  
@@ -56,7 +51,7 @@
 	
     "alert":{
 	    "mistake":"Error",
-		"new_record":"¡Felicitaciones, nuevo record!"
-		
+		"new_record_header":"¡Felicitaciones!",
+		"new_record_message":"¡Nuevo record!"
     }	
 }

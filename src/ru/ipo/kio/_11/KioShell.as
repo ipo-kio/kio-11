@@ -46,6 +46,7 @@ public class KioShell extends UIComponent {
                 _level
         );
 
+        KioApi.localizationSelfTest(KioApi.L_RU);
     }
 
 }

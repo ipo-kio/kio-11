@@ -1,11 +1,9 @@
 package ru.ipo.kio._11.VirtualPhysics
 {
 import mx.core.UIComponent; 
-import flash.display.Sprite;
 import flash.events.Event;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.base.KioBase;
-import mx.controls.Text;
 	/**
 	 * Этот класс основной, с него начинается программа. Чтобы указать это FlashDevelop,
 	 * надо найти этот файл в списке файлов проекта, нажать на нем правой кнопкой, выбрать Always Compile.
@@ -65,7 +63,7 @@ import mx.controls.Text;
 			);
 			*/
 
-            KioApi.language = KioApi.L_RU;
+            KioApi.language = KioApi.L_ES;
 			
 			//Запускаем задачу. Метод initOneProblem() рекомендуется использовать программистам для отладки одной задачи.
 			//Первый параметр - текущий спрайт, второй параметр - задача

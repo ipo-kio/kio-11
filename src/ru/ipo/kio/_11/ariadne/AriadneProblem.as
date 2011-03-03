@@ -21,8 +21,12 @@ public class AriadneProblem implements KioProblem {
     [Embed(source="resources/Ariadne.ru.json-settings",mimeType="application/octet-stream")]
     public static var ARIADNE_RU:Class;
 
+    [Embed(source="resources/Ariadne.es.json-settings",mimeType="application/octet-stream")]
+    public static var ARIADNE_ES:Class;
+
     public function AriadneProblem() {
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(ARIADNE_RU).data);
+        KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(ARIADNE_ES).data);
 
         KioApi.initialize(this);
 
