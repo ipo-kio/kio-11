@@ -1,4 +1,4 @@
-﻿{
+ {
     "title": "Ovillo de Ariadna",
     "message": "El problema estará disponible después",
     "statement": <<<
@@ -34,10 +34,10 @@
 	"buttons":{ /*Text on buttons*/
 		/*"remove_step": "Borrar el último paso",*/
 		"remove_dot": "Borrar el punto",
-		"show_ticks": "Показать отсчеты",
-		"hide_ticks": "Спрятать отсчеты",
-		"show_hero": "Показать героя",
-		"hide_hero": "Спрятать героя"
+		"show_ticks": "Show counting",
+		"hide_ticks": "Hide counting",
+		"show_hero": "Show hero",
+		"hide_hero": "Hide hero"
     },
 	"results":{
 	    "current_results_header":"Results",
