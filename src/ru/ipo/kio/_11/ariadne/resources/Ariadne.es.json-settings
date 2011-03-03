@@ -33,11 +33,11 @@
 	>>>,
 	"buttons":{ /*Text on buttons*/
 		/*"remove_step": "Borrar el último paso",*/
-		"remove_dot": "Borrar el punto",
-		"show_ticks": "Show counting",
-		"hide_ticks": "Hide counting",
-		"show_hero": "Show hero",
-		"hide_hero": "Hide hero"
+		"remove_dot": "Borrar\nel punto",
+		"show_ticks": "Show\ncrossing",
+		"hide_ticks": "Hide\ncrossing",
+		"show_hero": "Show\nhero",
+		"hide_hero": "Hide\nhero"
     },
 	"results":{
 	    "current_results_header":"Results",
@@ -53,6 +53,6 @@
 		"wall":"pared",
 		"mountains":"montañas",
 		"forest":"bosque",
-		"speed":"m/s"  /*metros por segundo*/
+		"speed":"sm/s"  /*metros por segundo*/
     }
 }
