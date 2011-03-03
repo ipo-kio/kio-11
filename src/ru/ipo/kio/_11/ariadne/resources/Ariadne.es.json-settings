@@ -34,13 +34,13 @@
 	"buttons":{ /*Text on buttons*/
 		/*"remove_step": "Borrar el último paso",*/
 		"remove_dot": "Borrar\nel punto",
-		"show_ticks": "Show\ncrossing",
-		"hide_ticks": "Hide\ncrossing",
-		"show_hero": "Show\nhero",
-		"hide_hero": "Hide\nhero"
+		"show_ticks": "Mostrar\ncamino",
+		"hide_ticks": "Ocultar\ncamino",
+		"show_hero": "Mostrar\nheroe",
+		"hide_hero": "Ocultar\nheroe"
     },
 	"results":{
-	    "current_results_header":"Results",
+	    "current_results_header":"Resultados",
 	    "record_header":"Record",
 		"length":"Longitud",
 		"length_metr":"m",  /*meter*/
