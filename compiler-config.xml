@@ -1,3 +1,4 @@
+<!-- used for IDE, the same settings are set in ant -->
 <flex-config xmlns="http://www.adobe.com/2006/flex-config">
     <default-size>
         <width>900</width>

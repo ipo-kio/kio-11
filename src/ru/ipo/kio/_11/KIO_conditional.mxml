@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- intended to be run in ant -->
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
                 layout="absolute"
                 applicationComplete="startKIO()">
@@ -7,8 +8,8 @@
 
         public function startKIO():void {
             //Запуск основного класса
-            KioApi.language = KioApi.L_ES;
-            var shell:KioShell = new KioShell(1);
+            KioApi.language = KIO::language;
+            var shell:KioShell = new KioShell(KIO::level);
             this.addChild(shell);
         }
         ]]></mx:Script>
