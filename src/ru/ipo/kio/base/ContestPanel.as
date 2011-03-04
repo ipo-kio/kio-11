@@ -6,7 +6,7 @@ import flash.events.MouseEvent;
 
 import flash.text.TextField;
 
-import ru.ipo.kio._11.CrossedCountry.CrossedCountry;
+import ru.ipo.kio._11_students.CrossedCountry.CrossedCountry;
 import ru.ipo.kio._11.VirtualPhysics.PhysicsProblem;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.TextUtils;

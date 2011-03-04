@@ -1,4 +1,4 @@
-package ru.ipo.kio._11.CrossedCountry {
+package ru.ipo.kio._11_students.CrossedCountry {
 import flash.display.*;
 import flash.events.*;
 import flash.geom.Matrix;

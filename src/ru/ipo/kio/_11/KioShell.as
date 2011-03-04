@@ -9,7 +9,7 @@ import flash.events.Event;
 
 import mx.core.UIComponent;
 
-import ru.ipo.kio._11.CrossedCountry.CrossedCountry;
+import ru.ipo.kio._11_students.CrossedCountry.CrossedCountry;
 import ru.ipo.kio._11.VirtualPhysics.PhysicsProblem;
 import ru.ipo.kio._11.ariadne.AriadneProblem;
 import ru.ipo.kio._11.digit.DigitProblem;

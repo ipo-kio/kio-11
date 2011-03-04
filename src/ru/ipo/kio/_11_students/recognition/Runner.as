@@ -1,4 +1,4 @@
-package ru.ipo.kio._11.recognition 
+package ru.ipo.kio._11_students.recognition
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
