@@ -1,4 +1,4 @@
- {
+﻿ {
     "message": "El problema estará disponible después",
     "title": "Patrones de Leyes Físicas",
     "statement": <<<
@@ -44,9 +44,9 @@
         "dist_center":"Distancia al centro",
         "record":"Record",
         "functions":"Funciones de fuerzas de iteración",
-        "f_r_r":"F(r:r)=",  	/*r - red, g - green*/
-        "f_r_g":"F(r:v)=",  
-        "f_g_g":"F(v:v)="  		
+        "f_r_r":"F(r:r) =",  	/*r - red, g - green*/
+        "f_r_g":"F(r:v) =",
+        "f_g_g":"F(v:v) ="
 	},
 	
     "alert":{
