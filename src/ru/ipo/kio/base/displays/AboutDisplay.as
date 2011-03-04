@@ -9,14 +9,12 @@ import flash.display.SimpleButton;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
-
 import flash.text.TextField;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
-
 
 public class AboutDisplay extends Sprite {
     public function AboutDisplay() {

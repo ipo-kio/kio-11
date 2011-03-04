@@ -1,5 +1,4 @@
 package ru.ipo.kio._11.digit {
-
 import flash.display.Sprite;
 import flash.events.Event;
 

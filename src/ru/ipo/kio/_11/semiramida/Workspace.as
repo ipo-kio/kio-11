@@ -5,7 +5,6 @@ import flash.events.MouseEvent;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.controls.GraphicsButton;
-import ru.ipo.kio.api.controls.RecordBlinkEffect;
 
 public class Workspace extends Sprite {
 

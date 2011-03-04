@@ -9,17 +9,13 @@ package ru.ipo.kio.api.controls {
 import flash.display.SimpleButton;
 import flash.display.Sprite;
 import flash.events.Event;
-import flash.events.FocusEvent;
 import flash.events.MouseEvent;
 import flash.filters.BevelFilter;
-
-import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.base.GlobalMetrics;
-
 import ru.ipo.kio.base.KioBase;
 import ru.ipo.kio.base.displays.DisplayUtils;
 import ru.ipo.kio.base.displays.ShellButton;

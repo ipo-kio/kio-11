@@ -1,8 +1,8 @@
 package ru.ipo.kio._11.VirtualPhysics.virtual_physics {
-	import flash.display.InteractiveObject;
-	import ru.ipo.kio._11.VirtualPhysics.virtual_physics.WorldDrawer;
-	
-	//Класс представляющий собой модель мира
+
+
+
+//Класс представляющий собой модель мира
 	public class WorldModel {
 		//Рисовальщик мира
 		public var painter: WorldDrawer = null;

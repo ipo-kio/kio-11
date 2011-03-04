@@ -1,13 +1,11 @@
 package ru.ipo.kio._11_students.recognition
 {
-	import flash.display.*;
-	import flash.events.*;
-	import flash.text.*;
-	import flash.ui.Mouse;
-	import flash.utils.Timer;
-	import ru.ipo.kio.api.*;
-	import ru.ipo.kio.api.controls.TextButton;	
-	/**
+import flash.display.*;
+import flash.events.*;
+import flash.text.*;
+import flash.utils.Timer;
+
+/**
 	 * ...
 	 * @author Dmitriy
 	 */

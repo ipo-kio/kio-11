@@ -7,12 +7,8 @@
  */
 package ru.ipo.kio._11.semiramida {
 import flash.display.Shape;
-import flash.display.Sprite;
-import flash.filters.BevelFilter;
 import flash.geom.ColorTransform;
 import flash.geom.Matrix;
-
-import ru.ipo.kio.api.controls.BrightnessFilter;
 
 public class Room extends Shape {
 

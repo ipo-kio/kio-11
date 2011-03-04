@@ -1,10 +1,11 @@
 package ru.ipo.kio.api_example{
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.text.*;
-	import ru.ipo.kio.api.*;
-	
-	/**
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.text.*;
+
+import ru.ipo.kio.api.*;
+
+/**
 	 * Это спрайт с задачей, на нем рисуются все видимые объекты. В нашем случае единственный видимый объект - 
 	 * это слово текстовое поле со сторокой текста
 	 * @author Ilya

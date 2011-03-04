@@ -9,7 +9,6 @@ package ru.ipo.kio.api.controls {
 import flash.display.BitmapData;
 import flash.display.SimpleButton;
 import flash.display.Sprite;
-
 import flash.text.TextField;
 
 import ru.ipo.kio.api.TextUtils;

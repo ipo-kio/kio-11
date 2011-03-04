@@ -10,14 +10,11 @@ import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.SimpleButton;
 import flash.display.Sprite;
-
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.system.Security;
 import flash.system.SecurityPanel;
 import flash.text.TextField;
-
-import flash.utils.setInterval;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;

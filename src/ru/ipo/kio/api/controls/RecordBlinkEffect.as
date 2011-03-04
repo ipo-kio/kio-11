@@ -10,7 +10,6 @@ import flash.display.DisplayObjectContainer;
 import flash.display.Graphics;
 import flash.display.Shape;
 import flash.events.TimerEvent;
-
 import flash.utils.Timer;
 
 public class RecordBlinkEffect {

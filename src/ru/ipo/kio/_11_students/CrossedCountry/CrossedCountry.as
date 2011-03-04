@@ -1,6 +1,5 @@
 package ru.ipo.kio._11_students.CrossedCountry {
 import flash.display.DisplayObject;
-
 import flash.display.Sprite;
 
 import ru.ipo.kio.api.KioApi;

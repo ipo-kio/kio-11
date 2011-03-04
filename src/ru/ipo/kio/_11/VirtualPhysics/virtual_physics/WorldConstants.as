@@ -1,7 +1,8 @@
 package   ru.ipo.kio._11.VirtualPhysics.virtual_physics
 {
-	import mx.controls.Label;
-	//Констаны определяющие мир
+import mx.controls.Label;
+
+//Констаны определяющие мир
 	public class WorldConstants
 	{
 		//Координаты последнего передвинутого шарика

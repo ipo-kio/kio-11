@@ -11,7 +11,6 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Point;
-import flash.geom.Rectangle;
 
 public class Gate extends Sprite implements Out {
 

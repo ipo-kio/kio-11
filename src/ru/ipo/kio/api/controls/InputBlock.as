@@ -9,10 +9,6 @@ package ru.ipo.kio.api.controls {
 import flash.display.Sprite;
 import flash.text.TextField;
 
-import flash.text.TextFormat;
-
-import flash.text.TextFormatAlign;
-
 import ru.ipo.kio.api.TextUtils;
 
 public class InputBlock extends Sprite {

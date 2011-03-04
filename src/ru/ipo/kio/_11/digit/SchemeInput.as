@@ -8,9 +8,6 @@ package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
 import flash.display.Sprite;
 
-import ru.ipo.kio.base.GlobalMetrics;
-import ru.ipo.kio.base.KioBase;
-
 public class SchemeInput extends Sprite implements Out{
 
     [Embed(source="resources/elements/Exit.png")]

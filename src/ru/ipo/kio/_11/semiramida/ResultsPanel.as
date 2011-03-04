@@ -8,11 +8,8 @@ package ru.ipo.kio._11.semiramida {
 import flash.display.Sprite;
 import flash.text.TextField;
 
-import flash.text.TextFieldAutoSize;
-
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.TextUtils;
-import ru.ipo.kio.api.controls.RecordBlinkEffect;
 
 public class ResultsPanel extends Sprite {
 

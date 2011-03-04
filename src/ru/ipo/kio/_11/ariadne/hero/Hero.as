@@ -13,8 +13,6 @@ import flash.geom.Matrix;
 import flash.geom.Point;
 import flash.utils.Timer;
 
-import org.osmf.layout.PaddingLayoutFacet;
-
 import ru.ipo.kio._11.ariadne.model.AriadneData;
 
 public class Hero extends Shape {

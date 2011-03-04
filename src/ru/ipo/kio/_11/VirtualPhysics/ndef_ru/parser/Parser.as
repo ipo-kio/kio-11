@@ -13,8 +13,7 @@ put them into a package different from the original.
 /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 */
 package ru.ipo.kio._11.VirtualPhysics.ndef_ru.parser{
-	import ru.ipo.kio._11.VirtualPhysics.ndef_ru.parser.Token;
-	public class Parser {
+public class Parser {
 		public var success:Boolean;
 		public var errormsg:String;
 		private var varnames:Array;

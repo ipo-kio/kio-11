@@ -7,7 +7,6 @@
 package ru.ipo.kio._11.ariadne.view {
 import flash.display.Shape;
 import flash.display.Sprite;
-
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Point;

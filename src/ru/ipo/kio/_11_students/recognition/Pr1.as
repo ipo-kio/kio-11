@@ -1,10 +1,10 @@
 package ru.ipo.kio._11_students.recognition {
-	
-	import flash.display.DisplayObject;
-	import ru.ipo.kio.api.KioApi;
-	import ru.ipo.kio.api.KioProblem;
-	
-	/**
+import flash.display.DisplayObject;
+
+import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.api.KioProblem;
+
+/**
 	 * Пример задачи
 	 * @author Ilya
 	 */

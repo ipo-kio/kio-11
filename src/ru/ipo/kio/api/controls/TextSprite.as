@@ -1,9 +1,10 @@
 package  
 ru.ipo.kio.api.controls{
-	import flash.display.Sprite;
-	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
-	/**
+import flash.display.Sprite;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+
+/**
 	 * ...
 	 * @author Ilya
 	 */

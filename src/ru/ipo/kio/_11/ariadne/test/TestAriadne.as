@@ -1,9 +1,8 @@
 package ru.ipo.kio._11.ariadne.test {
 import flash.display.Sprite;
-
-import ru.ipo.kio._11.ariadne.AriadneProblem;
 import flash.events.Event;
 
+import ru.ipo.kio._11.ariadne.AriadneProblem;
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.base.KioBase;
 

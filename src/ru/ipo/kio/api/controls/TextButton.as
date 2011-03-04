@@ -1,7 +1,8 @@
 package  
 ru.ipo.kio.api.controls{
-	import flash.display.SimpleButton;
-	/**
+import flash.display.SimpleButton;
+
+/**
 	 * ...
 	 * @author Ilya
 	 */

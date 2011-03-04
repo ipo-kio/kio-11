@@ -1,6 +1,7 @@
 package  ru.ipo.kio._11.VirtualPhysics.virtual_physics {
-  import ru.ipo.kio._11.VirtualPhysics.ndef_ru.parser.*;
-  //Класс вычисляющий формулы
+import ru.ipo.kio._11.VirtualPhysics.ndef_ru.parser.*;
+
+//Класс вычисляющий формулы
   public class FormulaParser  {
   //Парсер формул
   internal var parser:Parser = new Parser(["r"]);

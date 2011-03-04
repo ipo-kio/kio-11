@@ -5,8 +5,6 @@
  * Time: 23:48
  */
 package ru.ipo.kio._11.ariadne.test {
-import ru.ipo.kio._11.ariadne.*;
-
 import flash.display.Sprite;
 
 public class TestEvaluations extends Sprite {

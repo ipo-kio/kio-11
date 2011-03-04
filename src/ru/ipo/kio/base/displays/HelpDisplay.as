@@ -6,17 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio.base.displays {
-import flash.display.Bitmap;
 import flash.display.DisplayObject;
 import flash.display.SimpleButton;
 import flash.display.Sprite;
-
 import flash.events.Event;
 import flash.events.MouseEvent;
-
 import flash.text.TextField;
-
-import mx.utils.DisplayUtil;
 
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;

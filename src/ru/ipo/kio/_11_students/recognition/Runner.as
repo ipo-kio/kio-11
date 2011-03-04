@@ -1,10 +1,12 @@
 package ru.ipo.kio._11_students.recognition
 {
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import ru.ipo.kio.api.KioApi;
-	import ru.ipo.kio.base.KioBase;
-	/**
+import flash.display.Sprite;
+import flash.events.Event;
+
+import ru.ipo.kio.api.KioApi;
+import ru.ipo.kio.base.KioBase;
+
+/**
 	 * Этот класс основной, с него начинается программа. Чтобы указать это FlashDevelop,
 	 * надо найти этот файл в списке файлов проекта, нажать на нем правой кнопкой, выбрать Always Compile.
 	 * @author Ilya

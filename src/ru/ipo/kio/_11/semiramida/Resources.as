@@ -5,7 +5,6 @@
  * Time: 16:41
  */
 package ru.ipo.kio._11.semiramida {
-
 import mx.core.BitmapAsset;
 
 public class Resources {

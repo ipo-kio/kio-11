@@ -32,10 +32,9 @@
 
 package com.adobe.serialization.json 
 {
+import flash.utils.describeType;
 
-	import flash.utils.describeType;
-
-	public class JSONEncoder {
+public class JSONEncoder {
 	
 		/** The string that is going to represent the object we're encoding */
 		private var jsonString:String;

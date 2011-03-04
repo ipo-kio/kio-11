@@ -8,21 +8,15 @@
 package ru.ipo.kio.base.displays {
 import flash.display.SimpleButton;
 import flash.display.Sprite;
-
 import flash.events.Event;
 import flash.events.MouseEvent;
-import flash.text.StyleSheet;
 import flash.text.TextField;
-import flash.text.TextFieldAutoSize;
 
 import ru.ipo.kio.api.FileUtils;
 import ru.ipo.kio.api.KioApi;
-import ru.ipo.kio.api.LsoProxy;
 import ru.ipo.kio.api.TextUtils;
-import ru.ipo.kio.api.controls.TextButton;
 import ru.ipo.kio.base.GlobalMetrics;
 import ru.ipo.kio.base.KioBase;
-import ru.ipo.kio.base.resources.Resources;
 
 public class WelcomeDisplay extends Sprite {
 

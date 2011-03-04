@@ -9,7 +9,6 @@ import flash.display.BitmapData;
 
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.api.controls.GraphicsButton;
-import ru.ipo.kio.base.resources.Resources;
 
 public class ShellButton extends GraphicsButton {
 

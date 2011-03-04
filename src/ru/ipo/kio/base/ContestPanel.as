@@ -3,16 +3,12 @@ import flash.display.SimpleButton;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
-
 import flash.text.TextField;
 
-import ru.ipo.kio._11_students.CrossedCountry.CrossedCountry;
-import ru.ipo.kio._11.VirtualPhysics.PhysicsProblem;
+import ru.ipo.kio.api.FileUtils;
+import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.TextUtils;
-
-import ru.ipo.kio.api.KioApi;
-import ru.ipo.kio.api.FileUtils;
 import ru.ipo.kio.base.displays.HelpDisplay;
 import ru.ipo.kio.base.displays.ProblemsDisplay;
 import ru.ipo.kio.base.displays.ShellButton;

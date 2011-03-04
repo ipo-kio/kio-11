@@ -7,7 +7,6 @@
  */
 package ru.ipo.kio._11.ariadne.view {
 import flash.display.Sprite;
-
 import flash.text.TextField;
 
 import ru.ipo.kio._11.ariadne.AriadneProblem;

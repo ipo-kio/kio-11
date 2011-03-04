@@ -8,13 +8,10 @@
 package ru.ipo.kio._11.digit {
 import flash.display.BitmapData;
 import flash.display.Sprite;
-
 import flash.events.Event;
 import flash.events.MouseEvent;
-
 import flash.geom.Matrix;
 import flash.geom.Point;
-
 import flash.geom.Rectangle;
 
 public class Connector extends Sprite {

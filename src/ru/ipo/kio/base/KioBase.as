@@ -2,15 +2,13 @@ package ru.ipo.kio.base {
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
-
 import flash.text.TextField;
 
+import ru.ipo.kio.api.*;
 import ru.ipo.kio.api.controls.SpaceSettingsDialog;
 import ru.ipo.kio.base.displays.DisplayUtils;
 import ru.ipo.kio.base.displays.ProblemsDisplay;
 import ru.ipo.kio.base.displays.WelcomeDisplay;
-
-import ru.ipo.kio.api.*;
 import ru.ipo.kio.base.resources.Resources;
 
 /**

@@ -1,6 +1,4 @@
 package ru.ipo.kio._11.semiramida {
-import ru.ipo.kio.api_example.*;
-
 import flash.display.Sprite;
 import flash.events.Event;
 

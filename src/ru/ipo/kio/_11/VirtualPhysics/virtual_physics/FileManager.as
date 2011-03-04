@@ -1,15 +1,15 @@
 package ru.ipo.kio._11.VirtualPhysics.virtual_physics
 {
-	import flash.net.FileReference;
-	import flash.net.FileFilter;
-	import mx.controls.TextInput;
+import flash.events.Event;
+import flash.events.IOErrorEvent;
+import flash.net.FileFilter;
+import flash.net.FileReference;
+import flash.utils.ByteArray;
 
-	import flash.events.IOErrorEvent;
-	import flash.events.Event;
-	import mx.controls.Label;
-	import flash.utils.ByteArray;
+import mx.controls.Label;
+import mx.controls.TextInput;
 
-	//Класс работающий с файлами
+//Класс работающий с файлами
 	public class FileManager
 	{
 		//Имя файла по умолчанию
