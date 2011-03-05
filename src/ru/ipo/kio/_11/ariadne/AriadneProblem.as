@@ -18,15 +18,17 @@ public class AriadneProblem implements KioProblem {
     private var sp:Workspace;
     private var _recordCheck:Object = null;
 
-    [Embed(source="resources/Ariadne.ru.json-settings",mimeType="application/octet-stream")]
+    [Embed(source="loc/Ariadne.ru.json-settings",mimeType="application/octet-stream")]
     public static var ARIADNE_RU:Class;
-
-    [Embed(source="resources/Ariadne.es.json-settings",mimeType="application/octet-stream")]
+    [Embed(source="loc/Ariadne.es.json-settings",mimeType="application/octet-stream")]
     public static var ARIADNE_ES:Class;
+    [Embed(source="loc/Ariadne.bg.json-settings",mimeType="application/octet-stream")]
+    public static var ARIADNE_BG:Class;
 
     public function AriadneProblem() {
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(ARIADNE_RU).data);
         KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(ARIADNE_ES).data);
+        KioApi.registerLocalization(ID, KioApi.L_BG, new Settings(ARIADNE_BG).data);
 
         KioApi.initialize(this);
 

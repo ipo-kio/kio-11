@@ -20,6 +20,7 @@ public class KioApi {
 
     public static const L_RU:String = 'ru';
     public static const L_ES:String = 'es';
+    public static const L_BG:String = 'bg';
 
     /**
      * Конструктор, вызывать не следует

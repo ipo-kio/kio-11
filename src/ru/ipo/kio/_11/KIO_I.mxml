@@ -7,7 +7,7 @@
 
         public function startKIO():void {
             //Запуск основного класса
-            KioApi.language = KioApi.L_ES;
+            KioApi.language = KioApi.L_BG;
             var shell:KioShell = new KioShell(1);
             this.addChild(shell);
         }

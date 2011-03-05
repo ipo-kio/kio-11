@@ -14,10 +14,12 @@ public class DigitProblem implements KioProblem {
     private var api:KioApi;
     private var _level:int;
 
-    [Embed(source="resources/digit.ru.json-settings",mimeType="application/octet-stream")]
+    [Embed(source="loc/digit.ru.json-settings",mimeType="application/octet-stream")]
     public static var DIGIT_RU:Class;
-    [Embed(source="resources/digit.es.json-settings",mimeType="application/octet-stream")]
+    [Embed(source="loc/digit.es.json-settings",mimeType="application/octet-stream")]
     public static var DIGIT_ES:Class;
+    [Embed(source="loc/digit.bg.json-settings",mimeType="application/octet-stream")]
+    public static var DIGIT_BG:Class;
 
     //private var spitter:SpitMem = new SpitMem;
 
@@ -27,6 +29,7 @@ public class DigitProblem implements KioProblem {
 
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(DIGIT_RU).data);
         KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(DIGIT_ES).data);
+        KioApi.registerLocalization(ID, KioApi.L_BG, new Settings(DIGIT_BG).data);
 
         KioApi.initialize(this);
 

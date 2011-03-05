@@ -35,14 +35,17 @@ public class KioBase {
 
     private var spaceSettings:SpaceSettingsDialog = null;
 
-    [Embed(source="resources/shell.ru.json-settings",mimeType="application/octet-stream")]
+    [Embed(source="loc/shell.ru.json-settings",mimeType="application/octet-stream")]
     public static var SHELL_RU:Class;
-    [Embed(source="resources/shell.es.json-settings",mimeType="application/octet-stream")]
+    [Embed(source="loc/shell.es.json-settings",mimeType="application/octet-stream")]
     public static var SHELL_ES:Class;
+    [Embed(source="loc/shell.bg.json-settings",mimeType="application/octet-stream")]
+    public static var SHELL_BG:Class;
 
     public function KioBase() {
         KioApi.registerLocalization(BASE_API_ID, KioApi.L_RU, new Settings(SHELL_RU).data);
         KioApi.registerLocalization(BASE_API_ID, KioApi.L_ES, new Settings(SHELL_ES).data);
+        KioApi.registerLocalization(BASE_API_ID, KioApi.L_BG, new Settings(SHELL_BG).data);
     }
 
     private function basicInitialization(level:int, year:int, stage:DisplayObjectContainer, problems:Array):void {

@@ -138,7 +138,7 @@ public class LsoProxy {
 
     //used for debugging
     public function cleanup():void {
-        for (var key:String in data)
+        for (var key:String in _data)
             _data[key] = null;
         flush();
     }
