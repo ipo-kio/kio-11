@@ -123,6 +123,7 @@
     <target name="compile.module.kio-11.production" description="Compile module kio-11; production classes">
         <mkdir dir="${kio-11.output.dir}"/>
 
+        <!-- Russian -->
         <antcall target="compile.module.kio-11.production.level-language">
             <param name="level" value="1"/>
             <param name="language" value="ru"/>
@@ -133,6 +134,8 @@
             <param name="language" value="ru"/>
         </antcall>
 
+        <!-- Spanish -->
+
         <antcall target="compile.module.kio-11.production.level-language">
             <param name="level" value="1"/>
             <param name="language" value="es"/>
@@ -141,6 +144,18 @@
         <antcall target="compile.module.kio-11.production.level-language">
             <param name="level" value="2"/>
             <param name="language" value="es"/>
+        </antcall>
+
+        <!-- Bulgarian -->
+
+        <antcall target="compile.module.kio-11.production.level-language">
+            <param name="level" value="1"/>
+            <param name="language" value="bg"/>
+        </antcall>
+
+        <antcall target="compile.module.kio-11.production.level-language">
+            <param name="level" value="2"/>
+            <param name="language" value="bg"/>
         </antcall>
 
         <!--<copy todir="${kio-11.output.dir}">
