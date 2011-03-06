@@ -13,6 +13,17 @@ import flash.utils.Dictionary;
 
 import ru.ipo.kio.base.KioBase;
 
+/*
+data
+|
+|----problem_id_1
+|----problem_id_2
+|----problem_id_3
+|----kio_base
+     |
+     |---anketa
+ */
+
 public class LsoProxy {
 
     private static var _instance:Dictionary = new Dictionary(); // year + '-' + level -> LsoProxy
@@ -37,6 +48,20 @@ public class LsoProxy {
         this.year = year;
         _data = {};
         createLSO();
+        normalize_users();
+    }
+
+    //remove all users with anketa not filled, create users if they don't exist
+    private function normalize_users():void {
+        if (!_data.users)
+            _data.users = [];
+
+        var remove_indexes:Array = [];
+        for (var i:int = 0; i < _data.users.length; i++)
+            if (!_data.users[i].kio_base || !_data.users[i].kio_base.anketa_filled)
+                remove_indexes.push(i);
+        for (i = remove_indexes.length - 1; i >= 0; i--)
+            _data.users.splice(remove_indexes[i], 1);
     }
 
     private function createLSO():void {
@@ -46,25 +71,7 @@ public class LsoProxy {
         } catch (e:Error) {
             _local = null;
         }
-
-        /*var t:Timer = new Timer(100);
-        t.addEventListener(TimerEvent.TIMER, function (event:Event):void {
-            tr();
-        });
-        t.start();*/
     }
-
-    /*private function tr():void {
-        var b:* = _data.digit.autoSave;
-        if (b) {
-            trace("b = ");
-            for (var k:String in b) {
-                trace("  " + k + " --> " + b[k]);
-            }
-        } else {
-            trace("b is null");
-        }
-    }*/
 
     private function getLocal():SharedObject {
         var local:SharedObject = SharedObject.getLocal("ru/ipo/kio/" + year + "/" + level, "/");
@@ -97,20 +104,22 @@ public class LsoProxy {
     }
 
     public function getProblemData(id:String):Object {
-        //tr();
+        var ud:Object = userData;
 
-        if (!_data[id]) {
-            _data[id] = {};
+        if (!ud[id]) {
+            ud[id] = {};
         }
 
-        return _data[id];
+        return ud[id];
     }
 
     public function getGlobalData():Object {
-        if (!_data.kio_base)
-            _data.kio_base = {};
+        var ud:Object = userData;
 
-        return _data.kio_base;
+        if (!ud.kio_base)
+            ud.kio_base = {};
+
+        return ud.kio_base;
     }
 
     public function getAnketa():Object {
@@ -121,14 +130,20 @@ public class LsoProxy {
         return gd.anketa;
     }
 
-    public function get data():Object {
-        return _data;
+    public function get userData():Object {
+        if (!_data.users) {
+            _data.users = [{}];
+            user_index = 0;
+        }
+
+        return _data.users[user_index];
     }
 
-    public function set data(data:Object):void {
-        //TODO select better record. Should store record together with the checker results
-        for (var key:String in data)
-            _data[key] = data[key];
+    public function set userData(data:Object):void {
+        var ud:Object = userData;
+
+        for (var key:String in ud)
+            ud[key] = data[key];
         flush();
     }
 
@@ -136,11 +151,44 @@ public class LsoProxy {
         return getGlobalData().anketa;
     }
 
-    //used for debugging
+    /*//used to be used for debugging
     public function cleanup():void {
         for (var key:String in _data)
             _data[key] = null;
         flush();
+    }*/
+
+    //-------------------------------------------------------
+    // Multiple users
+    //-------------------------------------------------------
+
+    private var user_index:int = -1;
+
+    public function userCount():int {
+        normalize_users();
+
+        return _data.users.length;
+    }
+
+    public function get userIndex():int {
+        return user_index;
+    }
+
+    public function set userIndex(value:int):void {
+        user_index = value;
+    }
+
+    public function getUserInfo(ind:int, showInstitution:Boolean):String {
+        var anketa:Object = _data.users[ind].kio_base.anketa;
+        var result:String = anketa.surname + ' ' + anketa.name + ' ' + anketa.second_name;
+        if (showInstitution)
+            result += ' ' + anketa.inst_name + ' ' + anketa.grade;
+        return  result;
+    }
+
+    public function createNewParticipant():void {
+        _data.users.push({});
+        userIndex = _data.users.length - 1;
     }
 }
 }

@@ -54,7 +54,7 @@ public class FileUtils {
 
     public static function saveAll():void {
         var fr:FileReference = new FileReference();
-        var sol:Object = KioBase.instance.lsoProxy.data;
+        var sol:Object = KioBase.instance.lsoProxy.userData;
         fr.save(JSON.encode(sol), RESULTS_FILE_NAME + inventDate() + ".kio-" + KioBase.instance.level);
     }
 
