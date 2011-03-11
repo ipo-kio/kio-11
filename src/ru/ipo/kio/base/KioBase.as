@@ -195,19 +195,7 @@ public class KioBase {
             return;
 
         var lso:LsoProxy = KioBase.instance.lsoProxy;
-//        copyObjectTo(data, lso.data);
         lso.userData = data;
-
-        for (var i:int = 0; i < problems.length; i++) {
-            var best:Object = lso.getProblemData(problems[i].id).best;
-            var autoSave:Object = lso.getProblemData(problems[i].id).autoSave;
-
-            if (best)
-                problems[i].loadSolution(best);
-
-            if (autoSave)
-                problems[i].loadSolution(autoSave);
-        }
 
         if (_currentProblem)
             currentProblem = _currentProblem;

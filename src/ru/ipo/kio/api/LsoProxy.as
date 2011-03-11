@@ -142,7 +142,7 @@ public class LsoProxy {
     public function set userData(data:Object):void {
         var ud:Object = userData;
 
-        for (var key:String in ud)
+        for (var key:String in data)
             ud[key] = data[key];
         flush();
     }
