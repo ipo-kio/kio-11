@@ -25,7 +25,7 @@ public class AnketaDisplay extends Sprite {
     private var inputTextFields:Array;
     private var continueButton:SimpleButton;
 
-    public function AnketaDisplay() {
+    public function AnketaDisplay(previousDisplay:Class = null) {
         DisplayUtils.placeBackground(this);
 
         var loc:Object = KioApi.getLocalization(KioBase.BASE_API_ID).screen;
@@ -135,6 +135,17 @@ public class AnketaDisplay extends Sprite {
         }
 
         setEnabledForContinueButton();
+
+        if (previousDisplay) {
+            var backButton:SimpleButton = new ShellButton(KioApi.getLocalization(KioBase.BASE_API_ID).screen.buttons.back);
+            backButton.x = GlobalMetrics.H_PADDING;
+            backButton.y = GlobalMetrics.STAGE_HEIGHT - backButton.height - GlobalMetrics.V_PADDING;
+            addChild(backButton);
+
+            backButton.addEventListener(MouseEvent.CLICK, function(event:Event):void {
+                KioBase.instance.currentDisplay = new previousDisplay;
+            });
+        }
     }
 
     private function valueChanged(event:Event):void {

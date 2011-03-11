@@ -20,18 +20,13 @@ import ru.ipo.kio.base.KioBase;
 
 public class WelcomeDisplay extends Sprite {
 
-    private static const SECURITY_PANEL_WIDTH:int = 213;
-    private static const SECURITY_PANEL_HEIGHT:int = 136;
-
-    private static const TEXT_COLOR:uint = 0xDDDDDD;
-
     public function WelcomeDisplay() {
         DisplayUtils.placeBackground(this);
 
         var loc:* = KioApi.getLocalization(KioBase.BASE_API_ID).screen;
 
         var mainMessage:TextField = TextUtils.createCustomTextField();
-        mainMessage.htmlText = '<html>' + loc.welcome.mainMessage + '</html>';
+        mainMessage.htmlText = '<html><p class="h1">' + loc.welcome.greeting + '</p><p></p>' + loc.welcome.mainMessage_0 + '</html>';
         mainMessage.width = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
         mainMessage.x = (GlobalMetrics.STAGE_WIDTH - GlobalMetrics.DISPLAYS_TEXT_WIDTH) / 2;
         mainMessage.y = GlobalMetrics.DISPLAYS_TEXT_TOP;
@@ -39,7 +34,7 @@ public class WelcomeDisplay extends Sprite {
         addChild(mainMessage);
 
         var loadWorkspaceMessage:TextField = TextUtils.createCustomTextField();
-        loadWorkspaceMessage.htmlText = '<p class="footnote"><i>' + loc.welcome.loadWorkspace + '</i></p>';
+        loadWorkspaceMessage.htmlText = '<p class="footnote">' + loc.welcome.message_old_participant + '</p>';
         loadWorkspaceMessage.width = GlobalMetrics.DISPLAYS_TEXT_WIDTH;
         loadWorkspaceMessage.x = (GlobalMetrics.STAGE_WIDTH - GlobalMetrics.DISPLAYS_TEXT_WIDTH) / 2;
         loadWorkspaceMessage.y = mainMessage.y + mainMessage.textHeight + 50;
@@ -59,10 +54,12 @@ public class WelcomeDisplay extends Sprite {
     }
 
     private function continueButtonClicked(event:Event):void {
+        KioBase.instance.lsoProxy.createNewParticipant();
         KioBase.instance.currentDisplay = new SettingsDisplay;
     }
 
     private function loadWorkspaceButtonClicked(event:Event):void {
+        KioBase.instance.lsoProxy.createNewParticipant();
         FileUtils.loadAll();
     }
 

@@ -7,6 +7,8 @@ import flash.text.TextField;
 import ru.ipo.kio.api.*;
 import ru.ipo.kio.api.controls.SpaceSettingsDialog;
 import ru.ipo.kio.base.displays.DisplayUtils;
+import ru.ipo.kio.base.displays.MultipleUsersWelcomeDisplay;
+import ru.ipo.kio.base.displays.OneUserWelcomeDisplay;
 import ru.ipo.kio.base.displays.ProblemsDisplay;
 import ru.ipo.kio.base.displays.WelcomeDisplay;
 import ru.ipo.kio.base.resources.Resources;
@@ -64,10 +66,17 @@ public class KioBase {
         basicInitialization(level, year, stage, problems);
 
         //test this is the first start
-        if (_lsoProxy.getGlobalData().anketa_filled)
-            currentDisplay = new ProblemsDisplay;
-        else
-            currentDisplay = new WelcomeDisplay;
+        switch (_lsoProxy.userCount()) {
+            case 0:
+                currentDisplay = new WelcomeDisplay;
+                break;
+            case 1:
+                currentDisplay = new OneUserWelcomeDisplay;
+                break;
+            default:
+                currentDisplay = new MultipleUsersWelcomeDisplay;
+                break;
+        }
     }
 
     public function initOneProblem(stage:DisplayObjectContainer, problem:KioProblem):void {
@@ -85,12 +94,6 @@ public class KioBase {
     public function get currentProblem():KioProblem {
         return _currentProblem;
     }
-
-    /*private function copyObjectTo(o1:Object, o2:Object):void {
-        for (var key:String in o1) {
-            o2[key] = o1[key];
-        }
-    }*/
 
     public function set currentProblem(problem:KioProblem):void {
         _currentProblem = problem;
@@ -182,6 +185,7 @@ public class KioBase {
         return problems[ind];
     }
 
+    //TODO rewrite
     public function loadAllData(data:*):void {
         if (!data.kio_base)
             return;
@@ -191,19 +195,7 @@ public class KioBase {
             return;
 
         var lso:LsoProxy = KioBase.instance.lsoProxy;
-//        copyObjectTo(data, lso.data);
-        lso.data = data;
-
-        for (var i:int = 0; i < problems.length; i++) {
-            var best:Object = lso.getProblemData(problems[i].id).best;
-            var autoSave:Object = lso.getProblemData(problems[i].id).autoSave;
-
-            if (best)
-                problems[i].loadSolution(best);
-
-            if (autoSave)
-                problems[i].loadSolution(autoSave);
-        }
+        lso.userData = data;
 
         if (_currentProblem)
             currentProblem = _currentProblem;

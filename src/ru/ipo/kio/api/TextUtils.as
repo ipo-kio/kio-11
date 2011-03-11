@@ -66,7 +66,8 @@ public class TextUtils {
                     ".no_justify {text-align:left;} " +
                     ".h1 { color:#000000; font-size: 16; font-weight:bold;} " +
                     ".h2 { color:#000000; font-size: 14; font-weight:bold; text-align:left;} " +
-                    ".footnote {font-size: 14; font-weight:600;} " +
+                    //".footnote {font-size: 12; } " + //font-weight:bold;} " +
+                    ".footnote {color:#222266;}" +
                     ".warning {color:#00000; font-weight:bold; font-size: smaller} " +
                     ".warning_anketa {color:#00000; font-size: smaller} " +
                     ".c {textAlign: center;}";
