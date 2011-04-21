@@ -7,6 +7,10 @@
 package ru.ipo.kio._11.ariadne.test {
 import flash.display.Sprite;
 
+import ru.ipo.kio._11.ariadne.model.Rational;
+import ru.ipo.kio._11.ariadne.model.RationalPoint;
+import ru.ipo.kio._11.ariadne.model.Segment;
+
 public class TestEvaluations extends Sprite {
 
     public function TestEvaluations() {

@@ -20,6 +20,8 @@ public interface KioProblem {
 
     function get solution():Object;
 
+    function get best():Object;
+
     function loadSolution(solution:Object):Boolean;
 
     function check(solution:Object):Object;

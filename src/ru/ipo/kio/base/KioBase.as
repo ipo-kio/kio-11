@@ -85,6 +85,59 @@ public class KioBase {
         currentProblem = problem;
     }
 
+    public function checkProblem(stage:DisplayObjectContainer, problem:KioProblem, data:*):void {
+        //TODO here is some copy paste from various other functions
+        _level = problem.level;
+        _lsoProxy = LsoProxy.getInstance(problem.level, problem.year);
+        _lsoProxy.userIndex = 0;
+
+        this.stage = stage;
+        this.problems = null;
+
+        if (!_problems_bg) {
+            _problems_bg = new Resources.BG_PR_IMAGE;
+            _problems_bg.visible = false;
+        }
+
+        _currentProblem = problem;
+
+        if (workspace)
+            stage.removeChild(workspace);
+
+        if (!contestPanel) {
+            contestPanel = new ContestPanel;
+            contestPanel.x = GlobalMetrics.CONTEST_PANEL_X;
+            contestPanel.y = GlobalMetrics.CONTEST_PANEL_Y;
+            stage.addChild(contestPanel);
+        }
+
+        //load data
+
+        //some unnecessary checks
+        if (!data.kio_base)
+            return;
+        if (!data.kio_base.level)
+            return;
+        if (data.kio_base.level != _level)
+            return;
+
+        _lsoProxy.userData = data;
+
+        //place problem view on the screen
+        workspace = problem.display;
+        workspace.x = GlobalMetrics.WORKSPACE_X + Math.floor((GlobalMetrics.WORKSPACE_WIDTH - workspace.width) / 2);
+        workspace.y = GlobalMetrics.WORKSPACE_Y + Math.floor((GlobalMetrics.WORKSPACE_HEIGHT - workspace.height) / 2);
+        stage.addChild(workspace);
+
+        //load autosave solution
+        var problemData:Object = _lsoProxy.getProblemData(problem.id);
+
+        var best:Object = problemData.best;
+
+        if (best)
+            problem.loadSolution(best);
+    }
+
     public static function get instance():KioBase {
         if (!_instance)
             _instance = new KioBase;

@@ -88,7 +88,6 @@ public class Pipe extends Sprite {
 
         if (horizontal) {
             startDrag(false, new Rectangle(0, baseLine(), _house.house_width, 0));
-            trace(_house.house_width);
             stage.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMoveWhileHorizontalDragging);
         } else {
             stage.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMoveWhileVerticalDragging);
@@ -134,10 +133,6 @@ public class Pipe extends Sprite {
     }
 
     private function handleMouseMoveWhileVerticalDragging(event:MouseEvent):void {
-        /*trace('localY = ' + event.localY);
-         trace('mouseY in house = ' + _house.mouseY);
-         trace('height = ' + (baseLine() - event.localY));
-         trace('floor no = ' + (baseLine() - event.localY) / _house.floorHeight);*/
         var new_floors:Number = /*Math.round*/((baseLine() - _house.mouseY) / _house.floorHeight);
         if (new_floors != floors && new_floors >= 1 && new_floors <= _house.FLOORS)
             floors = new_floors;

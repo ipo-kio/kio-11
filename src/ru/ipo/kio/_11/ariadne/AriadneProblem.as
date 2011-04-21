@@ -65,7 +65,6 @@ public class AriadneProblem implements KioProblem {
     public function submitSolution(time:Number, length:Number):void {
         var api:KioApi = KioApi.instance(ID);
         var currentCheck:Object = {time:time, length:length};
-        trace('comparing ' + currentCheck.time + ' (record ' + (_recordCheck ? _recordCheck.time : '-') + ')');
         if (compare(currentCheck, _recordCheck) > 0) {
             _recordCheck = currentCheck;
             sp.updateResults(true, time, length);
@@ -84,7 +83,7 @@ public class AriadneProblem implements KioProblem {
 
     public function compare(solution1:Object, solution2:Object):int {
         if (!solution1)
-            return solution2 ? 0 : -1;
+            return solution2 ? -1 : 0;
         if (!solution2)
             return 1;
 
@@ -108,6 +107,10 @@ public class AriadneProblem implements KioProblem {
 
     public function get icon_help():Class {
         return ICON_HELP;
+    }
+
+    public function get best():Object {
+        return _recordCheck;
     }
 }
 

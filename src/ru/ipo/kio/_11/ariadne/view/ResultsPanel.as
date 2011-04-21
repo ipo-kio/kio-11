@@ -50,7 +50,6 @@ public class ResultsPanel extends Sprite {
     }
 
     public function set time(value:Number):void {
-        trace('set time = ' + value);
         _time = value;
         refresh();
     }

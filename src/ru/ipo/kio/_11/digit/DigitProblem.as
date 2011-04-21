@@ -140,7 +140,7 @@ public class DigitProblem implements KioProblem {
 
     public function compare(solution1:Object, solution2:Object):int {
         if (!solution1)
-            return solution2 ? 0 : -1;
+            return solution2 ? -1 : 0;
         if (!solution2)
             return 1;
 
@@ -185,5 +185,8 @@ public class DigitProblem implements KioProblem {
         return level == 1 ? ICON_HELP_1 : ICON_HELP_2;
     }
 
+    public function get best():Object {
+        return _recordCheck;
+    }
 }
 }

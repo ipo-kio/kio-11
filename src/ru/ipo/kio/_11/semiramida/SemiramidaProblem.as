@@ -88,7 +88,7 @@ public class SemiramidaProblem implements KioProblem {
 
     public function compare(solution1:Object, solution2:Object):int {
         if (!solution1)
-            return solution2 ? 0 : -1;
+            return solution2 ? -1 : 0;
         if (!solution2)
             return 1;
         var r:int = solution1.rooms - solution2.rooms;
@@ -125,6 +125,10 @@ public class SemiramidaProblem implements KioProblem {
 
     public function get icon_help():Class {
         return ICON_HELP;
+    }
+
+    public function get best():Object {
+        return _recordCheck;
     }
 }
 }

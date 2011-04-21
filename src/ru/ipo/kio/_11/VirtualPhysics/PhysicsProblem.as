@@ -15,6 +15,8 @@ public class PhysicsProblem implements KioProblem {
 
     private var sp:PhysicsMain;
 
+    private var _recordCheck:Object = null;
+
     [Embed(source="loc/physics.ru.json-settings",mimeType="application/octet-stream")]
     public static var PHYSICS_RU:Class;
     [Embed(source="loc/physics.es.json-settings",mimeType="application/octet-stream")]
@@ -80,6 +82,12 @@ public class PhysicsProblem implements KioProblem {
         sp.resultLabel_2.text = solution.r2;
         sp.resultLabel_3.text = solution.r3;
 
+        _recordCheck = {
+            other_half: solution.r1,
+            one_ball: solution.r2,
+            center_distance: solution.r3
+        };
+
         sp.testNewRecord(false);
 
         return true;
@@ -90,7 +98,24 @@ public class PhysicsProblem implements KioProblem {
     }
 
     public function compare(solution1:Object, solution2:Object):int {
-        return 1;
+        if (!solution1)
+            return solution2 ? -1 : 0;
+        if (!solution2)
+            return 1;
+
+        var r:int = solution2.other_half - solution1.other_half;
+        if (r != 0)
+            return r;
+        r = solution1.one_ball - solution2.one_ball;
+        if (r != 0)
+            return r;
+
+        if (solution1.center_distance < solution2.center_distance)
+            return 1;
+        else if (solution1.center_distance > solution2.center_distance)
+            return -1;
+        else
+            return 0;
     }
 
     [Embed(source="resources/icon.jpg")]
@@ -105,6 +130,10 @@ public class PhysicsProblem implements KioProblem {
 
     public function get icon_help():Class {
         return ICON_HELP;
+    }
+
+    public function get best():Object {
+        return _recordCheck;
     }
 }
 

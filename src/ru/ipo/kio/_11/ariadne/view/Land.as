@@ -120,7 +120,6 @@ public class Land extends Sprite {
     }
 
     private function segmentSelectionHandler(event:SelectionChangedEvent):void {
-        trace('segment selection changed from ' + event.previous_index + ' to ' + event.new_index);
         if (event.previous_index >= 0)
             _segments[event.previous_index].redraw(); //TODO here was 'термин не определен или не имеет свойств'
         if (event.new_index >= 0)
@@ -146,7 +145,6 @@ public class Land extends Sprite {
     private function pathChangedHandler(event:Event):void {
         redrawPath();
         _mouseOverSegment = [];
-        trace('path changed');
 
         if (_show_hero)
             restartHeroes();

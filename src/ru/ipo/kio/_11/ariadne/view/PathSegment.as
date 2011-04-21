@@ -40,7 +40,6 @@ public class PathSegment extends Sprite {
     }
 
     private function mouseDown(event:Event):void {
-        trace('down on segment');
         AriadneData.instance.selected_segment_index = _ind;
     }
 
@@ -87,7 +86,6 @@ public class PathSegment extends Sprite {
             var terra:Terra = AriadneData.instance.terra;
             var split:Array = Segment.split(terra, ps.x, ps.y, pf.x, pf.y);
             var seg_count:int = split.length;
-            trace('split into ' + seg_count + ' elements');
             for (var i:int = 0; i < seg_count - 1; i++) {
                 var s:Segment = split[i];
                 var p:Point = _land.logicalFloatToScreen(s.finish);
