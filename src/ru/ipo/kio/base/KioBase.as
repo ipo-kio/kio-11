@@ -127,6 +127,7 @@ public class KioBase {
         workspace = problem.display;
         workspace.x = GlobalMetrics.WORKSPACE_X + Math.floor((GlobalMetrics.WORKSPACE_WIDTH - workspace.width) / 2);
         workspace.y = GlobalMetrics.WORKSPACE_Y + Math.floor((GlobalMetrics.WORKSPACE_HEIGHT - workspace.height) / 2);
+        workspace.visible = false;
         stage.addChild(workspace);
 
         //load autosave solution
