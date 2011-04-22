@@ -15,23 +15,22 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.net.FileFilter;
 import flash.net.FileReference;
+import flash.printing.PrintJob;
 import flash.text.TextField;
 import flash.utils.ByteArray;
 
 import mx.core.BitmapAsset;
-
-import mx.events.ModuleEvent;
 
 import ru.ipo.kio.api.TextUtils;
 import ru.ipo.kio.base.displays.ShellButton;
 
 public class CertificateView extends Sprite {
 
-    [Embed(source="resources/cert-1.png")]
+    [Embed(source="resources/Sertificat_005.jpg")]
     private static var LEVEL_1:Class;
     private var IMG_1:BitmapAsset = new LEVEL_1;
 
-    [Embed(source="resources/cert-2.png")]
+    [Embed(source="resources/Sertificat_006.jpg")]
     private static var LEVEL_2:Class;
     private var IMG_2:BitmapAsset = new LEVEL_2;
 
@@ -41,6 +40,8 @@ public class CertificateView extends Sprite {
 
     private var buttonsPanel:Sprite;
     private var welcomePanel:Sprite;
+
+    //0xbfdbff
 
     //certificate panel
     private var certificatePanel:Sprite;
@@ -91,6 +92,10 @@ public class CertificateView extends Sprite {
         buttonsPanel.addChild(print);
 
         topHeight = 2 * BUTTONS_TOP + load.height;
+
+        buttonsPanel.graphics.beginFill(0xbfdbff);
+        buttonsPanel.graphics.drawRect(0, 0, 4000, topHeight);
+        buttonsPanel.graphics.endFill();
     }
 
     private function loadClick(event:MouseEvent):void {
@@ -163,8 +168,17 @@ public class CertificateView extends Sprite {
         return JSON.decode(json_certificate);
     }
 
-    private function printClick():void {
-        welcomePanel.
+    private function printClick(event:Event):void {
+        var printJob:PrintJob = new PrintJob();
+        if (printJob.start()) {
+            try {
+                printJob.addPage(certificatePanel);
+            }
+            catch(e:Error) {
+                return;
+            }
+            printJob.send();
+        }
     }
 
 }
