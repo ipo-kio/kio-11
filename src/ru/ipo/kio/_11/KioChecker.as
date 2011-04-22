@@ -111,11 +111,12 @@ public class KioChecker extends UIComponent {
     ]; //levels 0, 1, 2
     private var logText:TextField;
 
-    private static const FROM_ENTRY:int = 0;
-    private static const TO_ENTRY:int = 110;
+    private static const FROM_ENTRY:int = 531;
+    private static const TO_ENTRY:int = 630;
     private static const NEED_RESULTS:Boolean = true;
 
     public function KioChecker() {
+        KioApi.isChecker = true;
         logText = new TextField();
         logText.multiline = true;
         logText.x = 0;

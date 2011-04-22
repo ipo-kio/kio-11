@@ -22,6 +22,8 @@ public class KioApi {
     public static const L_ES:String = 'es';
     public static const L_BG:String = 'bg';
 
+    private static var _isChecker:Boolean = false;
+
     /**
      * Конструктор, вызывать не следует
      * @param problem
@@ -178,6 +180,14 @@ public class KioApi {
         else if (val is Object)
             return 'object';
         return 'unknown';
+    }
+
+    public static function get isChecker():Boolean {
+        return _isChecker;
+    }
+
+    public static function set isChecker(isChecker:Boolean):void {
+        _isChecker = isChecker;
     }
 }
 }

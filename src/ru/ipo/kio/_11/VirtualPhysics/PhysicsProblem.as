@@ -1,6 +1,8 @@
 package ru.ipo.kio._11.VirtualPhysics {
 import flash.display.DisplayObject;
 
+import flash.display.Sprite;
+
 import ru.ipo.kio.api.KioApi;
 import ru.ipo.kio.api.KioProblem;
 import ru.ipo.kio.api.Settings;
@@ -35,7 +37,8 @@ public class PhysicsProblem implements KioProblem {
 
 
 //			sp = new ExampleProblemSprite(true, ID); //Это вызов заглушки, которая показывает, что задача будет доступна позже
-        sp = new PhysicsMain;
+        if (!KioApi.isChecker)
+            sp = new PhysicsMain;
     }
 
     public function get id():String {
@@ -54,7 +57,7 @@ public class PhysicsProblem implements KioProblem {
     }
 
     public function get display():DisplayObject {
-        return sp;
+        return KioApi.isChecker ? new Sprite() : sp;
     }
 
     public function get solution():Object {
@@ -74,21 +77,22 @@ public class PhysicsProblem implements KioProblem {
         if (!solution._11 || !solution._12 || !solution._22 || !solution.r1 || !solution.r2 || !solution.r3)
             return false;
 
-        sp._11.text = solution._11;
-        sp._12.text = solution._12;
-        sp._22.text = solution._22;
-
-        sp.resultLabel_1.text = solution.r1;
-        sp.resultLabel_2.text = solution.r2;
-        sp.resultLabel_3.text = solution.r3;
-
         _recordCheck = {
             other_half: solution.r1,
             one_ball: solution.r2,
             center_distance: solution.r3
         };
 
-        sp.testNewRecord(false);
+        if (!KioApi.isChecker) {
+            sp._11.text = solution._11;
+            sp._12.text = solution._12;
+            sp._22.text = solution._22;
+
+            sp.resultLabel_1.text = solution.r1;
+            sp.resultLabel_2.text = solution.r2;
+            sp.resultLabel_3.text = solution.r3;
+            sp.testNewRecord(false);
+        }
 
         return true;
     }
