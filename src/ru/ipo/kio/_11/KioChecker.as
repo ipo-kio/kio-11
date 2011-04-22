@@ -523,7 +523,7 @@ public class KioChecker extends UIComponent {
         }
     }
 
-    private function signString(s:String):int {
+    public static function signString(s:String):int {
         var b : ByteArray = new ByteArray();
         b.writeUTF(s);
         b.position = 0;
