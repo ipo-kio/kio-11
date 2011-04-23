@@ -4,15 +4,21 @@
  * Date: 22.04.11
  * Time: 17:07
  */
-package ru.ipo.kio._11 {
+package ru.ipo.kio._11.certificate {
+
+import ru.ipo.kio._11.*;
+
 import com.adobe.serialization.json.JSON;
 
 import flash.display.BitmapData;
 import flash.display.SimpleButton;
 import flash.display.Sprite;
+import flash.display.StageAlign;
+import flash.display.StageScaleMode;
 import flash.errors.IOError;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.geom.Matrix;
 import flash.net.FileFilter;
 import flash.net.FileReference;
 import flash.printing.PrintJob;
@@ -26,11 +32,11 @@ import ru.ipo.kio.base.displays.ShellButton;
 
 public class CertificateView extends Sprite {
 
-    [Embed(source="resources/Sertificat_005.jpg")]
+    [Embed(source="../resources/Sertificat_005.jpg")]
     private static var LEVEL_1:Class;
     private var IMG_1:BitmapAsset = new LEVEL_1;
 
-    [Embed(source="resources/Sertificat_006.jpg")]
+    [Embed(source="../resources/Sertificat_006.jpg")]
     private static var LEVEL_2:Class;
     private var IMG_2:BitmapAsset = new LEVEL_2;
 
@@ -38,13 +44,17 @@ public class CertificateView extends Sprite {
     private static const BUTTONS_SKIP:int = 10;
     private static const BUTTONS_TOP:int = 4;
 
+    //buttons panel
     private var buttonsPanel:Sprite;
-    private var welcomePanel:Sprite;
+    private var slider:Slider;
 
-    //0xbfdbff
+    //welcome panel
+    private var welcomePanel:Sprite;
+    private var helloTextField:TextField;
 
     //certificate panel
     private var certificatePanel:Sprite;
+    private var img:BitmapData = null;
 
     private var topHeight:int;
 
@@ -60,14 +70,21 @@ public class CertificateView extends Sprite {
     private function init(event:Event = null):void {
         removeEventListener(Event.ADDED_TO_STAGE, init);
 
-        placeElement();
+        stage.scaleMode = StageScaleMode.NO_SCALE;
+        stage.align = StageAlign.TOP_LEFT;
+
         stage.addEventListener(Event.RESIZE, placeElement);
 
         createButtonsPanel();
         createCertificatePanel();
         createWelcomePanel();
 
+        placeElement();
+
         addChild(welcomePanel);
+        stage.addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void {
+            trace(event.stageX, event.stageY, event.localX, event.localY);
+        });
     }
 
     private function createCertificatePanel():void {
@@ -80,16 +97,23 @@ public class CertificateView extends Sprite {
         buttonsPanel = new Sprite;
         var load:SimpleButton = new ShellButton("Загрузить");
         var print:SimpleButton = new ShellButton("Напечатать");
+        slider = new Slider(0, 1, 150);
+
         load.x = BUTTONS_LEFT;
         load.y = BUTTONS_TOP;
         print.x = load.x + load.width + BUTTONS_SKIP;
         print.y = BUTTONS_TOP;
+        slider.x = print.x + print.width + BUTTONS_SKIP;
+        slider.y = BUTTONS_TOP;
+
+        slider.addEventListener(Slider.VALUE_CHANGED, rescaleCertificate);
 
         load.addEventListener(MouseEvent.CLICK, loadClick);
         print.addEventListener(MouseEvent.CLICK, printClick);
 
         buttonsPanel.addChild(load);
         buttonsPanel.addChild(print);
+        buttonsPanel.addChild(slider);
 
         topHeight = 2 * BUTTONS_TOP + load.height;
 
@@ -110,42 +134,42 @@ public class CertificateView extends Sprite {
     private function createWelcomePanel():void {
         welcomePanel = new Sprite;
 
-        var hello:TextField = TextUtils.createCustomTextField(false);
-        hello.htmlText = "<h1 align='center'>Нажмите на любое место экрана, чтобы загрузить сертификат</h1><p align='center'>одинодин</p>";
-        welcomePanel.addChild(hello);
-        welcomePanel.graphics.beginFill(0xAAAAAA);
-        welcomePanel.graphics.drawRect(0, 0, 640, 480);
-        welcomePanel.graphics.endFill();
+        helloTextField = TextUtils.createCustomTextField(false);
+        helloTextField.htmlText = "<p class='h1' align='center'>Нажмите на любое место экрана, чтобы загрузить сертификат</p><br><p align='center'>" +
+                "ололо одинодин</p>";
+        welcomePanel.addChild(helloTextField);
 
         welcomePanel.addEventListener(MouseEvent.CLICK, loadClick);
     }
 
     private function placeElement(event:Event = null):void {
+        trace("resizing " + stage.stageWidth + 'x' + stage.stageHeight);
+        if (welcomePanel)
+            resizeWelcomePanel();
         resizeButtonsPanel();
         resizeCertificatePanel();
-        resizeWelcomePanel();
     }
 
     private function resizeWelcomePanel():void {
-        trace('resize welcome panel');
+        welcomePanel.graphics.beginFill(0xbfdbff);
+        welcomePanel.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+        welcomePanel.graphics.endFill();
+
+        helloTextField.width = stage.stageWidth;
+        helloTextField.x = 0;
+        helloTextField.y = (stage.stageHeight - helloTextField.height) / 2;
     }
 
     private function resizeCertificatePanel():void {
-        trace('resize certificate panel');
+        rescaleCertificate();
     }
 
     private function resizeButtonsPanel():void {
-        trace('resize buttons panel');
+        buttonsPanel.x = 0;
+        buttonsPanel.y = 0
     }
 
     private function fileSelected(event:Event):void {
-        if (welcomePanel) {
-            removeChild(welcomePanel);
-            welcomePanel = null;
-            addChild(buttonsPanel);
-            addChild(certificatePanel);
-        }
-
         certificateFile.addEventListener(Event.COMPLETE, fileLoaded);
         certificateFile.load();
     }
@@ -153,18 +177,27 @@ public class CertificateView extends Sprite {
     private function fileLoaded(event:Event):void {
         var certificate:Object = loadCertificate(certificateFile.data);
 
-        var img:BitmapData = (certificate.level == 1 ? IMG_1 : IMG_2).bitmapData;
+        if (welcomePanel) {
+            removeChild(welcomePanel);
+            welcomePanel = null;
+            addChild(certificatePanel);
+            addChild(buttonsPanel);
+        }
+
+        img = (certificate.level == 1 ? IMG_1 : IMG_2).bitmapData;
         certificatePanel.graphics.clear();
         certificatePanel.graphics.beginBitmapFill(img);
         certificatePanel.graphics.drawRect(0, 0, img.width, img.height);
         certificatePanel.graphics.endFill();
+
+        rescaleCertificate();
     }
 
     private function loadCertificate(data:ByteArray):Object {
         var keyed_certificate:Object = JSON.decode(data.readUTFBytes(data.length));
         var json_certificate:String = keyed_certificate.json_certificate;
         if (KioChecker.signString(json_certificate) != keyed_certificate.signature)
-            throw new IOError('Не сходится подпись');
+            throw new IOError('Подпись не соответствует сертификату');
         return JSON.decode(json_certificate);
     }
 
@@ -173,12 +206,42 @@ public class CertificateView extends Sprite {
         if (printJob.start()) {
             try {
                 printJob.addPage(certificatePanel);
-            }
-            catch(e:Error) {
+            } catch(e:Error) {
                 return;
             }
             printJob.send();
         }
+    }
+
+    private function rescaleCertificate(event:Event = null):void {
+        trace('rescaling');
+        if (img == null)
+            return;
+
+        var spaceWidth:Number = stage.stageWidth;
+        var spaceHeight:Number = stage.stageHeight - buttonsPanel.height;
+
+        var certWidth:Number = img.width;
+        var certHeight:Number = img.height;
+
+        var scFrom:Number = spaceWidth / certWidth;
+        var scTo:Number = spaceHeight / certHeight;
+
+        if (scFrom > scTo) {
+            var temp:Number = scFrom;
+            scFrom = scTo;
+            scTo = temp;
+        }
+
+        var scale:Number = scFrom + slider.value * (scTo - scFrom);
+
+        var transformationMatrix:Matrix = new Matrix();
+        transformationMatrix.scale(scale, scale);
+        certificatePanel.transform.matrix = transformationMatrix;
+
+        //move certificate
+        certificatePanel.x = (stage.stageWidth - certWidth * scale) / 2;
+        certificatePanel.y = buttonsPanel.height;
     }
 
 }
