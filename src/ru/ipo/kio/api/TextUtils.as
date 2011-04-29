@@ -30,8 +30,7 @@ public class TextUtils {
      [Embed(source='../base/resources/fonts/IRISN4.TTF', embedAsCFF = "false", fontName="Iris", mimeType="application/x-font-truetype")]
      private static var IRIS_FONT:Class;
 
-     [Embed(systemFont="Arial", fontName="InputArial", embedAsCFF = "false", mimeType="application/x-font")]
-     private static var ARIAL_FONT:Class;
+
      */
 
     [Embed(

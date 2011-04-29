@@ -5,11 +5,14 @@
  * Time: 17:07
  */
 package ru.ipo.kio._11.certificate {
+import flash.display.Graphics;
 import flash.events.TimerEvent;
+import flash.geom.Point;
 import flash.geom.Rectangle;
 
 import flash.printing.PrintJobOptions;
 
+import flash.text.StyleSheet;
 import flash.text.TextFieldAutoSize;
 
 import flash.utils.Timer;
@@ -41,21 +44,22 @@ import ru.ipo.kio.base.displays.ShellButton;
 public class CertificateView extends Sprite {
 
     private var WELCOME_MESSAGE:String = "<p class='h1' align='center'>Нажмите на любое место экрана, чтобы загрузить сертификат</p>";
-    private var LOADING_MESSAGE:String = "<p align='center'>Загрузка...</p>";
+    private var LOADING_MESSAGE:String = "<p align='center' class='red'>Загрузка...</p>";
 
-    [Embed(source="../resources/Sertificat_005b.png")]
+    [Embed(source="resources/Sertificat_005b.png")]
     private static var WITH_RANK:Class;
     private var IMG_RANK:BitmapAsset = new WITH_RANK;
 
-    [Embed(source="../resources/Sertificat_005bb.png")]
+    [Embed(source="resources/Sertificat_005bb.png")]
     private static var NO_RANK:Class;
     private var IMG_NO_RANK:BitmapAsset = new NO_RANK;
 
     [Embed(systemFont="Arial", fontName="KioArial", embedAsCFF = "false", fontWeight="bold", mimeType="application/x-font")]
     private static var ARIAL_FONT:Class;
 
+
     [Embed(
-            source='../resources/AmbassadoreType.ttf',
+            source='resources/AmbassadoreType.ttf',
             embedAsCFF = "false",
             fontName="KioAmbassadore",
             mimeType="application/x-font-truetype",
@@ -64,7 +68,7 @@ public class CertificateView extends Sprite {
     private static var AMBASSADORE_FONT:Class;
 
     [Embed(
-            source='../resources/AmbassadoreType Italic.Ttf',
+            source='resources/AmbassadoreType Italic.Ttf',
             embedAsCFF = "false",
             fontStyle = "italic",
             fontName="KioAmbassadore",
@@ -72,6 +76,23 @@ public class CertificateView extends Sprite {
             unicodeRange = "U+0000-U+FFFF"
             )]
     private static var AMBASSADORE_BD_FONT:Class;
+
+    //embed signatures
+    [Embed(source="resources/bmp-signatures/bashmakov.png")]
+    private static var BASHMAKOV_SIGN:Class;
+    private var IMG_BASHMAKOV:BitmapData = (new BASHMAKOV_SIGN).bitmapData;
+
+    [Embed(source="resources/bmp-signatures/pozdnkov.png")]
+    private static var POZDNKOV_SIGN:Class;
+    private var IMG_POZDNKOV:BitmapData = (new POZDNKOV_SIGN).bitmapData;
+
+    [Embed(source="resources/bmp-signatures/romanovsky.png")]
+    private static var ROMANOVSKY_SIGN:Class;
+    private var IMG_ROMANOVSKY:BitmapData = (new ROMANOVSKY_SIGN).bitmapData;
+
+    [Embed(source="resources/bmp-signatures/terekhov.png")]
+    private static var TEREKHOV_SIGN:Class;
+    private var IMG_TEREKHOV:BitmapData = (new TEREKHOV_SIGN).bitmapData;
 
     private static const BUTTONS_LEFT:int = 4;
     private static const BUTTONS_SKIP:int = 10;
@@ -134,6 +155,11 @@ public class CertificateView extends Sprite {
         certificatePanel.y = topHeight;
         certificatePanel.addEventListener(MouseEvent.MOUSE_DOWN, certificateMouseDown);
         stage.addEventListener(MouseEvent.MOUSE_UP, certificateMouseUp);
+
+        makeWhiteTransparent(IMG_BASHMAKOV);
+        makeWhiteTransparent(IMG_POZDNKOV);
+        makeWhiteTransparent(IMG_ROMANOVSKY);
+        makeWhiteTransparent(IMG_TEREKHOV);
     }
 
     private function certificateMouseDown(event:Event):void {
@@ -219,6 +245,12 @@ public class CertificateView extends Sprite {
         welcomePanel = new Sprite;
 
         helloTextField = TextUtils.createCustomTextField();
+        helloTextField.styleSheet = new StyleSheet();
+        helloTextField.styleSheet.parseCSS(
+                " p {font-family: KioAmbassadore; font-size: 26; color:#000000; text-align:justify;} " +
+                        ".h1 { color:#000000; font-weight:bold;} " +
+                        ".red {color:#ff2222}"
+                );
         helloTextField.htmlText = WELCOME_MESSAGE;
         welcomePanel.addChild(helloTextField);
 
@@ -331,6 +363,12 @@ public class CertificateView extends Sprite {
             ]);
         }
 
+        //put signatures
+        drawSignature(IMG_BASHMAKOV, 1270, 2470);
+        drawSignature(IMG_POZDNKOV, 1175, 2660);
+        drawSignature(IMG_ROMANOVSKY, 995, 2780);
+        drawSignature(IMG_TEREKHOV, 1255, 3030);
+
         /*
 
          "Константинопольский Константин"
@@ -378,6 +416,17 @@ public class CertificateView extends Sprite {
          Оптимизируй» (КИО-2011)
          Далее подписи
          */
+    }
+
+    private function drawSignature(bmp:BitmapData, x0:int, y0:int):void {
+        var g:Graphics = certificatePanel.graphics;
+
+        var mm:Matrix = new Matrix();
+        mm.scale(5 / 7, 5 / 7);
+        mm.translate(x0, y0);
+        g.beginBitmapFill(bmp, mm, false);
+        g.drawRect(x0, y0, bmp.width, bmp.height);
+        g.endFill();
     }
 
     private function displayProblemInfo(y0:int, name:String, info:Array):int {
@@ -464,6 +513,15 @@ public class CertificateView extends Sprite {
         return true;
     }
 
+    private function makeWhiteTransparent(bmp:BitmapData):void {
+        bmp.threshold(
+                bmp,
+                new Rectangle(0, 0, bmp.width, bmp.height),
+                new Point(0, 0),
+                "==",
+                0xFFFFFFFF
+                );
+    }
 
 }
 }
