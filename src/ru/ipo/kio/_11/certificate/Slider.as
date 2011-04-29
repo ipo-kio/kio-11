@@ -50,8 +50,8 @@ public class Slider extends Sprite {
         graphics.drawCircle(internalWidth, center, 2);
 
         button = new Sprite();
-        button.graphics.lineStyle(1, 0, 0.5);
-        button.graphics.beginFill(0, 0.2);
+        button.graphics.lineStyle(1, 0x555555);
+        button.graphics.beginFill(0xAAAAAA);
         button.graphics.drawRect(0, 0, BUTTON_WIDTH, HEIGHT - 2 * V_SKIP);
         button.addEventListener(MouseEvent.MOUSE_DOWN, buttonMouseDown);
         stage.addEventListener(MouseEvent.MOUSE_UP, buttonMouseUp);
@@ -67,7 +67,6 @@ public class Slider extends Sprite {
         if (dragMouseDown)
             dispatchEvent(new Event(VALUE_CHANGED));
     }
-
 
     private function buttonMouseUp(event:MouseEvent):void {
         button.stopDrag();
