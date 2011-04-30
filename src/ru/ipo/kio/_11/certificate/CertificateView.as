@@ -15,6 +15,8 @@ import flash.printing.PrintJobOptions;
 import flash.text.StyleSheet;
 import flash.text.TextFieldAutoSize;
 
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 import flash.utils.Timer;
 
 import ru.ipo.kio._11.*;
@@ -46,16 +48,35 @@ public class CertificateView extends Sprite {
     private var WELCOME_MESSAGE:String = "<p class='h1' align='center'>Нажмите на любое место экрана, чтобы загрузить сертификат</p>";
     private var LOADING_MESSAGE:String = "<p align='center' class='red'>Загрузка...</p>";
 
-    [Embed(source="resources/Sertificat_005b.png")]
-    private static var WITH_RANK:Class;
-    private var IMG_RANK:BitmapAsset = new WITH_RANK;
+    [Embed(source="resources/Sertificat_007.png")]
+    private static var WITH_RANK_M:Class;
+    private var IMG_RANK_M:BitmapAsset = new WITH_RANK_M;
 
-    [Embed(source="resources/Sertificat_005bb.png")]
-    private static var NO_RANK:Class;
-    private var IMG_NO_RANK:BitmapAsset = new NO_RANK;
+    [Embed(source="resources/Sertificat_008.png")]
+    private static var WITH_RANK_F:Class;
+    private var IMG_RANK_F:BitmapAsset = new WITH_RANK_F;
+
+    [Embed(source="resources/Sertificat_009.png")]
+    private static var NO_RANK_M:Class;
+    private var IMG_NO_RANK_M:BitmapAsset = new NO_RANK_M;
+
+    [Embed(source="resources/Sertificat_010.png")]
+    private static var NO_RANK_F:Class;
+    private var IMG_NO_RANK_F:BitmapAsset = new NO_RANK_F;
+
+    [Embed(source="resources/Sertificat_011.png")]
+    private static var TEACHER_F:Class;
+    private var IMG_TEACHER_F:BitmapAsset = new TEACHER_F;
+
+    [Embed(source="resources/Sertificat_012.png")]
+    private static var TEACHER_M:Class;
+    private var IMG_TEACHER_M:BitmapAsset = new TEACHER_M;
 
     [Embed(systemFont="Arial", fontName="KioArial", embedAsCFF = "false", fontWeight="bold", mimeType="application/x-font")]
     private static var ARIAL_FONT:Class;
+
+    [Embed(systemFont="Arial", fontName="KioArial", embedAsCFF = "false", fontStyle="italic", fontWeight="bold", mimeType="application/x-font")]
+    private static var ARIAL_IT_FONT:Class;
 
 
     [Embed(
@@ -76,6 +97,16 @@ public class CertificateView extends Sprite {
             unicodeRange = "U+0000-U+FFFF"
             )]
     private static var AMBASSADORE_BD_FONT:Class;
+
+    private static var TEST_CERT_F_N:String = '{"json_certificate":"{\\"_level\\":2,\\"semiramida\\":{\\"pipesLength\\":216,\\"rooms\\":209},\\"digit\\":{\\"elements\\":1,\\"recognized\\":8},\\"digit_scores\\":25,\\"physics_scores\\":277,\\"_rank\\":108,\\"_anketa\\":{\\"second_name\\":\\"НИКОЛАЕВНА\\",\\"grade\\":\\"21\\",\\"name\\":\\"КРИСТИНА\\",\\"email\\":\\"It-mggtk@mail.ru\\",\\"surname\\":\\"БЕРЕЗНИКОВА\\",\\"inst_name\\":\\"МГГТК АГУ\\",\\"address\\":\\"р. Адыгея, г.Майкоп, ул. 2-ая Ветеранов 1\\"},\\"_login\\":\\"bereznikova421\\",\\"semiramida_scores\\":60,\\"physics\\":{\\"other_half\\":\\"0\\",\\"center_distance\\":\\"29.01\\",\\"one_ball\\":\\"3\\"},\\"_scores\\":362}","signature":717561}';
+    private static var TEST_CERT_M_N:String = '{"json_certificate":"{\\"_level\\":2,\\"semiramida\\":{\\"pipesLength\\":216,\\"rooms\\":209},\\"digit\\":{\\"elements\\":1,\\"recognized\\":8},\\"digit_scores\\":25,\\"physics_scores\\":277,\\"_rank\\":108,\\"_anketa\\":{\\"second_name\\":\\"НИКОЛАЕВИЧ\\",\\"grade\\":\\"21\\",\\"name\\":\\"КРИСТИН\\",\\"email\\":\\"It-mggtk@mail.ru\\",\\"surname\\":\\"БЕРЕЗНИКОВ\\",\\"inst_name\\":\\"МГГТК АГУ\\",\\"address\\":\\"р. Адыгея, г.Майкоп, ул. 2-ая Ветеранов 1\\"},\\"_login\\":\\"bereznikova421\\",\\"semiramida_scores\\":60,\\"physics\\":{\\"other_half\\":\\"0\\",\\"center_distance\\":\\"29.01\\",\\"one_ball\\":\\"3\\"},\\"_scores\\":362}","signature":717561}';
+    private static var TEST_CERT_F_R:String = '{"json_certificate":"{\\"_level\\":2,\\"semiramida\\":{\\"pipesLength\\":216,\\"rooms\\":209},\\"digit\\":{\\"elements\\":1,\\"recognized\\":8},\\"digit_scores\\":25,\\"physics_scores\\":277,\\"_rank\\":58,\\"_anketa\\":{\\"second_name\\":\\"НИКОЛАЕВНА\\",\\"grade\\":\\"21\\",\\"name\\":\\"КРИСТИНА\\",\\"email\\":\\"It-mggtk@mail.ru\\",\\"surname\\":\\"БЕРЕЗНИКОВА\\",\\"inst_name\\":\\"МГГТК АГУ\\",\\"address\\":\\"р. Адыгея, г.Майкоп, ул. 2-ая Ветеранов 1\\"},\\"_login\\":\\"bereznikova421\\",\\"semiramida_scores\\":60,\\"physics\\":{\\"other_half\\":\\"0\\",\\"center_distance\\":\\"29.01\\",\\"one_ball\\":\\"3\\"},\\"_scores\\":362}","signature":717561}';
+    private static var TEST_CERT_M_R:String = '{"json_certificate":"{\\"_level\\":2,\\"semiramida\\":{\\"pipesLength\\":216,\\"rooms\\":209},\\"digit\\":{\\"elements\\":1,\\"recognized\\":8},\\"digit_scores\\":25,\\"physics_scores\\":277,\\"_rank\\":68,\\"_anketa\\":{\\"second_name\\":\\"НИКОЛАЕВИЧ\\",\\"grade\\":\\"21\\",\\"name\\":\\"КРИСТИН\\",\\"email\\":\\"It-mggtk@mail.ru\\",\\"surname\\":\\"БЕРЕЗНИКОВ\\",\\"inst_name\\":\\"МГГТК АГУ\\",\\"address\\":\\"р. Адыгея, г.Майкоп, ул. 2-ая Ветеранов 1\\"},\\"_login\\":\\"bereznikova421\\",\\"semiramida_scores\\":60,\\"physics\\":{\\"other_half\\":\\"0\\",\\"center_distance\\":\\"29.01\\",\\"one_ball\\":\\"3\\"},\\"_scores\\":362}","signature":717561}';
+    private static var TEST_CERT_T_F:String = '{"json_certificate":"{\\"_level\\":2,\\"_position\\":\\"Очень серьезный организатор\\\\nВ очень серьезной организации\\",\\"_is_teacher\\":true,\\"semiramida\\":{\\"pipesLength\\":216,\\"rooms\\":209},\\"digit\\":{\\"elements\\":1,\\"recognized\\":8},\\"digit_scores\\":25,\\"physics_scores\\":277,\\"_rank\\":68,\\"_anketa\\":{\\"second_name\\":\\"НИКОЛАЕВНА\\",\\"grade\\":\\"21\\",\\"name\\":\\"КРИСТИНА\\",\\"email\\":\\"It-mggtk@mail.ru\\",\\"surname\\":\\"БЕРЕЗНИКОВА\\",\\"inst_name\\":\\"МГГТК АГУ\\",\\"address\\":\\"р. Адыгея, г.Майкоп, ул. 2-ая Ветеранов 1\\"},\\"_login\\":\\"bereznikova421\\",\\"semiramida_scores\\":60,\\"physics\\":{\\"other_half\\":\\"0\\",\\"center_distance\\":\\"29.01\\",\\"one_ball\\":\\"3\\"},\\"_scores\\":362}","signature":717561}';
+    private static var TEST_CERT_T_M:String = '{"json_certificate":"{\\"_level\\":2,\\"_position\\":\\"Очень серьезный организатор\\\\nВ очень серьезной организации\\",\\"_is_teacher\\":true,\\"semiramida\\":{\\"pipesLength\\":216,\\"rooms\\":209},\\"digit\\":{\\"elements\\":1,\\"recognized\\":8},\\"digit_scores\\":25,\\"physics_scores\\":277,\\"_rank\\":68,\\"_anketa\\":{\\"second_name\\":\\"НИКОЛАЕВИЧ\\",\\"grade\\":\\"21\\",\\"name\\":\\"КРИСТИН\\",\\"email\\":\\"It-mggtk@mail.ru\\",\\"surname\\":\\"БЕРЕЗНИКОВ\\",\\"inst_name\\":\\"МГГТК АГУ\\",\\"address\\":\\"р. Адыгея, г.Майкоп, ул. 2-ая Ветеранов 1\\"},\\"_login\\":\\"bereznikova421\\",\\"semiramida_scores\\":60,\\"physics\\":{\\"other_half\\":\\"0\\",\\"center_distance\\":\\"29.01\\",\\"one_ball\\":\\"3\\"},\\"_scores\\":362}","signature":717561}';
+    private static var TEST_CERT_LNG:String = '{"json_certificate":"{\\"_level\\":2,\\"_position\\":\\"Очень серьезный организатор\\\\nВ очень серьезной организации\\",\\"_is_teacher\\":true,\\"semiramida\\":{\\"pipesLength\\":216,\\"rooms\\":209},\\"digit\\":{\\"elements\\":1,\\"recognized\\":8},\\"digit_scores\\":25,\\"physics_scores\\":277,\\"_rank\\":68,\\"_anketa\\":{\\"second_name\\":\\"НИКОЛАЕВИЧЕВИЧ\\",\\"grade\\":\\"21\\",\\"name\\":\\"КРИСТИНИАН\\",\\"email\\":\\"It-mggtk@mail.ru\\",\\"surname\\":\\"БЕРЕЗНИКОВАШВИЛИЦЫКСОН\\",\\"inst_name\\":\\"МГГТК АГУ\\",\\"address\\":\\"р. Адыгея, г.Майкоп, ул. 2-ая Ветеранов 1\\"},\\"_login\\":\\"bereznikova421\\",\\"semiramida_scores\\":60,\\"physics\\":{\\"other_half\\":\\"0\\",\\"center_distance\\":\\"29.01\\",\\"one_ball\\":\\"3\\"},\\"_scores\\":362}","signature":717561}';
+
+    private static var DEBUG_MODE:String = TEST_CERT_T_M;
 
     //embed signatures
     [Embed(source="resources/bmp-signatures/bashmakov.png")]
@@ -221,6 +252,14 @@ public class CertificateView extends Sprite {
     }
 
     private function loadClick(event:MouseEvent):void {
+        if (DEBUG_MODE) {
+            fileLoaded(null, DEBUG_MODE);
+            return;
+        }
+
+        if (2 + 2 == 4)
+            return;
+
         helloTextField.htmlText = WELCOME_MESSAGE + LOADING_MESSAGE;
 
         var smallLatency:Timer = new Timer(100, 1);
@@ -289,8 +328,13 @@ public class CertificateView extends Sprite {
         certificateFile.load();
     }
 
-    private function fileLoaded(event:Event):void {
-        var certificate:Object = loadCertificate(certificateFile.data);
+    private function fileLoaded(event:Event, cert_data:String = null):void {
+        var certificate:Object;
+        if (cert_data)
+            certificate = JSON.decode(JSON.decode(cert_data).json_certificate);
+        else
+            certificate = loadCertificate(certificateFile.data);
+
 
         if (welcomePanel) {
             removeChild(welcomePanel);
@@ -299,7 +343,15 @@ public class CertificateView extends Sprite {
             addChild(buttonsPanel);
         }
 
-        img = (needDisplayRank(certificate) ? IMG_RANK : IMG_NO_RANK).bitmapData;
+        var img_asset:BitmapAsset;
+        if (isTeacher(certificate))
+            img_asset = isMale(certificate) ? IMG_TEACHER_M : IMG_TEACHER_F;
+        else if (needDisplayRank(certificate))
+            img_asset = isMale(certificate) ? IMG_RANK_M : IMG_RANK_F;
+        else
+            img_asset = isMale(certificate) ? IMG_NO_RANK_M : IMG_NO_RANK_F;
+
+        img = img_asset.bitmapData;
         certificatePanel.graphics.clear();
         certificatePanel.graphics.beginBitmapFill(img);
         certificatePanel.graphics.drawRect(0, 0, img.width, img.height);
@@ -315,15 +367,26 @@ public class CertificateView extends Sprite {
             certificatePanel.removeChildAt(0);
 
         var fi:TextField = TextUtils.createTextFieldWithFont('KioAmbassadore', 125, false, true);
-        fi.autoSize = TextFieldAutoSize.NONE;
+        fi.autoSize = TextFieldAutoSize.CENTER;
         fi.x = 0;
         fi.width = img.width;
-        fi.y = 1320;
-//        fi.text = "Константинопольский Константин";
-        fi.text = certificate._anketa.surname + ' ' + certificate._anketa.name;
+        fi.y = isTeacher(certificate) ? 1400 : 1320;
+        if (isTeacher(certificate))
+            fi.text = certificate._anketa.surname + ' ' + certificate._anketa.name + ' ' + certificate._anketa.second_name;
+        else
+            fi.text = certificate._anketa.surname + ' ' + certificate._anketa.name;
+
+        if (fi.width > img.width) {
+            //125 - fi.width
+            // ?  - img.width - 10
+            var modifiedFormat:TextFormat = new TextFormat('KioAmbassadore', 125 * (img.width - 10) / fi.width);
+            modifiedFormat.align = TextFormatAlign.CENTER;
+            fi.setTextFormat(modifiedFormat);
+        }
+
         certificatePanel.addChild(fi);
 
-        if (needDisplayRank(certificate)) {
+        if (needDisplayRank(certificate) && !isTeacher(certificate)) {
             var rank:TextField = TextUtils.createTextFieldWithFont('KioAmbassadore', 67, false, true);
             rank.autoSize = TextFieldAutoSize.NONE;
             var strange_left_padding:int = 20;
@@ -334,40 +397,56 @@ public class CertificateView extends Sprite {
             certificatePanel.addChild(rank);
         }
 
-        //display problems info
-        var y0:int = 2020;
-        y0 += 24 + displayProblemInfo(y0, "Сады Семирамиды", [
-            "Орошенных комнат: " + certificate.semiramida.rooms + ' из 249',
-            "Длина труб в этажах: " + certificate.semiramida.pipesLength
-        ]);
-
-        if (certificate._level == 1) {
-            y0 += 24 + displayProblemInfo(y0, "Глазастый робот", [
-                "Распознается цифр: " + certificate.digit.recognized + " из 10",
-                "Элементов: " + certificate.digit.elements
+        if (!isTeacher(certificate)) {
+            var y0:int = 2020;
+            y0 += 24 + displayProblemInfo(y0, "Сады Семирамиды", [
+                "Орошенных комнат: " + certificate.semiramida.rooms + ' из 249',
+                "Длина труб в этажах: " + certificate.semiramida.pipesLength
             ]);
 
-            y0 += 24 + displayProblemInfo(y0, "Нить Ариадны", [
-                "Время: " + certificate.ariadne.time + " с."
-            ]);
+            if (certificate._level == 1) {
+                y0 += 24 + displayProblemInfo(y0, "Глазастый робот", [
+                    "Распознается цифр: " + certificate.digit.recognized + " из 10",
+                    "Элементов: " + certificate.digit.elements
+                ]);
+
+                y0 += 24 + displayProblemInfo(y0, "Нить Ариадны", [
+                    "Время: " + certificate.ariadne.time + " с."
+                ]);
+            } else {
+                y0 += 24 + displayProblemInfo(y0, "Почтовые индексы", [
+                    "Распознается ситуаций: " + certificate.digit.recognized + " из 100",
+                    "Элементов: " + certificate.digit.elements
+                ]);
+
+                y0 += 24 + displayProblemInfo(y0, "Характер физических законов", [
+                    "Не в той половинке: " + certificate.physics.other_half,
+                    "Клеток с одним шаром: " + certificate.physics.one_ball,
+                    "Расстояние до центра: " + certificate.physics.center_distance
+                ]);
+            }
         } else {
-            y0 += 24 + displayProblemInfo(y0, "Почтовые индексы", [
-                "Распознается ситуаций: " + certificate.digit.recognized + " из 100",
-                "Элементов: " + certificate.digit.elements
-            ]);
-
-            y0 += 24 + displayProblemInfo(y0, "Характер физических законов", [
-                "Не в той половинке: " + certificate.physics.other_half,
-                "Клеток с одним шаром: " + certificate.physics.one_ball,
-                "Расстояние до центра: " + certificate.physics.center_distance
-            ]);
+            //display position
+            var pos:TextField = TextUtils.createTextFieldWithFont('KioAmbassadore', 60, true, true);
+            pos.autoSize = TextFieldAutoSize.CENTER;
+            pos.x = 0;
+            pos.width = img.width;
+            pos.y = 1510;
+            pos.text = certificate._position;
+            certificatePanel.addChild(pos);
         }
 
         //put signatures
-        drawSignature(IMG_BASHMAKOV, 1270, 2470);
-        drawSignature(IMG_POZDNKOV, 1175, 2660);
-        drawSignature(IMG_ROMANOVSKY, 995, 2780);
-        drawSignature(IMG_TEREKHOV, 1255, 3030);
+        var delta_up:int;
+        if (isTeacher(certificate))
+            delta_up = 100;
+        else
+            delta_up = 0;
+
+        drawSignature(IMG_BASHMAKOV, 1270, 2470 - delta_up);
+        drawSignature(IMG_POZDNKOV, 1175, 2660 - delta_up);
+        drawSignature(IMG_ROMANOVSKY, 995, 2780 - delta_up);
+        drawSignature(IMG_TEREKHOV, 1255, 3030 - delta_up);
 
         /*
 
@@ -508,11 +587,6 @@ public class CertificateView extends Sprite {
         certificatePanel.y = newY;
     }
 
-    private static function needDisplayRank(certificate:Object):Boolean {
-        //return certificate._rank < 100;
-        return true;
-    }
-
     private function makeWhiteTransparent(bmp:BitmapData):void {
         bmp.threshold(
                 bmp,
@@ -521,6 +595,19 @@ public class CertificateView extends Sprite {
                 "==",
                 0xFFFFFFFF
                 );
+    }
+
+    private function isMale(certificate:Object):Boolean {
+        var s_n:String = certificate._anketa.second_name;
+        return s_n.toLowerCase().charAt(s_n.length - 1) == 'ч'; //русское ч
+    }
+
+    private function isTeacher(certificate:Object):Boolean {
+        return certificate._is_teacher;
+    }
+
+    private static function needDisplayRank(certificate:Object):Boolean {
+        return certificate._rank < 100;
     }
 
 }
