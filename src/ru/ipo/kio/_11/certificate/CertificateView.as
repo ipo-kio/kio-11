@@ -19,6 +19,8 @@ import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 import flash.utils.Timer;
 
+import mx.graphics.codec.PNGEncoder;
+
 import ru.ipo.kio._11.*;
 
 import com.adobe.serialization.json.JSON;
@@ -186,11 +188,17 @@ public class CertificateView extends Sprite {
         certificatePanel.y = topHeight;
         certificatePanel.addEventListener(MouseEvent.MOUSE_DOWN, certificateMouseDown);
         stage.addEventListener(MouseEvent.MOUSE_UP, certificateMouseUp);
+        stage.addEventListener(MouseEvent.MOUSE_WHEEL, certificateMouseWheel)
 
         makeWhiteTransparent(IMG_BASHMAKOV);
         makeWhiteTransparent(IMG_POZDNKOV);
         makeWhiteTransparent(IMG_ROMANOVSKY);
         makeWhiteTransparent(IMG_TEREKHOV);
+    }
+
+    private function certificateMouseWheel(event:MouseEvent):void {
+        certificatePanel.y += 10 * event.delta;
+        rescaleCertificate();
     }
 
     private function certificateMouseDown(event:Event):void {
@@ -226,22 +234,27 @@ public class CertificateView extends Sprite {
         buttonsPanel = new Sprite;
         var load:SimpleButton = new ShellButton("Загрузить");
         var print:SimpleButton = new ShellButton("Напечатать");
+        var image:SimpleButton = new ShellButton("Сохранить изображение", true);
         slider = new Slider(0, 1, 150);
 
         load.x = BUTTONS_LEFT;
         load.y = BUTTONS_TOP;
         print.x = load.x + load.width + BUTTONS_SKIP;
         print.y = BUTTONS_TOP;
-        slider.x = print.x + print.width + BUTTONS_SKIP;
+        image.x = print.x + print.width + BUTTONS_SKIP;
+        image.y = BUTTONS_TOP;
+        slider.x = image.x + image.width + 2 * BUTTONS_SKIP;
         slider.y = BUTTONS_TOP;
 
         slider.addEventListener(Slider.VALUE_CHANGED, rescaleCertificate);
 
         load.addEventListener(MouseEvent.CLICK, loadClick);
         print.addEventListener(MouseEvent.CLICK, printClick);
+        image.addEventListener(MouseEvent.CLICK, imageClick);
 
         buttonsPanel.addChild(load);
         buttonsPanel.addChild(print);
+        buttonsPanel.addChild(image);
         buttonsPanel.addChild(slider);
 
         topHeight = 2 * BUTTONS_TOP + load.height;
@@ -249,6 +262,15 @@ public class CertificateView extends Sprite {
         buttonsPanel.graphics.beginFill(certLightColor);
         buttonsPanel.graphics.drawRect(0, 0, 4000, topHeight);
         buttonsPanel.graphics.endFill();
+    }
+
+    private function imageClick(event:Event):void {
+        var pngEncoder:PNGEncoder = new PNGEncoder();
+        var bitmapData:BitmapData = new BitmapData(img.width, img.height);
+        bitmapData.draw(certificatePanel);
+        var byteArray:ByteArray = pngEncoder.encode(bitmapData);
+        var file:FileReference = new FileReference();
+        file.save(byteArray, "certificate.png");
     }
 
     private function loadClick(event:MouseEvent):void {
@@ -536,14 +558,21 @@ public class CertificateView extends Sprite {
     private function printClick(event:Event):void {
         var printJob:PrintJob = new PrintJob();
         if (printJob.start()) {
+            var scaleF:Number = Math.min(printJob.pageWidth / img.width, printJob.pageHeight / img.height);
+            certificatePanel.scaleX = scaleF;
+            certificatePanel.scaleY = scaleF;
+
             var options:PrintJobOptions = new PrintJobOptions();
             options.printAsBitmap = true;
             try {
                 printJob.addPage(certificatePanel, null, options);
+                printJob.send();
             } catch(e:Error) {
-                return;
+                //do nothing
+            } finally {
+                certificatePanel.scaleX = 1;
+                certificatePanel.scaleY = 1;
             }
-            printJob.send();
         }
     }
 
