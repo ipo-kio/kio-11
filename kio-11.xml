@@ -16,7 +16,7 @@
 
     <!-- Uncomment the following property if no tests compilation is needed -->
     <property name="skip.tests" value="true"/>
-    <property name="flex.build.incremental" value="true"/>
+    <property name="flex.build.incremental" value="false"/>
 
     <!-- Compiler options -->
 
@@ -215,6 +215,55 @@
 
         <zip destfile="${kio-11.output.dir}/KIO_${level}_${language}.zip" description="zip for ${level} ${language}">
             <fileset dir="${level_lang.output.dir}">
+                <exclude name="**/*.swf.cache"/>
+            </fileset>
+        </zip>
+    </target>
+
+    <target name="compile.module.kio-11.certificate" description="Compile module kio-11 certificate viewer">
+        <property name="cert_view.output.dir" value="${kio-11.output.dir}/kio_cert"/>
+        <property name="cert_view.output.file_name" value="CertificateView"/>
+
+        <mkdir dir="${cert_view.output.dir}"/>
+
+        <mxmlc
+                file="${module.kio-11.basedir}/src/ru/ipo/kio/_11/certificate/CertificateView.as"
+                output="${cert_view.output.dir}/KIO.files/${cert_view.output.file_name}.swf"
+                keep-generated-actionscript="false"
+                actionscript-file-encoding="UTF-8"
+                optimize="true"
+                static-link-runtime-shared-libraries="true"
+                incremental="${flex.build.incremental}"
+                compiler.debug="false"
+                >
+            <source-path path-element="${module.kio-11.basedir}/src"/>
+            <default-size width="900" height="600"/>
+        </mxmlc>
+
+        <html-wrapper
+                width="100%"
+                height="100%"
+                express-install="true"
+                version-detection="true"
+                bgcolor="#AAAAAA"
+                history="false"
+                application="app"
+                file="KIO_index.html"
+                version-major="10"
+                version-minor="0"
+                version-revision="0"
+                output="${cert_view.output.dir}/KIO.files"
+                swf="${cert_view.output.file_name}"
+                title="KIO Certificates"
+                />
+        <copy
+                file="${module.kio-11.basedir}/src/KIO.html"
+                tofile="${cert_view.output.dir}/KIO_certs.html"
+                description="copy index (main) html file to start contest"
+                />
+
+        <zip destfile="${kio-11.output.dir}/KIO_certs.zip" description="zip for russian certificates">
+            <fileset dir="${cert_view.output.dir}">
                 <exclude name="**/*.swf.cache"/>
             </fileset>
         </zip>

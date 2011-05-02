@@ -8,7 +8,7 @@
       </additionalClassPath>
       <antReference projectDefault="true" />
       <customJdkName value="1.6" />
-      <maximumHeapSize value="128" />
+      <maximumHeapSize value="1024" />
       <maximumStackSize value="2" />
       <properties />
     </buildFile>

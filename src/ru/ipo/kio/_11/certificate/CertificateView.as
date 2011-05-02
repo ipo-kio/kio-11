@@ -80,7 +80,6 @@ public class CertificateView extends Sprite {
     [Embed(systemFont="Arial", fontName="KioArial", embedAsCFF = "false", fontStyle="italic", fontWeight="bold", mimeType="application/x-font")]
     private static var ARIAL_IT_FONT:Class;
 
-
     [Embed(
             source='resources/AmbassadoreType.ttf',
             embedAsCFF = "false",
@@ -108,7 +107,7 @@ public class CertificateView extends Sprite {
     private static var TEST_CERT_T_M:String = '{"json_certificate":"{\\"_level\\":2,\\"_position\\":\\"Очень серьезный организатор\\\\nВ очень серьезной организации\\",\\"_is_teacher\\":true,\\"semiramida\\":{\\"pipesLength\\":216,\\"rooms\\":209},\\"digit\\":{\\"elements\\":1,\\"recognized\\":8},\\"digit_scores\\":25,\\"physics_scores\\":277,\\"_rank\\":68,\\"_anketa\\":{\\"second_name\\":\\"НИКОЛАЕВИЧ\\",\\"grade\\":\\"21\\",\\"name\\":\\"КРИСТИН\\",\\"email\\":\\"It-mggtk@mail.ru\\",\\"surname\\":\\"БЕРЕЗНИКОВ\\",\\"inst_name\\":\\"МГГТК АГУ\\",\\"address\\":\\"р. Адыгея, г.Майкоп, ул. 2-ая Ветеранов 1\\"},\\"_login\\":\\"bereznikova421\\",\\"semiramida_scores\\":60,\\"physics\\":{\\"other_half\\":\\"0\\",\\"center_distance\\":\\"29.01\\",\\"one_ball\\":\\"3\\"},\\"_scores\\":362}","signature":717561}';
     private static var TEST_CERT_LNG:String = '{"json_certificate":"{\\"_level\\":2,\\"_position\\":\\"Очень серьезный организатор\\\\nВ очень серьезной организации\\",\\"_is_teacher\\":true,\\"semiramida\\":{\\"pipesLength\\":216,\\"rooms\\":209},\\"digit\\":{\\"elements\\":1,\\"recognized\\":8},\\"digit_scores\\":25,\\"physics_scores\\":277,\\"_rank\\":68,\\"_anketa\\":{\\"second_name\\":\\"НИКОЛАЕВИЧЕВИЧ\\",\\"grade\\":\\"21\\",\\"name\\":\\"КРИСТИНИАН\\",\\"email\\":\\"It-mggtk@mail.ru\\",\\"surname\\":\\"БЕРЕЗНИКОВАШВИЛИЦЫКСОН\\",\\"inst_name\\":\\"МГГТК АГУ\\",\\"address\\":\\"р. Адыгея, г.Майкоп, ул. 2-ая Ветеранов 1\\"},\\"_login\\":\\"bereznikova421\\",\\"semiramida_scores\\":60,\\"physics\\":{\\"other_half\\":\\"0\\",\\"center_distance\\":\\"29.01\\",\\"one_ball\\":\\"3\\"},\\"_scores\\":362}","signature":717561}';
 
-    private static var DEBUG_MODE:String = TEST_CERT_T_M;
+    private static var DEBUG_MODE:String = null;
 
     //embed signatures
     [Embed(source="resources/bmp-signatures/bashmakov.png")]
@@ -219,11 +218,11 @@ public class CertificateView extends Sprite {
     }
 
     private function maxY():Number {
-        return minY() + topHeight + 32 - stage.stageHeight + certificatePanel.height;
+        return minY() + topHeight /*+ 32*/ - stage.stageHeight + certificatePanel.height;
     }
 
     private function minY():Number {
-        return stage.stageHeight - certificatePanel.height - 16;
+        return stage.stageHeight - certificatePanel.height /*- 16*/;
     }
 
     private function certificateMouseUp(event:Event):void {
@@ -279,23 +278,44 @@ public class CertificateView extends Sprite {
             return;
         }
 
-        if (2 + 2 == 4)
-            return;
-
         helloTextField.htmlText = WELCOME_MESSAGE + LOADING_MESSAGE;
 
-        var smallLatency:Timer = new Timer(100, 1);
-        smallLatency.addEventListener(TimerEvent.TIMER, function(event:Event):void {
-            certificateFile = new FileReference();
-            certificateFile.addEventListener(Event.SELECT, fileSelected);
-            certificateFile.addEventListener(Event.CANCEL, fileSelectionCanceled);
-            certificateFile.browse([
-                new FileFilter("Файлы сертификатов конкурса КИО", "*.kio-certificate"),
-                new FileFilter("Все файлы", "*.*")
-            ]);
-        });
+        /*
+         var _sdfasfd:TextField = new TextField;
+         welcomePanel.addChild(_sdfasfd);
+         _sdfasfd.text = 'ok';
 
-        smallLatency.start();
+         var smallLatency:Timer = new Timer(100, 1);
+         smallLatency.addEventListener(TimerEvent.TIMER, function(event:Event):void {
+
+         certificateFile = new FileReference();
+         certificateFile.addEventListener(Event.SELECT, fileSelected);
+         certificateFile.addEventListener(Event.CANCEL, fileSelectionCanceled);
+         try {
+         if (!certificateFile.browse([
+         new FileFilter("Файлы сертификатов конкурса КИО", "*.kio-certificate"),
+         new FileFilter("Все файлы", "*.*")
+         ]))
+         _sdfasfd.text = 'failed to browse';
+         } catch(e:Error) {
+         _sdfasfd.text = 'exc ' + e.message;
+         }
+
+         });
+
+         smallLatency.start();
+
+         var _sdfasfd:TextField = new TextField;
+         welcomePanel.addChild(_sdfasfd);
+         _sdfasfd.text = 'ok';*/
+
+        certificateFile = new FileReference();
+        certificateFile.addEventListener(Event.SELECT, fileSelected);
+        certificateFile.addEventListener(Event.CANCEL, fileSelectionCanceled);
+        certificateFile.browse([
+            new FileFilter("Файлы сертификатов конкурса КИО", "*.kio-certificate"),
+            new FileFilter("Все файлы", "*.*")
+        ]);
     }
 
     private function fileSelectionCanceled(event:Event):void {
@@ -449,11 +469,12 @@ public class CertificateView extends Sprite {
             }
         } else {
             //display position
-            var pos:TextField = TextUtils.createTextFieldWithFont('KioAmbassadore', 60, true, true);
+            var pos:TextField = TextUtils.createTextFieldWithFont('KioArial', 50, true, true);
             pos.autoSize = TextFieldAutoSize.CENTER;
             pos.x = 0;
             pos.width = img.width;
             pos.y = 1510;
+            pos.defaultTextFormat = new TextFormat('KioArial', 50, 0, true, true);
             pos.text = certificate._position;
             certificatePanel.addChild(pos);
         }
