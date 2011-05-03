@@ -4,7 +4,7 @@
  * Date: 22.04.11
  * Time: 17:07
  */
-package ru.ipo.kio._11.certificate {
+package ru.ipo.kio._11.checker {
 import flash.display.Graphics;
 import flash.events.TimerEvent;
 import flash.geom.Point;

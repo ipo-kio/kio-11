@@ -5,7 +5,7 @@
  * Time: 18:46
  * To change this template use File | Settings | File Templates.
  */
-package ru.ipo.kio._11.certificate {
+package ru.ipo.kio._11.checker {
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;

@@ -5,7 +5,9 @@
  * Time: 20:50
  * To change this template use File | Settings | File Templates.
  */
-package ru.ipo.kio._11 {
+package ru.ipo.kio._11.checker {
+import ru.ipo.kio._11.*;
+
 import com.adobe.serialization.json.JSON;
 
 import flash.events.Event;
