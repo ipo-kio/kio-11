@@ -6,7 +6,6 @@
  */
 package ru.ipo.kio._11.checker {
 import flash.display.Graphics;
-import flash.events.TimerEvent;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 
@@ -17,11 +16,8 @@ import flash.text.TextFieldAutoSize;
 
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
-import flash.utils.Timer;
 
 import mx.graphics.codec.PNGEncoder;
-
-import ru.ipo.kio._11.*;
 
 import com.adobe.serialization.json.JSON;
 
@@ -187,7 +183,7 @@ public class CertificateView extends Sprite {
         certificatePanel.y = topHeight;
         certificatePanel.addEventListener(MouseEvent.MOUSE_DOWN, certificateMouseDown);
         stage.addEventListener(MouseEvent.MOUSE_UP, certificateMouseUp);
-        stage.addEventListener(MouseEvent.MOUSE_WHEEL, certificateMouseWheel)
+        stage.addEventListener(MouseEvent.MOUSE_WHEEL, certificateMouseWheel);
 
         makeWhiteTransparent(IMG_BASHMAKOV);
         makeWhiteTransparent(IMG_POZDNKOV);
@@ -442,29 +438,29 @@ public class CertificateView extends Sprite {
         if (!isTeacher(certificate)) {
             var y0:int = 2020;
             y0 += 24 + displayProblemInfo(y0, "Сады Семирамиды", [
-                "Орошенных комнат: " + certificate.semiramida.rooms + ' из 249',
-                "Длина труб в этажах: " + certificate.semiramida.pipesLength
+                "Орошенных комнат: " + o(certificate, 'semiramida', 'rooms') + ' из 209',
+                "Длина труб в этажах: " + o(certificate, 'semiramida', 'pipesLength')
             ]);
 
             if (certificate._level == 1) {
                 y0 += 24 + displayProblemInfo(y0, "Глазастый робот", [
-                    "Распознается цифр: " + certificate.digit.recognized + " из 10",
-                    "Элементов: " + certificate.digit.elements
+                    "Распознается цифр: " + o(certificate, 'digit', 'recognized') + " из 10",
+                    "Элементов: " + o(certificate, 'digit', 'elements')
                 ]);
 
                 y0 += 24 + displayProblemInfo(y0, "Нить Ариадны", [
-                    "Время: " + certificate.ariadne.time + " с."
+                    "Время: " + o(certificate, 'ariadne', 'time') + " с."
                 ]);
             } else {
                 y0 += 24 + displayProblemInfo(y0, "Почтовые индексы", [
-                    "Распознается ситуаций: " + certificate.digit.recognized + " из 100",
-                    "Элементов: " + certificate.digit.elements
+                    "Распознается ситуаций: " + o(certificate, 'digit', 'recognized') + " из 100",
+                    "Элементов: " + o(certificate, 'digit', 'elements')
                 ]);
 
                 y0 += 24 + displayProblemInfo(y0, "Характер физических законов", [
-                    "Не в той половинке: " + certificate.physics.other_half,
-                    "Клеток с одним шаром: " + certificate.physics.one_ball,
-                    "Расстояние до центра: " + certificate.physics.center_distance
+                    "Не в той половинке: " + o(certificate, 'physics', 'other_half'),
+                    "Клеток с одним шаром: " + o(certificate, 'physics', 'one_ball'),
+                    "Расстояние до центра: " + o(certificate, 'physics', 'center_distance')
                 ]);
             }
         } else {
@@ -481,15 +477,20 @@ public class CertificateView extends Sprite {
 
         //put signatures
         var delta_up:int;
-        if (isTeacher(certificate))
+        var delta_right:int;
+        if (isTeacher(certificate)) {
             delta_up = 100;
-        else
+            delta_right = 140;
+        }
+        else {
             delta_up = 0;
+            delta_right = 0;
+        }
 
-        drawSignature(IMG_BASHMAKOV, 1270, 2470 - delta_up);
-        drawSignature(IMG_POZDNKOV, 1175, 2660 - delta_up);
-        drawSignature(IMG_ROMANOVSKY, 995, 2780 - delta_up);
-        drawSignature(IMG_TEREKHOV, 1255, 3030 - delta_up);
+        drawSignature(IMG_BASHMAKOV, 1270 - 150 + delta_right, 2470 - delta_up);
+        drawSignature(IMG_POZDNKOV, 1175 - 150 + delta_right, 2660 - delta_up);
+        drawSignature(IMG_ROMANOVSKY, 995 - 200 + delta_right, 2780 - delta_up);
+        drawSignature(IMG_TEREKHOV, 1255 - 130 + delta_right, 3030 - delta_up);
 
         /*
 
@@ -538,6 +539,13 @@ public class CertificateView extends Sprite {
          Оптимизируй» (КИО-2011)
          Далее подписи
          */
+    }
+
+    private function o(c:Object, f1:String, f2:String):* {
+        if (!c[f1])
+            return "-";
+        else
+            return c[f1][f2];
     }
 
     private function drawSignature(bmp:BitmapData, x0:int, y0:int):void {

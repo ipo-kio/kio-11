@@ -227,7 +227,7 @@
         <mkdir dir="${cert_view.output.dir}"/>
 
         <mxmlc
-                file="${module.kio-11.basedir}/src/ru/ipo/kio/_11/certificate/CertificateView.as"
+                file="${module.kio-11.basedir}/src/ru/ipo/kio/_11/checker/CertificateView.as"
                 output="${cert_view.output.dir}/KIO.files/${cert_view.output.file_name}.swf"
                 keep-generated-actionscript="false"
                 actionscript-file-encoding="UTF-8"
