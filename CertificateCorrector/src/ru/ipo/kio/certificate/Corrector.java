@@ -38,7 +38,7 @@ public class Corrector extends JFrame implements ListSelectionListener, ActionLi
         for (File cert : certs)
             if (cert.getName().equals(selectedValue + EXTENSION)) {
                 currentCertificate = new Certificate(cert);
-                input.setText(currentCertificate.getCertificateAsString());
+                input.setText(currentCertificate.getCertificateAsString(true));
                 save.setEnabled(false);
                 return;
             }
@@ -74,7 +74,7 @@ public class Corrector extends JFrame implements ListSelectionListener, ActionLi
             File cert = new File(login + EXTENSION);
             Certificate certificate = new Certificate(cert, true);
             try {
-                certificate.save(certificate.getCertificateAsString());
+                    certificate.save(certificate.getCertificateAsString(true));
             } catch (ParseException ex) {
                 //do nothing impossible
             } catch (IOException ex) {

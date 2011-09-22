@@ -6,7 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 package ru.ipo.kio._11.checker {
-import ru.ipo.kio._11.*;
 
 import com.adobe.serialization.json.JSON;
 
@@ -88,7 +87,11 @@ public class KioChecker extends UIComponent {
             "vlg_30_15 (2)": [3],
             "vlg_30_15 (3)": [2],
             "vlg_40_02 (2)": [1, 2, 3],
-            "zolotuhinivan (2)": [1, 2, 3]
+            "zolotuhinivan (2)": [1, 2, 3],
+
+            "kapral (2)" : [1, 2, 3],
+            "tema (2)": [1, 2, 3],
+            "zhenja (2)": [1, 2, 3]
         },
         {
             "ast_vas_16 (2)" : [1, 2, 3],
@@ -100,7 +103,10 @@ public class KioChecker extends UIComponent {
             "len_cit_04 (3)" : [1, 2, 3],
             "lera_otrad (2)" : [1, 2, 3],
             "mos_1537_10 (2)" : [1, 2, 3],
-            "testtest (2)" : [1, 2, 3]
+            "testtest (2)" : [1, 2, 3],
+
+            "ozr7 (2)" : [1, 2, 3],
+            "pentagon (2)" : [1, 2, 3]
         }
     ];
 
@@ -113,9 +119,13 @@ public class KioChecker extends UIComponent {
     ]; //levels 0, 1, 2
     private var logText:TextField;
 
-    private static const FROM_ENTRY:int = 531;
-    private static const TO_ENTRY:int = 630;
+    private static const FROM_ENTRY:int = 0;
+    private static const TO_ENTRY:int = 100500;
     private static const NEED_RESULTS:Boolean = true;
+    private static const OUTPUT_ONLY_NEW_CERTS:Boolean = true;
+
+    private var old_checked_logins:Array = [];
+    private var new_checked_logins:Array = [];
 
     public function KioChecker() {
         KioApi.isChecker = true;
@@ -156,6 +166,7 @@ public class KioChecker extends UIComponent {
                     var input:ByteArray = zip.getInput(entry);
                     var json:String = input.readUTFBytes(input.length);
                     var cert:Object = JSON.decode(json);
+                    old_checked_logins.push(getLogin(entry.name));
                     certificates[cert._level].push(cert);
                 }
 
@@ -177,6 +188,16 @@ public class KioChecker extends UIComponent {
             new FileFilter("zip", "*.zip"),
             new FileFilter("all", "*.*")
         ]);
+    }
+
+    private function getLogin(fileName:String):String {
+        var pnt:int = fileName.lastIndexOf('.');
+        var nam:int = fileName.indexOf('/');
+        if (pnt >= 0)
+            fileName = fileName.substring(0, pnt);
+        if (nam >= 0)
+            fileName = fileName.substring(nam + 1);
+        return fileName;
     }
 
     private function log(message:String):void {
@@ -234,7 +255,15 @@ public class KioChecker extends UIComponent {
             if (ma && ma.length > 0)
                 break;
 
+            //test if the login was already checked
+
+            if (old_checked_logins.indexOf(login) >= 0) {
+                log("DOUBLE LOGIN SKIPPED: " + login);
+                break;
+            }
+
             log("solution found for login " + login);
+            new_checked_logins.push(login);
             certificate = processSolution(login, zip.getInput(entry));
 
             var sol_ind:int = 2;
@@ -334,7 +363,8 @@ public class KioChecker extends UIComponent {
         sortCertificatesAndFillRank(certificates[2]);
         for each (var l:int in [1,2])
             for each (var c:Object in certificates[l])
-                write(c._login + '.kio-certificate', JSON.encode(sign(c)));
+                if (!OUTPUT_ONLY_NEW_CERTS || new_checked_logins.indexOf(c._login) != -1)
+                    write(c._login + '.kio-certificate', JSON.encode(sign(c)));
         for each (l in [1,2])
             makeTable(l, certificates[l], levelProblems[l], levelProblemHeaders[l]);
 
@@ -445,7 +475,17 @@ public class KioChecker extends UIComponent {
 
         //make null solutions {}
 
-        //fill scores
+        //fill scores normal
+        /*var scores_ind:String = problem.id + '_scores';
+        var scores:int = 0;
+        certificates[0][scores_ind] = scores;
+        for (i = 1; i < N; ++i) {
+            if (comparator(i - 1, i) < 0)
+                scores = i;
+            certificates[i][scores_ind] = scores;
+        }*/
+
+        //fill scores wrong
         var scores:int = 0;
 
         var scores_ind:String = problem.id + '_scores';

@@ -6,7 +6,6 @@ import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.io.*;
-import java.util.Arrays;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,35 +30,43 @@ public class Certificate {
         if (!createNew)
             load();
         else
-            createNew();
+            createNew("ФАМИЛИЯ", "ИМЯ", "ОТЧЕСТВО", "Должность");
+    }
+
+    public Certificate(File file, String surname, String name, String furname, String position) {
+        this.file = file;
+        createNew(surname, name, furname, position);
     }
 
     @SuppressWarnings({"unchecked"})
-    private void createNew() {
+    private void createNew(String surname, String name, String furname, String position) {
         JSONObject cert = new JSONObject();
 
         JSONObject anketa = new JSONObject();
-        anketa.put("surname", "ФАМИЛИЯ");
-        anketa.put("name", "ИМЯ");
-        anketa.put("second_name", "ОТЧЕСТВО");
+        anketa.put("surname", surname);
+        anketa.put("name", name);
+        anketa.put("second_name", furname);
 
         cert.put("_anketa", anketa);
         cert.put("_is_teacher", true);
-        cert.put("_position", "Должность или место работы");
+        cert.put("_position", position);
 
         certificateAsString = cert.toJSONString();
     }
 
     private void load() {
         try {
-            JSONObject val = (JSONObject) JSONValue.parseWithException(new InputStreamReader(new FileInputStream(file), "UTF-8"));
-            certificateAsString = (String) val.get(CERT_FIELD);
+            JSONObject obj = (JSONObject) JSONValue.parseWithException(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            certificateAsString = (String) obj.get(CERT_FIELD);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Не удалось прочитать файл " + file);
         }
     }
 
-    public String getCertificateAsString() {
+    public String getCertificateAsString(boolean wrapLines) {
+        if (!wrapLines)
+            return certificateAsString;
+
         StringBuilder res = new StringBuilder();
         char prev = 0;
         boolean inside = false;
@@ -77,18 +84,29 @@ public class Certificate {
         return res.toString();
     }
 
-    @SuppressWarnings({"unchecked"})
     public void save(String text) throws ParseException, IOException {
         //try parse to test if it is a correct certificate
         JSONObject innerCert = (JSONObject) JSONValue.parseWithException(text);
-        String certAsString = innerCert.toJSONString();
 
-        certificateAsString = certAsString;
+        certificateAsString = innerCert.toJSONString();
 
+        save();
+    }
+
+    //wtf rewrite this f.s.
+    public void save(File file) throws ParseException, IOException {
+        File oldFile = this.file;
+        this.file = file;
+        save();
+        this.file = oldFile;
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void save() throws IOException {
         JSONObject cert = new JSONObject();
-        cert.put(CERT_FIELD, certAsString);
+        cert.put(CERT_FIELD, certificateAsString);
         String SIGN_FIELD = "signature";
-        cert.put(SIGN_FIELD, sign(certAsString));
+        cert.put(SIGN_FIELD, sign(certificateAsString));
 
         //save data to file
         FileOutputStream out = new FileOutputStream(file);
@@ -110,5 +128,12 @@ public class Certificate {
             res %= 1299709;
         }
         return res;
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void setAnketa(JSONObject anketa) {
+        JSONObject cert = (JSONObject) JSONValue.parse(certificateAsString);
+        cert.put("_anketa", anketa);
+        certificateAsString = cert.toJSONString();
     }
 }
