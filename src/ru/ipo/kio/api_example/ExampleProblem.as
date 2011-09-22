@@ -19,15 +19,22 @@ public class ExampleProblem implements KioProblem {
 
     //конструктор задачи. Будем указывать в конструкторе уровень, чтобы задачу можно было использовать и в
     //конкурсе первого уровня и второго. Если бы она была, например, только для первого уровня, параметр бы
-    //был не нужен
+    //был не нужен.
+    //Параметр readonly = true означает, что текст нельзя изменять.
     public function ExampleProblem(level:int, readonly:Boolean = false) {
         _level = level;
 
         //в первой строке конструктора задачи требуется вызвать инициализацию api:
         KioApi.initialize(this);
 
-        KioApi.registerLocalization(ID, 'ru', {message:"Hello World"});
-        KioApi.language = KioApi.L_RU;
+        //Регистрация локализации. Программа должна иметь локализацию для каждого из языков,
+        //на котором ее предлагается использовать. Чтобы не вписывать данные в код, их можно
+        //загружать с помощью класса Settings. См. задачи 2011 года. Класс Settings читает
+        //данные из расширенного json-файла (допустимы комментарии и многострочные строки)
+        KioApi.registerLocalization(ID, 'ru', {
+            title: "Задача HelloWorld", //Этот заголовок отображается сверху в окне задачи
+            message: "Hello World"
+        });
 
         //теперь можно писать код конструктора, в частности, создавать объекты, которые используют API:
         //В конструкторе MainSpirte есть вызов API (KioApi.instance(...).localization)
@@ -125,6 +132,13 @@ public class ExampleProblem implements KioProblem {
     }
 
     public function get icon_help():Class {
+        return null;
+    }
+
+    /**
+     * Возвращаем оценку для лучшего решения
+     */
+    public function get best():Object {
         return null;
     }
 }

@@ -32,11 +32,6 @@ import ru.ipo.kio.api.*;
 			//разрешаем пользователю изменять текст
             if (!readonly)
 			    textField.type = TextFieldType.INPUT;
-            /*else {
-                textField.multiline = true;
-                textField.wordWrap = true;
-                textField.width = 500;
-            }*/
 
             textField.setTextFormat(new TextFormat(null, 16));
             textField.textColor = 0xFFFFFF;

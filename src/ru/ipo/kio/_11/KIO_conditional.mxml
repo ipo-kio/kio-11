@@ -8,6 +8,7 @@
 
         public function startKIO():void {
             //Запуск основного класса
+            //KIO::language and KIO::level variables are set in ant script
             KioApi.language = KIO::language;
             var shell:KioShell = new KioShell(KIO::level);
             this.addChild(shell);
