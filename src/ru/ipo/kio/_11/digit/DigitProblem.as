@@ -20,6 +20,8 @@ public class DigitProblem implements KioProblem {
     public static var DIGIT_ES:Class;
     [Embed(source="loc/digit.bg.json-settings",mimeType="application/octet-stream")]
     public static var DIGIT_BG:Class;
+    [Embed(source="loc/digit.en.json-settings",mimeType="application/octet-stream")]
+    public static var DIGIT_EN:Class;
 
     //private var spitter:SpitMem = new SpitMem;
 
@@ -30,6 +32,7 @@ public class DigitProblem implements KioProblem {
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(DIGIT_RU).data);
         KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(DIGIT_ES).data);
         KioApi.registerLocalization(ID, KioApi.L_BG, new Settings(DIGIT_BG).data);
+        KioApi.registerLocalization(ID, KioApi.L_EN, new Settings(DIGIT_EN).data);
 
         KioApi.initialize(this);
 

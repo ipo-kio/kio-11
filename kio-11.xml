@@ -152,12 +152,12 @@
 
         <antcall target="compile.module.kio-11.production.level-language">
             <param name="level" value="1"/>
-            <param name="language" value="bg"/>
+            <param name="language" value="en"/>
         </antcall>
 
         <antcall target="compile.module.kio-11.production.level-language">
             <param name="level" value="2"/>
-            <param name="language" value="bg"/>
+            <param name="language" value="en"/>
         </antcall>
 
         <!--<copy todir="${kio-11.output.dir}">

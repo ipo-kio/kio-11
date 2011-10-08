@@ -1,0 +1,148 @@
+﻿/*This file contains texts that are common to all problems and that are used in the Shell*/
+{
+    "contest_header":"CTE Competition 2011",
+    "contest_level":["level I", "level II"],
+    "help":{ /*Common help text*/
+		"all_problems": <<< /*Such quotes <<< >>> mark the text, that spans multiple lines.
+		                    Multiline text is always treated as html, so you can use tags like <p> and <br>.
+							Don't use double quotes in the multiline text*/
+			<p>В процессе решения задачи рекорд автоматически сохраняется в памяти, выделяемой проигрывателем
+flash-программ. Именно размер этой память вы корректируете при первом запуске программы. К сожалению,
+другие программы, в особенности программы очистки памяти компьютера, могут привести к потере этих данных.
+Поэтому после окончания сеанса работы с программой обязательно нажимайте кнопку “Сохранить лучшие результаты
+(и анкету)”. При этом программа предложит вам самим выбрать удобное место для хранения и дать любое имя
+сохраняемому файлу. Именно этот файл нужно будет передать в жюри Конкурса для подведения результатов
+(выложить на своей страничке на сайте Конкурса или, в крайнем случае, послать по электронной почте
+на адрес Конкурса). Также при переходе с одного компьютера на другой нужно будет переносить этот
+файл, в котором всегда будет храниться полная информация об участнике Конкурса (анкета и все лучшие результаты).
+В процессе решения задачи участник может пожелать сохранить промежуточные решения, а потом их
+открыть для доработки. Эти операции выполняются кнопками сохранения текущего решения задачи и
+открытия одного из промежуточных решений задачи. Кнопкой очищения с рабочей области удаляются
+все элементы построений.
+</p>
+		>>>
+	},
+	"buttons":{
+		"load_workspace": "Load the best results and the form",
+		"save_workspace": "Save the best results and the form"
+	},
+	"contest_panel":{
+	    "problem_header":"Problem",
+		"current_solution_caption" : "Solution",
+		"help_header" : "Help",
+		"records_and_anketa_header" : "The Best results and the form",
+		"record_header" : "Record",
+		"buttons":{
+			"help" : "Controls",
+			"statement": "Statement",
+			"load" : "Load",
+			"save" : "Save",
+			"clear" : "Clear",
+			"back" : "Close"
+		}
+    },
+    "files":{
+        "all_files": "All files",
+        "results": "Results and a form",
+        "solutions": "Problem solutions"
+    },
+    "screen":{
+		"buttons":{
+			"continue_": "Continue",
+            "loadWorkspace" : "Load",
+            "back" : "Back"
+        },
+        "welcome":{
+			"greeting": <<<
+				Welcome to the CTE Contest 2011!
+	        >>>,
+    		"mainMessage_0": <<<
+    		    <p>You are going to solve three problems.</p>
+				<p>Веfore you start you will need to:</p>
+				<li>Let program save data on disk</li>
+				<li>Fill a form</li>
+				<p>Press \"Continue\" to continue.</p>
+			>>>,
+            "mainMessage_1": <<<
+                Hello {name}! Press \"Continue\" to start solving problems.
+            >>>,
+            "mainMessage_1_continuation": <<<
+                If you are not {name}, but plan to solve problems on this computer, then:
+            >>>,
+            "mainMessage_many": <<<
+            Select a participant that will in the name of whom you are goint to solve problem:
+            >>>,
+            "mainMessage_many_continuation": "If you are not in the list of participants",
+            "message_new_participant": <<<
+                If you never solved competition's problems, press \"New participant\"
+            >>>,
+            "message_old_participant": <<<
+                If you have already tried to solve competition's problems on the other computer, save on it your
+                best results and a form and load them here by pressing
+                \"Load\". If you start solving problems on this computer without loading your old
+                solutions and a form, you will need to transfer  you solutions for each problem by hands.
+            >>>,
+            "button_go": "Start",
+            "button_new_participant": "New participant"
+        },
+        "settings":{
+			"mainMessage": <<<
+				<p class='h1'>Correct settings</p>
+				<p>You need to allow the problem to store its data on your disk.
+				Press 'Settings' and set settings as is it is presented on the picture:</p>
+			>>>,
+            "mainMessageContinuation": <<<
+				<p>Make sure that:</p>
+				<li>'do not ask' is not checked</li>
+				<li>Slider is located on the 1 mb or higher</li>
+				<p class='warning'>Warning! Program will not continue unless you set correct settings.</p>
+			>>>,
+			"configure_button": "Settings"
+        },
+        "form": {
+            "field_must_be_filled": "The field should be filled",
+            "header": "Fill the form",
+            "participant_name": "Participant name (In capital letters)",
+			"name": "Name",
+			"surname": "Surname",
+			"second_name": "Second name",
+			"connection": "Связь",
+			"e_mail": "e-mail of participant",
+			"institution": "School",
+			"institution_name": "Name",
+
+			"grade": "Grade",
+			"address": "Full address with zip code",
+			"name_restriction": "A-Z\-" /*Здесь можно писать диапазоны распознаваемых символов*/
+        },
+        "problems": {
+            "fill_form": "Fill the form",
+            "header": "Select a problem",
+            "about":"About"
+        },
+        "problem": {
+            "screen_header":"Problem"
+        },
+        "about": {
+            "header": "О Конкурсе КИО", /*About authors and copy right*/
+            "text" : <<<
+                <p class='h1'>Институт продуктивного обучения Российской академии образования</p>
+                <p class='h1'>Журнал «Компьютерные инструменты в школе»</p>
+                <p><br></p>
+                <p><b>Международный оргкомитет:</b> Мария де Лосада (Колумбия), Эмилия Великова (Болгария), Сергей Поздняков (Россия), Анастасия Дементьева (Россия)</p>
+                <p><b>Идея проекта и авторство задач:</b> Поздняков С.Н., Посов И.А., Степуленок Д.О., Юдовин М.И.</p>
+                <p><b>Организаторы и методисты:</b> Энтина С.Б., Поздняков С.Н., Посов И.А., Дементьева А.П.</p>
+                <p><b>Программисты:</b> Посов И.А., Аникина А., Балдычев А.А., Карасавов А.Т., Костыгов Д.В., Манукян В.О., Фертиков К.А.</p>
+                <p><b>Художник:</b> Василькова А.В.</p>
+                <p><b>Веб-мастер:</b> Яснов Н.</p>
+                <p><b>Секретарь:</b> Мянд Т.Г.</p>
+                <p class='h2'><br>© Центр информатизации образования «КИО»</p>
+            >>>
+		},
+		"space_settings":{
+            "warning":"WARNING!",
+            "action":"Для работы программы конкурса КИО ей необходимо разрешить хранить данные на диске.\nОткройте окно настроек и позвольте программе пользоваться как минимум одним мегабайтом. Для этого установите настройки как на картинке:",
+            "after":"Только после этого вы сможете закрыть это окно"
+		}
+    }
+}

@@ -24,11 +24,14 @@ public class AriadneProblem implements KioProblem {
     public static var ARIADNE_ES:Class;
     [Embed(source="loc/Ariadne.bg.json-settings",mimeType="application/octet-stream")]
     public static var ARIADNE_BG:Class;
+    [Embed(source="loc/Ariadne.en.json-settings",mimeType="application/octet-stream")]
+    public static var ARIADNE_EN:Class;
 
     public function AriadneProblem() {
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(ARIADNE_RU).data);
         KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(ARIADNE_ES).data);
         KioApi.registerLocalization(ID, KioApi.L_BG, new Settings(ARIADNE_BG).data);
+        KioApi.registerLocalization(ID, KioApi.L_EN, new Settings(ARIADNE_EN).data);
 
         KioApi.initialize(this);
 

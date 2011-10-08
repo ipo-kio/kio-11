@@ -20,6 +20,8 @@ public class SemiramidaProblem implements KioProblem {
     public static var SEMIRAMIDA_ES:Class;
     [Embed(source="loc/Semiramida.bg.json-settings",mimeType="application/octet-stream")]
     public static var SEMIRAMIDA_BG:Class;
+    [Embed(source="loc/Semiramida.en.json-settings",mimeType="application/octet-stream")]
+    public static var SEMIRAMIDA_EN:Class;
 
     public function SemiramidaProblem(level:int) {
         _level = level;
@@ -27,6 +29,7 @@ public class SemiramidaProblem implements KioProblem {
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(SEMIRAMIDA_RU).data);
         KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(SEMIRAMIDA_ES).data);
         KioApi.registerLocalization(ID, KioApi.L_BG, new Settings(SEMIRAMIDA_BG).data);
+        KioApi.registerLocalization(ID, KioApi.L_EN, new Settings(SEMIRAMIDA_EN).data);
 
         KioApi.initialize(this);
 

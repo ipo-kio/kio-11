@@ -25,6 +25,8 @@ public class PhysicsProblem implements KioProblem {
     public static var PHYSICS_ES:Class;
     [Embed(source="loc/physics.bg.json-settings",mimeType="application/octet-stream")]
     public static var PHYSICS_BG:Class;
+    [Embed(source="loc/physics.en.json-settings",mimeType="application/octet-stream")]
+    public static var PHYSICS_EN:Class;
 
     //конструктор задачи
     public function PhysicsProblem() {
@@ -32,6 +34,7 @@ public class PhysicsProblem implements KioProblem {
         KioApi.registerLocalization(ID, KioApi.L_RU, new Settings(PHYSICS_RU).data);
         KioApi.registerLocalization(ID, KioApi.L_ES, new Settings(PHYSICS_ES).data);
         KioApi.registerLocalization(ID, KioApi.L_BG, new Settings(PHYSICS_BG).data);
+        KioApi.registerLocalization(ID, KioApi.L_EN, new Settings(PHYSICS_EN).data);
 
         KioApi.initialize(this);
 
