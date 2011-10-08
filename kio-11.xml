@@ -286,4 +286,60 @@
     <target name="build.modules" depends="init, clean, compile.module.kio-11" description="build all modules"/>
 
     <target name="all" depends="build.modules" description="build all"/>
+
+    <!--Build individual problem-->
+    <target name="compile.module.kio-11.semiramida" description="Compile Semiramida problem level 2 for ad on site">
+        <property name="level" value="2"/>
+        <property name="language" value="ru"/>
+
+        <property name="level_lang.output.dir" value="${kio-11.output.dir}/KIO_Semiramida"/>
+        <property name="level_lang.output.file_name" value="KIO_Semiramida"/>
+
+        <mkdir dir="${level_lang.output.dir}"/>
+
+        <mxmlc
+                file="${module.kio-11.basedir}/src/ru/ipo/kio/_11/semiramida/TestSemiramida.as"
+                output="${level_lang.output.dir}/KIO.files/${level_lang.output.file_name}.swf"
+                keep-generated-actionscript="false"
+                actionscript-file-encoding="UTF-8"
+                optimize="true"
+                static-link-runtime-shared-libraries="true"
+                incremental="${flex.build.incremental}"
+                compiler.debug="false"
+                >
+            <source-path path-element="${module.kio-11.basedir}/src"/>
+            <define name="KIO::language" value="'${language}'"/>
+            <define name="KIO::level" value="${level}"/>
+            <default-size width="900" height="600"/>
+        </mxmlc>
+
+        <html-wrapper
+                width="900"
+                height="600"
+                express-install="true"
+                version-detection="true"
+                bgcolor="#AAAAAA"
+                history="false"
+                application="app"
+                file="KIO_index.html"
+                version-major="10"
+                version-minor="0"
+                version-revision="0"
+                output="${level_lang.output.dir}/KIO.files"
+                swf="${level_lang.output.file_name}"
+                title="KIO ${level} ${language}"
+                />
+        <copy
+                file="${module.kio-11.basedir}/src/KIO.html"
+                todir="${level_lang.output.dir}"
+                description="copy index (main) html file to start contest"
+                />
+
+        <zip destfile="${kio-11.output.dir}/KIO_Semiramida.zip" description="zip for semiramida problem">
+            <fileset dir="${level_lang.output.dir}">
+                <exclude name="**/*.swf.cache"/>
+            </fileset>
+        </zip>
+    </target>
+
 </project>

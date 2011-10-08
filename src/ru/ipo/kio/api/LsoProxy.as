@@ -77,7 +77,7 @@ public class LsoProxy {
         var local:SharedObject = SharedObject.getLocal("ru/ipo/kio/" + year + "/" + level, "/");
         local.addEventListener(NetStatusEvent.NET_STATUS, function (event:Event):void {
             trace('net status handled');
-            //TODO find out WHY this event was not triggered before. (google suggests it is just not handled at all in linux)
+            //TODO find out WHY this event was not triggered before. (google suggests it is just not triggered at all in linux)
         });
         return local;
     }
@@ -131,7 +131,7 @@ public class LsoProxy {
     }
 
     public function get userData():Object {
-        if (!_data.users) {
+        if (!_data.users  || _data.users.length == 0) {
             _data.users = [{}];
             user_index = 0;
         }
