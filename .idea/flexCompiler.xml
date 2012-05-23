@@ -3,5 +3,8 @@
   <component name="FlexCompilerConfiguration">
     <option name="HEAP_SIZE_MB" value="728" />
   </component>
+  <component name="FlexIdeProjectLevelCompilerOptionsHolder">
+    <compiler-options />
+  </component>
 </project>
 

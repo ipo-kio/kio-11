@@ -123,8 +123,7 @@
     <target name="compile.module.kio-11.production" description="Compile module kio-11; production classes">
         <mkdir dir="${kio-11.output.dir}"/>
         <!-- Russian -->
-        <!--
-        <antcall target="compile.module.kio-11.production.level-language">
+        <!--<antcall target="compile.module.kio-11.production.level-language">
             <param name="level" value="1"/>
             <param name="language" value="ru"/>
         </antcall>
@@ -132,8 +131,7 @@
         <antcall target="compile.module.kio-11.production.level-language">
             <param name="level" value="2"/>
             <param name="language" value="ru"/>
-        </antcall>
-        -->
+        </antcall>-->
 
         <!-- Spanish -->
 
@@ -148,7 +146,7 @@
             <param name="language" value="es"/>
         </antcall>
         -->
-        <!-- Bulgarian -->
+        <!-- English -->
 
         <antcall target="compile.module.kio-11.production.level-language">
             <param name="level" value="1"/>
@@ -385,6 +383,60 @@
                 />
 
         <zip destfile="${kio-11.output.dir}/KIO_Semiramida.zip" description="zip for semiramida problem">
+            <fileset dir="${level_lang.output.dir}">
+                <exclude name="**/*.swf.cache"/>
+            </fileset>
+        </zip>
+    </target>
+
+    <target name="compile.module.kio-11.digit" description="Compile Digit problem level ? for ad on site">
+        <property name="level" value="2"/>
+        <property name="language" value="ru"/>
+
+        <property name="level_lang.output.dir" value="${kio-11.output.dir}/KIO_Digit_${level}"/>
+        <property name="level_lang.output.file_name" value="KIO_Digit_${level}"/>
+
+        <mkdir dir="${level_lang.output.dir}"/>
+
+        <mxmlc
+                file="${module.kio-11.basedir}/src/ru/ipo/kio/_11/digit/TestDigit.as"
+                output="${level_lang.output.dir}/KIO.files/${level_lang.output.file_name}.swf"
+                keep-generated-actionscript="false"
+                actionscript-file-encoding="UTF-8"
+                optimize="true"
+                static-link-runtime-shared-libraries="true"
+                incremental="${flex.build.incremental}"
+                compiler.debug="false"
+                >
+            <source-path path-element="${module.kio-11.basedir}/src"/>
+            <define name="KIO::language" value="'${language}'"/>
+            <define name="KIO::level" value="${level}"/>
+            <default-size width="900" height="600"/>
+        </mxmlc>
+
+        <html-wrapper
+                width="900"
+                height="600"
+                express-install="true"
+                version-detection="true"
+                bgcolor="#AAAAAA"
+                history="false"
+                application="app"
+                file="KIO_index.html"
+                version-major="10"
+                version-minor="0"
+                version-revision="0"
+                output="${level_lang.output.dir}/KIO.files"
+                swf="${level_lang.output.file_name}"
+                title="KIO ${level} ${language}"
+        />
+        <copy
+            file="${module.kio-11.basedir}/src/KIO.html"
+            todir="${level_lang.output.dir}"
+            description="copy index (main) html file to start contest"
+        />
+
+        <zip destfile="${kio-11.output.dir}/KIO_Digit_${level}.zip" description="zip for digit problem">
             <fileset dir="${level_lang.output.dir}">
                 <exclude name="**/*.swf.cache"/>
             </fileset>
