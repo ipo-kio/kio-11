@@ -2,62 +2,57 @@
     "title1":"Sharp-eyed robot",
 	"title2":"Postal codes",
     "statement1": <<<
-		<p>Задача состоит в том, чтобы сконструировать «глаз» робота так, чтобы он смог распознать все цифры на
-электронных часах. Для конструирования используются логические элементы: И, ИЛИ, НЕ.
-Работают они так: И передаёт сигнал на выход только, если на оба его входа поданы сигналы,
-а ИЛИ – если сигнал подан хотя бы на один вход. Элемент НЕ блокирует поданный на вход сигнал и,
-наоборот, генерирует сигнал, если на вход сигнал не подается.
+		<p>In order to solve the problem you must construct a scheme of the robot’s eye so that it could recognize all the digits of the electronic clock. 
+While constructing you can use such logical symbols as And, Or, Not. 
+Element And gives an output signal only if it receives signals though the both inputs; element Or – if it receives a signal through at least one of the inputs.  
+Element Not blocks an input signal and generates it if there is no input signal. 
 
-Победит тот, чей робот сможет распознать все цифры и при этом будет устроен как можно проще (из
-меньшего числа элементов И, ИЛИ, НЕ).
+The winner is the one whose robot can recognize all the numbers and has the simplest construction (consists of the smallest number of elements And, Or, Not).
+
 </p>
 	>>>,
-	"statement2": <<<
-		<p>Во второй половине XX века в СССР стала применяться автоматическая сортировка писем.
-Для этого была разработана специальная система почтовых индексов и устройство для их распознавания.
-Эта система и поныне действует в России.
+	"Postcodes": <<<
+		<p>In the USSR the system of automatic letter sorting was first used in the second half of the XX century.  
+ A special system of postcodes and equipment that can recognize these postcodes were developed for the letter sorting system. 
+ This system is still working in Russia.
 
-Вам предстоит создать устройство для распознавания цифр в тех начертаниях, которые используются в этой системе.
-Каждая цифра строится из набора черточек, в который входят три горизонтальных, четыре вертикальных и две
-наклонных черточки. Каждая черточка распознается своим считывающим элементом. Выходы элементов являются входами
-распознающей схемы, которая по распознанным черточкам должна правильно определять цифру. Схема состоит из
-логических элементов И, ИЛИ, НЕ, которые работают так: И передаёт сигнал на выход только, если на оба его
-входа поданы сигналы, ИЛИ – если сигнал подан хотя бы на один вход, элемент НЕ блокирует поданный на вход
-сигнал и, наоборот, генерирует сигнал, если на вход сигнал не подается.
+In order to solve the problem you need to create equipment that can recognize digits written with type face established for this system.
+Every digit consists of a set of lines including three horizontal lines, four vertical and two inclined ones.
+Every line can be recognized only by the separate corresponding reader element.
+Every output of an element is an input for the recognizing scheme that must identify a digit on the base of recognized lines.
+The scheme consists of logical elements And, Or, Not.
+Element And gives an output signal only if it receives signals though the both inputs; element Or – if it receives a signal through at least one of the inputs. 
+Element Not blocks an input signal and generates it if there is no input signal. 
 
-Трудность состоит в том, что один из считывающих элементов может сломаться.
 
-Вам предстоит разработать такую схему, которая будет распознавать цифры, даже
-если один считывающий  элемент сломан. Оценка решения осуществляется по двум параметрам:
+But some complications can occur, for example, a reader element can break.
+You should develop such scheme that will recognize digits correctly even if one of the reader elements is broken.
+A problem solution is estimated according to two parameters:
 
-1) количество правильно распознанных цифр с учетом возможной ошибки из-за поломки считывающего элемента
-(значение этого параметра нужно стремиться увеличить);*;
+1). Number of digits that are recognized correctly with account of possible mistake 
+that can occur due to the damage of a reader element (you should try to increase this parameter)*;
 
-при равенстве решений по первому параметру решения сравниваются по второму параметру
 
-2) количество элементов в схеме (чем меньше – тем лучше).
+If some solutions are equal according to the first parameter then they will be compared regarding the second one.
+2) Number of scheme elements (use as few of them as possible).
 
-*Замечание. В таблице результатов для первого параметра представлены все комбинации считываемой цифры
-(всего 10 цифр от 0 до 9) и испорченного элемента (9 вариантов испорченных элементов плюс вариант,
-который  обозначает, что все элементы  исправны). Красным помечены те комбинации, которые построенная
-схема распознает неправильно. (При нажатии на красную клетку на табло появится цифра, которая будет
-ошибочно распознаваться так же).
-Нужно добиться того, чтобы таких ситуаций было как можно меньше.
+*Note that there are all the combinations of a letter being read (there are 10 digits in total: from 0 to 9)
+and a damaged element (there are 9 versions of damaged elements and one more meaning that all the elements are intact) represented in the table of results. 
+Combinations that are recognized by the constructed scheme incorrectly are marked with red. 
+(When you click on a red cell you will see a digit that will be recognized as the same one by mistake on the indicator panel). You need to ovoid such situations.
 		</p>
 	>>>,
 	
-	"help":<<<
-		<p>Для конструирования схемы нужно использовать элементы И, ИЛИ, НЕ и соединительные провода. Эти
-элементы в любом количестве можно «вытаскивать» мышкой на рабочую область с панели слева. Элементы
-можно соединять друг с другом непосредственно или с помощью проводов (к выходу элемента можно
-подсоединять любое количество проводов, а к входу – только один). Для соединения нужно «взять»
-мышкой контакт на конце провода и переместить его в нужное место.
-Удаление элемента осуществляется перетягиванием мышкой в корзину. Для отсоединения элемента
-следует выбрать мышкой нужный провод, затем выбрать разъём на одном из концов этого провода
-и нажать кнопку «Отсоединить». Иногда бывает удобно ввести дополнительный провод, чтобы удобнее
-расположить элементы схемы. В этом случае нужно выделить мышкой провод, который требуется разделить
-на два соединенных между собой провода, и нажать кнопку «Вставить», которая вставляет разделяющее провод соединение.
-</p>
+	"Problem manual":<<<
+		<p>
+You can use elements And, Or, Not and wires to construct a robot scheme.
+It’s possible to drag them to the work field from the left panel in any quantity.
+You can connect elements directly or by wires (it is allowed to connect any number of the wires to the output of the element and only one to the input).
+In order to make a connection you must drag a plug situated on the end of a wire to the place you want. If you drag an element to the recycle bin you will remove it. 
+In order to disconnect an element you must select a wire by left-click and then select a wire’s plug and click on button Disconnect. 
+In some situations it can be useful to add one more part of the wire to place elements into a necessary order.
+In that case you should select a wire that you want to divide into two connected wires and click on button Insert that adds a junction to a wire
+
 	>>>,
     "buttons": {
         "split": "Split",
