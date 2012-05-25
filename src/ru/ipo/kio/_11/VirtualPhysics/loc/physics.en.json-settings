@@ -1,21 +1,23 @@
 {
     "message":"Эта задача будет доступна позже, следите за объявлениями на сайте",
-    "title": "Характер физических законов",
+    "title": "Physical Laws Pattern",
     "statement": <<<
-		<p>В начале XVII века Иоганн Кеплер на основе наблюдений Тихо Браге сформулировал законы движения небесных тел,
-которые легли в основу закона всемирного тяготения, открытого Исааком Ньютоном. С тех пор были открыты новые
-физические законы, такие как законы электромагнитного взаимодействия, законы взаимодействия элементарных частиц,
-однако до сих пор неизвестны общие законы, которые связывают все физические явления, как в макро, так и микромире.
+		<p>At the beginning of XVII century Johannes Kepler formulated laws of celestial body’s motion on the basis of Tycho Brahe’s observations. 
+These laws became the base of Newton’s universal law of gravitation. 
+Since then many new physical laws have been discovered: the law of electromagnetic interaction, laws of particle interaction and others. 
+But general physical laws that relate to all the phenomena of macro and micro world are still unknown..
 
-Одним из методов работы физиков является построение теоретической модели, которая объясняет новое физическое явление.
-В предлагаемой задаче предлагается сконструировать законы взаимодействия между частицами двух видов (отмечены разными
-цветами). Единственным параметром для взаимодействия является расстояние между взаимодействующими частицами (r).
+One of the methods that physicists use in their work is a theoretical model development that explains some new physical phenomenon. 
+We offer you now to create laws of particle interaction: there are two kinds of particles that are marked with different colors. 
+The only parameter of interaction is a distance between interacting particles (r).
 
-Нужно сформулировать три закона притяжения-отталкивания: два закона для взаимодействия двух частиц одного цвета
-и ещё один закон для взаимодействия двух частиц разных цветов. Законы надо постараться сделать такими, чтобы
-частицы разного цвета «разбежались» по разным половинкам прямоугольника, причём распределились в «своих половинках»
-как можно более равномерно (в идеале в каждой клеточке должна быть одна частица и она должна располагаться как
-можно ближе к центру клетки). Законы задаются произвольными функциями от аргумента r.
+You need to formulate three laws of attraction and repulsion: two of them must describe interaction between two particles of 
+the same color and one more law – interaction between two particles of different colors. 
+You should try to create laws according to which particles of different color could be distributed between two different halves of the rectangle.
+Moreover, the particles should be distributed in their halves as much even as possible, 
+which means that every cell should contain one particle and every particle should be situated as much close to the cell center as possible. 
+The laws can be set by functions of argument r.  
+
 </p>
 	>>>,
 	"help":<<<
