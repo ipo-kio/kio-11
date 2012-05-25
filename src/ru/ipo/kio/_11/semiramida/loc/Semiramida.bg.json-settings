@@ -4,11 +4,11 @@
 		<p>\The Hanging Gardens of Babylon are considered to be one of the original Seven Wonders of the Ancient World. 
       The gardens were supposedly built by the Babylonian king Nebuchadnezzar II to please his wife, Amytis. ".
 
-В задачата се предлага да се проектира система за напояване на градините, които са разположени на 19 нива.
-Първото ниво се състои от 20 еднакви сектора, второто - от 19, третото - от 18, а последното - от 2.
-Тръбите, по които водата се издига нагоре, започват от най-долното (първото) ниво. До всеки сектор трябва 
-да достига поне една тръба. Необходимо е да се прекара вода до всички сектори, така че общата дължина на
-тръбите да е възможно най-малка.</p>
+The aim of the problem is to construct an irrigation system for the garden that is situated on 19 levels. 
+The first level consists of 20 compartments; the second - of 19 compartments; the third – of 18 and the last one – of 2.
+The pipes that pump water up though the levels have their beginnings on the lower level.
+Each compartment must be filled with water at least by one pipe.
+To solve the problem you must fill all the compartments with water and the total length of the pipes should be as small as possible.</p>
 	>>>,
 	"help":<<<
 		<p>За прекарване на нова тръба е нужен двоен клик в полето. Ще се появи тръба, която води от долния етаж до 
