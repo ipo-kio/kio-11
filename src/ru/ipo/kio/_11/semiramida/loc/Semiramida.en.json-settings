@@ -1,27 +1,28 @@
 {
-    "title": "The Gardens of Semiramis",
+    "title": "Hanging Gardens of Babylon",
     "statement": <<<
-		<p>«Висячие сады Семирамиды — одно из Семи чудес света.
-Правильное название этого сооружения — Висячие сады Амитис:
-именно так звали жену вавилонского царя Навуходоносора, ради которой сады были созданы».
+		<p>«The Hanging Gardens of Babylon are considered to be one of the original Seven Wonders of the Ancient World. 
+The gardens were supposedly built by the Babylonian king Nebuchadnezzar II to please his wife, Amytis.
 
-В задаче предлагается спроектировать систему орошения садов, находящихся на 19 разных уровнях.
-Первый уровень состоит из 20 равных отсеков, второй – из 19, третий – из 18, последний из двух.
-Трубы, по которым вода накачивается вверх, начинаются с нижнего уровня. В каждый отсек должна
-вести, по крайней мере, одна труба.
-Нужно провести воду до всех отсеков так, чтобы суммарная длина труб была как можно меньше.
+The aim of the problem is to construct an irrigation system for the garden that is situated on 19 levels. 
+The first level consists of 20 compartments; the second - of 19 compartments; the third – of 18 and the last one – of 2.
+The pipes that pump water up though the levels have their beginnings on the lower level. 
+Each compartment must be filled with water at least by one pipe. 
+To solve the problem you must fill all the compartments with water and the total length of the pipes should be as small as possible. 
+
 </p>
 	>>>,
-	"help":<<<
-		<p>Для прокладки новой трубы достаточно сделать двойной щелчок на поле. При этом построится труда,
-ведущая от нижнего этажа до того отсека, на котором был сделан щелчок. Кроме того, трубу средней
-высоты в случайном месте можно добавить нажатием соответствующей кнопки. Изменение высоты трубы
-осуществляется перетягиванием её верха мышкой. Для изменения положения трубы нужно нажать на неё
-левой кнопкой мыши и перенести в нужное место. Более точная установка положения трубы осуществляется
-стрелочками влево-вправо (перед этим нужную трубу следует выделить левой кнопкой мыши). При одном
-нажатии труба перемещается на ближайшую точку сетки (сетка для участника невидима). Также стрелочками
-вверх-вниз можно перемещать  верхний конец трубы.
-Для удаления трубы её нужно выделить левой кнопкой мыши и нажать кнопку “Удалить”.
+	"Problem manual":<<<
+		<p>In order to add a pipe to the irrigation system, double click on the work field. 
+ After that the pipe leading from the lower level to the compartment that was clicked on will be built.
+ Besides, it is possible to add a pipe of middle length to any part of the field by clicking on a special button. 
+ You can also change a pipe’s length by dragging its upper end with the mouse. 
+ In order to move a pipe you should left-click on it and drag to some other place. 
+ The most accurate disposition of a pipe can be done by arrow signs (to the right or to the left). 
+ Don’t forget to select the pipe that you want to move forefront.
+ After one click the pipe will move to the closest point of the net (the net is invisible for a participant). 
+ By arrow signs Up and Down  you can move the upper end of a pipe. 
+ In order to remove a pipe you should select it by left-click and click on button Remove.
 </p>
 	>>>,
 	"buttons":{ /*Buttons text*/
