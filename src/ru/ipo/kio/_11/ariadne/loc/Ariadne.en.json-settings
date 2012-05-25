@@ -2,33 +2,30 @@
     "message":"This problem will be available soon, check messages on the site",
     "title": "Ariadna's thread",
     "statement": <<<
-		<p>«Когда Тесей решился убить минотавра, которому афиняне по требованию отца Ариадны посылали ежегодно позорную дань
-из семи юношей и семи девиц, он получил от любившей его Ариадны клубок ниток, выведший его из лабиринта,
-где обитал минотавр».
+		<p>«According to a Greek legend there were days when the Athenians were required to
+      sacrifice seven young men and seven maidens every year to the Minotaur».
 
-В предлагаемой задаче вы можете сами проложить нить, по которой Тесей будет выбираться из лабиринта.
-В различных частях лабиринта расположены препятствия - ямы с водой, заросли кустарника, горы, - которые
-тормозят движение путника. Волшебный клубок делает Тесея невидимым и позволяет ему перелезать через стены
-лабиринта и преодолевать другие препятствия, превращаясь в различных животных. Однако скорость Тесея при
-этом уменьшается.
+One year, the sacrificial party included Theseus, a young man who volunteered to come and kill the Minotaur.
+Ariadne fell in love at first sight, and helped him by giving him a sword and a ball of red fleece thread the end of which she tied at the entrance,
+so that he could find his way out of the Minotaur's labyrinth.In order to solve the problem you need to blaze a thread trail to help Theseus to go out of the labyrinth. 
+On your way you will meet different obstacles – holes filled with water, thickets and mountains - that will slow the traveller down. 
+The magic ball of thread makes Theseus invisible and let him climb over the labyrinth walls and overcome other hurdles by turning into various animals. Although, those transformations slow Theseus down.
 
-Предлагаем вам построить путь, двигаясь по которому Тесей затратит минимум времени для преодоления лабиринта.
+In order to solve the problem you should blaze a trail that will take Theseus as little time as possible to go out of the labyrinth. 
 
-*Заметим, что в XVII веке великий математик Ферма обнаружил связь между решением подобных задач и поведением луча света.  
+Note that outstanding mathematician Fermat in XVII century found out that solution of such problems is similar to behavior of a light ray.   
 
 </p>
 	>>>,
-	"help":<<<
-		<p>Для прокладывания пути нужно последовательно щёлкать левой кнопкой мыши на узлы сетки, через которые должен пройти путь.
-Построенный путь будет состоять из отрезков, соединяющих эти точки в указанном порядке.
-Для изменения положения узловых точек пути достаточно перетянуть их мышкой на новые места.
-Для удаления точки нужно сначала выделить её щелчком левой кнопки мыши, а потом нажать кнопку “Удалить”.
-Для добавления точки в середине пути, нужно подвести курсор к одному из отрезков пути и щелкнуть на нем
-левой кнопкой мыши. Если после этого щёлкнуть левой кнопкой мыши в произвольном месте рабочей области,
-то последний отрезок пути заменится двумя, с концами в этой точке.
-Длина пути и время его прохождения вычисляются автоматически при каждом изменении пути.
-При подведении курсора к любой области лабиринта появляется подсказка с указанием скорости движения по ней.
-
+	"Manual ":<<<
+		<p>In order to blaze a trail you should left-click on the net nodes where you want to build it successively. 
+ The trail will consist of segments that link the dots in the same order you put them.
+ If you want to change the dots location you need to drag them into new places with the mouse.
+ In order to remove a dot you should select it by left-click and click on button Remove.
+ In order to add a dot somewhere in the middle of the path, click on one of the segments. 
+ Then if you left-click on any place of the field, the last segment of the trail will be divided into two segments. 
+ When you change the path, its length and travel time will be computed automatically.
+ If you mouse over any part of the labyrinth you will get a prompt showing the speed of Theseus on this part of the path.
 </p>
 	>>>,
 	"buttons":{ /*Тексты на кнопках*/
