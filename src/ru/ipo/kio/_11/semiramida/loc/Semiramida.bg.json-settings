@@ -1,9 +1,8 @@
 {
-    "title": "Градините на Семирамида",
+    "title": "Hanging Gardens of Babylon",
     "statement": <<<
-		<p>\"Висящите градини на Семирамида са едно от седемте чудеса на света.
-Точното им название всъщност е Висящи градини на Амитис, именно така се казвала жената на вавилонския цар 
-Навуходоносор, заради която те са били създадени\".
+		<p>\The Hanging Gardens of Babylon are considered to be one of the original Seven Wonders of the Ancient World. 
+      The gardens were supposedly built by the Babylonian king Nebuchadnezzar II to please his wife, Amytis. ".
 
 В задачата се предлага да се проектира система за напояване на градините, които са разположени на 19 нива.
 Първото ниво се състои от 20 еднакви сектора, второто - от 19, третото - от 18, а последното - от 2.
