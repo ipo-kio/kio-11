@@ -7,7 +7,7 @@
         <entry path="file://$USER_HOME$/opt/flex_sdk_4.6.0.23201B/ant/lib/flexTasks.jar" />
       </additionalClassPath>
       <antReference projectDefault="true" />
-      <customJdkName value="1.6" />
+      <customJdkName value="1.7" />
       <maximumHeapSize value="1024" />
       <maximumStackSize value="2" />
       <properties />

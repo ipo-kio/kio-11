@@ -1,8 +1,8 @@
 {
     "title": "Hanging Gardens of Babylon",
     "statement": <<<
-		<p>\The Hanging Gardens of Babylon are considered to be one of the original Seven Wonders of the Ancient World. 
-      The gardens were supposedly built by the Babylonian king Nebuchadnezzar II to please his wife, Amytis. ".
+		<p>The Hanging Gardens of Babylon are considered to be one of the original Seven Wonders of the Ancient World.
+      The gardens were supposedly built by the Babylonian king Nebuchadnezzar II to please his wife, Amytis.
 
 The aim of the problem is to construct an irrigation system for the garden that is situated on 19 levels. 
 The first level consists of 20 compartments; the second - of 19 compartments; the third – of 18 and the last one – of 2.
@@ -10,7 +10,7 @@ The pipes that pump water up though the levels have their beginnings on the lowe
 Each compartment must be filled with water at least by one pipe.
 To solve the problem you must fill all the compartments with water and the total length of the pipes should be as small as possible.</p>
 	>>>,
-	Problem manual:<<<
+	"help":<<<
 		<p>In order to add a pipe to the irrigation system, double click on the work field. 
 After that the pipe leading from the lower level to the compartment that was clicked on will be built.
 Besides, it is possible to add a pipe of middle length to any part of the field by clicking on a special button. 

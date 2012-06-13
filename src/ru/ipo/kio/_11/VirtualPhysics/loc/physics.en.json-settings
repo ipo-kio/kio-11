@@ -20,7 +20,7 @@ The laws can be set by functions of argument r.
 
 </p>
 	>>>,
-	Manual:<<<
+	"help":<<<
 		<p>The initial position of the particles is set.
  You need to enter formulas of three laws of attraction and repulsion into corresponding windows with the virtual keyboard and click on button that launches an experiment.
  If it turns out that using these laws it’s impossible to calculate the particles behavior, you will receive a warning message and the experiment won’t be launched. 

@@ -11,7 +11,7 @@ The winner is the one whose robot can recognize all the numbers and has the simp
 
 </p>
 	>>>,
-	"Postcodes": <<<
+	"statement2": <<<
 		<p>In the USSR the system of automatic letter sorting was first used in the second half of the XX century.  
  A special system of postcodes and equipment that can recognize these postcodes were developed for the letter sorting system. 
  This system is still working in Russia.
@@ -43,7 +43,7 @@ Combinations that are recognized by the constructed scheme incorrectly are marke
 		</p>
 	>>>,
 	
-	"Problem manual":<<<
+	"help":<<<
 		<p>
 You can use elements And, Or, Not and wires to construct a robot scheme.
 It’s possible to drag them to the work field from the left panel in any quantity.
